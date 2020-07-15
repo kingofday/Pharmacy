@@ -1,0 +1,13 @@
+﻿@import './../../../assets//css/constant.scss';
+.steps-comp{
+    margin-bottom: 30px;
+
+    .MuiStepper-root{
+        background-color: #ededed!important;
+        padding: 15px 0!important;
+    
+        .MuiStepIcon-root.MuiStepIcon-completed,.MuiStepIcon-root.MuiStepIcon-active,.MuiStepLabel-active{
+            color: #2875d5!important;
+        }
+    }
+}

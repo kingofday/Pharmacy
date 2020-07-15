@@ -1,0 +1,549 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountNumber" xml:space="preserve">
+    <value>شماره حساب</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>اکشن</value>
+  </data>
+  <data name="ActionName" xml:space="preserve">
+    <value>نام اکشن</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>آدرس</value>
+  </data>
+  <data name="AddressType" xml:space="preserve">
+    <value>نوع آدرس</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>اپلیکیشن</value>
+  </data>
+  <data name="BankName" xml:space="preserve">
+    <value>نام بانک</value>
+  </data>
+  <data name="Basket" xml:space="preserve">
+    <value>سبد خرید</value>
+  </data>
+  <data name="BasketId" xml:space="preserve">
+    <value>کد سبد خرید</value>
+  </data>
+  <data name="Bio" xml:space="preserve">
+    <value>بیوگرافی</value>
+  </data>
+  <data name="BioUrl" xml:space="preserve">
+    <value>آدرس بیوگرافی</value>
+  </data>
+  <data name="CardNumber" xml:space="preserve">
+    <value>شماره کارت</value>
+  </data>
+  <data name="CdnFileUrl" xml:space="preserve">
+    <value>آدرس داخلی فایل</value>
+  </data>
+  <data name="CdnThumbnailUrl" xml:space="preserve">
+    <value>آدرس داخلی فایل کوچک</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>کد</value>
+  </data>
+  <data name="CommentCount" xml:space="preserve">
+    <value>تعداد نظر</value>
+  </data>
+  <data name="Content" xml:space="preserve">
+    <value>متن</value>
+  </data>
+  <data name="ControllerName" xml:space="preserve">
+    <value>نام کنترلر</value>
+  </data>
+  <data name="Count" xml:space="preserve">
+    <value>تعداد</value>
+  </data>
+  <data name="CreateDate" xml:space="preserve">
+    <value>تاریخ ایجاد</value>
+  </data>
+  <data name="CustomerAddress" xml:space="preserve">
+    <value>آدرس مشتری</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>تاریخ</value>
+  </data>
+  <data name="DeliverTrackingId" xml:space="preserve">
+    <value>کد پیگیری تحویل</value>
+  </data>
+  <data name="DeliveryDetail" xml:space="preserve">
+    <value>جزییات تحویل</value>
+  </data>
+  <data name="DeliveryProvider" xml:space="preserve">
+    <value>شرکت پخش</value>
+  </data>
+  <data name="DeliverySpan" xml:space="preserve">
+    <value>بازه های تحویل</value>
+  </data>
+  <data name="DeliveryTime" xml:space="preserve">
+    <value>زمان تحویل</value>
+  </data>
+  <data name="DeliveryType" xml:space="preserve">
+    <value>نوع تحویل</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>تخفیف</value>
+  </data>
+  <data name="DiscountPercent" xml:space="preserve">
+    <value>درصد تخفیف</value>
+  </data>
+  <data name="DiscountPrice" xml:space="preserve">
+    <value>مبلغ تخفیف</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>ایمیل</value>
+  </data>
+  <data name="Enabled" xml:space="preserve">
+    <value>فعال شده</value>
+  </data>
+  <data name="Extention" xml:space="preserve">
+    <value>پسوند</value>
+  </data>
+  <data name="FileType" xml:space="preserve">
+    <value>نوع فایل</value>
+  </data>
+  <data name="FileUrl" xml:space="preserve">
+    <value>آدرس فایل</value>
+  </data>
+  <data name="FolowerCount" xml:space="preserve">
+    <value>تعداد دنبال کننده</value>
+  </data>
+  <data name="FolowingCount" xml:space="preserve">
+    <value>تعداد دنبال شونده</value>
+  </data>
+  <data name="FromDate" xml:space="preserve">
+    <value>از تاریخ</value>
+  </data>
+  <data name="FullName" xml:space="preserve">
+    <value>نام و نام خانوادگی</value>
+  </data>
+  <data name="Icon" xml:space="preserve">
+    <value>آیکون</value>
+  </data>
+  <data name="Identifier" xml:space="preserve">
+    <value>شناسه</value>
+  </data>
+  <data name="InquiryUrl" xml:space="preserve">
+    <value>آدرس استعلام</value>
+  </data>
+  <data name="InsertDate" xml:space="preserve">
+    <value>تاریخ ثبت</value>
+  </data>
+  <data name="Instagram" xml:space="preserve">
+    <value>اینستاگرام</value>
+  </data>
+  <data name="IsActive" xml:space="preserve">
+    <value>فعال است؟</value>
+  </data>
+  <data name="IsAlbum" xml:space="preserve">
+    <value>آلبوم است؟</value>
+  </data>
+  <data name="IsBlocked" xml:space="preserve">
+    <value>بلاک شده؟</value>
+  </data>
+  <data name="IsBusinessAccount" xml:space="preserve">
+    <value>حساب تجاری است؟</value>
+  </data>
+  <data name="IsConfirmed" xml:space="preserve">
+    <value>تایید شده؟</value>
+  </data>
+  <data name="IsDefault" xml:space="preserve">
+    <value>پیش فرض</value>
+  </data>
+  <data name="IsDeleted" xml:space="preserve">
+    <value>حذف شده؟</value>
+  </data>
+  <data name="IsLock" xml:space="preserve">
+    <value>قفل شده است؟</value>
+  </data>
+  <data name="IsPrivate" xml:space="preserve">
+    <value>شخصی است؟</value>
+  </data>
+  <data name="IsPublicHoliday" xml:space="preserve">
+    <value>تعطیل رسمی است؟</value>
+  </data>
+  <data name="IsRecoveredPassword" xml:space="preserve">
+    <value>پسوورد ریکاور شده است</value>
+  </data>
+  <data name="IsUsed" xml:space="preserve">
+    <value>استفاده شده؟</value>
+  </data>
+  <data name="IsVerified" xml:space="preserve">
+    <value>تایید شده؟</value>
+  </data>
+  <data name="LastCrawlTime" xml:space="preserve">
+    <value>آخرین به روز رسانی</value>
+  </data>
+  <data name="LastLoginDate" xml:space="preserve">
+    <value>آخرین لاگین</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>عرض جغرافیایی</value>
+  </data>
+  <data name="LikeCount" xml:space="preserve">
+    <value>تعداد لایک</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>طول جغرافیایی</value>
+  </data>
+  <data name="Management" xml:space="preserve">
+    <value>مدیریت</value>
+  </data>
+  <data name="MaxOrderCount" xml:space="preserve">
+    <value>سقف سفارش</value>
+  </data>
+  <data name="MaxPrice" xml:space="preserve">
+    <value>مبلغ سقف تخفیف</value>
+  </data>
+  <data name="MerchantId" xml:space="preserve">
+    <value>کد درگاه</value>
+  </data>
+  <data name="MobileNumber" xml:space="preserve">
+    <value>موبایل</value>
+  </data>
+  <data name="ModifyDate" xml:space="preserve">
+    <value>تاریخ ویرایش</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="NameEn" xml:space="preserve">
+    <value>نام انگلیسی</value>
+  </data>
+  <data name="NameFa" xml:space="preserve">
+    <value>نام فارسی</value>
+  </data>
+  <data name="NewPassword" xml:space="preserve">
+    <value>گذرواژه جدید</value>
+  </data>
+  <data name="Order" xml:space="preserve">
+    <value>سفارش</value>
+  </data>
+  <data name="OrderComment" xml:space="preserve">
+    <value>توضیحات سفارش</value>
+  </data>
+  <data name="OrderDetails" xml:space="preserve">
+    <value>اقلام سفارش</value>
+  </data>
+  <data name="OrderPriority" xml:space="preserve">
+    <value>اولویت</value>
+  </data>
+  <data name="OrderStatus" xml:space="preserve">
+    <value>وضعیت سفارش</value>
+  </data>
+  <data name="OrderUrl" xml:space="preserve">
+    <value>آدرس سفارش</value>
+  </data>
+  <data name="Page" xml:space="preserve">
+    <value>صفحه</value>
+  </data>
+  <data name="Parent" xml:space="preserve">
+    <value>سر شاخه</value>
+  </data>
+  <data name="Password" xml:space="preserve">
+    <value>کلمه عبور</value>
+  </data>
+  <data name="Path" xml:space="preserve">
+    <value>مسیر</value>
+  </data>
+  <data name="PayAtDestination" xml:space="preserve">
+    <value>پرداخت در محل</value>
+  </data>
+  <data name="PaymentGateway" xml:space="preserve">
+    <value>درگاه پرداخت</value>
+  </data>
+  <data name="Payments" xml:space="preserve">
+    <value>پرداختی ها</value>
+  </data>
+  <data name="PaymentStatus" xml:space="preserve">
+    <value>وضعیت پرداخت</value>
+  </data>
+  <data name="Percent" xml:space="preserve">
+    <value>درصد</value>
+  </data>
+  <data name="Post" xml:space="preserve">
+    <value>پست</value>
+  </data>
+  <data name="PostBackUrl" xml:space="preserve">
+    <value>آدرس بازگشت</value>
+  </data>
+  <data name="PostCount" xml:space="preserve">
+    <value>تعداد کل پست ها</value>
+  </data>
+  <data name="PreparationDate" xml:space="preserve">
+    <value>تاریخ آماده سازی</value>
+  </data>
+  <data name="PreparationDay" xml:space="preserve">
+    <value>آماده سازی محصول (روز)</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>مبلغ</value>
+  </data>
+  <data name="Drug" xml:space="preserve">
+    <value>دارو</value>
+  </data>
+  <data name="DrugCategory" xml:space="preserve">
+    <value>دسته بندی محصول</value>
+  </data>
+  <data name="DrugCount" xml:space="preserve">
+    <value>تعداد کل محصولات</value>
+  </data>
+  <data name="ProfilePictureUrl" xml:space="preserve">
+    <value>آدرس عکس پروفایل</value>
+  </data>
+  <data name="Receiver" xml:space="preserve">
+    <value>گیرنده</value>
+  </data>
+  <data name="ReciverName" xml:space="preserve">
+    <value>نام گیرنده</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>نقش</value>
+  </data>
+  <data name="SendDate" xml:space="preserve">
+    <value>تاریخ ارسال</value>
+  </data>
+  <data name="SendStatus" xml:space="preserve">
+    <value>وضعیت ارسال</value>
+  </data>
+  <data name="Shaba" xml:space="preserve">
+    <value>شماره شبا</value>
+  </data>
+  <data name="PharmacyUrl" xml:space="preserve">
+    <value>آدرس فروشگاه در شاپیا</value>
+  </data>
+  <data name="ShowInMenu" xml:space="preserve">
+    <value>نمایش در منو</value>
+  </data>
+  <data name="Size" xml:space="preserve">
+    <value>سایز</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>وضعیت</value>
+  </data>
+  <data name="Pharmacy" xml:space="preserve">
+    <value>داروخانه</value>
+  </data>
+  <data name="StoreAddress" xml:space="preserve">
+    <value>آدرس فروشگاه</value>
+  </data>
+  <data name="StoreName" xml:space="preserve">
+    <value>نام فروشگاه</value>
+  </data>
+  <data name="StoreStatus" xml:space="preserve">
+    <value>وضعیت فروشگاه</value>
+  </data>
+  <data name="StoreType" xml:space="preserve">
+    <value>نوع فروشگاه</value>
+  </data>
+  <data name="Tag" xml:space="preserve">
+    <value>تگ</value>
+  </data>
+  <data name="Telegram" xml:space="preserve">
+    <value>تلگرام</value>
+  </data>
+  <data name="TelegramId" xml:space="preserve">
+    <value>کد تلگرام</value>
+  </data>
+  <data name="TelegramUrl" xml:space="preserve">
+    <value>آدرس فروشگاه در تلگرام</value>
+  </data>
+  <data name="ThumbnailUrl" xml:space="preserve">
+    <value>آدرس فایل کوچک</value>
+  </data>
+  <data name="Title" xml:space="preserve">
+    <value>عنوان</value>
+  </data>
+  <data name="ToDate" xml:space="preserve">
+    <value>تا تاریخ</value>
+  </data>
+  <data name="Token" xml:space="preserve">
+    <value>توکن دسترسی</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>مبلغ کل</value>
+  </data>
+  <data name="TotalPriceAfterDiscount" xml:space="preserve">
+    <value>مبلغ کل بعد از تخفیف</value>
+  </data>
+  <data name="TransactionId" xml:space="preserve">
+    <value>کد تراکنش</value>
+  </data>
+  <data name="TryCount" xml:space="preserve">
+    <value>تعداد تلاش</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>نوع</value>
+  </data>
+  <data name="UniqueId" xml:space="preserve">
+    <value>کد یکتا</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>آدرس</value>
+  </data>
+  <data name="UsedDate" xml:space="preserve">
+    <value>تاریخ استفاده</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>کاربر</value>
+  </data>
+  <data name="UserAttachmentType" xml:space="preserve">
+    <value>نوع مدرک</value>
+  </data>
+  <data name="UserComment" xml:space="preserve">
+    <value>توضیحات مشتری</value>
+  </data>
+  <data name="Username" xml:space="preserve">
+    <value>نام کاربری</value>
+  </data>
+  <data name="ValidFromDate" xml:space="preserve">
+    <value>معتبر از تاریخ</value>
+  </data>
+  <data name="ValidIp" xml:space="preserve">
+    <value>آی پی های معتبر (,)</value>
+  </data>
+  <data name="ValidToDate" xml:space="preserve">
+    <value>معتبر تا تاریخ</value>
+  </data>
+  <data name="VerifyUrl" xml:space="preserve">
+    <value>آدرس تایید پرداخت</value>
+  </data>
+  <data name="ViewCount" xml:space="preserve">
+    <value>تعداد دیده شدن</value>
+  </data>
+  <data name="WhatsApp" xml:space="preserve">
+    <value>واتس اپ</value>
+  </data>
+  <data name="WhatsAppUrl" xml:space="preserve">
+    <value>آدرس فروشگاه در واتس اپ</value>
+  </data>
+  <data name="Unit" xml:space="preserve">
+    <value>واحد</value>
+  </data>
+  <data name="DeliveryPrice" xml:space="preserve">
+    <value>هزینه ارسال</value>
+  </data>
+</root>

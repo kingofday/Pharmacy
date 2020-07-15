@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\AppDb\20200520100203_AddOrderDetail2Order.cs" />
+    <Compile Remove="Migrations\AppDb\20200520100203_AddOrderDetail2Order.Designer.cs" />
+    <Compile Remove="Migrations\AppDb\20200523075406_AddTempOrderDetails.cs" />
+    <Compile Remove="Migrations\AppDb\20200523075406_AddTempOrderDetails.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Repositories\Order\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pharmacy.Domain\Pharmacy.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Resource\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resource\Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,93 @@
+@model Order
+@{
+    Layout = null;
+}
+<div class="row">
+    @Html.HiddenFor(x => x.OrderId)
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="User.Email" readonly="true" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="User.MobileNumber" readonly="true" class="form-control ltr-elm" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="OrderStatus" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+            Value = x.Name,
+            Text = x.Description
+        }).ToList()" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="StoreId" class="form-control"
+                           items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
+                        {
+                            new SelectListItem
+                            {
+                                Value = Model.StoreId.ToString(),
+                                Text = Model.Store.FullName
+                            }
+                        }"
+                           select-data-url="@Url.Action("Search","StoreStore")"
+                           select-disabled="disabled" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="InsertDateSh" readonly="true" class="form-control ltr-elm" />
+    </div>
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="TotalPrice" class="form-control ltr-elm" readonly="true" />
+    </div>
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="TotalPriceAfterDiscount" class="form-control ltr-elm" readonly="true" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <custom-textarea-for for="OrderComment" readonly="true" />
+    </div>
+</div>
+@*<div class="row">
+    @if (Model.OrderDetails != null)
+    {
+        int idx = 1;
+        <table class="footable table table-stripped toggle-arrow-tiny">
+            <thead>
+                <tr>
+                    <td>#</td>
+                    <td>@Html.DisplayNameFor(x => x.OrderDetails[0].Product.Name)</td>
+                    <td>@Html.DisplayNameFor(x => x.OrderDetails[0].Product.UniqueId)</td>
+                    <td>@Html.DisplayNameFor(x => x.OrderDetails[0].Count)</td>
+                    <td>@Html.DisplayNameFor(x => x.OrderDetails[0].DiscountPrice)</td>
+                    <td>@Html.DisplayNameFor(x => x.OrderDetails[0].Price)</td>
+                    <td>@Html.DisplayNameFor(x => x.OrderDetails[0].TotalPrice)</td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.OrderDetails)
+                {
+                    <tr>
+                        <td>@idx</td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Product.UniqueId</td>
+                        <td>@item.Count</td>
+                        <td>@item.DiscountPrice</td>
+                        <td>@item.Price</td>
+                        <td>@item.TotalPrice</td>
+                    </tr>
+                    idx++;
+                }
+            </tbody>
+            <tfoot class="d-none">
+                <tr>
+                    <td colspan="5">
+                        <ul class="pagination float-right"></ul>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+
+    }
+</div>*@

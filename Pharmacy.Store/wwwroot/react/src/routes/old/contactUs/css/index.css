@@ -1,0 +1,49 @@
+.contact-us-page .rounded {
+  border-radius: 30px !important;
+}
+
+.contact-us-page .socials {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.contact-us-page .socials .a-telegram,
+.contact-us-page .socials .a-whatsapp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 15px;
+  border-radius: 30px;
+  background-color: #fff;
+  width: 130px;
+}
+
+.contact-us-page .socials .a-telegram img,
+.contact-us-page .socials .a-whatsapp img {
+  height: 30px;
+}
+
+.contact-us-page .socials .a-whatsapp {
+  color: #00a82d;
+}
+
+.contact-us-page .socials .a-telegram {
+  color: #20a0e1;
+}
+
+.contact-us-page .website, .contact-us-page .phone-numbers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+/*# sourceMappingURL=index.css.map */

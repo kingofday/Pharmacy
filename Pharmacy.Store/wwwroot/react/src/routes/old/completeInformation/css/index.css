@@ -1,0 +1,12 @@
+.complete-information-page .btn-next {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.complete-information-page .btn-next .spinner-border {
+  vertical-align: middle;
+  margin: 0 10px;
+}
+/*# sourceMappingURL=index.css.map */

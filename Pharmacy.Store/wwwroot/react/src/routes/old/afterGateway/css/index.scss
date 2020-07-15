@@ -1,0 +1,27 @@
+﻿.after-gateway-page {
+    .content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        .main-message {
+            margin: 15px 0 10px 0;
+            font-weight: 700;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
+
+        .trace-id-text{
+            font-weight: 700;
+            margin: 50px 0 10px 0;
+        }
+        .trace-id{
+            padding: 8px 10px;
+            background-color: #ededed;
+        }
+    }
+}

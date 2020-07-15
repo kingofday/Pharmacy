@@ -1,0 +1,100 @@
+.basket-page {
+    .empty{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-top: 100px;
+
+        i{
+            margin-bottom: 15px;
+            font-size: 80px;
+            color: #ccc;
+        }
+    }
+    .basket-wrapper {
+        margin-bottom: 90px;
+        .item {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: row;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+
+            .img-wrapper {
+                margin-left: 15px;
+                width: 100px;
+
+                img {
+                    width: 100%;
+                    border-radius: 8px;
+                }
+            }
+
+            .info {
+                display: flex;
+                flex: 1;
+                flex-direction: column;
+
+                .name {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    align-items: center;
+                    width: 100%;
+
+                    .hx {
+                        font-size: 1.2rem;
+                    }
+                }
+
+                .price-wrapper {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    .price {
+                        font-size: 1.5rem;
+                        font-weight: 900;
+                    }
+                    .btn-delete {
+                        font-size: 20px;
+                    }
+                }
+            }
+        }
+    }
+
+    .footer-row {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #ededed;
+
+        .total-price-wrapper {
+            padding-top: 8px;
+            padding-bottom: 8px;
+            text-align: center;
+
+            .total-price{
+                font-size: 1.5rem;
+                font-weight: 900;
+            }
+        }
+    }
+}
+.confirm-modal{
+    .modal-body{
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
+    .modal-footer{
+        justify-content: center;
+
+        button{
+            padding: 8px 30px;
+            width: 105px;
+        }
+    }
+}

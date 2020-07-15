@@ -1,0 +1,11 @@
+@model StoreSearchFilter
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="UserId" class="form-control select2 with-ajax"
+                           optional-label="@Strings.SelectPlease"
+                           select-data-url="@Url.Action("Search","User")" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="Name" />
+    </div>
+</div>

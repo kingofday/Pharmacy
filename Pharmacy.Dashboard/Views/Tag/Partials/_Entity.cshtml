@@ -1,0 +1,10 @@
+@model Tag
+@{
+    Layout = null;
+}
+<div class="row">
+    @Html.HiddenFor(x => x.TagId)
+    <div class="col-12">
+        <custom-input-for for="Title" />
+    </div>
+</div>

@@ -1,0 +1,179 @@
+@model Order
+@{
+    Layout = null;
+}
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-order" aria-selected="true">@Strings.Order</a>
+        <a class="nav-item nav-link" id="nav-items-tab" data-toggle="tab" href="#nav-items" role="tab" aria-controls="nav-items" aria-selected="false">@Html.DisplayNameFor(x => x.OrderDetails)</a>
+        <a class="nav-item nav-link" id="nav-address-tab" data-toggle="tab" href="#nav-address" role="tab" aria-controls="nav-address" aria-selected="false" onclick="setTimeout(function () { map_to.invalidateSize() }, 800);">@Html.DisplayNameFor(x => x.ToAddress)</a>
+        <a class="nav-item nav-link" id="nav-payment-tab" data-toggle="tab" href="#nav-payment" role="tab" aria-controls="nav-payment" aria-selected="false">@Html.DisplayNameFor(x => x.Payments)</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active m-t" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
+        @Html.HiddenFor(x => x.OrderId)
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <custom-input-for for="User.Email" readonly="true" />
+            </div>
+            <div class="col-12 col-sm-6">
+                <custom-input-for for="User.MobileNumber" readonly="true" class="form-control ltr-elm" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-sm-6">
+                <custom-select-for for="OrderStatus"
+                                   class="form-control"
+                                   select-disabled="disabled"
+                                   items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+                                    Value = x.Name,
+                                    Text = x.Description
+                                }).ToList()" />
+            </div>
+            <div class="col-12 col-sm-6">
+                <custom-select-for for="StoreId" class="form-control"
+                                   items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
+                        {
+                            new SelectListItem
+                            {
+                                Value = Model.StoreId.ToString(),
+                                Text = Model.Store.FullName
+                            }
+                        }"
+                                   select-data-url="@Url.Action("Search","StoreStore")"
+                                   select-disabled="disabled" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-sm-4">
+                <custom-input-for for="InsertDateSh" readonly="true" />
+            </div>
+            <div class="col-12 col-sm-4">
+                <custom-input-for for="TotalPrice" class="form-control ltr-elm" readonly="true" />
+            </div>
+            <div class="col-12 col-sm-4">
+                <custom-input-for for="TotalPriceAfterDiscount" class="form-control ltr-elm" readonly="true" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <custom-textarea-for for="OrderComment" readonly="true" />
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade  m-t" id="nav-items" role="tabpanel" aria-labelledby="nav-items-tab">
+        @if (Model.OrderDetails != null)
+        {
+            int idx = 1;
+            <div class="row">
+                <div class="col-12">
+                    <table class="footable table table-hover toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>@Html.DisplayNameFor(x => x.OrderDetails[0].Product.Name)</td>
+                                <td>@Html.DisplayNameFor(x => x.OrderDetails[0].Product.UniqueId)</td>
+                                <td>@Html.DisplayNameFor(x => x.OrderDetails[0].Count)</td>
+                                <td data-hide="all">@Html.DisplayNameFor(x => x.OrderDetails[0].DiscountPrice)</td>
+                                <td data-hide="all">@Html.DisplayNameFor(x => x.OrderDetails[0].Price)</td>
+                                <td data-hide="all">@Html.DisplayNameFor(x => x.OrderDetails[0].TotalPrice)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.OrderDetails)
+                            {
+                                <tr>
+                                    <td>@idx</td>
+                                    <td>@item.Product.Name</td>
+                                    <td>@item.Product.UniqueId</td>
+                                    <td>@item.Count</td>
+                                    <td>@item.DiscountPrice</td>
+                                    <td>@item.Price</td>
+                                    <td>@item.TotalPrice</td>
+                                </tr>
+                                idx++;
+                            }
+                        </tbody>
+                        <tfoot class="d-none">
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination float-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        }
+
+    </div>
+    <div class="tab-pane fade m-t" id="nav-address" role="tabpanel" aria-labelledby="nav-address-tab">
+        <div class="row">
+            <div class="col-12">
+                <input type="text" class="form-control m-b" value="@Model.ToAddress.AddressDetails" readonly />
+            </div>
+            <div class="col-12 m-b">
+                <div id="map_to" style="height:120px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade m-t" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
+        @if (Model.Payments != null)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <table class="footable table table-hover toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>@Html.DisplayNameFor(x => x.Payments[0].PaymentStatus)</td>
+                                <td data-hide="phone">@Html.DisplayNameFor(x => x.Payments[0].Price)</td>
+                                <td data-hide="phone">@Html.DisplayNameFor(x => x.Payments[0].InsertDateSh)</td>
+                                <td data-hide="all">@Html.DisplayNameFor(x => x.Payments[0].PaymentGateway)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var payment in Model.Payments)
+                            {
+                                <tr>
+                                    <td>@(Model.Payments.IndexOf(payment) + 1)</td>
+                                    <td>@payment.PaymentStatus.GetDescription()</td>
+                                    <td>@payment.Price.ToString("N0")</td>
+                                    <td dir="ltr">@payment.InsertDateSh @payment.InsertDateMi.ToString("HH:mm")</td>
+                                    <td>@payment.PaymentGateway.Name</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="d-none">
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination float-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+
+
+<script>
+    coords_to = [@(Model.ToAddress.Latitude),@(Model.ToAddress.Longitude)];
+    map_to = L.map('map_to').setView(coords_to, 13);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapToken, {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: mapToken
+    }).addTo(map_to);
+
+    marker_to = L.marker(coords_to).addTo(map_to).openPopup();
+
+</script>

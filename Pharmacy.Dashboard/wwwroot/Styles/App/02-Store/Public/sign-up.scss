@@ -1,0 +1,99 @@
+﻿.store-sign-up-page {
+    .form-wrapper {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .white-box {
+            box-shadow: 0px 8px 40px 0px rgba(0,0,0,0.15);
+            padding-top: 15px;
+            padding-bottom: 15px;
+            border-radius: 10px;
+            padding:15px;
+
+            .title {
+                margin-bottom: 30px;
+            }
+
+            .alert {
+                display: none;
+
+                p {
+                    margin: 0;
+                    text-align: center;
+                }
+            }
+
+            #Username {
+                padding-left: 60px;
+                padding-right: .75rem;
+            }
+
+            .btn-check {
+                min-width: 55px;
+                left: 15px;
+                position: absolute;
+                top: 25px;
+                background-color: transparent;
+                border: none;
+                border-right: solid 1px #ccc;
+                display: flex;
+                padding: 5px 10px;
+                justify-content: center;
+
+                &:focus {
+                    outline: none !important;
+                }
+            }
+        }
+
+        .btn-submit {
+            &:hover {
+                box-shadow: 0px 8px 30px 0px rgba(1,132,159,0.5);
+            }
+        }
+    }
+}
+
+.instagram-partial {
+    .img-profile {
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+    }
+
+    .info {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 15px;
+
+        .counts-wrapper {
+            display: flex;
+            justify-content: space-around;
+            flex: 1;
+
+            .count {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+
+    .bio-url {
+        direction: ltr;
+    }
+
+    .btn-wrapper {
+        position: absolute;
+        bottom: 15px;
+        right: 15px;
+        left: 15px;
+
+        button {
+            width: 100%;
+        }
+    }
+}

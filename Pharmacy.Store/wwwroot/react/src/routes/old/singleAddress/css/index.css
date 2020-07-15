@@ -1,0 +1,10 @@
+.single-address-page .mapboxgl-map {
+  width: 100% !important;
+  height: 100px !important;
+  margin-bottom: 15px;
+}
+
+.single-address-page .mapboxgl-canvas {
+  height: 100px;
+}
+/*# sourceMappingURL=index.css.map */

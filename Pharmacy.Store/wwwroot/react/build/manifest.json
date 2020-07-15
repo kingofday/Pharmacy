@@ -1,0 +1,25 @@
+{
+  "short_name": "Kingogday",
+  "name": "Accept Sofware Projects",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "92x92",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "logo.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "logo.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#1d1d76",
+  "background_color": "#dd4135"
+}

@@ -1,0 +1,20 @@
+.signup-or-login-page{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+
+    .row-img{
+        margin-bottom: 15px;
+    }
+
+    .row-btns{
+        
+        button{
+            min-width: 200px;
+            padding: 7.5px;
+            margin-bottom: 10px;
+        }
+    }
+}

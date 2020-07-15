@@ -1,0 +1,15 @@
+@model PaymentModel
+@{
+    ViewBag.Title = $"{Strings.Management} {DomainStrings.Payments}";
+    Layout = "_LayoutManage";
+}
+@section styles{
+    @*<link href="@Url.Content("~/Styles/App/Order/manage.css")" rel="stylesheet" />*@
+}
+
+@section filter{
+    <partial name="Partials/_Filters" model="new PaymentSearchFilter()" />
+}
+<partial name="Partials/_List" model="@Model" />
+@section scripts{
+}

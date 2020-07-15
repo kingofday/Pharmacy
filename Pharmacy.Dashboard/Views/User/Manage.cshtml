@@ -1,0 +1,11 @@
+@model PagingListDetails<User>
+@{
+    ViewBag.Title = $"{DomainStrings.Management} {DomainStrings.User}";
+    Layout = "_LayoutManage";
+}
+
+@section filter{
+
+    <partial name="Partials/_Filters" model="new UserSearchFilter()" />
+}
+<partial name="Partials/_List" model="@Model" />

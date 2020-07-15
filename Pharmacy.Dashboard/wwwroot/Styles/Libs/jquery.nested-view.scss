@@ -1,0 +1,149 @@
+﻿
+$liBgColor: #f3f3f4;
+$liBorderColor: #e7eaec;
+$subMenuBorderColor: #c1c1c1;
+$openColor: #3d9a87;
+$submenuOffset:20px;
+.nested-view {
+    .root-actions {
+        display: flex;
+        flex-direction: row;
+
+        .root-btns {
+            margin: 0 10px;
+        }
+
+        input {
+            width: 150px;
+        }
+
+        button {
+            margin-bottom: 10px;
+
+            &#btn-add-root {
+                margin-right: 10px;
+                margin-left: 10px;
+            }
+        }
+    }
+
+    @media(max-width:576px) {
+        .root-actions {
+            flex-direction: column;
+
+            input {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+
+            .root-btns {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+
+        li {
+            position: relative;
+
+            .item {
+                background: $liBgColor;
+                cursor: pointer;
+                margin: 4px 0;
+                padding: 5px;
+                position: relative;
+                border: 1px dashed #e7eaec;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+
+                > .sign:after {
+                    content: '+';
+                    font-size: 15px;
+                }
+
+                .box {
+                    .btn {
+                        padding: 3px 10px;
+                        font-size: 0.75rem;
+                        border-radius: 12px;
+                        margin: 0 2.5px;
+                    }
+                }
+
+                &.found {
+                    background-color: #d8d8d8;
+                }
+            }
+
+            &.open {
+                > .item {
+                    color: $openColor;
+
+                    > .sign:after {
+                        content: '-';
+                    }
+                }
+            }
+
+            span:hover {
+                font-weight: 800;
+            }
+
+            i {
+                font-size: 15px;
+                padding: 0 5px;
+                vertical-align: middle;
+            }
+
+            .submenu {
+                display: none;
+            }
+        }
+    }
+}
+
+html[dir=rtl] {
+    .nested-view {
+        direction: rtl;
+        text-align: right;
+
+
+        ul {
+            li {
+                .item {
+                    .sign {
+                        margin-left: 5px;
+                    }
+
+                    .box {
+                        margin-right: 15px;
+                    }
+                }
+
+                form {
+                    padding: 0 $submenuOffset;
+                }
+            }
+        }
+
+        .submenu {
+            margin-right: $submenuOffset;
+
+            li {
+                &:before {
+                    position: absolute;
+                    content: ' ';
+                    height: 3px;
+                    width: 4px;
+                    color: #ccc;
+                    right: 0;
+                }
+            }
+        }
+    }
+}

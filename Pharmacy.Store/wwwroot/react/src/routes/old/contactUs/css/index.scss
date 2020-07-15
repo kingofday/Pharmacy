@@ -1,0 +1,36 @@
+﻿.contact-us-page {
+    
+    .rounded{
+        border-radius: 30px!important;
+    }
+    .socials{
+        margin-top: 50px;
+        margin-bottom: 30px;
+
+        .a-telegram,
+        .a-whatsapp {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 15px;
+            border-radius: 30px;
+            background-color: #fff;
+            width:130px;
+            
+            img{
+                height: 30px;;
+            }
+        }
+    
+        .a-whatsapp{
+            color: #00a82d;
+        }
+        .a-telegram{
+            color: #20a0e1;
+        }
+    }
+    .website,.phone-numbers{
+        display: flex;
+        flex-direction: column;
+    }
+}

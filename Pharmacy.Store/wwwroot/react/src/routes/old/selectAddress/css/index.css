@@ -1,0 +1,98 @@
+.select-address-page {
+  margin-bottom: 40px;
+}
+
+.select-address-page #address {
+  line-height: 20px;
+}
+
+.select-address-page .btn-next {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.select-address-page .btn-remove-address i {
+  font-size: 20px;
+}
+
+.select-address-page .location-selector {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  border: solid 1px rgba(0, 0, 0, 0.23);
+}
+
+.select-address-page .location-selector.error {
+  border: solid 1px #f44336;
+}
+
+.select-address-page .location-selector label {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+  left: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  color: #666;
+  margin: 0;
+  padding: 0 14px;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.select-address-page .location-selector label i {
+  color: #2776d3;
+  font-size: 20px;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.select-address-page .location-selector .leaflet-control-container {
+  display: none !important;
+}
+
+.select-address-page .Mui-error {
+  color: #f44336;
+}
+
+.address-list-modal .empty-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1;
+          flex: 1 1;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 50px 0;
+}
+
+.address-list-modal .empty-list i {
+  font-size: 50px;
+  color: #ccc;
+  margin-bottom: 15px;
+}
+
+.address-list-modal .btn-select {
+  width: 100%;
+  padding: 10px;
+}
+/*# sourceMappingURL=index.css.map */

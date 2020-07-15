@@ -1,0 +1,71 @@
+﻿@model PagingListDetails<Product>
+@{
+    ViewBag.Title = "مدیریت محصولات";
+    Layout = Url.Content("~/Views/Shared/_Layout.cshtml");
+}
+@section styles{
+    <link href="@Url.Content("~/Styles/App/02-Store/Product/manage.min.css")" rel="stylesheet" />
+}
+
+<div class="product-manage-page">
+    <div class="stores m-b">
+        <label>نام فروشگاه</label>
+        <select class="form-control" id="select-store">
+            @foreach (var store in (List<Store>)ViewBag.Stores)
+            {
+                <option value="@store.StoreId" data-un="@store.Username">@store.FullName</option>
+            }
+        </select>
+    </div>
+    <div class="ibox">
+        <div class="ibox-title">
+            <h5>بارگذاری محصولات</h5>
+            <div class="ibox-tools">
+                <a class="collapse-link">
+                    <i class="zmdi zmdi-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+        <div class="ibox-content text-center" id="posts-wrapper">
+            <custom-button data-url="@Url.Action("Post","StoreProduct")" id="btn-get-posts" class="btn btn-info" icon="zmdi zmdi-download" text="دریافت محصولات"></custom-button>
+        </div>
+    </div>
+
+</div>
+<form action="@Url.Action("Manage","StoreProduct")">
+    <partial name="./Partials/_Filters" model="@new ProductSearchFilter()" />
+    <div class="ibox list">
+        @{
+            var sizes = new int[] { 10, 20, 50, 100, 300 };
+        }
+        <div class="ibox-title">
+            <h5>@Strings.Items</h5>
+
+            <div class="ibox-tools">
+                <a class="refresh-link">
+                    <i class="zmdi zmdi-refresh"></i>
+                </a>
+                <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                    <i class="zmdi zmdi-format-list-numbered"></i>
+                </a>
+                <ul class="dropdown-menu dropdown-user page-size">
+                    @foreach (var item in sizes)
+                    {
+                        <li>
+                            <a href="#" class="dropdown-item @(item==10?"active":"")">@item</a>
+                        </li>
+                    }
+                </ul>
+                <input type="hidden" id="pagesize" name="pagesize" value="10" />
+            </div>
+        </div>
+        <div class="ibox-content">
+            <partial name="./Partials/_List" model="@Model" />
+        </div>
+    </div>
+</form>
+
+
+@section scripts{
+    <script src="@Url.Content("~/Scripts/App/02-Store/Product/manage.js")"></script>
+}

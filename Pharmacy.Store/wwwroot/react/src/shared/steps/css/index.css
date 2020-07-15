@@ -1,0 +1,13 @@
+.steps-comp {
+  margin-bottom: 30px;
+}
+
+.steps-comp .MuiStepper-root {
+  background-color: #ededed !important;
+  padding: 15px 0 !important;
+}
+
+.steps-comp .MuiStepper-root .MuiStepIcon-root.MuiStepIcon-completed, .steps-comp .MuiStepper-root .MuiStepIcon-root.MuiStepIcon-active, .steps-comp .MuiStepper-root .MuiStepLabel-active {
+  color: #2875d5 !important;
+}
+/*# sourceMappingURL=index.css.map */

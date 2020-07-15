@@ -1,0 +1,32 @@
+@model OrderSearchFilter
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-12 col-sm-12">
+        <custom-select-for for="UserId"
+                           class="form-control with-ajax select2"
+                           select-data-url="@Url.Action("Search","User")" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="OrderStatus" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+            Value = x.Name,
+            Text = x.Description,
+            Selected = x.Name == Model.OrderStatus.ToString()
+        }).ToList()" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="StoreId" class="form-control with-ajax select2"
+                           select-data-url="@Url.Action("Search","Store")" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="FromDateSh" class="form-control pdate ltr-elm"></custom-input-for>
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="ToDateSh" class="form-control pdate ltr-elm"></custom-input-for>
+    </div>
+</div>

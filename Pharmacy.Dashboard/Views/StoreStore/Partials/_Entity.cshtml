@@ -1,0 +1,84 @@
+﻿@model StoreUpdateModel
+@{
+    Layout = null;
+    var haveLogo = !string.IsNullOrWhiteSpace(Model.ProfilePictureUrl);
+}
+<form asp-action="@(Model.StoreId==0?"Add":"Update")" asp-controller="StoreStore" id="frm-product">
+    @Html.HiddenFor(x => x.StoreId)
+    @Html.HiddenFor(x => x.Address.Longitude)
+    @Html.HiddenFor(x => x.Address.Latitude)
+    @if (Model.IsActive && !string.IsNullOrEmpty(Model.PharmacyUrl))
+    {
+        <div class="row">
+            <div class="col-12">
+                <p class="alert alert-success">@Html.DisplayNameFor(x => x.PharmacyUrl):@Model.PharmacyUrl <i data-value="@Model.PharmacyUrl" class="copy-value default-i zmdi zmdi-copy"></i></p>
+            </div>
+        </div>
+    }
+    <div class="row m-b">
+        <div class="col-12 d-flex justify-content-center align-items-center">
+            <div class="single-uploader @(haveLogo?"uploaded":"")">
+                <div class="uploader">
+                    <button type="button" class="btn-remove"
+                            data-remove-from-server='@(string.IsNullOrWhiteSpace(Model.ProfilePictureUrl)?"false":"true")'
+                            data-url=@Url.Action("DeleteLogo", "StoreStore", new { id = Model.StoreId })>
+                        <i class="zmdi zmdi-close"></i>
+                    </button>
+                    <img class="" src="@(haveLogo?(Model.ProfilePictureUrl.StartsWith("http")?Model.ProfilePictureUrl:Url.Content(Model.ProfilePictureUrl)):"")" />
+                    <i class="zmdi zmdi-plus"></i>
+                </div>
+                <input type="file" class="d-none input-file" accept="image/*" />
+                <label>لوگو</label>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-12 col-sm-6">
+            <custom-input-for for="FullName" />
+        </div>
+        <div class="col-12 col-sm-6">
+            <custom-input-for for="Username" class="form-control ltr-elm" />
+        </div>
+    </div>
+    <label>@Strings.Location:</label>
+    <div class="row m-b">
+        <div class="col-12">
+            <div id="map" style="height:120px;"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <custom-textarea-for for="Address.AddressDetails" />
+        </div>
+    </div>
+    <div class="custom-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@Strings.Close</button>
+        <custom-button type="button" text="@Strings.Submit" icon="zmdi zmdi-floppy" class="btn-primary btn-submit-store float-left"></custom-button>
+    </div>
+</form>
+<script>
+    coords = [@(Model.Address.Latitude),@(Model.Address.Longitude)];
+    logo = {};
+    map = L.map('map').setView(coords, 13);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapToken, {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: mapToken
+    }).addTo(map);
+
+    marker = L.marker(coords).addTo(map).openPopup();
+    setTimeout(function () { map.invalidateSize() }, 800);
+    map.on('click',function (p) {
+        console.log(p);
+        $('#Latitude').val(p.latlng.lat);
+        $('#Longitude').val(p.latlng.lng);
+        let newCoords = [p.latlng.lat, p.latlng.lng];
+        map.setView(newCoords, 13);
+        map.removeLayer(marker);
+        marker = L.marker(newCoords).addTo(map).openPopup();
+    });
+</script>

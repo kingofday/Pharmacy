@@ -1,0 +1,133 @@
+@*@model SingleUploaderModel
+@using Elk.Core
+@{
+    Layout = null;
+}
+
+<div id="uploader_@Model.AttchName" class="dropzone single-uploader"></div>
+<script>
+    var @(Model.AttchName)_id = @(Model.AttachedFileId);
+    $('#uploader_@Model.AttchName').dropzone({
+        maxFiles: 1,
+        maxFilesize: 500,
+        addRemoveLinks: true,
+        dictRemoveFile: strings.remove,
+        acceptedFiles: '@Model.Accept',
+        dictDefaultMessage: '@Model.UploaderName',
+        url: '@Url.Action("UploadToFm","AttachedFile")',
+        renameFilename: function (fileName) {
+            var ascii = /^[ -~\t\n\r]+$/;
+            if (!ascii.test(fileName)) return "noneAscciFileName." + fileName.split('.').reverse()[0];
+            else return fileName;
+        },
+        init: function () {
+            this.on("addedfile", function (file) {
+                if (!file.type.match(/image.*/)) {
+                    this.emit("thumbnail", file, getDefaultImageUrl(file.name));
+                }
+            });
+            let temp = this;
+            let url = '@Html.Raw(Model.Url)';
+            if (url) {
+                var mockFile = {
+                    name: '@Model.FileName',
+                    size: 10244,
+                    accepted: true,
+                    status: Dropzone.ADDED,
+                    type: getFileType(url).type,
+                    url: url
+                };
+                temp.files.push(mockFile);
+                temp.emit("addedfile", mockFile);
+                temp.emit("thumbnail", mockFile, url);
+                temp.emit('complete', mockFile);
+            }
+        },
+        success: function (file, rep) {
+            console.log(file);
+            if (rep.IsSuccessful === true) {
+                file.UpResult = rep.Result;
+                //--success
+                @(Model.AttchName) = {
+                    AttachedFileId: 0,
+                    FileId: rep.Result.FileID,
+                    FileType: rep.Result.FileType,
+                    FileName: rep.Result.FileName,
+                    FileOriginalName: file.name,
+                    Type: '@Model.AttachFileType'
+                };
+                this.emit("complete", file);
+
+            }
+            else {
+                if (this.files.length === 1) {
+                    this.removeAllFiles(true);
+                }
+                else {
+                    var ref;
+                    if (file.previewElement) {
+                        if ((ref = file.previewElement) !== null) {
+                            ref.parentNode.removeChild(file.previewElement);
+                        }
+                    }
+                }
+                showNotif(notifyType.danger, rep.Message);
+            }
+
+        },
+        error: function (file, errorMessage, xhr) {
+            console.log(errorMessage);
+            showNotif(notifyType.danger, errorMessage);
+            if (this.files.length === 1) {
+                this.removeAllFiles(true);
+            }
+            else {
+                var ref;
+                if (file.previewElement) {
+                    if ((ref = file.previewElement) !== null) {
+                        ref.parentNode.removeChild(file.previewElement);
+                    }
+                }
+            }
+        },
+        removedfile: function (file) {
+            let p = file.UpResult;
+            console.log('UpResult');
+            let drop = this;
+            if (@(Model.AttchName)_id !== 0) {
+                $.post('@Url.Action("Remove","AttachedFile")', { AttachedFileId:@(Model.AttachedFileId) })
+                    .done(function (rep) {
+                        if (!rep.IsSuccessful) {
+                            console.log('here');
+                            drop.files.push(file);
+                            drop.emit("addedfile", file);
+                            drop.emit("thumbnail", file, file.url);
+                            drop.emit('complete', file);
+                            showNotif(notifyType.danger, rep.Message);
+                        }
+                        else {
+                            @(Model.AttchName)_id = 0;
+                            @Model.AttchName = { };
+                            var _ref;
+                            return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+                        }
+                    })
+                    .fail(function (e) {
+                        return void 0;
+                    });
+            }
+            else {
+                    @Model.AttchName = { };
+                    var _ref;
+                    return (_ref = file.previewElement) != null ? _ref.parentNode.removeChild(file.previewElement) : void 0;
+            }
+            console.log('not reached here');
+            //if (drop.files.length === 0)
+            //     drop.emit("reset");
+
+
+            //return this._updateMaxFilesReachedClass();
+        }
+    });
+
+</script>*@

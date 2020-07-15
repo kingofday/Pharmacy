@@ -1,0 +1,24 @@
+@model OrderSearchFilter
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="OrderStatus" 
+                           optional-label="@Strings.SelectPlease" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="StoreId" class="form-control select2"
+                          optional-label="@Strings.SelectPlease"
+                          items="(List<SelectListItem>)ViewBag.Stores" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="FromDateSh" class="form-control pdate ltr-elm"></custom-input-for>
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="ToDateSh" class="form-control pdate ltr-elm"></custom-input-for>
+    </div>
+</div>

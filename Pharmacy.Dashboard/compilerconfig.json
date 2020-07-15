@@ -1,0 +1,50 @@
+﻿[
+  {
+    "outputFile": "wwwroot/Styles/App/Store/sign-up.css",
+    "inputFile": "wwwroot/Styles/App/Store/sign-up.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/public-layout.css",
+    "inputFile": "wwwroot/Styles/App/public-layout.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/02-Store/Product/manage.css",
+    "inputFile": "wwwroot/Styles/App/02-Store/Product/manage.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/02-Store/Public/sign-up.css",
+    "inputFile": "wwwroot/Styles/App/02-Store/Public/sign-up.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/common.css",
+    "inputFile": "wwwroot/Styles/App/common.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/fa.css",
+    "inputFile": "wwwroot/Styles/App/fa.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/01-Admin/Product/manage.css",
+    "inputFile": "wwwroot/Styles/App/01-Admin/Product/manage.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/02-Store/TempOrderDetail/manage.css",
+    "inputFile": "wwwroot/Styles/App/02-Store/TempOrderDetail/manage.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/template.css",
+    "inputFile": "wwwroot/Styles/App/template.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/Libs/jquery.treeview.css",
+    "inputFile": "wwwroot/Styles/Libs/jquery.treeview.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/Libs/jquery.nested-view.css",
+    "inputFile": "wwwroot/Styles/Libs/jquery.nested-view.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/01-Admin/ProductCategory/manage.css",
+    "inputFile": "wwwroot/Styles/App/01-Admin/ProductCategory/manage.scss"
+  }
+]

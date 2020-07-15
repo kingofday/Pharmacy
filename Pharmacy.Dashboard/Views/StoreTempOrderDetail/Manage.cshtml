@@ -1,0 +1,16 @@
+@model PagingListDetails<TempOrderDetailModel>
+@{
+    ViewBag.Title = $"{Strings.FactorGenerator}";
+    Layout = "_LayoutManage";
+}
+@section styles{
+    <link href="@Url.Content("~/Styles/App/02-Store/TempOrderDetail/manage.css")" rel="stylesheet" />
+}
+
+@section filter{
+    <partial name="Partials/_Filters" model="new TempOrderDetailSearchFilter()" />
+}
+<partial name="Partials/_List" model="@Model" />
+@section scripts{
+    <script src="@Url.Content("~/Scripts/App/02-Store/TempOrderDetail/manage.js")"></script>
+}

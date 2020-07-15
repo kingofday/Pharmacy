@@ -1,0 +1,34 @@
+﻿@model TempOrderDetailResultModel
+@{
+    Layout = null;
+}
+<div class="row" id="result-wrapper">
+    <div class="col-12">
+        <label>لینک سبد خرید:</label>
+        <br />
+        <br />
+    </div>
+    <div class="col-12">
+
+        <p class="text-center alert alert-success">
+            @Model.Url <i class="zmdi zmdi-copy default-i copy-value" data-copy-value="@Model.Url"></i>
+        </p>
+    </div>
+</div>
+<form id="frm-notify" action="@Url.Action("Notify","StoreTempOrderDetail")">
+    @Html.HiddenFor(x => x.Url)
+    <div class="row">
+        <div class="col-12">
+            <br />
+            <br />
+            <label>@Strings.SendViaSms</label>
+        </div>
+        <div class="col-12 col-sm-7">
+            <custom-input-for for="MobileNumber" class="form-control ltr-elm" place-holder="@Html.DisplayNameFor(x=>x.MobileNumber)" label-class="d-none"></custom-input-for>
+        </div>
+        <div class="col-12 col-sm-5">
+            <custom-button type="button" id="btn-notify" class="float-left btn-info" text="@Strings.Send" icon="zmdi zmdi-comment-text"></custom-button>
+        </div>
+    </div>
+</form>
+

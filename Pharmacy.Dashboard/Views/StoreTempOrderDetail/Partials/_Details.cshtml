@@ -1,0 +1,38 @@
+﻿@model IList<TempOrderDetail>
+@{
+    Layout = null;
+}
+<div id="add-wrapper">
+    <p class="text-center alert alert-success">
+        <i class="zmdi zmdi-copy default-i copy-value" data-copy-value="@ViewBag.BasketUrl"></i> @ViewBag.BasketUrl 
+    </p>
+    <br />
+    <br />
+    @if (Model != null && Model.Count > 0)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>@Strings.Product  @Strings.Name</th>
+                    <th>@Strings.Count</th>
+                    <th>@Strings.Price</th>
+                    <th>@Strings.TotalPrice</th>
+                </tr>
+            </thead>
+            <tbody id="items">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@(Model.IndexOf(item) + 1)</td>
+                        <td>@item.Product.Name</td>
+                        <td>@item.Count</td>
+                        <td>@item.Price</td>
+                        <td>@item.TotalPrice.ToString("N0")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>

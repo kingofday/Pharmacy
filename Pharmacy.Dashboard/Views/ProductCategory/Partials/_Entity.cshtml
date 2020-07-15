@@ -1,0 +1,33 @@
+@model ProductCategory
+@{
+    Layout = null;
+}
+<form class="frm-category" asp-action='@(Model.ProductCategoryId==0?"Add":"Update")' asp-controller="ProductCategory">
+    @Html.HiddenFor(x => x.ProductCategoryId)
+    @if (Model.ProductCategoryId == 0)
+    {
+        <input type="hidden" id="@nameof(Model.ParentId)" name="@nameof(Model.ParentId)" value="##ParentId##" />
+    }
+    else
+    {
+        @Html.HiddenFor(x => x.ParentId)
+    }
+    <div class="row">
+        <div class="col-12 col-sm-4">
+            @Html.TextBoxFor(x => x.Name, new { @class = "form-control", placeholder = Html.DisplayNameFor(x => x.Name) })
+            @Html.ValidationMessageFor(x => x.Name)
+        </div>
+        <div class="col-12 col-sm-3">
+            @Html.TextBoxFor(x => x.Icon, new { @class = "form-control ltr-elm p-h-r", placeholder = Html.DisplayNameFor(x => x.Icon) })
+            @Html.ValidationMessageFor(x => x.Icon)
+        </div>
+        <div class="col-12 col-sm-2">
+            @Html.TextBoxFor(x => x.OrderPriority, new { @class = "form-control ltr-elm p-h-r", placeholder = Html.DisplayNameFor(x => x.OrderPriority) })
+            @Html.ValidationMessageFor(x => x.OrderPriority)
+        </div>
+        <div class="col-12 col-sm-12 col-md-3">
+            <button type="button" class="btn btn-primary btn-submit">@Strings.Submit</button>
+            <button type="button" class="btn btn-secondary" onclick="$(this).closest('form').remove()">@Strings.Close</button>
+        </div>
+    </div>
+</form>

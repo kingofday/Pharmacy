@@ -1,0 +1,52 @@
+@model Order
+@{
+    Layout = null;
+}
+<div class="row">
+    @Html.HiddenFor(x => x.OrderId)
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="User.Email" readonly="true" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="User.MobileNumber" readonly="true" class="form-control ltr-elm" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="OrderStatus" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+            Value = x.Name,
+            Text = x.Description,
+            Disabled = (x.Name ==  OrderStatus.WaitForPayment.ToString() || (x.Name ==  OrderStatus.Successed.ToString())?true:false)
+        }).ToList()" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-select-for for="StoreId" class="form-control"
+                           items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
+                        {
+                            new SelectListItem
+                            {
+                                Value = Model.StoreId.ToString(),
+                                Text = Model.Store.FullName
+                            }
+                        }"
+                           select-data-url="@Url.Action("Search","StoreStore")"
+                           select-disabled="disabled" />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="InsertDateSh" readonly="true" />
+    </div>
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="TotalPrice" readonly="true" class="form-control ltr-elm"/>
+    </div>
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="TotalPriceAfterDiscount" readonly="true" class="form-control ltr-elm" />
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <custom-textarea-for for="OrderComment" readonly="true" />
+    </div>
+</div>

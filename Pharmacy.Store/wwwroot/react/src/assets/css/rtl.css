@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "iransans";
+  src: url(../fonts/iransans.eot) format("embedded-opentype"), url(../fonts/iransans.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: "iransans";
+  direction: rtl;
+  text-align: right;
+}
+
+.MuiFormHelperText-root, .MuiInputBase-input, .MuiTypography-body2, .MuiTypography-body1 {
+  font-family: "iransans" !important;
+}
+
+body[dir="rtl"] .modal-title {
+  font-size: 1rem;
+}
+
+body[dir="rtl"] .modal-header .close {
+  margin: -1rem auto -1rem -1rem;
+}
+
+.dropdown-toggle::after {
+  margin-right: 0.255em;
+  margin-left: unset;
+  vertical-align: middle;
+}
+
+.dropdown-menu {
+  text-align: unset;
+}
+
+.toast .toast-header {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.toast .toast-header .close {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+/*# sourceMappingURL=rtl.css.map */

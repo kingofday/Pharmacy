@@ -1,0 +1,29 @@
+@model Payment
+@{
+    Layout = null;
+}
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="TransactionId" readonly="true" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input2 label="@Html.DisplayNameFor(x=>x.PaymentStatus)" Id="PaymentStatus" name="PaymentStatus" value="@Model.PaymentStatus.GetDescription()" readonly="true" ></custom-input2>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="Price" readonly="true" class="form-control ltr-elm" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="InsertDateSh" readonly="true" class="form-control ltr-elm" />
+    </div>
+</div>
+<div class="row">
+
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="Order.User.MobileNumber" readonly="true" class="form-control ltr-elm" />
+    </div>
+    <div class="col-12 col-sm-6">
+        <custom-input label="@Html.DisplayNameFor(x=>x.PaymentGateway)" Id="PaymentGateway" name="PaymentGateway" input-Value="@Model.PaymentGateway.Name" readonly="true" />
+    </div>
+</div>

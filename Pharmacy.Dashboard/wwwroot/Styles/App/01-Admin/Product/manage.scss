@@ -1,0 +1,92 @@
+﻿.product-manage-page {
+    .stores {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+
+        label {
+            margin-bottom: 0;
+            padding: 0 10px;
+        }
+
+        select {
+            width: 200px;
+            margin-left: 10px;
+        }
+
+        &:before, &:after {
+            content: '';
+            height: 1px;
+            background-color: #ccc;
+            flex: 1;
+            display: flex;
+        }
+    }
+
+    $borderRadius: 5px;
+
+    #posts-wrapper {
+        .post {
+            position: relative;
+
+            figure {
+                border-radius: $borderRadius;
+
+                .check {
+                    display: none;
+                    position: absolute;
+                    right: 15px;
+                    padding: 10px;
+                    width: 30px;
+                    height: 30px;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 99;
+                    animation-name: slideInUp;
+
+                    i {
+                        font-size: 20px;
+                        color: green;
+                    }
+                }
+
+                &.valid {
+                    border: solid 2px green;
+
+                    .check {
+                        display: flex;
+                    }
+
+                    &:after {
+                        animation-name: slideInUp;
+                        content: '';
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        bottom: 40px;
+                        left: 0;
+                        background-color: rgba(255,255,255,.4);
+                        z-index: 98;
+                    }
+                }
+
+                img {
+                    border-top-right-radius: $borderRadius;
+                    border-top-left-radius: $borderRadius;
+                    max-width: 100%;
+                }
+
+                .input-price {
+                    &.color-red {
+                        color: red;
+                    }
+                }
+            }
+        }
+
+        #btn-submit{
+            width:100px;
+        }
+    }
+}

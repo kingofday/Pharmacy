@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.530c7315.chunk.css",
+    "main.js": "/static/js/main.a7cc5f5c.chunk.js",
+    "main.js.map": "/static/js/main.a7cc5f5c.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.4f4db683.js",
+    "runtime-main.js.map": "/static/js/runtime-main.4f4db683.js.map",
+    "static/css/2.f39ea103.chunk.css": "/static/css/2.f39ea103.chunk.css",
+    "static/js/2.16bdaf0d.chunk.js": "/static/js/2.16bdaf0d.chunk.js",
+    "static/js/2.16bdaf0d.chunk.js.map": "/static/js/2.16bdaf0d.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.b8acd24bd1ad9bc42d244f4987677da8.js": "/precache-manifest.b8acd24bd1ad9bc42d244f4987677da8.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/2.f39ea103.chunk.css.map": "/static/css/2.f39ea103.chunk.css.map",
+    "static/css/main.530c7315.chunk.css.map": "/static/css/main.530c7315.chunk.css.map",
+    "static/js/2.16bdaf0d.chunk.js.LICENSE.txt": "/static/js/2.16bdaf0d.chunk.js.LICENSE.txt",
+    "static/media/material-design-iconic-font.min.css": "/static/media/Material-Design-Iconic-Font.d2a55d33.woff",
+    "static/media/add-to-basket.svg": "/static/media/add-to-basket.28d67e7a.svg",
+    "static/media/delivery-cost.svg": "/static/media/delivery-cost.cbd13857.svg",
+    "static/media/discount.svg": "/static/media/discount.55169901.svg",
+    "static/media/green-basket.svg": "/static/media/green-basket.c181a80e.svg",
+    "static/media/index.css": "/static/media/iransans.568bfbb2.ttf",
+    "static/media/red-basket.svg": "/static/media/red-basket.da61076f.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4f4db683.js",
+    "static/css/2.f39ea103.chunk.css",
+    "static/js/2.16bdaf0d.chunk.js",
+    "static/css/main.530c7315.chunk.css",
+    "static/js/main.a7cc5f5c.chunk.js"
+  ]
+}

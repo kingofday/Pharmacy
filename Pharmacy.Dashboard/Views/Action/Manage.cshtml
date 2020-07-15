@@ -1,0 +1,13 @@
+@model PagingListDetails<Pharmacy.Domain.Action>
+@{
+    ViewBag.Title = $"{Strings.Management} {DomainStrings.Action}";
+    Layout = "_LayoutManage";
+}
+
+@section filter{
+    <partial name="Partials/_Filters" model="new ActionSearchFilter()" />
+}
+<partial name="Partials/_List" model="@Model" />
+@section scripts{
+    <script src="@Url.Content("~/Scripts/App/Action/manage.js")"></script>
+}

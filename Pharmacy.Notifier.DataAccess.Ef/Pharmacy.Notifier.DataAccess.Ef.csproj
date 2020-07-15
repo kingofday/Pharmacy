@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20200510081958_AddApplication.cs" />
+    <Compile Remove="Migrations\20200510081958_AddApplication.Designer.cs" />
+    <Compile Remove="Migrations\20200510082410_AddApplication.cs" />
+    <Compile Remove="Migrations\20200510082410_AddApplication.Designer.cs" />
+    <Compile Remove="Migrations\20200510083847_AddApplication.cs" />
+    <Compile Remove="Migrations\20200510083847_AddApplication.Designer.cs" />
+    <Compile Remove="Migrations\20200510084328_AddApplication.cs" />
+    <Compile Remove="Migrations\20200510084328_AddApplication.Designer.cs" />
+    <Compile Remove="Migrations\20200513065558_AddApplicationIdToEventMapper.cs" />
+    <Compile Remove="Migrations\20200513065558_AddApplicationIdToEventMapper.Designer.cs" />
+  </ItemGroup>
+
+</Project>

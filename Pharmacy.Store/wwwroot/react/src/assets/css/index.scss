@@ -1,0 +1,175 @@
+﻿$marginBottom: 15px;
+html {
+	min-height: 100%;
+	font-size: 12px;
+}
+body {
+	min-height: 100vh;
+	background-color: #f8f8f8;
+}
+#root {
+	min-height: 100vh;
+}
+.MuiFormLabel-root {
+	font-family: "iransans" !important;
+}
+h1,
+h2,
+h3 {
+	margin: 0;
+}
+ul {
+	margin-bottom: 0;
+	padding: 0;
+}
+p {
+	margin: 0;
+}
+.m-b {
+	margin-bottom: 15px !important;
+}
+button {
+	background: none;
+	border: none;
+	&:focus {
+		outline: none;
+	}
+}
+ul,
+ol {
+	padding: 0;
+}
+.rotate-90 {
+	transform: rotate(90deg);
+}
+
+.rotate-180 {
+	transform: rotate(180deg);
+}
+
+.default-i {
+	font-size: 20px;
+	vertical-align: middle;
+}
+.block-align-center {
+	margin-left: auto;
+	margin-right: auto;
+}
+.m-b {
+	margin-bottom: 15px;
+}
+.ltr-input {
+	input {
+		direction: ltr;
+		text-align: left;
+	}
+}
+/*-----------------------------------
+     remove browser autofill 
+------------------------------------*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+	box-shadow: none;
+	-webkit-box-shadow: none;
+	background-color: none;
+	transition: background-color 5000s ease-in-out 0s;
+}
+
+/*-----------------------------------
+              place holder
+------------------------------------*/
+.p-h-c::-webkit-input-placeholder {
+	text-align: center;
+}
+
+.p-h-c:-moz-placeholder {
+	/* Firefox 18- */
+	text-align: center;
+}
+
+.p-h-c::-moz-placeholder {
+	/* Firefox 19+ */
+	text-align: center;
+}
+
+.p-h-c:-ms-input-placeholder {
+	text-align: center;
+}
+
+.p-h-r::-webkit-input-placeholder {
+	text-align: right;
+	font-family: iransans;
+	direction: rtl;
+}
+
+.p-h-r:-moz-placeholder {
+	/* Firefox 18- */
+	text-align: right;
+	font-family: iransans;
+	direction: rtl;
+}
+
+.p-h-r::-moz-placeholder {
+	/* Firefox 19+ */
+	text-align: right;
+	font-family: iransans;
+	direction: rtl;
+}
+
+.p-h-r:-ms-input-placeholder {
+	text-align: right;
+	font-family: iransans;
+	direction: rtl;
+}
+.toast:not(.show) {
+	display: none;
+}
+.form-group {
+	margin-bottom: $marginBottom;
+	text-align: center;
+}
+.btn-group {
+	margin-bottom: $marginBottom;
+	width: 100%;
+}
+.MuiFormControl-root {
+	width: 100%;
+}
+.MuiFormHelperText-contained{
+	margin-right: 0!important;
+	margin-left: 0!important;
+}
+.btn-next {
+	width: 100%;
+	padding: 10px;
+	border: 1px solid transparent;
+	color: #fff;
+	background-color: #23af66;
+	text-align: center;
+}
+.with-header{
+	padding-top: 55px;
+}
+@import "./rtl.scss";
+@import "./../../shared/steps/css/index.scss";
+@import "./../../shared/basketIcon/css/index.scss";
+@import "./../../shared/initError/css/index.scss";
+@import "./../../shared/header/css/index.scss";
+@import "./../../shared/discountBadg/css/index.scss";
+@import "./../../shared/counter/css/index.scss";
+@import "./../../shared/Error/css/index.scss";
+
+@import "./../../routes/Store/css/index.scss";
+@import "./../../routes/product/css/index.scss";
+@import "./../../routes/contactUs/css/index.scss";
+@import "./../../routes/signUpOrLogin/css/index.scss";
+@import "./../../routes/logIn/css/index.scss";
+// @import "./../../routes/singleAddress/css/index.scss";
+@import "./../../routes/selectAddress/css/index.scss";
+@import "./../../routes/selectLocation/css/index.scss";
+@import "./../../routes/review/css/index.scss";
+@import "./../../routes/afterGateway/css/index.scss";
+@import "./../../routes/basket/css/index.scss";
+@import "./../../routes/completeInformation/css/index.scss";

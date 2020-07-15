@@ -1,0 +1,79 @@
+﻿.nested-view .root-actions {
+  display: flex;
+  flex-direction: row; }
+  .nested-view .root-actions .root-btns {
+    margin: 0 10px; }
+  .nested-view .root-actions input {
+    width: 150px; }
+  .nested-view .root-actions button {
+    margin-bottom: 10px; }
+    .nested-view .root-actions button#btn-add-root {
+      margin-right: 10px;
+      margin-left: 10px; }
+
+@media (max-width: 576px) {
+  .nested-view .root-actions {
+    flex-direction: column; }
+    .nested-view .root-actions input {
+      width: 100%;
+      margin-bottom: 10px; }
+    .nested-view .root-actions .root-btns {
+      width: 100%;
+      text-align: center; } }
+
+.nested-view ul {
+  list-style: none;
+  padding: 0; }
+  .nested-view ul li {
+    position: relative; }
+    .nested-view ul li .item {
+      background: #f3f3f4;
+      cursor: pointer;
+      margin: 4px 0;
+      padding: 5px;
+      position: relative;
+      border: 1px dashed #e7eaec;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center; }
+      .nested-view ul li .item > .sign:after {
+        content: '+';
+        font-size: 15px; }
+      .nested-view ul li .item .box .btn {
+        padding: 3px 10px;
+        font-size: 0.75rem;
+        border-radius: 12px;
+        margin: 0 2.5px; }
+      .nested-view ul li .item.found {
+        background-color: #d8d8d8; }
+    .nested-view ul li.open > .item {
+      color: #3d9a87; }
+      .nested-view ul li.open > .item > .sign:after {
+        content: '-'; }
+    .nested-view ul li span:hover {
+      font-weight: 800; }
+    .nested-view ul li i {
+      font-size: 15px;
+      padding: 0 5px;
+      vertical-align: middle; }
+    .nested-view ul li .submenu {
+      display: none; }
+
+html[dir=rtl] .nested-view {
+  direction: rtl;
+  text-align: right; }
+  html[dir=rtl] .nested-view ul li .item .sign {
+    margin-left: 5px; }
+  html[dir=rtl] .nested-view ul li .item .box {
+    margin-right: 15px; }
+  html[dir=rtl] .nested-view ul li form {
+    padding: 0 20px; }
+  html[dir=rtl] .nested-view .submenu {
+    margin-right: 20px; }
+    html[dir=rtl] .nested-view .submenu li:before {
+      position: absolute;
+      content: ' ';
+      height: 3px;
+      width: 4px;
+      color: #ccc;
+      right: 0; }

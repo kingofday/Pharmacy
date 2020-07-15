@@ -1,0 +1,36 @@
+﻿@model CrawledPageDto
+@{
+    Layout = null;
+}
+
+    <div class="instagram-partial">
+        <div class="info">
+            <img class="img-profile" src="@Model.ProfilePictureUrl" />
+            <div class="counts-wrapper">
+                <div class="count">
+                    <label>@Html.DisplayNameFor(x => x.FolowingCount)</label>
+                    <span>@Model.FolowingCount</span>
+                </div>
+                <div class="count">
+                    <label>@Html.DisplayNameFor(x => x.FolowerCount)</label>
+                    <span>@Model.FolowingCount</span>
+                </div>
+                <div class="count">
+                    <label>@Html.DisplayNameFor(x => x.PostCount)</label>
+                    <span>@Model.PostCount</span>
+                </div>
+            </div>
+        </div>
+        <p class="desc">
+            @Model.Bio
+        </p>
+        <p class="bio-url">
+            @Model.BioUrl
+        </p>
+        <div class="btn-wrapper">
+            <button class="btn-close btn btn-secondary" onclick="$('#modal').modal('hide')">
+                @Strings.Close
+            </button>
+        </div>
+    </div>
+

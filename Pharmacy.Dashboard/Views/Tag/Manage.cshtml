@@ -1,0 +1,16 @@
+@model PagingListDetails<Tag>
+@{
+    ViewBag.Title = $"{Strings.Management} {DomainStrings.Tag}";
+    Layout = "_LayoutManage";
+}
+@section styles{
+    @*<link href="@Url.Content("~/Styles/App/Tag/manage.css")" rel="stylesheet" />*@
+}
+
+@section filter{
+    <partial name="Partials/_Filters" model="new TagSearchFilter()" />
+}
+<partial name="Partials/_List" model="@Model" />
+@*@section scripts{
+    <script src="@Url.Content("~/Scripts/App/Tag/manage.js")"></script>*@
+}
