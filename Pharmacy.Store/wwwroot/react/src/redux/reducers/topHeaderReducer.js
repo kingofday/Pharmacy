@@ -7,7 +7,7 @@ const initState = {
     totalDiscount: 0,
     route: '/basket'
 };
-const caculate = (items) => {
+const calculate = (items) => {
     let totalPrice = items.reduce(function (total, x) {
         return total + (x.realPrice * x.count);
     }, 0);
@@ -16,7 +16,7 @@ const caculate = (items) => {
     }, 0);
     return { totalPrice, totalDiscount };
 }
-export default function basketReducer(state = initState, action) {
+export default function topReducer(state = initState, action) {
     switch (action.type) {
         case actionTypes.ADD_TO_BASKET:
             state.items = state.items.filter(x => !x.itemId);
@@ -28,23 +28,23 @@ export default function basketReducer(state = initState, action) {
                 state.items[idx].count = action.payload.count;
                 items = [...state.items];
             }
-            return { ...state, items, ...caculate(items) };
+            return { ...state, items, ...calculate(items) };
         case actionTypes.UPDATE_BASKET:
             let item = state.items.find(x => x.id == action.payload.id);
             if (item) item.count = action.payload.count;
-            return { ...state, items: [...state.items], ...caculate(state.items) };
+            return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.REMOVE_FROM_BASKET:
             state.items.splice(state.items.findIndex(x => x.id == action.payload.id), 1);
-            return { ...state, items: [...state.items], ...caculate(state.items) };
+            return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.CLEAR_BASKET:
             return { ...state, items: [], totalPrice: 0, totalDiscount: 0 };
         case actionTypes.SET_WHOLE:
-            return { ...state, items: action.payload.items, ...caculate(action.payload.items) };
+            return { ...state, items: action.payload.items, ...calculate(action.payload.items) };
         case actionTypes.SET_BASKET_ROUTE:
             return { ...state, route: action.payload.route };
         case actionTypes.CLEAR_TEMP_BASKET:
             state.items = state.items.filter(x => !x.itemId);
-            return { ...state, items: [...state.items], ...caculate(state.items) };
+            return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.CHANGED_BASKET_ITEMS:
             action.payload.products.forEach(p => {
                 let idx = state.items.findIndex(x => x.id === p.id);
@@ -58,7 +58,7 @@ export default function basketReducer(state = initState, action) {
                 }
 
             });
-            return { ...state, items: [...state.items], ...caculate(state.items) };
+            return { ...state, items: [...state.items], ...calculate(state.items) };
         default:
             return state;
     }
