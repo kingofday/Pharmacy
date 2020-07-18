@@ -13,6 +13,10 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TempOrderDetailId { get; set; }
 
+        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public int DrugPriceId { get; set; }
+
         [Display(Name = nameof(Strings.BasketId), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid BasketId { get; set; }
@@ -41,8 +45,8 @@ namespace Pharmacy.Domain
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string InsertDateSh { get; set; }
 
-        [ForeignKey(nameof(DrugId))]
+        [ForeignKey(nameof(DrugPriceId))]
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
-        public Drug Drug { get; set; }
+        public DrugPrice DrugPrice { get; set; }
     }
 }

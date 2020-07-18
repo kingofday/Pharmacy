@@ -25,20 +25,22 @@ namespace Pharmacy.DataAccess.Ef
         #region Base
         public IUserRepo UserRepo => _serviceProvider.GetService<IUserRepo>();
         public ITagRepo TagRepo => _serviceProvider.GetService<ITagRepo>();
-        public IGenericRepo<Address> AddressRepo => _serviceProvider.GetService<IGenericRepo<Address>>();
+        public IGenericRepo<UserAddress> UserAddressRepo => _serviceProvider.GetService<IGenericRepo<UserAddress>>();
+        public IGenericRepo<DrugStoreAddress> DrugStoreAddressRepo => _serviceProvider.GetService<IGenericRepo<DrugStoreAddress>>();
         public INotificationRepo NotificationRepo => _serviceProvider.GetService<INotificationRepo>();
         public IGenericRepo<DrugStore> DrugStoreRepo => _serviceProvider.GetService<IGenericRepo<DrugStore>>();
         #endregion
 
         #region Order
         public IGenericRepo<Order> OrderRepo => _serviceProvider.GetService<IGenericRepo<Order>>();
-        public IGenericRepo<OrderDetail> OrderDetailRepo => _serviceProvider.GetService<IGenericRepo<OrderDetail>>();
+        public IGenericRepo<OrderItem> OrderDetailRepo => _serviceProvider.GetService<IGenericRepo<OrderItem>>();
         public IPaymentRepo PaymentRepo => _serviceProvider.GetService<IPaymentRepo>();
         public ITempOrderDetailRepo TempOrderDetailRepo => _serviceProvider.GetService<ITempOrderDetailRepo>();
         #endregion
 
         #region Drug
         public IDrugRepo DrugRepo => _serviceProvider.GetService<IDrugRepo>();
+        public IGenericRepo<DrugPrice> DrugPriceRepo => _serviceProvider.GetService<IGenericRepo<DrugPrice>>();
         public IGenericRepo<DrugTag> DrugTagRepo => _serviceProvider.GetService<IGenericRepo<DrugTag>>();
         public IGenericRepo<DrugAsset> DrugAssetRepo => _serviceProvider.GetService<IGenericRepo<DrugAsset>>();
         #endregion

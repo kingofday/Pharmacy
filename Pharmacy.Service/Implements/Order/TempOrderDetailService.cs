@@ -47,7 +47,7 @@ namespace Pharmacy.Service
 
         public List<TempOrderDetail> GetDetails(Guid basketId)
                         => _tempOrderDetailRepo.Get(x => x.BasketId == basketId, o => o.OrderBy(x => x.TempOrderDetailId), new List<Expression<Func<TempOrderDetail, object>>> {
-                            i=>i.Drug
+                            i=>i.DrugPrice.Drug
                         });
 
         public IResponse<IList<TempOrderDetailDTO>> Get(Guid basketId) => _tempOrderDetailRepo.GetItems(basketId);

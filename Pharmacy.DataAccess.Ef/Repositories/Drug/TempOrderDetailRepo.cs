@@ -65,19 +65,25 @@ namespace Pharmacy.DataAccess.Ef
 
         public IResponse<IList<TempOrderDetailDTO>> GetItems(Guid basketId)
         {
-            var items = _appContext.Set<TempOrderDetail>().Include(x => x.Drug).Where(x => x.BasketId == basketId)
+            var items = _appContext.Set<TempOrderDetail>()
+                .Include(x => x.DrugPrice)
+                .ThenInclude(x => x.Drug)
+                .ThenInclude(x => x.DrugAssets)
+                .Where(x => x.BasketId == basketId)
                 .AsNoTracking().Select(x => new TempOrderDetailDTO
                 {
                     ItemId = x.TempOrderDetailId,
-                    Id = x.DrugId,
+                    DrugId = x.DrugId,
                     Count = x.Count,
                     Price = x.Price,
-                    Discount = 0,
-                    NameFa = x.Drug.NameFa,
-                    NameEn = x.Drug.NameEn,
-                    ImageUrl = x.Drug.DrugAssets.Any() ? x.Drug.DrugAssets[0].Url :null
+                    PriceId = x.DrugPriceId,
+                    DiscountPrice = 0,
+                    NameFa = x.DrugPrice.Drug.NameFa,
+                    NameEn = x.DrugPrice.Drug.NameEn,
+                    TumbnailImageUrl = x.DrugPrice.Drug.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? x.DrugPrice.Drug.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null
                 }).ToList();
-            return new Response<IList<TempOrderDetailDTO>>{
+            return new Response<IList<TempOrderDetailDTO>>
+            {
                 IsSuccessful = true,
                 Result = items
             };

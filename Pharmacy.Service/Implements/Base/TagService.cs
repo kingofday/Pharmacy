@@ -39,7 +39,7 @@ namespace Pharmacy.Service
                 IsSuccessful = false,
                 Message = ServiceMessage.RecordNotExist
             };
-            item.Title = model.Title;
+            item.Name = model.Name;
 
             _appUow.TagRepo.Update(item);
             var saveResult = await _appUow.ElkSaveChangesAsync();
@@ -78,8 +78,8 @@ namespace Pharmacy.Service
         public PagingListDetails<Tag> Get(TagSearchFilter filter)
         {
             Expression<Func<Tag, bool>> conditions = x => true;
-            if (!string.IsNullOrWhiteSpace(filter.TitleF)) conditions = conditions.And(x => x.Title.Contains(filter.TitleF));
-            return _appUow.TagRepo.Get(conditions, filter, x => x.OrderByDescending(x => x.Title));
+            if (!string.IsNullOrWhiteSpace(filter.TitleF)) conditions = conditions.And(x => x.Name.Contains(filter.TitleF));
+            return _appUow.TagRepo.Get(conditions, filter, x => x.OrderByDescending(x => x.Name));
         }
 
         public PagingListDetails<Tag> GetForDashbord(TagSearchFilter filter)
@@ -88,7 +88,7 @@ namespace Pharmacy.Service
             if (filter != null)
             {
                 if (!string.IsNullOrWhiteSpace(filter.TitleF))
-                    conditions = conditions.And(x => x.Title.Contains(filter.TitleF));
+                    conditions = conditions.And(x => x.Name.Contains(filter.TitleF));
             }
 
             return _appUow.TagRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.TagId));

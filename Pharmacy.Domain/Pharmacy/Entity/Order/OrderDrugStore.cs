@@ -18,6 +18,8 @@ namespace Pharmacy.Domain
 
         public int DrugStoreId { get; set; }
 
+        public int DeliveryPrice { get; set; }
+
         [Column(TypeName = "nvarchar(250)")]
         [DataType(DataType.MultilineText)]
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]

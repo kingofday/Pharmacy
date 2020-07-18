@@ -29,7 +29,7 @@ namespace Pharmacy.Service
             {
                 OrderId = model.OrderId,
                 PaymentGatewayId = model.GatewayId,
-                PaymentStatus = PaymentStatus.Insert,
+                PaymentStatus = PaymentStatus.Added,
                 Price = model.Amount,
                 TransactionId = model.TransactionId
             };

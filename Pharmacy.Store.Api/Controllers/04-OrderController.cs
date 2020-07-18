@@ -67,13 +67,13 @@ namespace Pharmacy.Store.Api.Controllers
         {
             var findUser = await _userService.FindAsync(order.UserToken);
             if (!findUser.IsSuccessful) return Json(new Response<string> { Message = Strings.InvalidToken });
-            var addOrder = await _orderService.Add(order);
+            var addOrder = await _orderService.AddByUserAsync(order);
             if (!addOrder.IsSuccessful) return Json(new Response<AddOrderReponse> { Message = addOrder.Message });
             var fatcory = await _gatewayFectory.GetInsance(int.Parse(_configuration["DefaultGatewayId"]));
             var transModel = new CreateTransactionRequest
             {
                 OrderId = addOrder.Result.Order.OrderId,
-                Amount = addOrder.Result.Order.TotalPriceAfterDiscount,
+                Amount = addOrder.Result.Order.TotalPrice,
                 MobileNumber = findUser.Result.MobileNumber.ToString(),
                 ApiKey = fatcory.Result.Gateway.MerchantId,
                 CallbackUrl = fatcory.Result.Gateway.PostBackUrl,
@@ -91,10 +91,10 @@ namespace Pharmacy.Store.Api.Controllers
                     OrderId = addOrder.Result.Order.OrderId,
                     Url = createTrans.Result.GatewayUrl,
                     BasketChanged = addOrder.Result.IsChanged,
-                    ChangedProducts = addOrder.Result.Order.OrderDetails.Select(x => new ProductDTO
+                    Drugs = addOrder.Result.Order.OrderDetails.Select(x => new DrugDTO
                     {
-                        Id = x.ProductId,
-                        Discount = x.DiscountPercent ?? 0,
+                        DrugId = x.DrugId,
+                        DiscountPrice = x.DiscountPrice,
                         Price = x.Price,
                         Count = x.Count
                     })
@@ -113,7 +113,7 @@ namespace Pharmacy.Store.Api.Controllers
             var transModel = new CreateTransactionRequest
             {
                 OrderId = addOrder.Result.OrderId,
-                Amount = addOrder.Result.TotalPriceAfterDiscount,
+                Amount = addOrder.Result.TotalPrice,
                 MobileNumber = findUser.Result.MobileNumber.ToString(),
                 ApiKey = fatcory.Result.Gateway.MerchantId,
                 CallbackUrl = fatcory.Result.Gateway.PostBackUrl,

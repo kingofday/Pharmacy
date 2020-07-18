@@ -16,6 +16,6 @@ namespace Pharmacy.Domain
         public string BaseDomain { get; set; }
 
         [NotMapped]
-        public Address Address { get; set; }
+        public DrugStoreAddress Address { get; set; }
     }
 }

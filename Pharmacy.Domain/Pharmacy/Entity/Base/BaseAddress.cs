@@ -1,33 +1,13 @@
-﻿using System;
-using Elk.Core;
-using Pharmacy.Domain.Resource;
+﻿using Pharmacy.Domain.Resource;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    [Table(nameof(Address), Schema = "Base")]
-    public class Address : IInsertDateProperties, IEntity
+    public class BaseAddress
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int AddressId { get; set; }
-
         public int? DistrictId { get; set; }
-
-        [ForeignKey(nameof(UserId))]
-        [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
-        public User User { get; set; }
-        [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public Guid UserId { get; set; }
-
-        [Display(Name = nameof(Strings.AddressType), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public AddressType AddressType { get; set; }
-
-        [Display(Name = nameof(Strings.IsDefault), ResourceType = typeof(Strings))]
-        public bool IsDefault { get; set; }
 
         [Display(Name = nameof(Strings.Latitude), ResourceType = typeof(Strings))]
         public double Latitude { get; set; }
@@ -42,9 +22,6 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string InsertDateSh { get; set; }
-
-        [Display(Name = nameof(Strings.ReciverName), ResourceType = typeof(Strings))]
-        public string ReciverName { get; set; }
 
         [Display(Name = nameof(Strings.Address), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]

@@ -11,8 +11,8 @@ namespace Pharmacy.Service
     public class AddressService : IAddressService
     {
         readonly AppUnitOfWork _appUow;
-        readonly IGenericRepo<Address> _addressRepo;
-        public AddressService(AppUnitOfWork appUOW, IGenericRepo<Address> addressRepo)
+        readonly IGenericRepo<UserAddress> _addressRepo;
+        public AddressService(AppUnitOfWork appUOW, IGenericRepo<UserAddress> addressRepo)
         {
             _appUow = appUOW;
             _addressRepo = addressRepo;
@@ -23,7 +23,7 @@ namespace Pharmacy.Service
             var currentDT = DateTime.Now;
             var addresses = _addressRepo.Get(selector: a => new AddressDTO
             {
-                Id = a.AddressId,
+                Id = a.UserAddressId,
                 Lat = a.Latitude,
                 Lng = a.Longitude,
                 Address = a.AddressDetails
@@ -34,7 +34,7 @@ namespace Pharmacy.Service
                 PageNumber = 1,
                 PageSize = 3
             },
-            orderBy: o => o.OrderByDescending(x => x.AddressId));
+            orderBy: o => o.OrderByDescending(x => x.UserAddressId));
             return new Response<PagingListDetails<AddressDTO>>
             {
                 Result = addresses,
@@ -42,11 +42,11 @@ namespace Pharmacy.Service
             };
         }
 
-        public async Task<IResponse<Address>> FindAsync(int id)
+        public async Task<IResponse<UserAddress>> FindAsync(int id)
         {
             var addr = await _addressRepo.FindAsync(id);
-            if (addr == null) return new Response<Address> { Message = ServiceMessage.RecordNotExist };
-            else return new Response<Address> { IsSuccessful = true, Result = addr };
+            if (addr == null) return new Response<UserAddress> { Message = ServiceMessage.RecordNotExist };
+            else return new Response<UserAddress> { IsSuccessful = true, Result = addr };
         }
     }
 }

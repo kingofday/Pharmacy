@@ -75,7 +75,7 @@ namespace Pharmacy.Domain
 
         public IList<DrugPrice> DrugPrices { get; set; }
         public IList<DrugAsset> DrugAssets { get; set; }
-        public IList<OrderDetail> OrderDetails { get; set; }
+        public IList<OrderItem> OrderDetails { get; set; }
 
         [Display(Name = nameof(Strings.Tag), ResourceType = typeof(Strings))]
         public IList<DrugTag> DrugTags { get; set; }

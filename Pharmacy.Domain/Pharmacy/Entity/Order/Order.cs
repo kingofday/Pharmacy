@@ -18,6 +18,8 @@ namespace Pharmacy.Domain
         //[Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
 
+        public int DrugStoreId{ get; set; }
+
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
         public int AddressId { get; set; }
 
@@ -30,8 +32,15 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.DiscountPrice), ResourceType = typeof(Strings))]
         public int TotalDiscountPrice { get; set; }
 
+
         [Display(Name = nameof(Strings.DeliveryPrice), ResourceType = typeof(Strings))]
         public int DeliveryPrice { get; set; }
+
+        [Display(Name = nameof(Strings.TotalPrice), ResourceType = typeof(Strings))]
+        public int TotalItemsPrice { get; set; }
+
+        [Display(Name = nameof(Strings.TotalPriceWithoutDiscount), ResourceType = typeof(Strings))]
+        public int TotalPriceWithoutDiscount { get; set; }
 
         [Display(Name = nameof(Strings.TotalPrice), ResourceType = typeof(Strings))]
         public int TotalPrice { get; set; }
@@ -62,10 +71,10 @@ namespace Pharmacy.Domain
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ModifyDateSh { get; set; }
 
-        [Display(Name = nameof(Strings.OrderComment), ResourceType = typeof(Strings))]
+        [Display(Name = nameof(Strings.Description), ResourceType = typeof(Strings))]
         [MaxLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string Comment { get; set; }
+        public string Description { get; set; }
 
         [Display(Name = nameof(Strings.OrderComment), ResourceType = typeof(Strings))]
         [MaxLength(300, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -82,7 +91,7 @@ namespace Pharmacy.Domain
         public DeliveryDetail Delivery => DeliveryDetailJson.DeSerializeJson<DeliveryDetail>();
 
         [Display(Name = nameof(Strings.OrderDetails), ResourceType = typeof(Strings))]
-        public List<OrderDetail> OrderDetails { get; set; }
+        public List<OrderItem> OrderDetails { get; set; }
 
         [Display(Name = nameof(Strings.Payments), ResourceType = typeof(Strings))]
         public List<Payment> Payments { get; set; }
@@ -96,7 +105,7 @@ namespace Pharmacy.Domain
 
         [ForeignKey(nameof(AddressId))]
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
-        public Address Address { get; set; }
+        public UserAddress Address { get; set; }
 
         [NotMapped]
         public ExtraInfo ExtraInfo => ExtraInfoJson?.DeSerializeJson<ExtraInfo>();

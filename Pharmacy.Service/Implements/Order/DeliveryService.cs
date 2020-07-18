@@ -1,14 +1,13 @@
 ﻿using Elk.Core;
-using Pharmacy.Domain;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
-using System.Net.Http;
-using Pharmacy.Service.Resource;
 using System.Linq;
-using Elk.Http;
 using System.Text;
+using System.Net.Http;
+using Pharmacy.Domain;
 using Pharmacy.DataAccess.Ef;
+using System.Threading.Tasks;
+using Pharmacy.Service.Resource;
+using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
 
 namespace Pharmacy.Service
 {
@@ -28,12 +27,12 @@ namespace Pharmacy.Service
 
         private async Task<IResponse<List<PriceInquiryResult>>> GetTypes(int PharmacyId, LocationDTO location)
         {
-            var getSource = await _drugSrv.GetLocationAsync(PharmacyId);
-            if (!getSource.IsSuccessful) return new Response<List<PriceInquiryResult>> { Message = ServiceMessage.RecordNotExist };
+            var getNearestStore = _drugSrv.GetNearest(location);
+            if (!getNearestStore.IsSuccessful) return new Response<List<PriceInquiryResult>> { Message = ServiceMessage.RecordNotExist };
             using var deliveryPriceHttp = new HttpClient();
             var callDeliveryAPI = await deliveryPriceHttp.PostAsync(_configuration["Delivery:Price"], new StringContent(new
             {
-                Source = getSource.Result,
+                Source = getNearestStore.Result,
                 Destination = location
             }.SerializeToJson(), Encoding.UTF8, "application/json"));
             if (!callDeliveryAPI.IsSuccessStatusCode) return new Response<List<PriceInquiryResult>> { IsSuccessful = false, Message = ServiceMessage.DeliveryAPIFailed };
@@ -61,13 +60,13 @@ namespace Pharmacy.Service
             };
         }
 
-        //public async Task<IResponse<int>> GetDeliveryCost(int deliveryId, int PharmacyId, LocationDTO location)
-        //{
-        //    var getTypes = await GetTypes(PharmacyId, location);
-        //    var type = getTypes.Result.FirstOrDefault(x => x.DeliveryProviderId == deliveryId);
-        //    if (type == null) return new Response<int> { Message = ServiceMessage.InvalidDeliveryType };
-        //    return new Response<int> { IsSuccessful = true, Result = type.Price };
-        //}
+        public async Task<IResponse<int>> GetDeliveryCost(int deliveryId, int PharmacyId, LocationDTO location)
+        {
+            var getTypes = await GetTypes(PharmacyId, location);
+            var type = getTypes.Result.FirstOrDefault(x => x.DeliveryProviderId == deliveryId);
+            if (type == null) return new Response<int> { Message = ServiceMessage.InvalidDeliveryType };
+            return new Response<int> { IsSuccessful = true, Result = type.Price };
+        }
 
         public async Task<IResponse<int>> Add(int orderId)
         {
@@ -91,7 +90,7 @@ namespace Pharmacy.Service
                         Type = "destination",
                         Lat = order.Address.Latitude,
                         Lng = order.Address.Longitude,
-                        Description=order.Comment,
+                        Description=order.Description,
                         PersonFullName =info?.Reciever,
                         PersonPhone = info?.RecieverMobileNumber
                     }

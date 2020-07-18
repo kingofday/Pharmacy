@@ -23,7 +23,7 @@ namespace Pharmacy.Domain
         public Guid UserId { get; set; }
 
         [Display(Name = nameof(Strings.Address), ResourceType = typeof(Strings))]
-        public int? AddressId { get; set; }
+        public int AddressId { get; set; }
 
         [Display(Name = nameof(Strings.StoreStatus), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -55,7 +55,6 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         public User User { get; set; }
 
-        [NotMapped]
-        public Address Address { get; set; }
+        public DrugStoreAddress Address { get; set; }
     }
 }

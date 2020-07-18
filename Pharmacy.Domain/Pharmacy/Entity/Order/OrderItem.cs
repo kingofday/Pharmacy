@@ -5,16 +5,18 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    [Table(nameof(OrderDetail), Schema = "Order")]
-    public class OrderDetail : IEntity
+    [Table(nameof(OrderItem), Schema = "Order")]
+    public class OrderItem : IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int OrderDetailId { get; set; }
+        public int OrderItemId { get; set; }
 
         [Display(Name = nameof(Strings.Order), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int OrderId { get; set; }
+
+        public int DrugId { get; set; }
 
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -35,6 +37,8 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.TotalPrice), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int TotalPrice { get; set; }
+
+        public int GetRealPrice() => Price - DiscountPrice;
 
         [ForeignKey(nameof(DrugPriceId))]
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]

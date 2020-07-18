@@ -1177,11 +1177,11 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to مبلغ کل بعد از تخفیف.
+        ///   Looks up a localized string similar to مبلغ کل بدون تخفیف.
         /// </summary>
-        public static string TotalPriceAfterDiscount {
+        public static string TotalPriceWithoutDiscount {
             get {
-                return ResourceManager.GetString("TotalPriceAfterDiscount", resourceCulture);
+                return ResourceManager.GetString("TotalPriceWithoutDiscount", resourceCulture);
             }
         }
         

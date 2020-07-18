@@ -5,13 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\AppDb\20200520100203_AddOrderDetail2Order.cs" />
-    <Compile Remove="Migrations\AppDb\20200520100203_AddOrderDetail2Order.Designer.cs" />
-    <Compile Remove="Migrations\AppDb\20200523075406_AddTempOrderDetails.cs" />
-    <Compile Remove="Migrations\AppDb\20200523075406_AddTempOrderDetails.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="Repositories\Order\" />
   </ItemGroup>
 

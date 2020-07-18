@@ -14,14 +14,8 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
         public int? DrugCategoryId { get; set; }
 
-        [Display(Name = nameof(Strings.Price), ResourceType = typeof(Strings))]
-        public int Price { get; set; }
-
         [Display(Name = nameof(Strings.MaxOrderCount), ResourceType = typeof(Strings))]
         public int MaxOrderCount { get; set; }
-
-        [Display(Name = nameof(Strings.DiscountPercent), ResourceType = typeof(Strings))]
-        public float? DiscountPercent { get; set; }
 
         [Display(Name = nameof(Strings.IsActive), ResourceType = typeof(Strings))]
         public bool IsActive { get; set; }
@@ -52,5 +46,7 @@ namespace Pharmacy.Domain
         public string BaseDomain { get; set; }
 
         public List<int> TagIds { get; set; }
+
+        public List<DrugPrice> Prices { get; set; }
     }
 }

@@ -85,7 +85,7 @@ namespace Pharmacy.DataAccess.Ef
                 DrugId = p.DrugId,
                 NameFa = p.NameFa,
                 NameEn = p.NameEn,
-                TumbImageUrl = p.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null,
+                TumbnailImageUrl = p.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null,
                 Price = p.DrugPrices.FirstOrDefault(x => x.IsDefault).Price,
                 DiscountPrice = p.DrugPrices.FirstOrDefault(x => x.IsDefault).DiscountPrice
             }).ToPagingListDetails(filter);

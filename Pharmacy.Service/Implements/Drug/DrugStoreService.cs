@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Pharmacy.InfraStructure;
 
 namespace Pharmacy.Service
 {
@@ -26,6 +27,30 @@ namespace Pharmacy.Service
             _drugStoreRepo = appUOW.DrugStoreRepo;
         }
 
+        public IResponse<DrugStoreModel> GetNearest(LocationDTO model)
+        {
+            var items = _drugStoreRepo.Get(selector: x => new DrugStoreModel
+            {
+                DrugStoreId = x.DrugStoreId,
+                Name = x.Name,
+                Lat = x.Address.Latitude,
+                Lng = x.Address.Longitude
+            },
+                conditions: null,
+                orderBy: o => o.OrderBy(x => x.DrugStoreId),
+                includeProperties: new List<Expression<Func<DrugStore, object>>> { x => x.Address });
+            if (items == null || !items.Any())
+                return new Response<DrugStoreModel> { Message = ServiceMessage.RecordNotExist };
+            Parallel.ForEach(items, (item) =>
+            {
+                item.Distance = GeoLocation.GetDistanceBetweenPoints(item.Lat, item.Lng, model.Lat, model.Lng);
+            });
+            return new Response<DrugStoreModel>
+            {
+                IsSuccessful = true,
+                Result = items.OrderBy(x=>x.Distance).First()
+            };
+        }
         //public async Task<IResponse<LocationDTO>> GetLocationAsync(int id)
         //{
         //    var addressId = await _drugStoreRepo.FirstOrDefaultAsync(x => x.AddressId, x => x.DrugStoreId == id && x.IsActive, includeProperties: null);//await _PharmacyRepo.FirstOrDefaultAsync(x => x.AddressId, x => x.PharmacyId == id && x.IsActive, includeProperties: null);
@@ -113,7 +138,7 @@ namespace Pharmacy.Service
             using var tb = _appUow.Database.BeginTransaction();
             var mobileNumber = long.Parse(model.MobileNumber);
             var user = await _appUow.UserRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobileNumber, null);
-          
+
             var cdt = DateTime.Now;
             var drugStore = new DrugStore
             {
@@ -230,29 +255,26 @@ namespace Pharmacy.Service
         {
             var drugStore = await _appUow.DrugStoreRepo.FindAsync(model.DrugStoreId);
             if (drugStore == null) return new Response<DrugStore> { Message = ServiceMessage.RecordNotExist };
-            if (drugStore.AddressId != null)
+            var addr = await _appUow.DrugStoreAddressRepo.FindAsync(drugStore.AddressId);
+            if (addr == null)
             {
-                var addr = await _appUow.AddressRepo.FindAsync(drugStore.AddressId);
-                if (addr == null)
+                await _appUow.DrugStoreAddressRepo.AddAsync(new DrugStoreAddress
                 {
-                    await _appUow.AddressRepo.AddAsync(new Address
-                    {
-                        UserId = drugStore.UserId,
-                        Latitude = model.Address.Latitude,
-                        Longitude = model.Address.Longitude,
-                        AddressDetails = model.Address.AddressDetails
-                    });
-                    var addAddress = await _appUow.ElkSaveChangesAsync();
-                    if (addAddress.IsSuccessful) drugStore.AddressId = addr.AddressId;
-                    else return new Response<DrugStore> { Message = addAddress.Message };
-                }
-                else
-                {
-                    addr.Latitude = model.Address.Latitude;
-                    addr.Longitude = model.Address.Longitude;
-                    addr.AddressDetails = model.Address.AddressDetails;
-                    _appUow.AddressRepo.Update(addr);
-                }
+                    DrugStoreId = model.DrugStoreId,
+                    Latitude = model.Address.Latitude,
+                    Longitude = model.Address.Longitude,
+                    AddressDetails = model.Address.AddressDetails
+                });
+                var addAddress = await _appUow.ElkSaveChangesAsync();
+                if (addAddress.IsSuccessful) drugStore.AddressId = addr.DrugStoreAddressId;
+                else return new Response<DrugStore> { Message = addAddress.Message };
+            }
+            else
+            {
+                addr.Latitude = model.Address.Latitude;
+                addr.Longitude = model.Address.Longitude;
+                addr.AddressDetails = model.Address.AddressDetails;
+                _appUow.DrugStoreAddressRepo.Update(addr);
             }
             drugStore.Name = model.Name;
             drugStore.IsActive = model.IsActive;

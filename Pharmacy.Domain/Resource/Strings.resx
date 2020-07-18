@@ -486,8 +486,8 @@
   <data name="TotalPrice" xml:space="preserve">
     <value>مبلغ کل</value>
   </data>
-  <data name="TotalPriceAfterDiscount" xml:space="preserve">
-    <value>مبلغ کل بعد از تخفیف</value>
+  <data name="TotalPriceWithoutDiscount" xml:space="preserve">
+    <value>مبلغ کل بدون تخفیف</value>
   </data>
   <data name="TransactionId" xml:space="preserve">
     <value>کد تراکنش</value>

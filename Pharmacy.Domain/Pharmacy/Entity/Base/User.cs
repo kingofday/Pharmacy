@@ -73,7 +73,7 @@ namespace Pharmacy.Domain
         [StringLength(50, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Email { get; set; }
 
-        public List<Address> Addresses { get; set; }
+        public List<UserAddress> Addresses { get; set; }
         public List<BankAccount> bankAccounts { get; set; }
         public List<UserAttachment> UserAttachments { get; set; }
         public List<Order> Orders { get; set; }

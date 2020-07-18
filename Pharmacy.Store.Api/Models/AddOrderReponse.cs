@@ -8,6 +8,6 @@ namespace Pharmacy.Store.Api
         public int OrderId { get; set; }
         public string Url { get; set; }
         public bool BasketChanged { get; set; }
-        public IEnumerable<ProductDTO> ChangedProducts { get; set; }
+        public IEnumerable<DrugDTO> Drugs { get; set; }
 }
 }
