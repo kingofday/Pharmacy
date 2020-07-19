@@ -5,7 +5,7 @@ html {
 }
 body {
 	min-height: 100vh;
-	background-color: #f8f8f8;
+	background-color: #f3f4f8;
 }
 #root {
 	min-height: 100vh;
@@ -80,45 +80,45 @@ input:-webkit-autofill:active {
 /*-----------------------------------
               place holder
 ------------------------------------*/
-.p-h-c::-webkit-input-placeholder {
+.ph-c::-webkit-input-placeholder {
 	text-align: center;
 }
 
-.p-h-c:-moz-placeholder {
+.ph-c:-moz-placeholder {
 	/* Firefox 18- */
 	text-align: center;
 }
 
-.p-h-c::-moz-placeholder {
+.ph-c::-moz-placeholder {
 	/* Firefox 19+ */
 	text-align: center;
 }
 
-.p-h-c:-ms-input-placeholder {
+.ph-c:-ms-input-placeholder {
 	text-align: center;
 }
 
-.p-h-r::-webkit-input-placeholder {
+.ph-r::-webkit-input-placeholder {
 	text-align: right;
 	font-family: iransans;
 	direction: rtl;
 }
 
-.p-h-r:-moz-placeholder {
+.ph-r:-moz-placeholder {
 	/* Firefox 18- */
 	text-align: right;
 	font-family: iransans;
 	direction: rtl;
 }
 
-.p-h-r::-moz-placeholder {
+.ph-r::-moz-placeholder {
 	/* Firefox 19+ */
 	text-align: right;
 	font-family: iransans;
 	direction: rtl;
 }
 
-.p-h-r:-ms-input-placeholder {
+.ph-r:-ms-input-placeholder {
 	text-align: right;
 	font-family: iransans;
 	direction: rtl;
@@ -152,15 +152,18 @@ input:-webkit-autofill:active {
 .with-header{
 	padding-top: 55px;
 }
+
 @import "./rtl.scss";
 @import "./../../shared/layout/css/index.scss";
+@import "./../../shared/searchDrug/css/index.scss";
+@import "./../../shared/threeDotLoader/css/index.scss";
 // @import "./../../shared/steps/css/index.scss";
 // @import "./../../shared/basketIcon/css/index.scss";
 // @import "./../../shared/initError/css/index.scss";
 // @import "./../../shared/header/css/index.scss";
 // @import "./../../shared/discountBadg/css/index.scss";
 // @import "./../../shared/counter/css/index.scss";
-@import "./../../shared/Error/css/index.scss";
+//@import "./../../shared/Error/css/index.scss";
 
 // @import "./../../routes/Store/css/index.scss";
 // @import "./../../routes/product/css/index.scss";

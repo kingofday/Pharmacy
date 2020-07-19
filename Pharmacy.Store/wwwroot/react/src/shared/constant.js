@@ -31,6 +31,7 @@
     submit: 'ثبت',
     name: 'نام',
     product: 'محصول',
+    products: 'محصولات',
     count: 'تعداد',
     description: 'توضیحات',
     next: 'بعد',
@@ -78,7 +79,10 @@
     continue: 'ادامه',
     selectLocation: 'انتخاب مکان',
     map: 'نقشه',
-    mostVisited:'پر بازدیدترین ها'
+    mostVisited: 'پر بازدیدترین ها',
+    typeHere: 'اینجا بنویسید',
+    searchHere: 'اینجا جستجو نمایید',
+    sendPrescription:'ارسال نسخه'
 };
 export default strings;
 export const validationStrings = {

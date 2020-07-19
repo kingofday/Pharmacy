@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Pharmacy.Service.Resource;
 using System.Collections.Generic;
-using System.Net.Http;
 using Microsoft.Extensions.Configuration;
 
 namespace Pharmacy.Service
@@ -30,7 +29,7 @@ namespace Pharmacy.Service
 
         public IResponse<PagingListDetails<DrugDTO>> GetAsDto(DrugSearchFilter filter) => _drugRepo.GetAsDTO(filter);
 
-        public IResponse<SingleDrugDTO> GetSingle(int id) => _drugRepo.GetSingle(id);
+        public Response<SingleDrugDTO> GetSingle(int id) => _drugRepo.GetSingle(id);
 
         public async Task<IResponse<Drug>> FindAsync(int id)
         {
@@ -182,6 +181,18 @@ namespace Pharmacy.Service
 
             return _drugRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.DrugId));
         }
+
+        public Response<List<DrugDTO>> Get(string q)
+               => new Response<List<DrugDTO>>
+               {
+                   Result = _drugRepo.GetAsDTO(new DrugSearchFilter
+                   {
+                       Name = q,
+                       PageNumber = 1,
+                       PageSize = 3
+                   }).Result.Items,
+                   IsSuccessful = true
+               };
 
         public IList<DrugSearchResult> Search(string searchParameter, int take = 10)
                 => _drugRepo.Get(x => new DrugSearchResult
