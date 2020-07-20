@@ -2,7 +2,7 @@ import addr from './addreses';
 import strings from './../shared/constant';
 
 export default class apiCategory {
-    static async get(pageNumber = 1, pageSize = 10) {
+    static async get(pagrentId) {
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)

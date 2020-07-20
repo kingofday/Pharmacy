@@ -1,8 +1,8 @@
 import addr from './addreses';
 import strings from './../shared/constant';
 
-export default class apiCategory {
-    static async get(pageNumber = 1, pageSize = 10) {
+export default class apiDrug {
+    static async search(q) {
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)

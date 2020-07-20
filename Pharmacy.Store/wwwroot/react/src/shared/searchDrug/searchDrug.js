@@ -3,18 +3,37 @@ import { connect } from 'react-redux';
 import strings from './../constant';
 import ThreeDotLoader from './../threeDotLoader/threeDotLoader';
 
+class SearchItem extends React.Component {
+    render() {
+        return (
+            <li>
+
+            </li>
+        );
+    }
+}
+class ActiveItem extends React.Component {
+    render() {
+        return (
+            <div>
+
+            </div>
+        );
+    }
+}
 class SearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             items: [],
-            loading:false,
+            activeIndex: 0,
+            loading: false,
             showResult: false
         };
     }
     _search() {
         console.log('logging');
-        this.setState(p=>({...p,loading:true}));
+        this.setState(p => ({ ...p, loading: true }));
     }
     render() {
         return (
@@ -31,6 +50,7 @@ class SearchBar extends React.Component {
                         </li>))
                     }
                 </ul>
+                {this.state.showResult ? <ActiveItem item={this.state.items[this.state.activeIdex]} /> : null}
             </div>
         )
     }
