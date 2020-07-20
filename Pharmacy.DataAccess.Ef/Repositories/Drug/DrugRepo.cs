@@ -17,7 +17,7 @@ namespace Pharmacy.DataAccess.Ef
             _appContext = appContext;
             _Drug = _appContext.Set<Drug>();
         }
-        public IResponse<SingleDrugDTO> GetSingle(int id)
+        public Response<SingleDrugDTO> GetSingle(int id)
         {
             var drug = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
@@ -63,7 +63,8 @@ namespace Pharmacy.DataAccess.Ef
                 .ThenInclude(x => x.Unit)
                 .AsQueryable().AsNoTracking();
             var currentDT = DateTime.Now;
-            if (!string.IsNullOrWhiteSpace(filter.Name)) q = q.Where(x => x.NameFa.Contains(filter.Name) || x.NameEn.Contains(filter.Name));
+            if (!string.IsNullOrWhiteSpace(filter.Name)) 
+                q = q.Where(x => x.NameFa.Contains(filter.Name) || x.NameEn.Contains(filter.Name) || x.UniqueId.Contains(filter.Name));
 
             switch (filter.Category)
             {
@@ -85,6 +86,7 @@ namespace Pharmacy.DataAccess.Ef
                 DrugId = p.DrugId,
                 NameFa = p.NameFa,
                 NameEn = p.NameEn,
+                UniqueId = p.UniqueId,
                 TumbnailImageUrl = p.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null,
                 Price = p.DrugPrices.FirstOrDefault(x => x.IsDefault).Price,
                 DiscountPrice = p.DrugPrices.FirstOrDefault(x => x.IsDefault).DiscountPrice

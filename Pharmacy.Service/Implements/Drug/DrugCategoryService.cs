@@ -89,5 +89,19 @@ namespace Pharmacy.Service
                 IsSuccessful = saveResult.IsSuccessful,
             };
         }
+
+        public Response<List<DrugCategoryDTO>> Get()
+            => new Response<List<DrugCategoryDTO>>
+            {
+                IsSuccessful = true,
+                Result = _drugCategoryRepo.Get(selector: x => new DrugCategoryDTO
+                {
+                    CategoryId = x.DrugCategoryId,
+                    Name = x.Name
+
+                },
+                conditions: x => x.ParentId == null,
+                orderBy: o => o.OrderBy(x => x.OrderPriority))
+            };
     }
 }

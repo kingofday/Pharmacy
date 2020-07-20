@@ -1,0 +1,30 @@
+#comp-search-drug {
+  width: 100%;
+  background-color: #fff;
+}
+
+#comp-search-drug .input-group i {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+  font-size: 20px;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+#comp-search-drug .input-group input {
+  width: 100%;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 3px 3px 0 0;
+  padding: 10px 40px 10px 30px;
+}
+
+#comp-search-drug .comp-three-dot-loader {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+/*# sourceMappingURL=index.css.map */

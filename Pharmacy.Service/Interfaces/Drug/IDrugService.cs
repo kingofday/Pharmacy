@@ -10,7 +10,7 @@ namespace Pharmacy.Service
     {
         IResponse<PagingListDetails<DrugDTO>> GetAsDto(DrugSearchFilter filter);
         Task<IResponse<Drug>> FindAsync(int id);
-        IResponse<SingleDrugDTO> GetSingle(int id);
+        Response<SingleDrugDTO> GetSingle(int id);
 
         Task<(bool Changed, IEnumerable<OrderItemDTO> Items)> CheckChanges(IEnumerable<OrderItemDTO> items);
 
@@ -23,6 +23,8 @@ namespace Pharmacy.Service
         Task<IResponse<bool>> DeleteAsync(string baseDomain, string root, int id);
 
         PagingListDetails<Drug> Get(DrugSearchFilter filter);
+
+        Response<List<DrugDTO>> Get(string q);
 
         IList<DrugSearchResult> Search(string searchParameter, int take = 10);
     }

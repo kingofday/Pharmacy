@@ -1,0 +1,27 @@
+﻿#comp-search-drug {
+	width: 100%;
+	background-color: #fff;
+	.input-group {
+		i {
+			position: absolute;
+			top: 50%;
+			right: 15px;
+			font-size: 20px;
+			transform: translateY(-50%);
+		}
+		input {
+			width: 100%;
+			background: #fff;
+			border: 1px solid #ddd;
+			border-radius: 3px 3px 0 0;
+			padding: 10px 40px 10px 30px;
+		}
+	}
+
+	.comp-three-dot-loader{
+		position: absolute;
+		left: 10px;
+		top:50%;
+		transform: translateY(-50%);
+	}
+}

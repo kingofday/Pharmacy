@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    [Table(nameof(Order), Schema = "Order")]
+    [Table(nameof(OrderDrugStore), Schema = "Order")]
     public class OrderDrugStore : IEntity
     {
         [Key]

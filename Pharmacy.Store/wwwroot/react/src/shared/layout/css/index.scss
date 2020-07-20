@@ -1,53 +1,272 @@
-﻿
-#comp-top-header {
-.log-out{
-	background-color: none;
-}
-.ripple-loader {
-	position: relative;
+﻿#comp-top-header {
+	background-color: #00346e;
+
+	.logo-wrapper {
+		display: flex;
+		justify-content: flex-start;
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+	.auth-wrapper {
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+
+		> * {
+			margin-right: 15px;
+		}
+		i {
+			color: #fff;
+			font-size: 20px;
+			vertical-align: middle;
+
+			&:hover {
+				color: red;
+			}
+		}
+	}
+	.log-out {
+		background-color: none;
+	}
+	.ripple-loader {
+		position: relative;
+	}
+
+	.ripple-loader:before {
+		content: "Loading";
+		position: absolute;
+		font-family: "Open Sans", sans-serif;
+		font-size: 1.3em;
+		margin: 38% 0% 0% 14%;
+		color: #fff;
+	}
+
+	.ripple-loader:after {
+		content: "";
+		position: absolute;
+		width: 100px;
+		height: 100px;
+		border: 2px solid #0ec198;
+		border-radius: 50%;
+		transform: translate(-50%, -50%);
+		top: 50%;
+		left: 50%;
+		-webkit-animation: ripple 1.5s ease-out infinite;
+		-moz-animation: ripple 1.5s ease-out infinite;
+		-ms-animation: ripple 1.5s ease-out infinite;
+		-o-animation: ripple 1.5s ease-out infinite;
+		animation: ripple 1.5s ease-out infinite;
+	}
+
+	@keyframes ripple {
+		0% {
+			width: 10px;
+			height: 10px;
+			opacity: 1;
+		}
+		96% {
+			width: 40px;
+			height: 40px;
+			opacity: 0;
+		}
+		100% {
+			width: 40px;
+			height: 40px;
+			opacity: 0;
+		}
+	}
 }
 
-.ripple-loader:before {
-	content: "Loading";
-	position: absolute;
-	font-family: "Open Sans", sans-serif;
-	font-size: 1.3em;
-	margin: 38% 0% 0% 14%;
-	color: #fff;
+#comp-search-bar {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	background-color: #fff;
+
+	.search-wrapper {
+		display: flex;
+		align-items: center;
+	}
 }
 
-.ripple-loader:after {
-	content: "";
-	position: absolute;
-	width: 100px;
-	height: 100px;
-	border: 2px solid #0ec198;
-	border-radius: 50%;
-	transform: translate(-50%, -50%);
-	top: 50%;
-	left: 50%;
-	-webkit-animation: ripple 1.5s ease-out infinite;
-	-moz-animation: ripple 1.5s ease-out infinite;
-	-ms-animation: ripple 1.5s ease-out infinite;
-	-o-animation: ripple 1.5s ease-out infinite;
-	animation: ripple 1.5s ease-out infinite;
+$navLinkColor: #fff;
+$navLinkHoverColor: red;
+$navLinkActiveBorderColor: blue;
+$navLinkActiveColor:red;
+$menuPadding: 7.5px;
+$subMenuBgColor: #34495e;
+$headerBgColor: #0058AF;
+
+header {
+    background-color: $headerBgColor;
+
+    ul {
+        margin-bottom: 0;
+    }
+
+    .main-nav {
+
+        .menu-icon {
+            padding-left: $menuPadding;
+            display: none;
+            padding: 15px 0;
+            margin-bottom: 0;
+
+            i {
+                font-size: 20px;
+                vertical-align: middle;
+                color: $navLinkColor;
+            }
+        }
+
+
+        ul {
+            padding: 15px 0;
+
+            li {
+                display: inline-block;
+
+
+                a {
+                    padding: 5px 7.5px;
+                    cursor: pointer;
+                    color: $navLinkColor;
+                    text-decoration:none;
+
+                    &:hover {
+                        color: $navLinkHoverColor !important;
+                    }
+                }
+
+                &:hover {
+                    .sub-menu {
+                        display: block;
+                    }
+                }
+
+                &.current{
+                    a{
+                        color:$navLinkActiveColor;
+                    }
+                }
+            }
+
+            .close-menu {
+                display: none;
+                position: absolute;
+                top: 10px;
+                left: 10px;
+
+                i {
+                    font-size: 20px;
+                    vertical-align: middle;
+                }
+            }
+
+            .logo {
+
+                img {
+                    width: 32px;
+                }
+            }
+
+            @media(max-width:576px) {
+
+                .logo {
+                    display: none;
+                }
+            }
+        }
+
+        .sub-menu {
+            display: none;
+            background-color: $subMenuBgColor;
+            min-width: 100px;
+            box-shadow: 0 4px 7px 0 rgba(0,0,0,0.75) !important;
+            position: absolute;
+            z-index: 999;
+
+            li {
+                display: flex;
+            }
+        }
+
+        @media(max-width:576px) {
+            .menu-icon {
+                display: inline-block;
+            }
+
+            ul {
+                display: none;
+                padding-top: 30px;
+                animation-name: slideInRight;
+                position: fixed;
+                z-index: 999;
+                top: 0;
+                bottom: 0;
+                width: 70%;
+                flex-direction: column;
+                background-color: $subMenuBgColor;
+                box-shadow: 0 0 2px rgba(0,0,0,0.75);
+                right: 0;
+
+                li {
+                    display: flex;
+                }
+
+                .close-menu {
+                    display: block;
+                }
+            }
+
+            [name=toggle]:checked + ul {
+                display: flex;
+            }
+        }
+    }
+
+    .contact {
+        color: #fff;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+
+        a {
+            color: #fff;
+
+            &:last-child {
+                margin-right: 30px;
+            }
+
+            i {
+                vertical-align: middle;
+                margin-left: 5px;
+                font-size: 20px;
+            }
+        }
+    }
 }
 
-@keyframes ripple {
-	0% {
-		width: 10px;
-		height: 10px;
-		opacity: 1;
-	}
-	96% {
-		width: 40px;
-		height: 40px;
-		opacity: 0;
-	}
-	100% {
-		width: 40px;
-		height: 40px;
-		opacity: 0;
-	}
-}
+
+html[dir=ltr] {
+    .main-nav {
+        ul {
+            animation-name: slideInLeft;
+
+            .menu-icon {
+                padding-right: $menuPadding;
+                padding-right: 0;
+            }
+
+            .close-menu {
+                right: auto;
+                right: 10px;
+            }
+        }
+
+        @media(max-wdith:576ps) {
+            ul {
+                box-shadow: 0 0 -2px rgba(0,0,0,0.75);
+            }
+        }
+    }
 }

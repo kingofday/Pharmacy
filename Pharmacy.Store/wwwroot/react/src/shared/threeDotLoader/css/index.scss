@@ -1,0 +1,136 @@
+@-webkit-keyframes three-dot-loader-anime {
+    100%,
+    50% {
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    75% {
+        -webkit-transform: translateY(-5px);
+        -moz-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        -o-transform: translateY(-5px);
+        transform: translateY(-5px);
+    }
+}
+
+@-moz-keyframes three-dot-loader-anime {
+    100%,
+    50% {
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    75% {
+        -webkit-transform: translateY(-5px);
+        -moz-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        -o-transform: translateY(-5px);
+        transform: translateY(-5px);
+    }
+}
+
+@-o-keyframes three-dot-loader-anime {
+    100%,
+    50% {
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    75% {
+        -webkit-transform: translateY(-5px);
+        -moz-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        -o-transform: translateY(-5px);
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes three-dot-loader-anime {
+    100%,
+    50% {
+        -webkit-transform: translateY(0);
+        -moz-transform: translateY(0);
+        -ms-transform: translateY(0);
+        -o-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    75% {
+        -webkit-transform: translateY(-5px);
+        -moz-transform: translateY(-5px);
+        -ms-transform: translateY(-5px);
+        -o-transform: translateY(-5px);
+        transform: translateY(-5px);
+    }
+}
+
+.dot {
+    background-color: black;
+}
+
+.comp-three-dot-loader {
+    .dot {
+        width: 3px !important;
+        height: 3px !important;
+        margin-left: 1px;
+        margin-right: 1px;
+        display: inline-block !important;
+        -webkit-border-radius: 200px !important;
+        -moz-border-radius: 200px !important;
+        -ms-border-radius: 200px !important;
+        -o-border-radius: 200px !important;
+        border-radius: 200px !important;
+        -webkit-animation-name: three-dot-loader-anime !important;
+        -moz-animation-name: three-dot-loader-anime !important;
+        -ms-animation-name: three-dot-loader-anime !important;
+        -o-animation-name: three-dot-loader-anime !important;
+        animation-name: three-dot-loader-anime !important;
+        -webkit-animation-duration: 1.5s !important;
+        -moz-animation-duration: 1.5s !important;
+        -ms-animation-duration: 1.5s !important;
+        -o-animation-duration: 1.5s !important;
+        animation-duration: 1.5s !important;
+        -webkit-animation-timing-function: ease-in-out !important;
+        -moz-animation-timing-function: ease-in-out !important;
+        -ms-animation-timing-function: ease-in-out !important;
+        -o-animation-timing-function: ease-in-out !important;
+        animation-timing-function: ease-in-out !important;
+        -webkit-animation-iteration-count: infinite !important;
+        -moz-animation-iteration-count: infinite !important;
+        -ms-animation-iteration-count: infinite !important;
+        -o-animation-iteration-count: infinite !important;
+        animation-iteration-count: infinite !important;
+    }
+    .dot:nth-child(1) {
+        -webkit-animation-delay: 0s !important;
+        -moz-animation-delay: 0s !important;
+        -ms-animation-delay: 0s !important;
+        -o-animation-delay: 0s !important;
+        animation-delay: 0s !important;
+    }
+    .dot:nth-child(2) {
+        -webkit-animation-delay: -0.25s !important;
+        -moz-animation-delay: -0.25s !important;
+        -ms-animation-delay: -0.25s !important;
+        -o-animation-delay: -0.25s !important;
+        animation-delay: -0.25s !important;
+    }
+    .dot:nth-child(3) {
+        -webkit-animation-delay: -0.5s !important;
+        -moz-animation-delay: -0.5s !important;
+        -ms-animation-delay: -0.5s !important;
+        -o-animation-delay: -0.5s !important;
+        animation-delay: -0.5s !important;
+    }
+
+}

@@ -14,5 +14,6 @@ namespace Pharmacy.Service
         Task<IResponse<DrugCategory>> UpdateAsync(DrugCategory model);
         Task<IResponse<bool>> DeleteAsync(int id);
         Task<IResponse<DrugCategory>> FindAsync(int id);
+        Response<List<DrugCategoryDTO>> Get();
     }
 }
