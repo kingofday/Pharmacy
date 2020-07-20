@@ -1,0 +1,291 @@
+html {
+  min-height: 100%;
+  font-size: 12px;
+}
+
+body {
+  min-height: 100vh;
+  background-color: #f8f8f8;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.MuiFormLabel-root {
+  font-family: "iransans" !important;
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+}
+
+ul {
+  margin-bottom: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+}
+
+.m-b {
+  margin-bottom: 15px !important;
+}
+
+button {
+  background: none;
+  border: none;
+}
+
+button:focus {
+  outline: none;
+}
+
+ul,
+ol {
+  padding: 0;
+}
+
+.rotate-90 {
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.rotate-180 {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.default-i {
+  font-size: 20px;
+  vertical-align: middle;
+}
+
+.block-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.m-b {
+  margin-bottom: 15px;
+}
+
+.ltr-input input {
+  direction: ltr;
+  text-align: left;
+}
+
+/*-----------------------------------
+     remove browser autofill 
+------------------------------------*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  background-color: none;
+  -webkit-transition: background-color 5000s ease-in-out 0s;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/*-----------------------------------
+              place holder
+------------------------------------*/
+.p-h-c::-webkit-input-placeholder {
+  text-align: center;
+}
+
+.p-h-c:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: center;
+}
+
+.p-h-c::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: center;
+}
+
+.p-h-c:-ms-input-placeholder {
+  text-align: center;
+}
+
+.p-h-r::-webkit-input-placeholder {
+  text-align: right;
+  font-family: iransans;
+  direction: rtl;
+}
+
+.p-h-r:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: right;
+  font-family: iransans;
+  direction: rtl;
+}
+
+.p-h-r::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: right;
+  font-family: iransans;
+  direction: rtl;
+}
+
+.p-h-r:-ms-input-placeholder {
+  text-align: right;
+  font-family: iransans;
+  direction: rtl;
+}
+
+.toast:not(.show) {
+  display: none;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.btn-group {
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+.MuiFormControl-root {
+  width: 100%;
+}
+
+.MuiFormHelperText-contained {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.btn-next {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid transparent;
+  color: #fff;
+  background-color: #23af66;
+  text-align: center;
+}
+
+.with-header {
+  padding-top: 55px;
+}
+
+@font-face {
+  font-family: "iransans";
+  src: url(../fonts/iransans.eot) format("embedded-opentype"), url(../fonts/iransans.ttf) format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  font-family: "iransans";
+  direction: rtl;
+  text-align: right;
+}
+
+.MuiFormHelperText-root, .MuiInputBase-input, .MuiTypography-body2, .MuiTypography-body1 {
+  font-family: "iransans" !important;
+}
+
+body[dir="rtl"] .modal-title {
+  font-size: 1rem;
+}
+
+body[dir="rtl"] .modal-header .close {
+  margin: -1rem auto -1rem -1rem;
+}
+
+.dropdown-toggle::after {
+  margin-right: 0.255em;
+  margin-left: unset;
+  vertical-align: middle;
+}
+
+.dropdown-menu {
+  text-align: unset;
+}
+
+.toast .toast-header {
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.toast .toast-header .close {
+  margin-left: 0 !important;
+  margin-right: 0.5rem !important;
+}
+
+#comp-top-header .log-out {
+  background-color: none;
+}
+
+#comp-top-header .ripple-loader {
+  position: relative;
+}
+
+#comp-top-header .ripple-loader:before {
+  content: "Loading";
+  position: absolute;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.3em;
+  margin: 38% 0% 0% 14%;
+  color: #fff;
+}
+
+#comp-top-header .ripple-loader:after {
+  content: "";
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 2px solid #0ec198;
+  border-radius: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  -webkit-animation: ripple 1.5s ease-out infinite;
+  animation: ripple 1.5s ease-out infinite;
+}
+
+@-webkit-keyframes ripple {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+  }
+  96% {
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+  }
+  100% {
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+  }
+  96% {
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+  }
+  100% {
+    width: 40px;
+    height: 40px;
+    opacity: 0;
+  }
+}
+/*# sourceMappingURL=index.css.map */
