@@ -18,20 +18,20 @@ namespace Pharmacy.Service
         readonly IDrugStoreService _drugStoreSrv;
         readonly IGatewayFactory _gatewayFactory;
         readonly IDeliveryService _deliverySrv;
-        readonly ITempOrderDetailService _tempOrderDetailSrv;
+        readonly ITempBasketItemService _TempBasketItemSrv;
         public OrderService(AppUnitOfWork appUOW,
             IGatewayFactory gatewayFactory,
             IDrugService drugSrv,
             IDrugStoreService drugStoreSrv,
             IDeliveryService deliverySrv,
-            ITempOrderDetailService tempOrderDetailSrv)
+            ITempBasketItemService TempBasketItemSrv)
         {
             _appUow = appUOW;
             _orderRepo = appUOW.OrderRepo;
             _drugSrv = drugSrv;
             _gatewayFactory = gatewayFactory;
             _deliverySrv = deliverySrv;
-            _tempOrderDetailSrv = tempOrderDetailSrv;
+            _TempBasketItemSrv = TempBasketItemSrv;
             _drugStoreSrv = drugStoreSrv;
         }
 
@@ -98,7 +98,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Order>> AddTempBasket(TempOrderDTO model)
         {
-            var getItems = _tempOrderDetailSrv.Get(model.BasketId);
+            var getItems = _TempBasketItemSrv.Get(model.BasketId);
             if (!getItems.IsSuccessful) return new Response<Order> { Message = getItems.Message };
             var DrugId = getItems.Result.Where(x => x.Count != 0).First().DrugId;
             var drugStore = _drugStoreSrv.GetNearest(model.Address);

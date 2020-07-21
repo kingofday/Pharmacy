@@ -4,7 +4,6 @@
     var t1 = HashGenerator.Hash(Model.MobileNumber.ToString());
     var t2 = Model.Password;
 }
-
 @if (DateTime.Now.Subtract(Model.InsertDateMi ).TotalMinutes < 5)
 {
     <div class="row">

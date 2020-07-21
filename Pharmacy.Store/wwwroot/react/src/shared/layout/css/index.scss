@@ -1,4 +1,5 @@
-﻿#comp-top-header {
+﻿@import './../../../assets/css/constant.scss';
+#comp-top-header {
 	background-color: #00346e;
 
 	.logo-wrapper {
@@ -33,7 +34,7 @@
 	}
 
 	.ripple-loader:before {
-		content: "Loading";
+		content: '';
 		position: absolute;
 		font-family: "Open Sans", sans-serif;
 		font-size: 1.3em;
@@ -89,14 +90,14 @@
 }
 
 $navLinkColor: #fff;
-$navLinkHoverColor: red;
+$navLinkHoverColor: #ffbf3f;
 $navLinkActiveBorderColor: blue;
-$navLinkActiveColor:red;
+$navLinkActiveColor:#ffbf3f;
 $menuPadding: 7.5px;
 $subMenuBgColor: #34495e;
-$headerBgColor: #0058AF;
+$headerBgColor: $primaryColor;
 
-header {
+#comp-menu {
     background-color: $headerBgColor;
 
     ul {
@@ -127,11 +128,12 @@ header {
 
 
                 a {
+                    white-space: nowrap;
                     padding: 5px 7.5px;
                     cursor: pointer;
                     color: $navLinkColor;
                     text-decoration:none;
-
+                    transition: all 1s ease;
                     &:hover {
                         color: $navLinkHoverColor !important;
                     }
@@ -159,6 +161,7 @@ header {
                 i {
                     font-size: 20px;
                     vertical-align: middle;
+                    color: $navLinkColor;
                 }
             }
 
@@ -196,21 +199,24 @@ header {
             }
 
             ul {
-                display: none;
+                transition: all 0.5s linear;
+                width: 0;
+                overflow: hidden;
                 padding-top: 30px;
                 animation-name: slideInRight;
                 position: fixed;
                 z-index: 999;
                 top: 0;
                 bottom: 0;
-                width: 70%;
+                // background-color: rgba(0,0,0,0.4);
                 flex-direction: column;
-                background-color: $subMenuBgColor;
+                background-color: $headerBgColor;
                 box-shadow: 0 0 2px rgba(0,0,0,0.75);
                 right: 0;
 
                 li {
-                    display: flex;
+                    transition: all 0.3s linear;
+                    display: none;
                 }
 
                 .close-menu {
@@ -219,7 +225,11 @@ header {
             }
 
             [name=toggle]:checked + ul {
-                display: flex;
+                width: 70%;
+
+                li{
+                    display: flex;
+                }
             }
         }
     }
@@ -263,7 +273,7 @@ html[dir=ltr] {
             }
         }
 
-        @media(max-wdith:576ps) {
+        @media(max-width:576px) {
             ul {
                 box-shadow: 0 0 -2px rgba(0,0,0,0.75);
             }

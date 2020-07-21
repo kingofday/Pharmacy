@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import strings from './../../constant';
+import { LogOutAction } from './../../../redux/actions/authenticationAction';
 
 class Menu extends React.Component {
     constructor(props) {
@@ -10,13 +11,11 @@ class Menu extends React.Component {
         this.state = { animate: false }
     }
 
-
-
     render() {
         return (
-            <section id='comp-search-bar'>
+            <section id='comp-menu'>
                 <Container>
-                    <Row class="main-nav row">
+                    <Row className="main-nav">
                         <Col xs={12} sm={12} className='d-flex justify-content-between'>
 
                             <label class="menu-icon" for="toggle"><i class="zmdi zmdi-menu"></i></label>
@@ -51,4 +50,4 @@ const mapDispatchToProps = dispatch => ({
     logOut: () => dispatch(LogOutAction())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default connect(mapStateToProps, mapDispatchToProps)(Menu);

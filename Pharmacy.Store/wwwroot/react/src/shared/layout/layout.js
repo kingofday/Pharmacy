@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 
 import TopHeader from './comps/topHeader';
 import SearchBar from './comps/searchBar';
+import Menu from './comps/menu';
 // import Store from '../../routes/store';
 // import ContactUs from '../../routes/contactUs';
 // import Product from '../../routes/product';
@@ -26,6 +27,7 @@ class Layout extends React.Component {
             <Router className="layout">
                 <TopHeader />
                 <SearchBar/>
+                <Menu/>
                 <Switch>
                     <Route exact path="/" component={Home} />
                     {/* <Route exact path="/product/:id" component={Product} />

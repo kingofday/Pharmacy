@@ -18,6 +18,8 @@ namespace Pharmacy.Domain
         //[Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
 
+        public Guid? TempBasketId { get; set; }
+
         public int DrugStoreId{ get; set; }
 
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
@@ -106,6 +108,9 @@ namespace Pharmacy.Domain
         [ForeignKey(nameof(AddressId))]
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
         public UserAddress Address { get; set; }
+
+        [ForeignKey(nameof(TempBasketId))]
+        public TempBasket TempBasket { get; set; }
 
         [NotMapped]
         public ExtraInfo ExtraInfo => ExtraInfoJson?.DeSerializeJson<ExtraInfo>();

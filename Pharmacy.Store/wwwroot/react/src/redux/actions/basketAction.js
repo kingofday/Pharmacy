@@ -1,24 +1,16 @@
 import actionTypes from './actionTypes';
 
-export function AddToBasketAction(product, count) {
+export function AddToBasketAction(item, count) {
     return {
         type: actionTypes.ADD_TO_BASKET,
-        payload: {
-            id: product.id,
-            name: product.name,
-            price: product.price,
-            discount: product.discount,
-            realPrice: product.realPrice,
-            imgUrl: product.slides.length > 0 ? product.slides[0].imgUrl : null,
-            count,
-        }
+        payload: { ...item, count }
     };
 };
 
-export function UpdateBasketAction(id, count) {
+export function UpdateBasketAction(drugId, count) {
     return {
         type: actionTypes.UPDATE_BASKET,
-        payload: { id, count }
+        payload: { drugId, count }
     };
 };
 

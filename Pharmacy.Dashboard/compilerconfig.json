@@ -28,8 +28,8 @@
     "inputFile": "wwwroot/Styles/App/01-Admin/Product/manage.scss"
   },
   {
-    "outputFile": "wwwroot/Styles/App/02-Store/TempOrderDetail/manage.css",
-    "inputFile": "wwwroot/Styles/App/02-Store/TempOrderDetail/manage.scss"
+    "outputFile": "wwwroot/Styles/App/02-Store/TempBasketItem/manage.css",
+    "inputFile": "wwwroot/Styles/App/02-Store/TempBasketItem/manage.scss"
   },
   {
     "outputFile": "wwwroot/Styles/App/template.css",

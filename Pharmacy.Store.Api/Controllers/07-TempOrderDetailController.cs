@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Pharmacy.Store.Api.Controllers
 {
-    public class TempOrderDetailController : Controller
+    public class TempBasketItemController : Controller
     {
-        private readonly ITempOrderDetailService _tempOrderDetailSrv;
-        public TempOrderDetailController(ITempOrderDetailService tempOrderDetailSrv)
+        private readonly ITempBasketItemService _TempBasketItemSrv;
+        public TempBasketItemController(ITempBasketItemService TempBasketItemSrv)
         {
-            _tempOrderDetailSrv = tempOrderDetailSrv;
+            _TempBasketItemSrv = TempBasketItemSrv;
         }
 
         [HttpGet]
-        public IActionResult Get(Guid basketId) => Json(_tempOrderDetailSrv.Get(basketId));
+        public IActionResult Get(Guid basketId) => Json(_TempBasketItemSrv.Get(basketId));
     }
 }

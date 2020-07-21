@@ -1,4 +1,4 @@
-﻿@model TempOrderDetail
+﻿@model TempBasketItem
 @{
     Layout = null;
 }
@@ -51,7 +51,7 @@
     <custom-button text="@Strings.Submit"
                    icon="zmdi zmdi-floppy"
                    class="btn-primary btn-submit-items float-left"
-                   data-url="@Url.Action("Add","StoreTempOrderDetail")"></custom-button>
+                   data-url="@Url.Action("Add","StoreTempBasketItem")"></custom-button>
 </div>
 <script>
     items = [];

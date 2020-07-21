@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pharmacy.Dashboard
 {
-    public class TempOrderDetailResultModel
+    public class TempBasketItemResultModel
     {
         public string Url { get; set; }
 

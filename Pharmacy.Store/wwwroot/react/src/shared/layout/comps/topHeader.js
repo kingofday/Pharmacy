@@ -11,7 +11,9 @@ class TopHeader extends React.Component {
         this.state = { animate: false }
     }
     componentDidUpdate(prevProps) {
+        console.log('fired');
         if (this.props.items.length !== prevProps.items.length) {
+            console.log('changed');
             this.setState(p => ({ ...p, animate: true }));
             let context = this;
             setTimeout(() => {
@@ -35,7 +37,7 @@ class TopHeader extends React.Component {
                     <Link to={this.props.token ? '/profile' : '/auth'}>
                             <i className='default-i zmdi zmdi-account'></i>
                         </Link>
-                        <Link to={this.props.route}>
+                        <Link to={this.props.route} className={this.state.animate ? 'ripple-loader' : ''}>
                             <i className='default-i zmdi zmdi-shopping-cart'></i>
                         </Link>
                         {this.props.token ? <button className='log-out' onClick={this._handleLogOut.bind(this)}>
@@ -51,7 +53,7 @@ class TopHeader extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { ...state.topHeaderReducer, ...state.authenticationReducer };
+    return { ...state.basketReducer ,...state.authenticationReducer };
 }
 
 const mapDispatchToProps = dispatch => ({

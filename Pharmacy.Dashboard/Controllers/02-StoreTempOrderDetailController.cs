@@ -15,14 +15,14 @@ using System.Net.Http;
 namespace Pharmacy.Dashboard.Controllers
 {
     [AuthorizationFilter]
-    public partial class StoreTempOrderDetailController : Controller
+    public partial class StoreTempBasketItemController : Controller
     {
-        private readonly ITempOrderDetailService _TempOrderDetailSrv;
+        private readonly ITempBasketItemService _TempBasketItemSrv;
         private readonly IConfiguration _configuration;
 
-        public StoreTempOrderDetailController(ITempOrderDetailService TempOrderDetailSrv, IConfiguration configuration)
+        public StoreTempBasketItemController(ITempBasketItemService TempBasketItemSrv, IConfiguration configuration)
         {
-            _TempOrderDetailSrv = TempOrderDetailSrv;
+            _TempBasketItemSrv = TempBasketItemSrv;
             _configuration = configuration;
         }
 
@@ -32,26 +32,26 @@ namespace Pharmacy.Dashboard.Controllers
             => Json(new Modal
             {
                 Title = $"{Strings.Add} {DomainString.Basket}",
-                Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new TempOrderDetail()),
+                Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new TempBasketItem()),
                 AutoSubmit = false
             });
 
         [HttpPost]
-        public virtual async Task<JsonResult> Add([FromBody]IList<TempOrderDetail> items)
+        public virtual async Task<JsonResult> Add([FromBody]IList<TempBasketItem> items)
         {
             if (items == null || items.Count == 0) return Json(new { IsSuccessful = false, Message = Strings.ThereIsNoRecord });
             if (!ModelState.IsValid) return Json(new { IsSuccessful = false, Message = ModelState.GetModelError() });
-            var add = await _TempOrderDetailSrv.AddRangeAsync(items);
+            var add = await _TempBasketItemSrv.AddRangeAsync(items);
             if (!add.IsSuccessful) return Json(add);
             var url = $"{_configuration["CustomSettings:ReactTempBasketUrl"]}/{add.Result}";
             return Json(new Response<string>
             {
                 IsSuccessful = true,
-                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_Result", new TempOrderDetailResultModel { Url = url })
+                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_Result", new TempBasketItemResultModel { Url = url })
             });
         }
 
-        [HttpGet, AuthEqualTo("StoreTempOrderDetail", "Add")]
+        [HttpGet, AuthEqualTo("StoreTempBasketItem", "Add")]
         public virtual JsonResult Details(Guid id)
         {
             ViewBag.BasketUrl = $"{_configuration["CustomSettings:ReactTempBasketUrl"]}/{id}";
@@ -59,30 +59,30 @@ namespace Pharmacy.Dashboard.Controllers
             {
                 Title = $"{Strings.Details} {DomainString.Basket}",
                 AutoSubmitBtnText = Strings.Edit,
-                Body = ControllerExtension.RenderViewToString(this, "Partials/_Details", _TempOrderDetailSrv.GetDetails(id)),
+                Body = ControllerExtension.RenderViewToString(this, "Partials/_Details", _TempBasketItemSrv.GetDetails(id)),
                 AutoSubmit = false
             });
         }
 
         //[HttpPost]
-        //public virtual async Task<JsonResult> Update(TempOrderDetail model)
+        //public virtual async Task<JsonResult> Update(TempBasketItem model)
         //{
         //    if (!ModelState.IsValid) return Json(new { IsSuccessful = false, Message = ModelState.GetModelError() });
-        //    return Json(await _TempOrderDetailSrv.UpdateAsync(model));
+        //    return Json(await _TempBasketItemSrv.UpdateAsync(model));
         //}
 
         [HttpPost]
-        public virtual async Task<JsonResult> Delete(Guid id) => Json(await _TempOrderDetailSrv.DeleteAsync(id));
+        public virtual async Task<JsonResult> Delete(Guid id) => Json(await _TempBasketItemSrv.DeleteAsync(id));
 
         [HttpGet]
-        public virtual ActionResult Manage(TempOrderDetailSearchFilter filter)
+        public virtual ActionResult Manage(TempBasketItemSearchFilter filter)
         {
-            if (!Request.IsAjaxRequest()) return View(_TempOrderDetailSrv.Get(filter));
-            else return PartialView("Partials/_List", _TempOrderDetailSrv.Get(filter));
+            if (!Request.IsAjaxRequest()) return View(_TempBasketItemSrv.Get(filter));
+            else return PartialView("Partials/_List", _TempBasketItemSrv.Get(filter));
         }
 
-        [HttpPost, AuthEqualTo("StoreTempOrderDetail", "Add")]
-        public virtual async Task<JsonResult> Notify([FromServices]INotificationService notifSrv, [FromBody]TempOrderDetailResultModel model)
+        [HttpPost, AuthEqualTo("StoreTempBasketItem", "Add")]
+        public virtual async Task<JsonResult> Notify([FromServices]INotificationService notifSrv, [FromBody]TempBasketItemResultModel model)
         {
             var notify = await notifSrv.NotifyAsync(new NotificationDto
             {

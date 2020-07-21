@@ -1,27 +1,75 @@
 ﻿#comp-search-drug {
-	width: 100%;
-	background-color: #fff;
-	.input-group {
-		i {
-			position: absolute;
-			top: 50%;
-			right: 15px;
-			font-size: 20px;
-			transform: translateY(-50%);
-		}
-		input {
-			width: 100%;
-			background: #fff;
-			border: 1px solid #ddd;
-			border-radius: 3px 3px 0 0;
-			padding: 10px 40px 10px 30px;
-		}
-	}
+  width: 100%;
+  background-color: #fff;
+  position: relative;
 
-	.comp-three-dot-loader{
-		position: absolute;
-		left: 10px;
-		top:50%;
-		transform: translateY(-50%);
-	}
+  .input-group {
+    i {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      font-size: 20px;
+      transform: translateY(-50%);
+    }
+    input {
+      width: 100%;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 3px 3px 0 0;
+      padding: 10px 40px 10px 30px;
+    }
+  }
+
+  .comp-three-dot-loader {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .search-result {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 99;
+    border: 1px solid #ddd;
+    background: #fff none repeat scroll 0 0;
+
+    ul {
+      list-style: none;
+
+      .drug-item {
+        padding: 10px;
+
+        .drug-info {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          img {
+            max-width: 100%;
+            max-height: 50px;
+          }
+        }
+        .price-wrapper {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+    }
+    .active-item-wrapper {
+      border-right: solid 1px #ccc;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      img {
+        width: 100%;
+      }
+      .count{
+        color:green;
+      }
+      .btn-add-to-basket {
+        padding-top: 10px;
+        text-align: center;
+      }
+    }
+  }
 }

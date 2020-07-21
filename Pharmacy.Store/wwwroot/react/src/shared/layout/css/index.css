@@ -48,7 +48,7 @@
 }
 
 #comp-top-header .ripple-loader:before {
-  content: "Loading";
+  content: '';
   position: absolute;
   font-family: "Open Sans", sans-serif;
   font-size: 1.3em;
@@ -122,77 +122,81 @@
           align-items: center;
 }
 
-header {
-  background-color: #0058AF;
+#comp-menu {
+  background-color: #00346e;
 }
 
-header ul {
+#comp-menu ul {
   margin-bottom: 0;
 }
 
-header .main-nav .menu-icon {
+#comp-menu .main-nav .menu-icon {
   padding-left: 7.5px;
   display: none;
   padding: 15px 0;
   margin-bottom: 0;
 }
 
-header .main-nav .menu-icon i {
+#comp-menu .main-nav .menu-icon i {
   font-size: 20px;
   vertical-align: middle;
   color: #fff;
 }
 
-header .main-nav ul {
+#comp-menu .main-nav ul {
   padding: 15px 0;
 }
 
-header .main-nav ul li {
+#comp-menu .main-nav ul li {
   display: inline-block;
 }
 
-header .main-nav ul li a {
+#comp-menu .main-nav ul li a {
+  white-space: nowrap;
   padding: 5px 7.5px;
   cursor: pointer;
   color: #fff;
   text-decoration: none;
+  -webkit-transition: all 1s ease;
+  transition: all 1s ease;
 }
 
-header .main-nav ul li a:hover {
-  color: red !important;
+#comp-menu .main-nav ul li a:hover {
+  color: #ffbf3f !important;
 }
 
-header .main-nav ul li:hover .sub-menu {
+#comp-menu .main-nav ul li:hover .sub-menu {
   display: block;
 }
 
-header .main-nav ul li.current a {
-  color: red;
+#comp-menu .main-nav ul li.current a {
+  color: #ffbf3f;
 }
 
-header .main-nav ul .close-menu {
+#comp-menu .main-nav ul .close-menu {
   display: none;
   position: absolute;
   top: 10px;
   left: 10px;
 }
 
-header .main-nav ul .close-menu i {
+#comp-menu .main-nav ul .close-menu i {
   font-size: 20px;
   vertical-align: middle;
+  color: #fff;
 }
 
-header .main-nav ul .logo img {
+#comp-menu .main-nav ul .logo img {
   width: 32px;
 }
 
 @media (max-width: 576px) {
-  header .main-nav ul .logo {
+  #comp-menu .main-nav ul .logo {
     display: none;
   }
 }
 
-header .main-nav .sub-menu {
+#comp-menu .main-nav .sub-menu {
   display: none;
   background-color: #34495e;
   min-width: 100px;
@@ -202,18 +206,21 @@ header .main-nav .sub-menu {
   z-index: 999;
 }
 
-header .main-nav .sub-menu li {
+#comp-menu .main-nav .sub-menu li {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
 @media (max-width: 576px) {
-  header .main-nav .menu-icon {
+  #comp-menu .main-nav .menu-icon {
     display: inline-block;
   }
-  header .main-nav ul {
-    display: none;
+  #comp-menu .main-nav ul {
+    -webkit-transition: all 0.5s linear;
+    transition: all 0.5s linear;
+    width: 0;
+    overflow: hidden;
     padding-top: 30px;
     -webkit-animation-name: slideInRight;
             animation-name: slideInRight;
@@ -221,32 +228,34 @@ header .main-nav .sub-menu li {
     z-index: 999;
     top: 0;
     bottom: 0;
-    width: 70%;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    background-color: #34495e;
+    background-color: #00346e;
     -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
             box-shadow: 0 0 2px rgba(0, 0, 0, 0.75);
     right: 0;
   }
-  header .main-nav ul li {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
+  #comp-menu .main-nav ul li {
+    -webkit-transition: all 0.3s linear;
+    transition: all 0.3s linear;
+    display: none;
   }
-  header .main-nav ul .close-menu {
+  #comp-menu .main-nav ul .close-menu {
     display: block;
   }
-  header .main-nav [name=toggle]:checked + ul {
+  #comp-menu .main-nav [name=toggle]:checked + ul {
+    width: 70%;
+  }
+  #comp-menu .main-nav [name=toggle]:checked + ul li {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
   }
 }
 
-header .contact {
+#comp-menu .contact {
   color: #fff;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
@@ -259,15 +268,15 @@ header .contact {
   display: flex;
 }
 
-header .contact a {
+#comp-menu .contact a {
   color: #fff;
 }
 
-header .contact a:last-child {
+#comp-menu .contact a:last-child {
   margin-right: 30px;
 }
 
-header .contact a i {
+#comp-menu .contact a i {
   vertical-align: middle;
   margin-left: 5px;
   font-size: 20px;
@@ -288,7 +297,7 @@ html[dir=ltr] .main-nav ul .close-menu {
   right: 10px;
 }
 
-@media (max-wdith: 576ps) {
+@media (max-width: 576px) {
   html[dir=ltr] .main-nav ul {
     -webkit-box-shadow: 0 0 -2px rgba(0, 0, 0, 0.75);
             box-shadow: 0 0 -2px rgba(0, 0, 0, 0.75);

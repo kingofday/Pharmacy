@@ -9,21 +9,21 @@ using System.Linq;
 
 namespace Pharmacy.Service
 {
-    public class TempOrderDetailService : ITempOrderDetailService
+    public class TempBasketItemService : ITempBasketItemService
     {
-        readonly private ITempOrderDetailRepo _tempOrderDetailRepo;
+        readonly private ITempBasketItemRepo _TempBasketItemRepo;
         readonly private AppUnitOfWork _appUOW;
-        public TempOrderDetailService(AppUnitOfWork appUOW)
+        public TempBasketItemService(AppUnitOfWork appUOW)
         {
             _appUOW = appUOW;
-            _tempOrderDetailRepo = appUOW.TempOrderDetailRepo;
+            _TempBasketItemRepo = appUOW.TempBasketItemRepo;
         }
 
-        public async Task<IResponse<Guid>> AddRangeAsync(IList<TempOrderDetail> model)
+        public async Task<IResponse<Guid>> AddRangeAsync(IList<TempBasketItem> model)
         {
             var id = Guid.NewGuid();
-            for (var i = 0; i < model.Count; i++) model[i].BasketId = id;
-            await _tempOrderDetailRepo.AddRangeAsync(model);
+            for (var i = 0; i < model.Count; i++) model[i].TempBasketId = id;
+            await _TempBasketItemRepo.AddRangeAsync(model);
 
             var save = await _appUOW.ElkSaveChangesAsync();
             return new Response<Guid> { Result = id, IsSuccessful = save.IsSuccessful, Message = save.Message };
@@ -31,9 +31,9 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<bool>> DeleteAsync(Guid basketId)
         {
-            var items = _tempOrderDetailRepo.Get(x => x.BasketId == basketId, o => o.OrderByDescending(x => x.BasketId));
+            var items = _TempBasketItemRepo.Get(x => x.TempBasketId == basketId, o => o.OrderByDescending(x => x.TempBasketId));
             if (items == null || !items.Any()) return new Response<bool> { IsSuccessful = true };
-            _tempOrderDetailRepo.DeleteRange(items);
+            _TempBasketItemRepo.DeleteRange(items);
             var saveResult = await _appUOW.ElkSaveChangesAsync();
             return new Response<bool>
             {
@@ -43,13 +43,13 @@ namespace Pharmacy.Service
             };
         }
 
-        public PagingListDetails<TempOrderDetailModel> Get(TempOrderDetailSearchFilter filter) => _tempOrderDetailRepo.GetBaskets(filter);
+        public PagingListDetails<TempBasketItemModel> Get(TempBasketItemSearchFilter filter) => _TempBasketItemRepo.GetBaskets(filter);
 
-        public List<TempOrderDetail> GetDetails(Guid basketId)
-                        => _tempOrderDetailRepo.Get(x => x.BasketId == basketId, o => o.OrderBy(x => x.TempOrderDetailId), new List<Expression<Func<TempOrderDetail, object>>> {
+        public List<TempBasketItem> GetDetails(Guid basketId)
+                        => _TempBasketItemRepo.Get(x => x.TempBasketId == basketId, o => o.OrderBy(x => x.TempBasketItemId), new List<Expression<Func<TempBasketItem, object>>> {
                             i=>i.DrugPrice.Drug
                         });
 
-        public IResponse<IList<TempOrderDetailDTO>> Get(Guid basketId) => _tempOrderDetailRepo.GetItems(basketId);
+        public IResponse<IList<TempBasketItemDTO>> Get(Guid basketId) => _TempBasketItemRepo.GetItems(basketId);
     }
 }

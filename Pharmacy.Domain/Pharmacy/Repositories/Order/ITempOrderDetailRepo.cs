@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 namespace Pharmacy.Domain
 {
-    public interface ITempOrderDetailRepo : IGenericRepo<TempOrderDetail>, IScopedInjection
+    public interface ITempBasketItemRepo : IGenericRepo<TempBasketItem>, IScopedInjection
     {
-        PagingListDetails<TempOrderDetailModel> GetBaskets(TempOrderDetailSearchFilter filter);
-        IResponse<IList<TempOrderDetailDTO>> GetItems(Guid basketId);
+        PagingListDetails<TempBasketItemModel> GetBaskets(TempBasketItemSearchFilter filter);
+        IResponse<IList<TempBasketItemDTO>> GetItems(Guid basketId);
     }
 }

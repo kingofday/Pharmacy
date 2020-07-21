@@ -546,4 +546,10 @@
   <data name="DeliveryPrice" xml:space="preserve">
     <value>هزینه ارسال</value>
   </data>
+  <data name="NeedPrescription" xml:space="preserve">
+    <value>نیاز به نسخه پزشک دارد</value>
+  </data>
+  <data name="ShortDescription" xml:space="preserve">
+    <value>شرح مختصر</value>
+  </data>
 </root>

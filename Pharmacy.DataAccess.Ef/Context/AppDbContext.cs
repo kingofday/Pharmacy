@@ -20,7 +20,6 @@ namespace Pharmacy.DataAccess.Ef
             builder.Entity<OrderDrugStore>().HasIndex(x => new { x.OrderDrugStoreId, x.DrugStoreId }).HasName("IX_OrderDrugStore").IsUnique();
             builder.Entity<DrugPrice>().HasIndex(x => new { x.DrugId, x.UnitId }).HasName("IX_DrugUnit").IsUnique();
             builder.Entity<Tag>().HasIndex(x => x.Name).HasName("IX_Title").IsUnique();
-            builder.Entity<TempOrderDetail>().HasIndex(x => x.BasketId).HasName("IX_BasketId");
 
             builder.OverrideDeleteBehavior();
             builder.RegisterAllEntities<IEntity>(typeof(User).Assembly);

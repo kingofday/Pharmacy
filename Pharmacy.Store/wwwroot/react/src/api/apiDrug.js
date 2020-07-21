@@ -1,21 +1,9 @@
-import addr from './addreses';
+import addr from './addresses';
 import strings from './../shared/constant';
 
 export default class apiDrug {
     static async search(q) {
-        var handleResponse = async (response) => {
-            const rep = await response.json();
-            if (!rep.IsSuccessful)
-                return { success: false, message: rep.Message }
-            else return {
-                success: true,
-                result: rep.Result.Items.map((c) => ({
-                    id: c.CategoryId,
-                    name: c.Name
-                }))
-            }
-        }
-        let url = `${addr.getCategories}?pageSize?pageNumber=${pageNumber}&pageSize=${pageSize}`;
+        let url = addr.searchDrug(q);
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -24,15 +12,29 @@ export default class apiDrug {
                     'Content-Type': 'application/json; charset=utf-8;'
                 }
             });
-            return await handleResponse(response);
+            const rep = await response.json();
+            if (rep.IsSuccessful)
+                return {
+                    success: true,
+                    result: rep.Result.map((d) => ({
+                        drugId: d.DrugId,
+                        priceId: d.PriceId,
+                        nameFa: d.NameFa,
+                        nameEn: d.NameEn,
+                        shortDescription:d.ShortDescription,
+                        count: d.Count,
+                        uniqueId: d.UniqueId,
+                        discount: d.DiscountPrice,
+                        price: d.Price,
+                        unitName: d.UnitName,
+                        thumbnailImageUrl: d.ThumbnailImageUrl
+                    }))
+                };
+            else
+                return { success: false, message: rep.Message }
         } catch (error) {
-            if ('caches' in window) {
-                let data = await caches.match(url);
-                if (data)
-                    return await handleResponse(data);
-                else return ({ success: false, message: strings.connecttionFailed });
-            }
-            else return ({ success: false, message: strings.connecttionFailed });
+            console.log(error);
+            return ({ success: false, message: strings.connectionFailed });
         }
     }
 }

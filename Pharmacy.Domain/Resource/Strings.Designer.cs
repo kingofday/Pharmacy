@@ -754,6 +754,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نیاز به نسخه پزشک دارد.
+        /// </summary>
+        public static string NeedPrescription {
+            get {
+                return ResourceManager.GetString("NeedPrescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to گذرواژه جدید.
         /// </summary>
         public static string NewPassword {
@@ -1029,6 +1038,15 @@ namespace Pharmacy.Domain.Resource {
         public static string Shaba {
             get {
                 return ResourceManager.GetString("Shaba", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to شرح مختصر.
+        /// </summary>
+        public static string ShortDescription {
+            get {
+                return ResourceManager.GetString("ShortDescription", resourceCulture);
             }
         }
         

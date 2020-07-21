@@ -1,4 +1,4 @@
-﻿@model TempOrderDetailResultModel
+﻿@model TempBasketItemResultModel
 @{
     Layout = null;
 }
@@ -15,7 +15,7 @@
         </p>
     </div>
 </div>
-<form id="frm-notify" action="@Url.Action("Notify","StoreTempOrderDetail")">
+<form id="frm-notify" action="@Url.Action("Notify","StoreTempBasketItem")">
     @Html.HiddenFor(x => x.Url)
     <div class="row">
         <div class="col-12">

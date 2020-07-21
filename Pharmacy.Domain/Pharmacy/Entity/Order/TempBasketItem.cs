@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    [Table(nameof(TempOrderDetail), Schema = "Order")]
-    public class TempOrderDetail : IInsertDateProperties, IEntity
+    [Table(nameof(TempBasketItem), Schema = "Order")]
+    public class TempBasketItem : IInsertDateProperties, IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int TempOrderDetailId { get; set; }
+        public int TempBasketItemId { get; set; }
 
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -19,7 +19,7 @@ namespace Pharmacy.Domain
 
         [Display(Name = nameof(Strings.BasketId), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public Guid BasketId { get; set; }
+        public Guid TempBasketId { get; set; }
 
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -48,5 +48,9 @@ namespace Pharmacy.Domain
         [ForeignKey(nameof(DrugPriceId))]
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         public DrugPrice DrugPrice { get; set; }
+
+        [ForeignKey(nameof(TempBasketId))]
+        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
+        public TempBasket TempBasket { get; set; }
     }
 }

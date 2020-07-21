@@ -20,6 +20,9 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.IsActive), ResourceType = typeof(Strings))]
         public bool IsActive { get; set; }
 
+        [Display(Name = nameof(Strings.NeedPrescription), ResourceType = typeof(Strings))]
+        public bool NeedPrescription { get; set; }
+
         [Display(Name = nameof(Strings.IsDeleted), ResourceType = typeof(Strings))]
         public bool IsDeleted { get; set; }
 
@@ -63,6 +66,14 @@ namespace Pharmacy.Domain
         public string NameEn { get; set; }
 
         [Column(TypeName = "nvarchar(1000)")]
+        [Display(Name = nameof(Strings.ShortDescription), ResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string ShortDescription { get; set; }
+
+        [Column(TypeName = "nvarchar(1000)")]
+        [DataType(DataType.MultilineText)]
         [Display(Name = nameof(Strings.Description), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(1000, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]

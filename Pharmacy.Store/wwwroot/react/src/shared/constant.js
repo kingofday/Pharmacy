@@ -3,6 +3,14 @@
     home: 'خانه',
     aboutus: 'درباره ما',
     contactus: 'تماس با ما',
+    typeHere: 'اینجا بنویسید',
+    searchHere: 'اینجا جستجو نمایید',
+    sendPrescription:'ارسال نسخه',
+    identifier:'شناسه',
+    thereIsNoResult:'هیچ نتیجه ای یافت نشد',
+    addToCart:'افزودن به سبد خرید',
+
+
     username: 'نام کاربری',
     password: 'گذرواژه',
     confirmPassword: 'تکرار کلمه عبور',
@@ -43,7 +51,7 @@
     initialOrderSubmit: 'ثبت اولیه سفارش',
     pleasWait: 'لطفا منتظر بمانید',
     retryPlease: 'لطفا دوباره تلاش کنید',
-    connecttionFailed: 'اتصال برقرار نشد',
+    connectionFailed: 'اتصال برقرار نشد',
     basket: 'سبد خرید',
     all: 'همه',
     newests: 'تازه ترین ها',
@@ -79,10 +87,7 @@
     continue: 'ادامه',
     selectLocation: 'انتخاب مکان',
     map: 'نقشه',
-    mostVisited: 'پر بازدیدترین ها',
-    typeHere: 'اینجا بنویسید',
-    searchHere: 'اینجا جستجو نمایید',
-    sendPrescription:'ارسال نسخه'
+    mostVisited: 'پر بازدیدترین ها'
 };
 export default strings;
 export const validationStrings = {

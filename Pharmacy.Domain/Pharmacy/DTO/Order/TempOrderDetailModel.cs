@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pharmacy.Domain
 {
-    public class TempOrderDetailModel
+    public class TempBasketItemModel
     {
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]
         public string InsertDateSh { get; set; }

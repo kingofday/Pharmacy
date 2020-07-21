@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Pharmacy.DataAccess.Ef
 {
-    public class TempOrderDetailRepo : EfGenericRepo<TempOrderDetail>, ITempOrderDetailRepo
+    public class TempBasketItemRepo : EfGenericRepo<TempBasketItem>, ITempBasketItemRepo
     {
         readonly private AppDbContext _appContext;
-        public TempOrderDetailRepo(AppDbContext appContext) : base(appContext)
+        public TempBasketItemRepo(AppDbContext appContext) : base(appContext)
         {
             _appContext = appContext;
         }
 
-        public PagingListDetails<TempOrderDetailModel> GetBaskets(TempOrderDetailSearchFilter filter)
+        public PagingListDetails<TempBasketItemModel> GetBaskets(TempBasketItemSearchFilter filter)
         {
-            var q = _appContext.Set<TempOrderDetail>().AsQueryable();
+            var q = _appContext.Set<TempBasketItem>().AsQueryable();
             if (filter != null)
             {
                 if (!string.IsNullOrWhiteSpace(filter.FromDateSh))
@@ -34,17 +34,17 @@ namespace Pharmacy.DataAccess.Ef
                 if (filter.BasketId != null)
                 {
                     var isGuid = Guid.TryParse(filter.BasketId, out Guid id);
-                    if (isGuid) q = q.Where(x => x.BasketId == id);
+                    if (isGuid) q = q.Where(x => x.TempBasketId == id);
                 }
             }
             var groups = q.GroupBy(x => new
             {
-                x.BasketId,
+                x.TempBasketId,
                 x.InsertDateSh
             })
-            .Select(x => new TempOrderDetailModel
+            .Select(x => new TempBasketItemModel
             {
-                BasketId = x.Key.BasketId,
+                BasketId = x.Key.TempBasketId,
                 InsertDateSh = x.Key.InsertDateSh,
                 TotalPrice = x.Sum(i => i.TotalPrice)
             });
@@ -53,26 +53,26 @@ namespace Pharmacy.DataAccess.Ef
             .Take(filter.PageSize)
             .ToList();
             var count = q.Count();
-            return new PagingListDetails<TempOrderDetailModel>
+            return new PagingListDetails<TempBasketItemModel>
             {
                 PageNumber = filter.PageNumber,
                 PageSize = filter.PageSize,
-                Items = new PagingList<TempOrderDetailModel>(items, count, filter),
+                Items = new PagingList<TempBasketItemModel>(items, count, filter),
                 TotalCount = count
             };
 
         }
 
-        public IResponse<IList<TempOrderDetailDTO>> GetItems(Guid basketId)
+        public IResponse<IList<TempBasketItemDTO>> GetItems(Guid basketId)
         {
-            var items = _appContext.Set<TempOrderDetail>()
+            var items = _appContext.Set<TempBasketItem>()
                 .Include(x => x.DrugPrice)
                 .ThenInclude(x => x.Drug)
                 .ThenInclude(x => x.DrugAssets)
-                .Where(x => x.BasketId == basketId)
-                .AsNoTracking().Select(x => new TempOrderDetailDTO
+                .Where(x => x.TempBasketId == basketId)
+                .AsNoTracking().Select(x => new TempBasketItemDTO
                 {
-                    ItemId = x.TempOrderDetailId,
+                    ItemId = x.TempBasketItemId,
                     DrugId = x.DrugId,
                     Count = x.Count,
                     Price = x.Price,
@@ -80,9 +80,9 @@ namespace Pharmacy.DataAccess.Ef
                     DiscountPrice = 0,
                     NameFa = x.DrugPrice.Drug.NameFa,
                     NameEn = x.DrugPrice.Drug.NameEn,
-                    TumbnailImageUrl = x.DrugPrice.Drug.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? x.DrugPrice.Drug.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null
+                    ThumbnailImageUrl = x.DrugPrice.Drug.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? x.DrugPrice.Drug.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null
                 }).ToList();
-            return new Response<IList<TempOrderDetailDTO>>
+            return new Response<IList<TempBasketItemDTO>>
             {
                 IsSuccessful = true,
                 Result = items

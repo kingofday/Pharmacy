@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Pharmacy.Domain
 {
-    public class TempOrderDetailSearchFilter : PagingParameter
+    public class TempBasketItemSearchFilter : PagingParameter
     {
         [Display(Name = nameof(Strings.BasketId), ResourceType = typeof(Strings))]
         public string BasketId { get; set; }

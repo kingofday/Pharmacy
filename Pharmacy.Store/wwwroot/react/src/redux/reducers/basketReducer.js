@@ -16,11 +16,11 @@ const calculate = (items) => {
     }, 0);
     return { totalPrice, totalDiscount };
 }
-export default function topReducer(state = initState, action) {
+export default function basketReducer(state = initState, action) {
     switch (action.type) {
         case actionTypes.ADD_TO_BASKET:
-            state.items = state.items.filter(x => !x.itemId);
-            let idx = state.items.findIndex(x => x.id == action.payload.id);
+            state.items = state.items.filter(x => !x.drugId);
+            let idx = state.items.findIndex(x => x.drugId == action.payload.drugId);
             let items = [];
             if (idx === -1)
                 items = [...state.items, { ...action.payload }];
@@ -28,9 +28,10 @@ export default function topReducer(state = initState, action) {
                 state.items[idx].count = action.payload.count;
                 items = [...state.items];
             }
+            console.log(items);
             return { ...state, items, ...calculate(items) };
         case actionTypes.UPDATE_BASKET:
-            let item = state.items.find(x => x.id == action.payload.id);
+            let item = state.items.find(x => x.drugId == action.payload.drugId);
             if (item) item.count = action.payload.count;
             return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.REMOVE_FROM_BASKET:
