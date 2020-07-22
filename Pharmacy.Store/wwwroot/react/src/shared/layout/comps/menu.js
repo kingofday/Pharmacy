@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import strings from './../../constant';
 import { LogOutAction } from './../../../redux/actions/authenticationAction';
+import Categories from './categories';
 
 class Menu extends React.Component {
     constructor(props) {
@@ -18,17 +19,17 @@ class Menu extends React.Component {
                     <Row className="main-nav">
                         <Col xs={12} sm={12} className='d-flex justify-content-between'>
 
-                            <label class="menu-icon" for="toggle"><i class="zmdi zmdi-menu"></i></label>
-                            <input type="checkbox" name="toggle" id="toggle" class="d-none" />
-                            <ul class="animated">
-                                <li class="close-menu"><label for="toggle"><i class="zmdi zmdi-close"></i></label></li>
-                                <li class="navlink"><Link to='/'>{strings.home}</Link></li>
-                                <li class="navlink"><Link to='/products'>{strings.products}</Link></li>
-                                <li class="navlink"><Link to='/contactus'>{strings.contactus}</Link></li>
-                                <li class="navlink"><Link to='/prescription'>{strings.sendPrescription}</Link></li>
+                            <label className="menu-icon" htmlFor="toggle"><i className="zmdi zmdi-menu"></i></label>
+                            <input type="checkbox" name="toggle" id="toggle" className="d-none" />
+                            <ul className="menu-items animated">
+                                <li className="close-menu"><label htmlFor="toggle"><i className="zmdi zmdi-close"></i></label></li>
+                                <li className="navlink"><Link to='/'>{strings.home}</Link></li>
+                                <li className="navlink"><Link to='/products'>{strings.products}</Link></li>
+                                <li className="navlink"><Link to='/contactus'>{strings.contactus}</Link></li>
+                                <li className="navlink"><Link to='/prescription'>{strings.sendPrescription}</Link></li>
                             </ul>
-                            <div class="float-left categories" >
-
+                            <div className="float-left categories-wrapper" >
+                                <Categories />
                             </div>
 
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import strings from './../constant';
 import ThreeDotLoader from './../threeDotLoader/threeDotLoader';

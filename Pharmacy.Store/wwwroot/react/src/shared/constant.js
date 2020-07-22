@@ -9,8 +9,13 @@
     identifier:'شناسه',
     thereIsNoResult:'هیچ نتیجه ای یافت نشد',
     addToCart:'افزودن به سبد خرید',
+    products: 'محصولات',
+    useModernBrowser: 'لطفا از مرورگر جدید تری استفاده نمیید',
 
 
+
+
+//-----------------------------------------
     username: 'نام کاربری',
     password: 'گذرواژه',
     confirmPassword: 'تکرار کلمه عبور',
@@ -39,7 +44,6 @@
     submit: 'ثبت',
     name: 'نام',
     product: 'محصول',
-    products: 'محصولات',
     count: 'تعداد',
     description: 'توضیحات',
     next: 'بعد',
@@ -61,7 +65,6 @@
     phoneNumbers: 'شماره تلفن ها',
     add: 'افزودن',
     to: 'به',
-    useModernBrowser: 'لطفا از مرورگر جدید تری استفاده نمیید',
     continuePurchase: 'ادامه فرآیند خرید',
     totalSum: 'جمغ گل',
     delete: 'حذف',

@@ -1,0 +1,57 @@
+#home-page #first-row {
+  margin-top: 50px;
+}
+
+#home-page #first-row .r-bg {
+  height: 100%;
+  width: 100%;
+  background-image: url("/home-right-bg.png");
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  background-size: auto 100%;
+  height: 350px;
+}
+
+#home-page #first-row #search-box {
+  padding: 100px 0;
+  height: 100%;
+  width: 100%;
+  background-image: url("/home-left-bg.png");
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+#home-page #first-row #search-box .hx1,
+#home-page #first-row #search-box .hx2 {
+  text-align: center;
+  padding: 15px;
+  color: #fff;
+}
+
+#home-page #first-row #search-box .hx1 {
+  font-size: 2rem;
+}
+
+#home-page #first-row #search-box .hx2 {
+  font-size: 1.2rem;
+  line-height: 25px;
+}
+
+#home-page #first-row #search-box .search-wrapper {
+  padding: 0 30px;
+}
+
+#home-page #second-row .categories > div {
+  width: 100%;
+  padding: 15px;
+}
+
+#home-page #second-row .categories > div ul {
+  width: 100%;
+  list-style: none;
+}
+
+#home-page #second-row .categories > div ul li {
+  padding: 10px 0;
+}
+/*# sourceMappingURL=index.css.map */

@@ -20,7 +20,7 @@ export default function basketReducer(state = initState, action) {
     switch (action.type) {
         case actionTypes.ADD_TO_BASKET:
             state.items = state.items.filter(x => !x.drugId);
-            let idx = state.items.findIndex(x => x.drugId == action.payload.drugId);
+            let idx = state.items.findIndex(x => x.drugId === action.payload.drugId);
             let items = [];
             if (idx === -1)
                 items = [...state.items, { ...action.payload }];

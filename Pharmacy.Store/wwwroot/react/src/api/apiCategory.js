@@ -1,21 +1,21 @@
-import addr from './addreses';
+import addr from './addresses';
 import strings from './../shared/constant';
 
 export default class apiCategory {
-    static async get(pagrentId) {
+    static async get(parentId = 0) {
+        let url = addr.getCategories(parentId);
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message }
             else return {
                 success: true,
-                result: rep.Result.Items.map((c) => ({
-                    id: c.CategoryId,
+                result: rep.Result.map((c) => ({
+                    categoryId: c.CategoryId,
                     name: c.Name
                 }))
             }
         }
-        let url = `${addr.getCategories}?pageSize?pageNumber=${pageNumber}&pageSize=${pageSize}`;
         try {
             const response = await fetch(url, {
                 method: 'GET',
@@ -30,9 +30,9 @@ export default class apiCategory {
                 let data = await caches.match(url);
                 if (data)
                     return await handleResponse(data);
-                else return ({ success: false, message: strings.connecttionFailed });
+                else return ({ success: false, message: strings.connectionFailed });
             }
-            else return ({ success: false, message: strings.connecttionFailed });
+            else return ({ success: false, message: strings.connectionFailed });
         }
     }
 }

@@ -1,0 +1,58 @@
+#home-page {
+  #first-row {
+    margin-top: 50px;
+    
+    .r-bg {
+      height: 100%;
+      width: 100%;
+      background-image: url("/home-right-bg.png");
+      background-repeat: no-repeat;
+      background-position: 0 center;
+      background-size: auto 100%;
+      height: 350px;
+    }
+    #search-box {
+      padding: 100px 0;
+      height: 100%;
+      width: 100%;
+      background-image: url("/home-left-bg.png");
+      background-repeat: no-repeat;
+      background-position: center center;
+
+      .hx1,
+      .hx2 {
+        text-align: center;
+        padding: 15px;
+        color: #fff;
+      }
+      .hx1 {
+        font-size: 2rem;
+      }
+      .hx2 {
+        font-size: 1.2rem;
+        line-height: 25px;
+      }
+      .search-wrapper {
+        padding: 0 30px;
+      }
+    }
+  }
+  #second-row {
+    .categories {
+      > div {
+        width: 100%;
+        padding: 15px;
+        // background-color: #fff;
+
+        ul{
+            width:100%;
+            list-style: none;
+
+            li{
+                padding: 10px 0;
+            }
+        }
+      }
+    }
+  }
+}

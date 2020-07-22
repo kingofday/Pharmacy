@@ -44,6 +44,7 @@ input[type="text"]:focus {
 }
 a {
   color: #666;
+  text-decoration: none;
 }
 ul,
 ol {
@@ -52,7 +53,7 @@ ol {
 button {
   color: #fff;
   background-color: $btnBgColor;
-  padding:7px 10px;
+  padding: 7px 10px;
   border-radius: 3px;
   &:hover {
     background-color: $btnHoverColor;
@@ -74,7 +75,7 @@ button {
   margin-left: auto;
   margin-right: auto;
 }
-.m-b {
+.mb-15 {
   margin-bottom: 15px;
 }
 .ltr-input {
@@ -172,7 +173,12 @@ input:-webkit-autofill:active {
   padding-top: 55px;
 }
 
+.heading {
+  font-size: 18px;
+  padding: 15px 0;
+}
 @import "./rtl.scss";
 @import "./../../shared/layout/css/index.scss";
 @import "./../../shared/searchDrug/css/index.scss";
 @import "./../../shared/threeDotLoader/css/index.scss";
+@import "./../../routes/home/css/index.scss";
