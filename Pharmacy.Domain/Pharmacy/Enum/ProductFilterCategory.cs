@@ -1,6 +1,6 @@
 ﻿namespace Pharmacy.Domain
 {
-    public enum DrugFilterCategory : byte
+    public enum DrugFilterType : byte
     {
         All = 0,
         MostVisited = 1,

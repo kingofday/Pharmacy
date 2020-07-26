@@ -173,9 +173,21 @@ input:-webkit-autofill:active {
   padding-top: 55px;
 }
 
-.heading {
+.comp-heading {
   font-size: 18px;
   padding: 15px 0;
+}
+.slick-list {
+  direction: ltr;
+}
+.slick-slide:focus {
+  outline: none;
+}
+.padding-r{
+  padding-right: $padding;
+}
+.padding-l{
+  padding-left: $padding;
 }
 @import "./rtl.scss";
 @import "./../../shared/layout/css/index.scss";

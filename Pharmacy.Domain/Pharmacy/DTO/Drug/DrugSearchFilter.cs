@@ -1,6 +1,5 @@
 ﻿using Elk.Core;
 using Pharmacy.Domain.Resource;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Pharmacy.Domain
@@ -10,6 +9,6 @@ namespace Pharmacy.Domain
 
         [Display(Name = nameof(Strings.Name), ResourceType = typeof(Strings))]
         public string Name { get; set; }
-        public DrugFilterCategory Category { get; set; }
+        public DrugFilterType Type { get; set; }
     }
 }

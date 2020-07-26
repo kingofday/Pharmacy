@@ -196,9 +196,25 @@ input:-webkit-autofill:active {
   padding-top: 55px;
 }
 
-.heading {
+.comp-heading {
   font-size: 18px;
   padding: 15px 0;
+}
+
+.slick-list {
+  direction: ltr;
+}
+
+.slick-slide:focus {
+  outline: none;
+}
+
+.padding-r {
+  padding-right: 15px;
+}
+
+.padding-l {
+  padding-left: 15px;
 }
 
 @font-face {
@@ -787,7 +803,7 @@ html[dir="ltr"] .main-nav ul .close-menu {
   width: 100%;
   background-image: url("/home-right-bg.png");
   background-repeat: no-repeat;
-  background-position: 0 center;
+  background-position: -110px center;
   background-size: auto 100%;
   height: 350px;
 }
@@ -833,5 +849,30 @@ html[dir="ltr"] .main-nav ul .close-menu {
 
 #home-page #second-row .categories > div ul li {
   padding: 10px 0;
+}
+
+#home-page .comp-slide-show .comp-loading-drug {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 15px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 0;
+}
+
+#home-page .comp-slide-show .comp-loading-drug .main-img {
+  height: 120px;
+  width: 100%;
+}
+
+#home-page .comp-slide-show .comp-loading-drug figcaption {
+  margin-top: 10px;
+  width: 100%;
 }
 /*# sourceMappingURL=index.css.map */

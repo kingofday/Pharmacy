@@ -27,7 +27,7 @@ namespace Pharmacy.Service
             _configuration = configuration;
         }
 
-        public IResponse<PagingListDetails<DrugDTO>> GetAsDto(DrugSearchFilter filter) => _drugRepo.GetAsDTO(filter);
+        public Response<PagingListDetails<DrugDTO>> GetAsDto(DrugSearchFilter filter) => _drugRepo.GetAsDTO(filter);
 
         public Response<SingleDrugDTO> GetSingle(int id) => _drugRepo.GetSingle(id);
 

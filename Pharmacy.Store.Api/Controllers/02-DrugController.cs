@@ -10,18 +10,11 @@ namespace Pharmacy.Store.Api.Controllers
     public class DrugController : ControllerBase
     {
         readonly IDrugService _drugService;
+        readonly List<DrugDTO> items;
         public DrugController(IDrugService DrugService)
         {
             _drugService = DrugService;
-        }
-
-        [HttpGet,Route("[controller]")]
-        public ActionResult<IResponse<List<DrugDTO>>> Search(string q)
-            //=> _drugService.Get(q);
-            => new Response<List<DrugDTO>>
-            {
-                IsSuccessful = true,
-                Result = new List<DrugDTO> {
+            items = new List<DrugDTO> {
                 new DrugDTO
                 {
                     DrugId =1,
@@ -34,7 +27,7 @@ namespace Pharmacy.Store.Api.Controllers
                     DiscountPrice =2000,
                     Price  = 40000,
                     UnitName = "جعبه",
-                    ThumbnailImageUrl = "https://pharma.gocodeit.me/wp-content/uploads/2019/09/Capture.png"
+                    ThumbnailImageUrl = "http://www.admin.darukade.com/Icon/360/16242816778202021612.jpg"
                 },
                 new DrugDTO
                 {
@@ -48,10 +41,81 @@ namespace Pharmacy.Store.Api.Controllers
                     DiscountPrice =1000,
                     Price  = 30000,
                     UnitName = "جعبه",
-                    ThumbnailImageUrl = "https://pharma.gocodeit.me/wp-content/uploads/2019/09/0034385_0-300x300.png"
+                    ThumbnailImageUrl = "http://www.admin.darukade.com/Icon/360/1101217943202071612.jpg"
+                },
+                new DrugDTO
+                {
+                    DrugId =3,
+                    PriceId =3,
+                    NameFa = "پماد شفاف سازی",
+                    NameEn = "Mouster Againt Head Skin",
+                    ShortDescription="برای جلوگیری از چروکیدگی",
+                    Count =5,
+                    UniqueId ="ABc50F",
+                    DiscountPrice =1500,
+                    Price  = 34000,
+                    UnitName = "جعبه",
+                    ThumbnailImageUrl = "http://www.admin.darukade.com/Icon/360/1221717973202072012.jpg"
+                },
+                new DrugDTO
+                {
+                    DrugId =4,
+                    PriceId =4,
+                    NameFa = "کرم شفاف سازی",
+                    NameEn = "Mouster Againt Head Skin",
+                    ShortDescription="برای جلوگیری از چروکیدگی",
+                    Count =5,
+                    UniqueId ="ABc50F",
+                    DiscountPrice =1500,
+                    Price  = 34000,
+                    UnitName = "جعبه",
+                    ThumbnailImageUrl = "http://www.admin.darukade.com/Icon/360/15565817810202062912.jpg"
+
+                },
+                new DrugDTO
+                {
+                    DrugId =5,
+                    PriceId =5,
+                    NameFa = "پماد شفاف سازی",
+                    NameEn = "Mouster Againt Head Skin",
+                    ShortDescription="برای جلوگیری از چروکیدگی",
+                    Count =4,
+                    UniqueId ="ABc50F",
+                    DiscountPrice =2500,
+                    Price  = 39000,
+                    UnitName = "جعبه",
+                    ThumbnailImageUrl = "http://www.admin.darukade.com/Icon/360/1221717973202072012.jpg"
+
+                },
+                new DrugDTO
+                {
+                    DrugId =6,
+                    PriceId =6,
+                    NameFa = "کرم جوان سازی",
+                    NameEn = "Mouster Againt Head Skin",
+                    ShortDescription="برای جلوگیری از چروکیدگی",
+                    Count =4,
+                    UniqueId ="ABc50F",
+                    DiscountPrice =2500,
+                    Price  = 41000,
+                    UnitName = "جعبه",
+                    ThumbnailImageUrl = "https://pharma.gocodeit.me/wp-content/uploads/2019/09/0028694_0-300x300.png"
+
                 }
-            }
             };
+        }
+
+        [HttpGet, Route("[controller]")]
+        public ActionResult<IResponse<PagingListDetails<DrugDTO>>> Get([FromQuery]DrugSearchFilter filter)
+                        //=> _drugService.GetAsDto(filter);
+                        => new Response<PagingListDetails<DrugDTO>>
+                        {
+                            IsSuccessful = true,
+                            Result = new PagingListDetails<DrugDTO>
+                            {
+                                Items = new PagingList<DrugDTO>(items, 10, new PagingParameter { PageNumber = 1, PageSize = 10 })
+                            }
+                        };
 
         [HttpGet, Route("drug/{id:int}")]
         public ActionResult<IResponse<SingleDrugDTO>> GetSingle(int id)

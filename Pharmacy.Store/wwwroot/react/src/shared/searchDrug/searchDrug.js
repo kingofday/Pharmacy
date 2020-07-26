@@ -10,7 +10,6 @@ import { AddToBasketAction } from './../../redux/actions/basketAction';
 
 class SearchItem extends React.Component {
     _changeActiveIndex() {
-        console.log(this.props.idx);
         this.props.changeActiveIndex(this.props.idx);
     }
     render() {
@@ -93,7 +92,7 @@ class SearchBar extends React.Component {
             return;
         }
         this.setState(p => ({ ...p, loading: true }));
-        let search = await srvDrug.search(e.target.value);
+        let search = await srvDrug.get({name:e.target.value});
         this.setState(p => ({ ...p, loading: false }));
         if (!search.success) {
             toast(search.message, { type: toast.TYPE.ERROR });

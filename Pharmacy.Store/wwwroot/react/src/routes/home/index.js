@@ -7,6 +7,8 @@ import Skeleton from '@material-ui/lab/Skeleton';
 import { ShowInitErrorAction } from '../../redux/actions/InitErrorAction';
 import strings from '../../shared/constant';
 import srvCategory from './../../service/srvCategory';
+import DrugSlideShow from './comps/drugSlideShow';
+import Heading from './../../shared/heading/heading';
 
 class Home extends React.Component {
     constructor(props) {
@@ -43,7 +45,7 @@ class Home extends React.Component {
             <div id='home-page'>
                 <Container>
                     <Row id='first-row' className='mb-15'>
-                        <Col xs={12} lg={8}>
+                        <Col xs={12} lg={9}>
                             <div id='search-box'>
                                 <h1 className='hx1'>خرید دارو بصورت آنلاین</h1>
                                 <h2 className='hx2'>مشـاوره رایـگان توسط بهتریـن دکتر های داروسـاز</h2>
@@ -52,19 +54,19 @@ class Home extends React.Component {
                                 </div>
                             </div>
                         </Col>
-                        <Col className='d-none d-lg-flex' lg={4}>
+                        <Col className='d-none d-lg-flex' lg={3}>
                             <div className='r-bg'></div>
                         </Col>
                     </Row>
                     <Row id='second-row' className='mb-15'>
-                        <Col xs={12} lg={8}>
-
+                        <Col xs={12} lg={9}>
+                            <div className='card' style={{ direction: 'ltr' }}>
+                                <DrugSlideShow />
+                            </div>
                         </Col>
-                        <Col className='categories d-none d-lg-flex' lg={4}>
+                        <Col className='categories d-none d-lg-flex' lg={3}>
                             <div className='card mb-15'>
-                                <h3 className='heading'>
-                                    دسته بندی ها
-                                </h3>
+                                <Heading title='دسته بندی ها'/>
                                 <ul>
                                     {this.state.categories.length === 0 ? ([0, 1, 2, 3].map(idx => (<li key={idx}><Skeleton height={30} variant='rect' /></li>))) :
                                         this.state.categories.map((item, idx) => (<li key={idx}>

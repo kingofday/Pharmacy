@@ -55,7 +55,7 @@ namespace Pharmacy.DataAccess.Ef
             };
         }
 
-        public IResponse<PagingListDetails<DrugDTO>> GetAsDTO(DrugSearchFilter filter)
+        public Response<PagingListDetails<DrugDTO>> GetAsDTO(DrugSearchFilter filter)
         {
             var q = _Drug.Where(x => !x.IsDeleted && x.IsActive && x.DrugPrices.Any(x => x.IsDefault))
                 .Include(x => x.DrugAssets)
@@ -66,15 +66,15 @@ namespace Pharmacy.DataAccess.Ef
             if (!string.IsNullOrWhiteSpace(filter.Name)) 
                 q = q.Where(x => x.NameFa.Contains(filter.Name) || x.NameEn.Contains(filter.Name) || x.UniqueId.Contains(filter.Name));
 
-            switch (filter.Category)
+            switch (filter.Type)
             {
-                case DrugFilterCategory.MostVisited:
+                case DrugFilterType.MostVisited:
                     q = q.OrderByDescending(x => x.ViewCount);
                     break;
-                case DrugFilterCategory.Favorites:
+                case DrugFilterType.Favorites:
                     q = q.OrderByDescending(x => x.LikeCount);
                     break;
-                case DrugFilterCategory.BestSellers:
+                case DrugFilterType.BestSellers:
                     q = q.OrderByDescending(x => x.OrderDetails.Count());
                     break;
                 default:

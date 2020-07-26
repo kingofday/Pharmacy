@@ -2,7 +2,7 @@
 import apiDrug from './../api/apiDrug';
 
 export default class drugSrv {
-    static async search(q){
-        return await apiDrug.search(q);
+    static async get(filter) {
+        return await apiDrug.get(filter);
     }
 }

@@ -9,7 +9,8 @@ export default class categorySrv {
         let dt = new Date();
         if (!ignoreCache) {
             let jsonCategories = localStorage.getItem(this.catKey);
-            if (!jsonCategories) {
+            console.log(jsonCategories);
+            if (jsonCategories) {
                 let model = JSON.parse(jsonCategories);
                 if (model.expDT > dt.getTime())
                     return {
