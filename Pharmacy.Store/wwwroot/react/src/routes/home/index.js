@@ -5,10 +5,12 @@ import { connect } from 'react-redux';
 import SearchDrug from './../../shared/searchDrug/searchDrug';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { ShowInitErrorAction } from '../../redux/actions/InitErrorAction';
-import strings from '../../shared/constant';
+import strings, { enums } from '../../shared/constant';
 import srvCategory from './../../service/srvCategory';
 import DrugSlideShow from './comps/drugSlideShow';
 import Heading from './../../shared/heading/heading';
+import ThirdRow from './comps/thirdRow';
+import DrugStores from './comps/drugStores';
 
 class Home extends React.Component {
     constructor(props) {
@@ -60,13 +62,13 @@ class Home extends React.Component {
                     </Row>
                     <Row id='second-row' className='mb-15'>
                         <Col xs={12} lg={9}>
-                            <div className='card' style={{ direction: 'ltr' }}>
-                                <DrugSlideShow />
+                            <div className='card  mb-15' style={{ direction: 'ltr' }}>
+                                <DrugSlideShow speed={700} title={strings.bestSellers} type={enums.drugFilterType.bestSellers} />
                             </div>
                         </Col>
                         <Col className='categories d-none d-lg-flex' lg={3}>
                             <div className='card mb-15'>
-                                <Heading title='دسته بندی ها'/>
+                                <Heading title='دسته بندی ها' />
                                 <ul>
                                     {this.state.categories.length === 0 ? ([0, 1, 2, 3].map(idx => (<li key={idx}><Skeleton height={30} variant='rect' /></li>))) :
                                         this.state.categories.map((item, idx) => (<li key={idx}>
@@ -79,6 +81,8 @@ class Home extends React.Component {
                             </div>
                         </Col>
                     </Row>
+                    <ThirdRow />
+                    <DrugStores />
                 </Container>
             </div>
         );

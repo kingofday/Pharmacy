@@ -9,6 +9,9 @@ body {
   min-height: 100vh;
   background-color: #f3f4f8;
 }
+*{
+  outline: none !important;
+}
 #root {
   min-height: 100vh;
 }
@@ -180,17 +183,21 @@ input:-webkit-autofill:active {
 .slick-list {
   direction: ltr;
 }
-.slick-slide:focus {
-  outline: none;
+.padding{
+  padding: $padding;
 }
-.padding-r{
+.padding-r {
   padding-right: $padding;
 }
-.padding-l{
+.padding-l {
   padding-left: $padding;
+}
+[class^='col-']{
+  display: flex;
 }
 @import "./rtl.scss";
 @import "./../../shared/layout/css/index.scss";
 @import "./../../shared/searchDrug/css/index.scss";
 @import "./../../shared/threeDotLoader/css/index.scss";
 @import "./../../routes/home/css/index.scss";
+@import "./../../shared/initError/css/index.scss";

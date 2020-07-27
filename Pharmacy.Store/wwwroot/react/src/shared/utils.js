@@ -16,7 +16,10 @@ export function checkLocalStorage() {
     if (!localStorage) toast(strings.useModernBrowser, { type: toast.TYPE.INFO });
 }
 
-export function commaThousondSeperator(str) { return str.replace(/\B(?=(\d{3})+(?!\d))/g, ","); };
+export function commaThousondSeperator(input) {
+    let str = isNaN(input) ? input : input.toString();
+    return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 export function getlocalStorageSizes() {
     var total = 0;

@@ -1,4 +1,4 @@
-@import "./../../../assets/css/constant.scss";
+//@import "./../../../assets/css/constant.scss";
 .store-page {
     .info {
         padding-top: 15px;
@@ -33,7 +33,7 @@
                     width: 100%;
 
                     .contactus {
-                        color: $textColor;
+                        //color: $textColor;
                         border-radius: 30px;
                         background-color: #ecf5fc;
                         padding: 3px 8px;
@@ -53,7 +53,7 @@
 
             a {
                 display: inline-block;
-                color: $textColor;
+                //color: $textColor;
                 color: #b1b1b1;
                 font-size: 0.9rem;
                 padding: 5px;
@@ -62,7 +62,7 @@
                     background-color: #fff;
                     color: #666;
                     border: none;
-                    border-bottom: solid 3px $primaryColor;
+                   // border-bottom: solid 3px $primaryColor;
                 }
 
                 .icon {

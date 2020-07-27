@@ -8,8 +8,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Microsoft.AspNetCore.Http;
-using System.IO;
 using Pharmacy.InfraStructure;
 
 namespace Pharmacy.Service
@@ -48,7 +46,7 @@ namespace Pharmacy.Service
             return new Response<DrugStoreModel>
             {
                 IsSuccessful = true,
-                Result = items.OrderBy(x=>x.Distance).First()
+                Result = items.OrderBy(x => x.Distance).First()
             };
         }
         //public async Task<IResponse<LocationDTO>> GetLocationAsync(int id)
@@ -103,6 +101,7 @@ namespace Pharmacy.Service
 
             return new Response<DrugStore> { Result = Pharmacy, IsSuccessful = true };
         }
+
         public PagingListDetails<DrugStore> Get(DrugStoreSearchFilter filter)
         {
             Expression<Func<DrugStore, bool>> conditions = x => !x.IsDeleted;
@@ -316,5 +315,20 @@ namespace Pharmacy.Service
         }
 
         public async Task<bool> CheckOwner(int PharmacyId, Guid userId) => await _drugStoreRepo.AnyAsync(x => x.DrugStoreId == PharmacyId && x.UserId == userId);
+
+        public List<DrugStoreDTO> GetAsDTO()
+            => _drugStoreRepo.Get(selector: x => new DrugStoreDTO
+                {
+                    DrugStoreId = x.DrugStoreId,
+                    Name = x.Name,
+                    ImageUrl = x.DrugStoreAssets.First().Url
+                },
+                conditions: x => x.DrugStoreAssets.Any(),
+                pagingParameter: new PagingParameter
+                {
+                    PageNumber = 1,
+                    PageSize = 15
+                },
+                orderBy: o => o.OrderByDescending(x => x.DrugStoreId)).Items;
     }
 }

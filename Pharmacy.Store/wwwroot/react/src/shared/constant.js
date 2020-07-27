@@ -11,7 +11,7 @@
     addToCart: 'افزودن به سبد خرید',
     products: 'محصولات',
     useModernBrowser: 'لطفا از مرورگر جدید تری استفاده نمیید',
-
+    drugStores:'داروخانه ها',
 
 
 

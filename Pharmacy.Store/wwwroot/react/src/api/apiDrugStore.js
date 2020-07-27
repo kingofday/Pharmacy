@@ -1,9 +1,9 @@
 import addr from './addresses';
 import strings from './../shared/constant';
 
-export default class apiDrug {
-    static async get(filter) {
-        let url = addr.searchDrug(filter);
+export default class apiDrugStore {
+    static async get() {
+        let url = addr.getDrugStores;
         console.log(url);
         var handleResponse = async (response) => {
             const rep = await response.json();
@@ -12,18 +12,10 @@ export default class apiDrug {
                 return { success: false, message: rep.Message }
             else return {
                 success: true,
-                result: rep.Result.Items.map((d) => ({
-                    drugId: d.DrugId,
-                    priceId: d.PriceId,
-                    nameFa: d.NameFa,
-                    nameEn: d.NameEn,
-                    shortDescription: d.ShortDescription,
-                    count: d.Count,
-                    uniqueId: d.UniqueId,
-                    discount: d.DiscountPrice,
-                    price: d.Price,
-                    unitName: d.UnitName,
-                    thumbnailImageUrl: d.ThumbnailImageUrl
+                result: rep.Result.map((d) => ({
+                    drugStoreId: d.DrugStoreId,
+                    name:d.Name,
+                    imageUrl: d.ImageUrl
                 }))
             }
         }

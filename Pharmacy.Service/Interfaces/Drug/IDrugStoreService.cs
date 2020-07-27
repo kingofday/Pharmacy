@@ -22,5 +22,6 @@ namespace Pharmacy.Service
         Task<IResponse<DrugStore>> UpdateAsync(DrugStoreAdminUpdateModel model);
         Task<IResponse<bool>> DeleteFile(string baseDomain, string root, int id);
         Task<bool> CheckOwner(int PharmacyId, Guid userId);
+        List<DrugStoreDTO> GetAsDTO();
     }
 }

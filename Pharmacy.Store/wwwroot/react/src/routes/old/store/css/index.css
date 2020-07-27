@@ -60,7 +60,6 @@
 }
 
 .store-page .info .wrapper .name-wrapper .basket-wrapper .contactus {
-  color: #2776d3;
   border-radius: 30px;
   background-color: #ecf5fc;
   padding: 3px 8px;
@@ -79,7 +78,6 @@
 
 .store-page .nav-tabs .nav-item a {
   display: inline-block;
-  color: #2776d3;
   color: #b1b1b1;
   font-size: 0.9rem;
   padding: 5px;
@@ -89,7 +87,6 @@
   background-color: #fff;
   color: #666;
   border: none;
-  border-bottom: solid 3px #8aadd8;
 }
 
 .store-page .nav-tabs .nav-item a .icon {

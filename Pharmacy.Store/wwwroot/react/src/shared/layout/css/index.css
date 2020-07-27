@@ -229,6 +229,7 @@
     z-index: 999;
     top: 0;
     bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
