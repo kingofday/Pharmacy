@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { LogOutAction } from './../../../redux/actions/authenticationAction';
-import logoImage from './../../../assets/images/logo.png';
+import logoImage from './../../../assets/images/layout/logo.png';
 
 class TopHeader extends React.Component {
     constructor(props) {
@@ -21,31 +21,31 @@ class TopHeader extends React.Component {
             }, 1000);
         }
     }
-    _handleLogOut(){
+    _handleLogOut() {
         this.props.logOut();
         this.props.history.push("/");
     }
     render() {
         return (
             <section id='comp-top-header'>
-            <Container>
-                <Row>
-                    <Col xs={6} sm={6} className='logo-wrapper'>
-                        <img src={logoImage} alt='pharmacy logo' />
-                    </Col>
-                    <Col xs={6} sm={6} className='auth-wrapper'>
-                    <Link to={this.props.token ? '/profile' : '/auth'}>
-                            <i className='default-i zmdi zmdi-account'></i>
-                        </Link>
-                        <Link to={this.props.route} className={this.state.animate ? 'ripple-loader' : ''}>
-                            <i className='default-i zmdi zmdi-shopping-cart'></i>
-                        </Link>
-                        {this.props.token ? <button className='log-out' onClick={this._handleLogOut.bind(this)}>
-                            <i className='default-i zmdi zmdi-power'></i>
-                        </button> : null}
-                    </Col>
-                </Row>
-            </Container>
+                <Container>
+                    <Row>
+                        <Col xs={6} sm={6} className='logo-wrapper'>
+                            <img src={logoImage} alt='pharmacy logo' />
+                        </Col>
+                        <Col xs={6} sm={6} className='auth-wrapper'>
+                            <Link to={this.props.token ? '/profile' : '/auth'}>
+                                <i className='default-i zmdi zmdi-account'></i>
+                            </Link>
+                            <Link to={this.props.route} className={this.state.animate ? 'ripple-loader' : ''}>
+                                <i className='default-i zmdi zmdi-shopping-cart'></i>
+                            </Link>
+                            {this.props.token ? <button className='log-out' onClick={this._handleLogOut.bind(this)}>
+                                <i className='default-i zmdi zmdi-power'></i>
+                            </button> : null}
+                        </Col>
+                    </Row>
+                </Container>
             </section>
 
         );
@@ -53,7 +53,7 @@ class TopHeader extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { ...state.basketReducer ,...state.authenticationReducer };
+    return { ...state.basketReducer, ...state.authenticationReducer };
 }
 
 const mapDispatchToProps = dispatch => ({

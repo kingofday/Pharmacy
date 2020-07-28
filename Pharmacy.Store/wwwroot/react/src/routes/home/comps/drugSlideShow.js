@@ -69,7 +69,7 @@ class DrugSlideShow extends React.Component {
       ]
     };
     return (
-      <div className='comp-slide-show'>
+      <section className='comp-slide-show'>
         <Heading title={this.props.title} className='padding-r' />
         <Slider {...settings}>
           {this.state.loading ? [0, 1, 2, 3, 4].map((x) => (<LoadingDrug key={x} />)) :
@@ -86,7 +86,7 @@ class DrugSlideShow extends React.Component {
             )))
           }
         </Slider>
-      </div >
+      </section>
 
     );
   }

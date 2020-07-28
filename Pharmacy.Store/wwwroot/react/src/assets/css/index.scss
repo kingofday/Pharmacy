@@ -48,6 +48,10 @@ input[type="text"]:focus {
 a {
   color: #666;
   text-decoration: none;
+
+  &:hover{
+    color:#666;
+  }
 }
 ul,
 ol {
@@ -80,6 +84,10 @@ button {
 }
 .mb-15 {
   margin-bottom: 15px;
+}
+.icon{
+  vertical-align: middle;
+  font-size: 20px!important;
 }
 .ltr-input {
   input {

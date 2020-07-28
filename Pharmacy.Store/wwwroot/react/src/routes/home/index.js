@@ -83,6 +83,13 @@ class Home extends React.Component {
                     </Row>
                     <ThirdRow />
                     <DrugStores />
+                    <Row>
+                        <Col xs={12} sm={12}>
+                            <div className='card mb-15'>
+                                <DrugSlideShow title={strings.newests} type={enums.drugFilterType.newest} />
+                            </div>
+                        </Col>
+                    </Row>
                 </Container>
             </div>
         );

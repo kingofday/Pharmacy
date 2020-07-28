@@ -57,7 +57,10 @@ namespace Pharmacy.DataAccess.Ef
 
         public Response<PagingListDetails<DrugDTO>> GetAsDTO(DrugSearchFilter filter)
         {
-            var q = _Drug.Where(x => !x.IsDeleted && x.IsActive && x.DrugPrices.Any(x => x.IsDefault))
+            var q = _Drug.Where(x => !x.IsDeleted
+            && x.IsActive
+            && x.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage)
+            && x.DrugPrices.Any(x => x.IsDefault))
                 .Include(x => x.DrugAssets)
                 .Include(x => x.DrugPrices)
                 .ThenInclude(x => x.Unit)
@@ -77,6 +80,9 @@ namespace Pharmacy.DataAccess.Ef
                 case DrugFilterType.BestSellers:
                     q = q.OrderByDescending(x => x.OrderDetails.Count());
                     break;
+                case DrugFilterType.Newest:
+                    q = q.OrderByDescending(x => x.DrugId);
+                    break;
                 default:
                     q = q.OrderByDescending(x => x.DrugId);
                     break;
@@ -87,7 +93,7 @@ namespace Pharmacy.DataAccess.Ef
                 NameFa = p.NameFa,
                 NameEn = p.NameEn,
                 UniqueId = p.UniqueId,
-                ThumbnailImageUrl = p.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null,
+                ThumbnailImageUrl =  p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
                 Price = p.DrugPrices.FirstOrDefault(x => x.IsDefault).Price,
                 DiscountPrice = p.DrugPrices.FirstOrDefault(x => x.IsDefault).DiscountPrice
             }).ToPagingListDetails(filter);

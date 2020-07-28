@@ -2,10 +2,14 @@ import React from 'react';
 import Modal from '../modal';
 import { connect } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import TopHeader from './comps/topHeader';
 import SearchBar from './comps/searchBar';
 import Menu from './comps/menu';
+import LinksWithInfo from './comps/linksWithInfo';
+import UsefulLinks from './comps/usefulLinks';
+import Footer from './comps/footer';
 // import Store from '../../routes/store';
 // import ContactUs from '../../routes/contactUs';
 // import Product from '../../routes/product';
@@ -19,7 +23,7 @@ import Home from '../../routes/home';
 // import SelectAddress from '../../routes/selectAddress';
 // import SelectLocation from '../../routes/selectLocation';
 // import Review from './../../routes/review';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+
 
 class Layout extends React.Component {
     render() {
@@ -41,6 +45,9 @@ class Layout extends React.Component {
                     <Route path="/afterGateway/:status/:transId" component={AfterGateway} /> */}
                     <Route path="/:msg?" component={NotFound} />
                 </Switch>
+                <LinksWithInfo/>
+                <UsefulLinks/>
+                <Footer/>
                 <Modal />
                 <InitError />
                 <ToastContainer containerId={'common_toast'} rtl />

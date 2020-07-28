@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import SearchDrug from '../../searchDrug/searchDrug';
 import { LogOutAction } from './../../../redux/actions/authenticationAction';
-import prescriptImage from './../../../assets/images/prescription.png';
+import prescriptImage from './../../../assets/images/layout/prescription.png';
 
 class SearchBar extends React.Component {
     constructor(props) {
