@@ -453,6 +453,10 @@ body[dir="rtl"] .modal-header .close {
   line-height: 25px;
 }
 
+#comp-useful-links {
+  background-color: #fff;
+}
+
 #comp-useful-links .hx {
   text-align: center;
   margin-bottom: 15px;
@@ -958,84 +962,6 @@ html[dir="ltr"] .main-nav ul .close-menu {
   overflow: hidden;
 }
 
-#home-page .comp-slide-show .comp-loading-drug {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 15px;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  margin-bottom: 0;
-}
-
-#home-page .comp-slide-show .comp-loading-drug .main-img {
-  margin-top: 12px;
-  height: 120px;
-  width: 100%;
-}
-
-#home-page .comp-slide-show .comp-loading-drug figcaption {
-  width: 100%;
-  text-align: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-}
-
-#home-page .comp-slide-show .comp-loading-drug figcaption .name,
-#home-page .comp-slide-show .comp-loading-drug figcaption .price {
-  width: 80%;
-  margin-top: 12px;
-}
-
-#home-page .comp-slide-show .comp-loading-drug figcaption .btn-add {
-  margin-top: 12px;
-}
-
-#home-page .comp-slide-show .comp-loading-drug figcaption .btn-add {
-  width: 120px;
-  padding: 10px 30px;
-}
-
-#home-page .comp-slide-show .item {
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-  cursor: pointer;
-}
-
-#home-page .comp-slide-show .item .main-img {
-  margin-top: 12px;
-  max-width: 100%;
-}
-
-#home-page .comp-slide-show .item .name,
-#home-page .comp-slide-show .item .price,
-#home-page .comp-slide-show .item .btn-add {
-  margin-top: 12px;
-  text-align: center;
-}
-
-#home-page .comp-slide-show .item:hover {
-  -ms-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
-  -o-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
-  -webkit-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
-  -webkit-transform: translateY(-10px);
-  transform: translateY(-10px);
-}
-
 #home-page #comp-third-row #comp-banner-slide-show .slick-next {
   left: 15px !important;
   z-index: 999;
@@ -1105,5 +1031,93 @@ html[dir="ltr"] .main-nav ul .close-menu {
 
 .retry-comp .btn-retry i {
   font-size: 20px;
+}
+
+.comp-drug-item {
+  background: #fff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.comp-drug-item .main-img {
+  margin-top: 12px;
+  max-width: 100%;
+}
+
+.comp-drug-item .name,
+.comp-drug-item .price,
+.comp-drug-item .btn-add {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.comp-drug-item:hover {
+  -ms-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+  -o-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+  -webkit-transform: translateY(-10px);
+  transform: translateY(-10px);
+}
+
+.comp-loading-drug {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 15px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 0;
+  background: #fff;
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.comp-loading-drug .main-img {
+  margin-top: 12px;
+  height: 120px;
+  width: 100%;
+}
+
+.comp-loading-drug figcaption {
+  width: 100%;
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.comp-loading-drug figcaption .name,
+.comp-loading-drug figcaption .price {
+  width: 80%;
+  margin-top: 12px;
+}
+
+.comp-loading-drug figcaption .btn-add {
+  margin-top: 12px;
+}
+
+.comp-loading-drug figcaption .btn-add {
+  width: 120px;
+  padding: 10px 30px;
+}
+
+#page-products {
+  padding-top: 30px;
 }
 /*# sourceMappingURL=index.css.map */

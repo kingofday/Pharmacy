@@ -2,10 +2,12 @@
 {
     public enum DrugFilterType : byte
     {
-        All = 0,
-        MostVisited = 1,
-        Favorites = 2,
-        BestSellers = 3,
-        Newest = 4
+        Newest = 0,
+        BestSellers = 1,
+        MostVisited = 2,
+        PriceDesc = 3,
+        PriceAsc = 4,
+        Favorites = 5,
+        Score = 6
     }
 }

@@ -16,7 +16,7 @@ export default class UsefulLinks extends React.Component {
                 <Container>
                     <Row>
                         <Col col={12}>
-                            <div className='card padding md-15'>
+                            <div className='padding md-15'>
                                 <Row>
                                     <Col xs={12} sm={6} lg={3} className='mb-15 direction-column text-center'>
                                         <h5 className='hx'>شغل و مراقبت</h5>

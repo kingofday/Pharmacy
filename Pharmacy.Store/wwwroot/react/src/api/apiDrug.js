@@ -12,19 +12,22 @@ export default class apiDrug {
                 return { success: false, message: rep.Message }
             else return {
                 success: true,
-                result: rep.Result.Items.map((d) => ({
-                    drugId: d.DrugId,
-                    priceId: d.PriceId,
-                    nameFa: d.NameFa,
-                    nameEn: d.NameEn,
-                    shortDescription: d.ShortDescription,
-                    count: d.Count,
-                    uniqueId: d.UniqueId,
-                    discount: d.DiscountPrice,
-                    price: d.Price,
-                    unitName: d.UnitName,
-                    thumbnailImageUrl: d.ThumbnailImageUrl
-                }))
+                result: {
+                    maxPrice: rep.Result.MaxPrice,
+                    items: rep.Result.Items.map((d) => ({
+                        drugId: d.DrugId,
+                        priceId: d.PriceId,
+                        nameFa: d.NameFa,
+                        nameEn: d.NameEn,
+                        shortDescription: d.ShortDescription,
+                        count: d.Count,
+                        uniqueId: d.UniqueId,
+                        discount: d.DiscountPrice,
+                        price: d.Price,
+                        unitName: d.UnitName,
+                        thumbnailImageUrl: d.ThumbnailImageUrl
+                    }))
+                }
             }
         }
         try {

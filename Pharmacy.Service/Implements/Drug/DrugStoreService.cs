@@ -1,6 +1,5 @@
 ﻿using Elk.Core;
 using Pharmacy.Domain;
-using System.Threading;
 using Pharmacy.DataAccess.Ef;
 using System.Threading.Tasks;
 using Pharmacy.Service.Resource;

@@ -5,6 +5,7 @@ using Pharmacy.Domain;
 using Elk.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Pharmacy.DataAccess.Ef.Resource;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Pharmacy.DataAccess.Ef
 {
@@ -55,7 +56,7 @@ namespace Pharmacy.DataAccess.Ef
             };
         }
 
-        public Response<PagingListDetails<DrugDTO>> GetAsDTO(DrugSearchFilter filter)
+        public Response<GetDrugsModel> GetAsDTO(DrugSearchFilter filter)
         {
             var q = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
@@ -66,9 +67,10 @@ namespace Pharmacy.DataAccess.Ef
                 .ThenInclude(x => x.Unit)
                 .AsQueryable().AsNoTracking();
             var currentDT = DateTime.Now;
-            if (!string.IsNullOrWhiteSpace(filter.Name)) 
+            if (!string.IsNullOrWhiteSpace(filter.Name))
                 q = q.Where(x => x.NameFa.Contains(filter.Name) || x.NameEn.Contains(filter.Name) || x.UniqueId.Contains(filter.Name));
-
+            if (filter.CategoryId != null)
+                q = q.Where(x => x.DrugCategoryId == filter.CategoryId);
             switch (filter.Type)
             {
                 case DrugFilterType.MostVisited:
@@ -78,13 +80,7 @@ namespace Pharmacy.DataAccess.Ef
                     q = q.OrderByDescending(x => x.LikeCount);
                     break;
                 case DrugFilterType.BestSellers:
-                    q = q.OrderByDescending(x => x.OrderDetails.Count());
-                    break;
-                case DrugFilterType.Newest:
-                    q = q.OrderByDescending(x => x.DrugId);
-                    break;
-                default:
-                    q = q.OrderByDescending(x => x.DrugId);
+                    q = q.OrderByDescending(x => x.OrderDetails.Sum(o => o.Count));
                     break;
             }
             var result = q.Select(p => new DrugDTO
@@ -93,14 +89,36 @@ namespace Pharmacy.DataAccess.Ef
                 NameFa = p.NameFa,
                 NameEn = p.NameEn,
                 UniqueId = p.UniqueId,
-                ThumbnailImageUrl =  p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
+                ThumbnailImageUrl = p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
                 Price = p.DrugPrices.FirstOrDefault(x => x.IsDefault).Price,
                 DiscountPrice = p.DrugPrices.FirstOrDefault(x => x.IsDefault).DiscountPrice
-            }).ToPagingListDetails(filter);
-            return new Response<PagingListDetails<DrugDTO>>
+            });
+            if (filter.MinPrice != null)
+                result = result.Where(x => x.Price >= filter.MinPrice);
+            if (filter.MaxPrice != null && filter.MaxPrice != 0)
+                result = result.Where(x => x.Price <= filter.MaxPrice);
+            switch (filter.Type)
+            {
+                case DrugFilterType.PriceAsc:
+                    result = result.OrderBy(x => x.Price);
+                    break;
+                case DrugFilterType.PriceDesc:
+                    result = result.OrderByDescending(x => x.Price);
+                    break;
+                default:
+                    result = result.OrderByDescending(x => x.DrugId);
+                    break;
+
+            }
+            var maxPrice = result.OrderByDescending(x => x.Price).FirstOrDefault()?.Price;
+            return new Response<GetDrugsModel>
             {
                 IsSuccessful = true,
-                Result = result
+                Result = new GetDrugsModel
+                {
+                    MaxPrice = maxPrice ?? 0,
+                    Items = result.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize).ToList()
+                }
             };
         }
 

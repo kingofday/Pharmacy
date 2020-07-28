@@ -1,0 +1,66 @@
+@import "./../../../assets/css/constant.scss";
+
+.comp-drug-item {
+  background: #fff;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  padding-top: $padding;
+  padding-bottom: $padding;
+
+  .main-img {
+    margin-top: 12px;
+    max-width: 100%;
+  }
+  .name,
+  .price,
+  .btn-add {
+    margin-top: 12px;
+    text-align: center;
+  }
+  &:hover {
+    -ms-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 65px rgba(0, 0, 0, 0.1);
+    -webkit-transform: translateY(-10px);
+    transform: translateY(-10px);
+  }
+}
+
+.comp-loading-drug {
+  display: flex;
+  padding: $padding;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 0;
+  background: #fff;
+  padding-top: $padding;
+  padding-bottom: $padding;
+  
+  .main-img {
+    margin-top: 12px;
+    height: 120px;
+    width: 100%;
+  }
+  figcaption {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    .name,
+    .price {
+      width: 80%;
+      margin-top: 12px;
+    }
+
+    .btn-add {
+      margin-top: 12px;
+    }
+    .btn-add {
+      width: 120px;
+      padding: 10px 30px;
+    }
+  }
+}

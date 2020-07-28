@@ -98,7 +98,7 @@ class SearchBar extends React.Component {
             toast(search.message, { type: toast.TYPE.ERROR });
             return;
         }
-        this.setState(p => ({ ...p, activeIndex: 0, showResult: true, items: search.result }));
+        this.setState(p => ({ ...p, activeIndex: 0, showResult: true, items: search.result.items }));
     }
     _changeActiveIndex(idx) {
         this.setState(p => ({ ...p, activeIndex: idx }));

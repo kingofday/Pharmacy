@@ -169,6 +169,10 @@
   line-height: 25px;
 }
 
+#comp-useful-links {
+  background-color: #fff;
+}
+
 #comp-useful-links .hx {
   text-align: center;
   margin-bottom: 15px;

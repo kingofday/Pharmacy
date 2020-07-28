@@ -47,7 +47,7 @@ class Categories extends React.Component {
         return (
             <section id='comp-menu-categories' ref={c => this.wrapper = c}>
                 <button onClick={() => this._handleDropDown()}>
-                    <span>{strings.products}</span>
+                    <span>{strings.categories}</span>
                     <i className='zmdi zmdi-format-list-bulleted'></i>
                 </button>
                 <ul className={this.state.collapsed ? 'categories' : 'd-none categories'}>

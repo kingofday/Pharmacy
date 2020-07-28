@@ -8,7 +8,7 @@ namespace Pharmacy.Service
 {
     public interface IDrugService
     {
-        Response<PagingListDetails<DrugDTO>> GetAsDto(DrugSearchFilter filter);
+        Response<GetDrugsModel> GetAsDto(DrugSearchFilter filter);
         Task<IResponse<Drug>> FindAsync(int id);
         Response<SingleDrugDTO> GetSingle(int id);
 

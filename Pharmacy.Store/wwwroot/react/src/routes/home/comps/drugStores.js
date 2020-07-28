@@ -48,7 +48,7 @@ export default class DrugStores extends React.Component {
     return (
       <Row id='comp-drugstores' className='comp-drugstores mb-15'>
         <Col xs={12} sm={12} className='direction-column'>
-          <div class='card padding'>
+          <div className='card padding'>
             <Heading title={strings.drugStores} />
             <Slider {...settings}>
               {this.state.loading ? [0, 1, 2, 3, 4].map((x) => <div key={x}><Skeleton variant='rect' width={100} height={100} /></div>) :

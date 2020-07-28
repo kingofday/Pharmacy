@@ -10,6 +10,8 @@ import Menu from './comps/menu';
 import LinksWithInfo from './comps/linksWithInfo';
 import UsefulLinks from './comps/usefulLinks';
 import Footer from './comps/footer';
+
+ import Products from '../../routes/products/products';
 // import Store from '../../routes/store';
 // import ContactUs from '../../routes/contactUs';
 // import Product from '../../routes/product';
@@ -34,6 +36,7 @@ class Layout extends React.Component {
                 <Menu/>
                 <Switch>
                     <Route exact path="/" component={Home} />
+                    <Route exact path="/products" component={Products} />
                     {/* <Route exact path="/product/:id" component={Product} />
                     <Route exact path="/contactus" component={ContactUs} />
                     <Route exact path="/basket" component={Basket} />

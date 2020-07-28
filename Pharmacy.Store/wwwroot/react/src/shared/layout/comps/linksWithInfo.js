@@ -44,8 +44,8 @@ export default class LinksWithInfo extends React.Component {
                                                 to: '#',
                                                 text: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آنچنان که لازم است.'
                                             }
-                                            ].map((info) =>
-                                                <Col xs={12} sm={6} className='mb-15'>
+                                            ].map((info, idx) =>
+                                                <Col key={idx} xs={12} sm={6} className='mb-15'>
                                                     <Link className='link-img d-flex' to={info.to}>
                                                         <img src={info.img} />
                                                         <div className='info'>
@@ -71,7 +71,7 @@ export default class LinksWithInfo extends React.Component {
                                             title: 'استخدام دوستان​',
                                             to: '#',
                                             description: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است'
-                                        }].map(x => <Link to={x.to} className='link-no-img'>
+                                        }].map((x, idx) => <Link key={idx} to={x.to} className='link-no-img'>
                                             <h5 className='hx'>{x.title}</h5>
                                             <p>{x.description}</p>
                                         </Link>)}
