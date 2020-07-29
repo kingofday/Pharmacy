@@ -93,6 +93,7 @@ namespace Pharmacy.DataAccess.Ef
                 Price = p.DrugPrices.FirstOrDefault(x => x.IsDefault).Price,
                 DiscountPrice = p.DrugPrices.FirstOrDefault(x => x.IsDefault).DiscountPrice
             });
+            var maxPrice = result.OrderByDescending(x => x.Price).FirstOrDefault()?.Price;
             if (filter.MinPrice != null)
                 result = result.Where(x => x.Price >= filter.MinPrice);
             if (filter.MaxPrice != null && filter.MaxPrice != 0)
@@ -110,7 +111,7 @@ namespace Pharmacy.DataAccess.Ef
                     break;
 
             }
-            var maxPrice = result.OrderByDescending(x => x.Price).FirstOrDefault()?.Price;
+
             return new Response<GetDrugsModel>
             {
                 IsSuccessful = true,

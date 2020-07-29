@@ -15,7 +15,7 @@ body {
 #root {
   min-height: 100vh;
 }
-.MuiFormLabel-root {
+.MuiFormLabel-root,.MuiMenuItem-root {
   font-family: "iransans" !important;
 }
 h1,
@@ -88,6 +88,10 @@ button {
 .icon{
   vertical-align: middle;
   font-size: 20px!important;
+}
+.ltr-elm{
+  direction: ltr;
+  text-align: left;
 }
 .ltr-input {
   input {
@@ -185,8 +189,23 @@ input:-webkit-autofill:active {
 }
 
 .comp-heading {
-  font-size: 18px;
+  font-size: 1.3rem;
   padding: 15px 0;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+  &.bordered{
+    &:after{
+      content: '';
+      content: '';
+      flex: 1;
+      background-color: #00346e;
+      height: 3px;
+      margin-right: 10px;
+    }
+  }
 }
 .slick-list {
   direction: ltr;
@@ -211,3 +230,4 @@ input:-webkit-autofill:active {
 @import "./../../shared/initError/css/index.scss";
 @import "./../../shared/DrugItem/css/index.scss";
 @import "./../../routes/products/css/index.scss";
+@import "./../../shared/categories/css/index.scss";

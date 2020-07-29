@@ -16,7 +16,7 @@ export default class ThirdRow extends React.Component {
         <Col xs={12} lg={9}>
           <div className='card mb-15'>
             <BannerSlideShow className='d-none d-md-block' />
-            <DrugSlideShow title={strings.mostVisited} type={enums.drugFilterType.mostVisited} />
+            <DrugSlideShow title={strings.mostVisited} type={enums.drugFilterType.mostVisited.value} />
           </div>
         </Col>
         <Col className='description d-none d-lg-flex' lg={3}>

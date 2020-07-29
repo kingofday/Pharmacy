@@ -106,16 +106,17 @@ namespace Pharmacy.Store.Api.Controllers
         }
 
         [HttpGet, Route("[controller]")]
-        public ActionResult<IResponse<PagingListDetails<DrugDTO>>> Get([FromQuery]DrugSearchFilter filter)
-                        //=> _drugService.GetAsDto(filter);
-                        => new Response<PagingListDetails<DrugDTO>>
-                        {
-                            IsSuccessful = true,
-                            Result = new PagingListDetails<DrugDTO>
-                            {
-                                Items = new PagingList<DrugDTO>(items, 10, new PagingParameter { PageNumber = 1, PageSize = 10 })
-                            }
-                        };
+        public ActionResult<IResponse<GetDrugsModel>> Get([FromQuery] DrugSearchFilter filter)
+                       //=> _drugService.GetAsDto(filter);
+                       => new Response<GetDrugsModel>
+                       {
+                           IsSuccessful = true,
+                           Result = new GetDrugsModel
+                           {
+                               MaxPrice = 3200000,
+                               Items = items
+                           }
+                       };
 
         [HttpGet, Route("drug/{id:int}")]
         public ActionResult<IResponse<SingleDrugDTO>> GetSingle(int id)

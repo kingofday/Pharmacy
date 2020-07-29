@@ -1,3 +1,63 @@
 #page-products {
     padding-top: 30px;
+
+    #comp-search-name {
+        .form-group {
+            padding: 10px 0;
+            position: relative;
+
+            input {
+                width: 100%;
+                border: solid 1px #ccc;
+                padding: 10px;
+            }
+            button {
+                position: absolute;
+                left: 5px;
+                background-color: transparent;
+                border: none;
+                color: #666;
+                padding: 10px 10px 10px 30px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+    #comp-price-range {
+        button {
+            border: none;
+            color: #fff;
+        }
+        .price-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
+    .MuiOutlinedInput-root {
+        .PrivateNotchedOutline-root-61:focus {
+            border-color: rgba(0, 0, 0, 0.23);
+        }
+    }
+
+    .comp-drugs-list {
+        .items {
+            list-style: none;
+            .item {
+                padding: 10px 0;
+                a {
+                    display: flex;
+
+                    img {
+                        width: 50px;
+                    }
+                    .info {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                    }
+                }
+            }
+        }
+    }
 }

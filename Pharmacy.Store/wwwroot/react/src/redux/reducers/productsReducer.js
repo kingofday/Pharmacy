@@ -2,16 +2,21 @@
 
 const initState = {
     type: 0,
-    minPrice:0,
-    maxPrice:
+    minPrice: 0,
+    maxPrice: 0,
+    categoryId: null
 };
 
-export default function reviewReducer(state = initState, action) {
+export default function productsReducer(state = initState, action) {
     switch (action.type) {
-        case actionTypes.SET_ADDRESS:
+        case actionTypes.SET_PRODUCTS_FILTER_NAME:
             return { ...state, ...action.payload }
-        case actionTypes.SET_BASKET_ID:
-            return { ...state, basketId: action.payload.basketId }
+        case actionTypes.SET_PRODUCTS_FILTER_PRICE:
+            return { ...state, ...action.payload }
+        case actionTypes.SET_PRODUCTS_FILTER_PRICE:
+            return { ...state, ...action.payload }
+        case actionTypes.SET_PRODUCTS_FILTER_SORT:
+            return { ...state, ...action.payload }
         default:
             return state;
     }

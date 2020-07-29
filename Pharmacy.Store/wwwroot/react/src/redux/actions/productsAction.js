@@ -1,9 +1,9 @@
 import actionTypes from './actionTypes';
 
-export function SetNameAction(q) {
+export function SetNameAction(name) {
     return {
         type: actionTypes.SET_PRODUCTS_FILTER_NAME,
-        payload: { name: q }
+        payload: { name: name }
     };
 };
 

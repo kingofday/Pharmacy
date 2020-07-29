@@ -1,0 +1,14 @@
+.comp-categories {
+  width: 100%;
+  padding: 15px;
+}
+
+.comp-categories ul {
+  width: 100%;
+  list-style: none;
+}
+
+.comp-categories ul li {
+  padding: 10px 0;
+}
+/*# sourceMappingURL=index.css.map */

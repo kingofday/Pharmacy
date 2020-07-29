@@ -53,7 +53,7 @@ class Categories extends React.Component {
                 <ul className={this.state.collapsed ? 'categories' : 'd-none categories'}>
                     {this.state.loading ? ([0, 1, 2, 3].map(idx => (<li key={idx}><Skeleton height={30} variant='rect' /></li>))) :
                         this.state.items.map((item, idx) => (<li key={idx}>
-                            <Link to={`/products/${item.categoryId}`}>
+                            <Link to={`/products?categoryId=${item.categoryId}`}>
                                 {item.name}
                             </Link>
                         </li>))

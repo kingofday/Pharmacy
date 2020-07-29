@@ -16,7 +16,7 @@ body {
   min-height: 100vh;
 }
 
-.MuiFormLabel-root {
+.MuiFormLabel-root, .MuiMenuItem-root {
   font-family: "iransans" !important;
 }
 
@@ -105,6 +105,11 @@ button:hover {
 .icon {
   vertical-align: middle;
   font-size: 20px !important;
+}
+
+.ltr-elm {
+  direction: ltr;
+  text-align: left;
 }
 
 .ltr-input input {
@@ -210,8 +215,30 @@ input:-webkit-autofill:active {
 }
 
 .comp-heading {
-  font-size: 18px;
+  font-size: 1.3rem;
   padding: 15px 0;
+  font-weight: bold;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.comp-heading.bordered:after {
+  content: '';
+  content: '';
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  background-color: #00346e;
+  height: 3px;
+  margin-right: 10px;
 }
 
 .slick-list {
@@ -944,20 +971,6 @@ html[dir="ltr"] .main-nav ul .close-menu {
   padding: 0 30px;
 }
 
-#home-page #second-row .categories > div {
-  width: 100%;
-  padding: 15px;
-}
-
-#home-page #second-row .categories > div ul {
-  width: 100%;
-  list-style: none;
-}
-
-#home-page #second-row .categories > div ul li {
-  padding: 10px 0;
-}
-
 #home-page .comp-slide-show {
   overflow: hidden;
 }
@@ -1119,5 +1132,94 @@ html[dir="ltr"] .main-nav ul .close-menu {
 
 #page-products {
   padding-top: 30px;
+}
+
+#page-products #comp-search-name .form-group {
+  padding: 10px 0;
+  position: relative;
+}
+
+#page-products #comp-search-name .form-group input {
+  width: 100%;
+  border: solid 1px #ccc;
+  padding: 10px;
+}
+
+#page-products #comp-search-name .form-group button {
+  position: absolute;
+  left: 5px;
+  background-color: transparent;
+  border: none;
+  color: #666;
+  padding: 10px 10px 10px 30px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
+}
+
+#page-products #comp-price-range button {
+  border: none;
+  color: #fff;
+}
+
+#page-products #comp-price-range .price-label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+#page-products .MuiOutlinedInput-root .PrivateNotchedOutline-root-61:focus {
+  border-color: rgba(0, 0, 0, 0.23);
+}
+
+#page-products .comp-drugs-list .items {
+  list-style: none;
+}
+
+#page-products .comp-drugs-list .items .item {
+  padding: 10px 0;
+}
+
+#page-products .comp-drugs-list .items .item a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#page-products .comp-drugs-list .items .item a img {
+  width: 50px;
+}
+
+#page-products .comp-drugs-list .items .item a .info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.comp-categories {
+  width: 100%;
+  padding: 15px;
+}
+
+.comp-categories ul {
+  width: 100%;
+  list-style: none;
+}
+
+.comp-categories ul li {
+  padding: 10px 0;
 }
 /*# sourceMappingURL=index.css.map */

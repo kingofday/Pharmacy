@@ -41,20 +41,6 @@
   padding: 0 30px;
 }
 
-#home-page #second-row .categories > div {
-  width: 100%;
-  padding: 15px;
-}
-
-#home-page #second-row .categories > div ul {
-  width: 100%;
-  list-style: none;
-}
-
-#home-page #second-row .categories > div ul li {
-  padding: 10px 0;
-}
-
 #home-page .comp-slide-show {
   overflow: hidden;
 }
