@@ -14,24 +14,20 @@ const ltrTheme = createMuiTheme({
 
 class PriceRange extends React.Component {
   state = {
-    max: 0,
-    range: [0, this.props.maxPrice]
+    max: this.props.maxAvailablePrice,
+    range: [this.props.minPrice, this.props.maxPrice]
   };
 
   _handleChange = (event, newValue) => {
-    console.log(newValue);
     this.setState(p => ({ ...p, range: newValue }))
   };
   _setPriceRange() {
     console.log(this.state.range[0]);
     this.props.setPriceRange(this.state.range[0], this.state.range[1]);
   }
-  componentDidUpdate() {
-    console.log('price range');
-  }
-  componentWillReceiveProps(nextProps) {
-    this.setState(p => ({ ...p, max: nextProps.maxPrice, range: [0, nextProps.maxPrice] }));
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   this.setState(p => ({ ...p, max: nextProps.maxPrice, range: [0, nextProps.maxPrice] }));
+  // }
   render() {
 
     return (
@@ -52,7 +48,7 @@ class PriceRange extends React.Component {
           </MuiThemeProvider>
         </div>
         <div className='price-label'>
-          <button onClick={this._setPriceRange}>
+          <button onClick={this._setPriceRange.bind(this)}>
             اعمال
           </button>
           <span>
@@ -64,9 +60,13 @@ class PriceRange extends React.Component {
   }
 }
 
+const mapStateToProps = (state, ownProps) => {
+  return { ...state.productsReducer };
+}
+
 const mapDispatchToProps = dispatch => ({
   setPriceRange: (min, max) => dispatch(SetPriceRangeAction(min, max)),
 });
 
 
-export default connect(null, mapDispatchToProps)(PriceRange);
+export default connect(mapStateToProps, mapDispatchToProps)(PriceRange);

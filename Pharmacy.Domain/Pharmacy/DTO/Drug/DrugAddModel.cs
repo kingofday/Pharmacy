@@ -11,6 +11,12 @@ namespace Pharmacy.Domain
     {
         public int DrugId { get; set; }
 
+        public int Price { get; set; }
+
+        public int DiscountPrice { get; set; }
+
+        public int UnitId { get; set; }
+
         [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
         public int? DrugCategoryId { get; set; }
 
@@ -47,6 +53,5 @@ namespace Pharmacy.Domain
 
         public List<int> TagIds { get; set; }
 
-        public List<DrugPrice> Prices { get; set; }
     }
 }

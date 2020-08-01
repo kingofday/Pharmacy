@@ -3,9 +3,9 @@ using Elk.Core;
 using System.Linq;
 using Pharmacy.Domain;
 using Elk.EntityFrameworkCore;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Pharmacy.DataAccess.Ef.Resource;
-using System.Security.Cryptography.X509Certificates;
 
 namespace Pharmacy.DataAccess.Ef
 {
@@ -22,13 +22,11 @@ namespace Pharmacy.DataAccess.Ef
         {
             var drug = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
-            && x.DrugPrices.Any(x => x.IsDefault)
             && x.DrugId == id)
                 .Include(x => x.DrugAssets)
                 .Include(x => x.DrugTags)
                 .ThenInclude(x => x.Tag)
-                .Include(x => x.DrugPrices)
-                .ThenInclude(x => x.Unit)
+                .Include(x => x.Unit)
                 .AsNoTracking()
                 .FirstOrDefault();
             if (drug == null) new Response<SingleDrugDTO> { Message = Strings.ItemNotFound };
@@ -40,12 +38,8 @@ namespace Pharmacy.DataAccess.Ef
                     DrugId = drug.DrugId,
                     NameEn = drug.NameEn,
                     NameFa = drug.NameFa,
-                    Prices = drug.DrugPrices?.Select(p => new DrugPriceDTO
-                    {
-                        Name = p.Unit.Name,
-                        Price = p.Price,
-                        DiscountPrice = p.DiscountPrice
-                    }).ToList(),
+                    Price = drug.Price,
+                    DiscountPrice = drug.DiscountPrice,
                     Slides = drug.DrugAssets?.Select(x => x.Url).ToList(),
                     Tags = drug.DrugTags?.Select(t => new DrugTagDTO
                     {
@@ -60,11 +54,9 @@ namespace Pharmacy.DataAccess.Ef
         {
             var q = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
-            && x.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage)
-            && x.DrugPrices.Any(x => x.IsDefault))
+            && x.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage))
                 .Include(x => x.DrugAssets)
-                .Include(x => x.DrugPrices)
-                .ThenInclude(x => x.Unit)
+                .Include(x => x.Unit)
                 .AsQueryable().AsNoTracking();
             var currentDT = DateTime.Now;
             if (!string.IsNullOrWhiteSpace(filter.Name))
@@ -90,8 +82,8 @@ namespace Pharmacy.DataAccess.Ef
                 NameEn = p.NameEn,
                 UniqueId = p.UniqueId,
                 ThumbnailImageUrl = p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
-                Price = p.DrugPrices.FirstOrDefault(x => x.IsDefault).Price,
-                DiscountPrice = p.DrugPrices.FirstOrDefault(x => x.IsDefault).DiscountPrice
+                Price = p.Price,
+                DiscountPrice = p.DiscountPrice
             });
             var maxPrice = result.OrderByDescending(x => x.Price).FirstOrDefault()?.Price;
             if (filter.MinPrice != null)
@@ -118,10 +110,57 @@ namespace Pharmacy.DataAccess.Ef
                 Result = new GetDrugsModel
                 {
                     MaxPrice = maxPrice ?? 0,
+                    TotalCount = result.Count(),
                     Items = result.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize).ToList()
                 }
             };
         }
 
+        //public Response<List<GetDrugPriceList>> GetPrices(List<int> ids)
+        //{
+        //    var result = _Drug.AsNoTracking()
+        //        .Include(x => x.DrugPrices)
+        //        .ThenInclude(x => x.Unit)
+        //        .Where(x => ids.Contains(x.DrugId))
+        //        .Select(x => new
+        //        {
+        //            x.DrugId,
+        //            DrugPrices = x.DrugPrices.Select(p => new DrugPriceDTO
+        //            {
+        //                DrugPriceId = p.DrugPriceId,
+        //                IsDefault = p.IsDefault,
+        //                Name = p.Unit.Name,
+        //                Price = p.Price,
+        //                DiscountPrice = p.DiscountPrice,
+
+        //            })
+        //        }).ToList();
+        //    return new Response<List<GetDrugPriceList>>
+        //    {
+        //        IsSuccessful = true,
+        //        Result = result.Select(x => new GetDrugPriceList
+        //        {
+        //            DrugId = x.DrugId,
+        //            DrugPrices = x.DrugPrices.ToList()
+        //        }).ToList()
+        //    };
+        //}
+
+        //public Response<List<DrugPriceDTO>> GetSingleDrugPrice(int id)
+        //{
+        //    var items = _Drug.AsNoTracking().Where(x => x.DrugId == id)
+        //    .Include(x => x.DrugPrices)
+        //    .ThenInclude(x => x.Unit)
+        //    .Select(x => x.DrugPrices.Select(p => new DrugPriceDTO
+        //    {
+        //        DrugPriceId = p.DrugPriceId,
+        //        IsDefault = p.IsDefault,
+        //        Name = p.Unit.Name,
+        //        Price = p.Price,
+        //        DiscountPrice = p.DiscountPrice,
+        //    })).FirstOrDefault();
+        //    if (items == null) return new Response<List<DrugPriceDTO>> { Message = Strings.ItemNotFound };
+        //    return new Response<List<DrugPriceDTO>> { IsSuccessful = true, Result = items.ToList() };
+        //}
     }
 }

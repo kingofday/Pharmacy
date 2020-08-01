@@ -181,8 +181,12 @@ input:-webkit-autofill:active {
   padding: 10px;
   border: 1px solid transparent;
   color: #fff;
-  background-color: #23af66;
+  background-color: $btnBgColor;
   text-align: center;
+
+  &:hover{
+    background-color: $btnHoverColor;
+  }
 }
 .with-header {
   padding-top: 55px;
@@ -230,4 +234,7 @@ input:-webkit-autofill:active {
 @import "./../../shared/initError/css/index.scss";
 @import "./../../shared/DrugItem/css/index.scss";
 @import "./../../routes/products/css/index.scss";
+@import "./../../routes/product/css/index.scss";
+@import "./../../shared/counter/css/index.scss";
+@import "./../../shared/discountBadg/css/index.scss";
 @import "./../../shared/categories/css/index.scss";

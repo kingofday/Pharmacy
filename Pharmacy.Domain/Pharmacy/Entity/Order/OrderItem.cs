@@ -16,11 +16,9 @@ namespace Pharmacy.Domain
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int OrderId { get; set; }
 
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int DrugId { get; set; }
 
-        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public int DrugPriceId { get; set; }
 
         [Display(Name = nameof(Strings.Count), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -40,12 +38,13 @@ namespace Pharmacy.Domain
 
         public int GetRealPrice() => Price - DiscountPrice;
 
-        [ForeignKey(nameof(DrugPriceId))]
-        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
-        public DrugPrice DrugPrice { get; set; }
 
         [ForeignKey(nameof(OrderId))]
         [Display(Name = nameof(Strings.Order), ResourceType = typeof(Strings))]
         public Order Order { get; set; }
+
+        [ForeignKey(nameof(DrugId))]
+        [Display(Name = nameof(Strings.Order), ResourceType = typeof(Strings))]
+        public Drug Drug { get; set; }
     }
 }

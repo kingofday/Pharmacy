@@ -5,4 +5,10 @@
   border-radius: 10px;
   font-size: 0.9rem;
 }
+
+.discount-badg i {
+  margin-right: 5px;
+  vertical-align: middle;
+  font-size: 12px;
+}
 /*# sourceMappingURL=index.css.map */

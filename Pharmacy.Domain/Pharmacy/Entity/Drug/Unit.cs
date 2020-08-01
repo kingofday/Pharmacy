@@ -20,6 +20,7 @@ namespace Pharmacy.Domain
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Name { get; set; }
 
-        public IList<DrugPrice> DrugPrices { get; set; }
+        public IList<Drug> Drugs { get; set; }
+
     }
 }

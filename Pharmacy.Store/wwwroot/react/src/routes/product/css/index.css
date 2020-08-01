@@ -1,19 +1,4 @@
-.product-page .info {
-  margin-bottom: 55px;
-}
-
-.product-page .btn-purchase {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-}
-
-.product-page .btn-purchase.fab {
-  position: static;
-  width: 200px;
-}
-
-.product-page .carousel-item {
+#page-drug .carousel-item {
   overflow: hidden;
   -webkit-transition: none !important;
   transition: none !important;
@@ -22,17 +7,17 @@
   padding: 15px 0;
 }
 
-.product-page .carousel-item img {
+#page-drug .carousel-item img {
   max-height: 320px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.product-page .carousel-indicators {
+#page-drug .carousel-indicators {
   margin-bottom: 5px;
 }
 
-.product-page .carousel-indicators li {
+#page-drug .carousel-indicators li {
   -webkit-box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.5);
           box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.5);
   background-color: #ccc;
@@ -44,24 +29,17 @@
   border: none;
 }
 
-.product-page .carousel-indicators li.active {
+#page-drug .carousel-indicators li.active {
   background-color: #fff;
 }
 
-.product-page .name {
+#page-drug #name {
   font-size: 1.4rem;
   font-weight: 900;
   padding: 15px 0;
 }
 
-.product-page .desc {
-  max-height: 100px;
-  overflow: hidden;
-  line-height: 20px;
-  text-align: justify;
-}
-
-.product-page .price-wrapper {
+#page-drug .price-wrapper {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -71,27 +49,27 @@
           flex-direction: column;
 }
 
-.product-page .price-wrapper > :first-child {
+#page-drug .price-wrapper > :first-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 
-.product-page .price-wrapper > :last-child {
+#page-drug .price-wrapper > :last-child {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.product-page .price-wrapper .price {
+#page-drug .price-wrapper .price {
   padding: 0 5px;
   position: relative;
 }
 
-.product-page .price-wrapper .price::after {
+#page-drug .price-wrapper .price::after {
   content: "";
   background: #ccc;
   height: 2px;
@@ -102,17 +80,16 @@
   right: 5px;
 }
 
-.product-page .price-wrapper .real-price-wrapper {
-  padding: 10px 0;
+#page-drug .price-wrapper .real-price-wrapper {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
 }
 
-.product-page .price-wrapper .real-price-wrapper .real-price {
+#page-drug .price-wrapper .real-price-wrapper .real-price {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -123,7 +100,11 @@
   font-weight: 900;
 }
 
-.product-page .price-wrapper .currency {
+#page-drug .price-wrapper .currency {
   padding: 0 5px;
+}
+
+#page-drug #btn-add-wrapper .btn-purchase {
+  margin-top: 15px;
 }
 /*# sourceMappingURL=index.css.map */

@@ -33,8 +33,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Drug>> FindAsync(int id)
         {
-            var drug = await _drugRepo.FirstOrDefaultAsync(conditions: x => x.DrugId == id,
-                new List<Expression<Func<Drug, object>>> { x => x.DrugAssets, x => x.DrugPrices });
+            var drug = await _drugRepo.FirstOrDefaultAsync(conditions: x => x.DrugId == id);
             if (drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
             drug.DrugTags = _appUow.DrugTagRepo.Get(conditions: x => x.DrugId == id,
                 o => o.OrderByDescending(x => x.DrugTagId)
@@ -52,8 +51,7 @@ namespace Pharmacy.Service
         public async Task<(bool Changed, IEnumerable<OrderItemDTO> Items)> CheckChanges(IEnumerable<OrderItemDTO> items)
         {
             var drugs = _drugRepo.Get(conditions: x => items.Select(x => x.Id).Contains(x.DrugId),
-            orderBy: o => o.OrderByDescending(x => x.DrugId),
-            includeProperties: new List<Expression<Func<Drug, object>>> { x => x.DrugPrices });
+            orderBy: o => o.OrderByDescending(x => x.DrugId));
             bool changed = false;
             foreach (var item in items)
             {
@@ -64,25 +62,6 @@ namespace Pharmacy.Service
                     item.Count = 0;
                     continue;
                 }
-                //var drugPrice = await _appUow.DrugPriceRepo.FirstOrDefaultAsync(conditions: x => x.DrugPriceId == item.PriceId);
-                if (drug.DrugPrices == null)
-                {
-                    changed = true;
-                    item.Count = 0;
-                    continue;
-                }
-                var drugPrice = drug.DrugPrices.FirstOrDefault(x => x.DrugPriceId == item.PriceId);
-                if (drugPrice == null)
-                {
-                    changed = true;
-                    item.Count = 0;
-                    continue;
-                }
-                if (item.Price != drugPrice.Price || item.DiscountPrice != drugPrice.DiscountPrice)
-                    changed = true;
-                //item.MaxCount
-                item.Price = drugPrice.Price;
-                item.DiscountPrice = drugPrice.DiscountPrice;
 
             }
             return (changed, items);
@@ -136,7 +115,7 @@ namespace Pharmacy.Service
             if (model.TagIds != null && model.TagIds.Any())
                 Drug.DrugTags = new List<DrugTag>(model.TagIds.Where(x => !tags.Select(t => t.TagId).Contains(x)).Select(x => new DrugTag { TagId = x }));
             #endregion
-            model.Prices.ForEach((price) => { price.DrugId = model.DrugId; });
+            
             _drugRepo.Update(Drug);
             if (model.Files != null && model.Files.Count != 0)
             {
@@ -208,5 +187,8 @@ namespace Pharmacy.Service
                         PageSize = 6
                     },
                     o => o.OrderByDescending(x => x.NameFa)).Items;
+
+        //----------------------------------------------new
+
     }
 }

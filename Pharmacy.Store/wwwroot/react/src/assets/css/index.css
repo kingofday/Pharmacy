@@ -206,8 +206,12 @@ input:-webkit-autofill:active {
   padding: 10px;
   border: 1px solid transparent;
   color: #fff;
-  background-color: #23af66;
+  background-color: #00346e;
   text-align: center;
+}
+
+.btn-next:hover {
+  background-color: #ec006e;
 }
 
 .with-header {
@@ -1088,7 +1092,7 @@ html[dir="ltr"] .main-nav ul .close-menu {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 0;
+  margin-bottom: 15px;
   background: #fff;
   padding-top: 15px;
   padding-bottom: 15px;
@@ -1207,6 +1211,157 @@ html[dir="ltr"] .main-nav ul .close-menu {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+#page-drug .carousel-item {
+  overflow: hidden;
+  -webkit-transition: none !important;
+  transition: none !important;
+  width: 100%;
+  background-color: #fff;
+  padding: 15px 0;
+}
+
+#page-drug .carousel-item img {
+  max-height: 320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#page-drug .carousel-indicators {
+  margin-bottom: 5px;
+}
+
+#page-drug .carousel-indicators li {
+  -webkit-box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.5);
+  background-color: #ccc;
+  border-radius: 50%;
+  background: rgba(var(--ba8, 168, 168, 168), 1);
+  width: 12px;
+  height: 12px;
+  padding: 0;
+  border: none;
+}
+
+#page-drug .carousel-indicators li.active {
+  background-color: #fff;
+}
+
+#page-drug #name {
+  font-size: 1.4rem;
+  font-weight: 900;
+  padding: 15px 0;
+}
+
+#page-drug .price-wrapper {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+#page-drug .price-wrapper > :first-child {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+#page-drug .price-wrapper > :last-child {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#page-drug .price-wrapper .price {
+  padding: 0 5px;
+  position: relative;
+}
+
+#page-drug .price-wrapper .price::after {
+  content: "";
+  background: #ccc;
+  height: 2px;
+  position: absolute;
+  top: 50%;
+  margin-top: -1px;
+  left: 5px;
+  right: 5px;
+}
+
+#page-drug .price-wrapper .real-price-wrapper {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+
+#page-drug .price-wrapper .real-price-wrapper .real-price {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+#page-drug .price-wrapper .currency {
+  padding: 0 5px;
+}
+
+#page-drug #btn-add-wrapper .btn-purchase {
+  margin-top: 15px;
+}
+
+.counter-comp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.counter-comp > * {
+  width: 30px;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 20px;
+}
+
+.counter-comp .btn-minus,
+.counter-comp .btn-plus {
+  border: solid 1px #ccc;
+  border-radius: 50%;
+}
+
+.discount-badg {
+  background-color: red;
+  color: #fff;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.discount-badg i {
+  margin-right: 5px;
+  vertical-align: middle;
+  font-size: 12px;
 }
 
 .comp-categories {

@@ -50,7 +50,6 @@ namespace Pharmacy.Service
             var orderItems = chkItems.Items.Where(x => x.Count != 0).Select(i => new OrderItem
             {
                 DrugId = i.Id,
-                DrugPriceId = i.PriceId,
                 Count = i.Count,
                 Price = i.Price,
                 TotalPrice = i.GetTotalPrice(),
@@ -110,7 +109,6 @@ namespace Pharmacy.Service
                 DrugId = i.DrugId,
                 Count = i.Count,
                 Price = i.Price,
-                DrugPriceId = i.PriceId,
                 TotalPrice = i.GetTotalPrice(),
                 DiscountPrice = i.DiscountPrice
             }).ToList();

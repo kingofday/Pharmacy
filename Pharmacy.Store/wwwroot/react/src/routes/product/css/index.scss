@@ -1,17 +1,4 @@
-.product-page {
-    .info {
-        margin-bottom: 55px;
-    }
-    .btn-purchase {
-        position: fixed;
-        bottom: 0;
-        right: 0;
-        
-        &.fab {
-            position: static;
-            width: 200px;
-        }
-    }
+#page-drug {
     .carousel-item {
         overflow: hidden;
         transition: none !important;
@@ -45,25 +32,18 @@
         }
     }
 
-    .name {
+    #name {
         font-size: 1.4rem;
         font-weight: 900;
         padding: 15px 0;
     }
-    .desc {
-        max-height: 100px;
-        overflow: hidden;
-        line-height: 20px;
-        text-align: justify;
-    }
-
     .price-wrapper {
         display: flex;
         flex-direction: column;
 
         > :first-child {
             display: flex;
-            justify-content: flex-end;
+            justify-content: flex-start;
         }
         > :last-child {
             display: flex;
@@ -84,9 +64,8 @@
             }
         }
         .real-price-wrapper {
-            padding: 10px 0;
             align-items: center;
-            justify-content: flex-end;
+            justify-content: flex-start;
 
             .real-price {
                 display: flex;
@@ -99,5 +78,10 @@
         .currency {
             padding: 0 5px;
         }
+    }
+    #btn-add-wrapper{
+       .btn-purchase{
+           margin-top: 15px;
+       }
     }
 }

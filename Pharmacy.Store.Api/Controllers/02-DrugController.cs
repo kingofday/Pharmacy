@@ -18,7 +18,6 @@ namespace Pharmacy.Store.Api.Controllers
                 new DrugDTO
                 {
                     DrugId =1,
-                    PriceId =1,
                     NameFa = "پماد ضد حساسیت",
                     NameEn = "Mouster Againt Alergic",
                     ShortDescription="برای برطرف نمودن حساسیت های موضعی",
@@ -32,7 +31,6 @@ namespace Pharmacy.Store.Api.Controllers
                 new DrugDTO
                 {
                     DrugId =2,
-                    PriceId =2,
                     NameFa = "کرم ضد چروک پوست",
                     NameEn = "Mouster Againt Head Skin",
                     ShortDescription="برای جلوگیری از چروکیدگی",
@@ -46,7 +44,6 @@ namespace Pharmacy.Store.Api.Controllers
                 new DrugDTO
                 {
                     DrugId =3,
-                    PriceId =3,
                     NameFa = "پماد شفاف سازی",
                     NameEn = "Mouster Againt Head Skin",
                     ShortDescription="برای جلوگیری از چروکیدگی",
@@ -60,7 +57,6 @@ namespace Pharmacy.Store.Api.Controllers
                 new DrugDTO
                 {
                     DrugId =4,
-                    PriceId =4,
                     NameFa = "کرم شفاف سازی",
                     NameEn = "Mouster Againt Head Skin",
                     ShortDescription="برای جلوگیری از چروکیدگی",
@@ -75,9 +71,9 @@ namespace Pharmacy.Store.Api.Controllers
                 new DrugDTO
                 {
                     DrugId =5,
-                    PriceId =5,
                     NameFa = "پماد شفاف سازی",
                     NameEn = "Mouster Againt Head Skin",
+                    
                     ShortDescription="برای جلوگیری از چروکیدگی",
                     Count =4,
                     UniqueId ="ABc50F",
@@ -90,7 +86,6 @@ namespace Pharmacy.Store.Api.Controllers
                 new DrugDTO
                 {
                     DrugId =6,
-                    PriceId =6,
                     NameFa = "کرم جوان سازی",
                     NameEn = "Mouster Againt Head Skin",
                     ShortDescription="برای جلوگیری از چروکیدگی",
@@ -114,6 +109,7 @@ namespace Pharmacy.Store.Api.Controllers
                            Result = new GetDrugsModel
                            {
                                MaxPrice = 3200000,
+                               TotalCount = 20,
                                Items = items
                            }
                        };
@@ -123,11 +119,17 @@ namespace Pharmacy.Store.Api.Controllers
             //=> _drugService.GetSingle(id);
             => new Response<SingleDrugDTO>
             {
+                IsSuccessful = true,
                 Result = new SingleDrugDTO
                 {
                     DrugId = 1,
+                    UnitName = "شیشه",
+                    Price = 25000,
+                    DiscountPrice = 1000,
+                    Tags = new List<DrugTagDTO> { new DrugTagDTO { Name = "آرایشی", TagId =1 } },
                     NameFa = "پماد ضد حساسیت",
                     NameEn = "Mouster Againt Alergic",
+                    CategoryName = "آرایشی بهداشتی",
                     UniqueId = "ABc12F",
                     Slides = new List<string>{
                         "https://pharma.gocodeit.me/wp-content/uploads/2019/09/Capture.png"

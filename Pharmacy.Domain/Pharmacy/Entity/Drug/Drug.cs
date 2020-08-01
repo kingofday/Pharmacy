@@ -14,6 +14,14 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DrugId { get; set; }
 
+        [Display(Name = nameof(Strings.Price), ResourceType = typeof(Strings))]
+        public int Price { get; set; }
+
+        [Display(Name = nameof(Strings.DiscountPrice), ResourceType = typeof(Strings))]
+        public int DiscountPrice { get; set; }
+
+        public int UnitId { get; set; }
+
         [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
         public int? DrugCategoryId { get; set; }
 
@@ -84,7 +92,8 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
         public DrugCategory DrugCategory { get; set; }
 
-        public IList<DrugPrice> DrugPrices { get; set; }
+        [ForeignKey(nameof(UnitId))]
+        public Unit Unit { get; set; }
         public IList<DrugAsset> DrugAssets { get; set; }
         public IList<OrderItem> OrderDetails { get; set; }
 

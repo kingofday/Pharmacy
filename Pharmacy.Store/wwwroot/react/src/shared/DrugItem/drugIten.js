@@ -8,7 +8,7 @@ import { AddToBasketAction } from './../../redux/actions/basketAction';
 
 class LoadingDrug extends React.Component {
     render() {
-        return (<figure className='comp-loading-drug'>
+        return (<figure className='comp-loading-drug w-100'>
             <Skeleton variant='rect' className='main-img' animation="wave" />
             <figcaption className='text-wrapper'>
                 <Skeleton className='name' variant='text' />
@@ -34,7 +34,7 @@ class DrugItem extends React.Component {
                 <figcaption className='text-center'>
                     <h5 className='name'>{item.nameFa}</h5>
                     <p className='price'>{commaThousondSeperator(item.price)} {strings.currency}</p>
-                    <button className='btn-add' onClick={() => this._addToBasket(item)}>
+                    <button className='btn-add' onClick={this._addToBasket.bind(this, item)}>
                         {strings.addToCart}
                     </button>
                 </figcaption>

@@ -13,9 +13,6 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int TempBasketItemId { get; set; }
 
-        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public int DrugPriceId { get; set; }
 
         [Display(Name = nameof(Strings.BasketId), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -45,12 +42,13 @@ namespace Pharmacy.Domain
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string InsertDateSh { get; set; }
 
-        [ForeignKey(nameof(DrugPriceId))]
-        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
-        public DrugPrice DrugPrice { get; set; }
 
         [ForeignKey(nameof(TempBasketId))]
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         public TempBasket TempBasket { get; set; }
+
+        [ForeignKey(nameof(DrugId))]
+        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
+        public Drug Drug { get; set; }
     }
 }

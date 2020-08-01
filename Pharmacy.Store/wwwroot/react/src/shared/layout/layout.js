@@ -12,9 +12,9 @@ import UsefulLinks from './comps/usefulLinks';
 import Footer from './comps/footer';
 
  import Products from '../../routes/products/products';
+ import Product from '../../routes/product';
 // import Store from '../../routes/store';
 // import ContactUs from '../../routes/contactUs';
-// import Product from '../../routes/product';
 // import Basket from './../../routes/basket';
 // import TempBasket from './../../routes/tempBasket';
 // import AfterGateway from '../../routes/afterGateway';
@@ -37,8 +37,8 @@ class Layout extends React.Component {
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/products" component={Products} />
-                    {/* <Route exact path="/product/:id" component={Product} />
-                    <Route exact path="/contactus" component={ContactUs} />
+                   <Route exact path="/product/:id" component={Product} />
+                     {/* <Route exact path="/contactus" component={ContactUs} />
                     <Route exact path="/basket" component={Basket} />
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />
                     <Route path="/completeInformation" component={CompleteInfo} />

@@ -1,5 +1,12 @@
 import actionTypes from './actionTypes';
 
+export function SetPageNumberAction(pageNumber) {
+    return {
+        type: actionTypes.SET_PRODUCTS_PAGE_NUMBER,
+        payload: { pageNumber: pageNumber }
+    };
+};
+
 export function SetNameAction(name) {
     return {
         type: actionTypes.SET_PRODUCTS_FILTER_NAME,
@@ -18,6 +25,13 @@ export function SetSortTypeAction(sortType) {
     return {
         type: actionTypes.SET_PRODUCTS_FILTER_SORT,
         payload: { type: sortType }
+    };
+};
+
+export function SetMaxAvailablePriceAction(maxAvailablePrice) {
+    return {
+        type: actionTypes.SET_PRODUCTS_MAXAVAILABLEPRICE,
+        payload: { maxAvailablePrice }
     };
 };
 

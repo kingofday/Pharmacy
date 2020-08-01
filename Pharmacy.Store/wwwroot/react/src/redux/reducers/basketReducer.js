@@ -19,17 +19,13 @@ const calculate = (items) => {
 export default function basketReducer(state = initState, action) {
     switch (action.type) {
         case actionTypes.ADD_TO_BASKET:
-            state.items = state.items.filter(x => !x.drugId);
-            let idx = state.items.findIndex(x => x.drugId === action.payload.drugId);
-            let items = [];
+            var items =  [...state.items.filter(x => x.drugId)];
+            let idx = items.findIndex(x => x.drugId === action.payload.drugId);
             if (idx === -1)
-                items = [...state.items, { ...action.payload }];
-            else {
-                state.items[idx].count = action.payload.count;
-                items = [...state.items];
-            }
-            console.log(items);
-            return { ...state, items, ...calculate(items) };
+                items.push(action.payload);
+            else 
+                items[idx].count = action.payload.count;
+            return { ...state, items:items, ...calculate(items) };
         case actionTypes.UPDATE_BASKET:
             let item = state.items.find(x => x.drugId == action.payload.drugId);
             if (item) item.count = action.payload.count;
