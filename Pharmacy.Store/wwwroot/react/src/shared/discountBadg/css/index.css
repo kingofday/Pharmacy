@@ -4,6 +4,7 @@
   padding: 2px 8px;
   border-radius: 10px;
   font-size: 0.9rem;
+  white-space: nowrap;
 }
 
 .discount-badg i {

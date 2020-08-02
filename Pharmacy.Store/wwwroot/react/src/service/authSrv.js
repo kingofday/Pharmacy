@@ -1,6 +1,7 @@
 import CryptoJS from 'crypto-js';
+import strings from './../shared/constant';
 
-export default class userSrv{
+export default class authSrv{
     static getUserInfo() {
         let ciphertext = localStorage.getItem('user');
         if (ciphertext == null)

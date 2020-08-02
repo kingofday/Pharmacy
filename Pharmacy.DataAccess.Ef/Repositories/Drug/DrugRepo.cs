@@ -24,6 +24,9 @@ namespace Pharmacy.DataAccess.Ef
             && x.IsActive
             && x.DrugId == id)
                 .Include(x => x.DrugAssets)
+                .Include(x => x.Comments)
+                .ThenInclude(x => x.User)
+                .Include(x => x.Properties)
                 .Include(x => x.DrugTags)
                 .ThenInclude(x => x.Tag)
                 .Include(x => x.Unit)
@@ -40,7 +43,10 @@ namespace Pharmacy.DataAccess.Ef
                     NameFa = drug.NameFa,
                     Price = drug.Price,
                     DiscountPrice = drug.DiscountPrice,
+                    Description = drug.Description,
                     Slides = drug.DrugAssets?.Select(x => x.Url).ToList(),
+                    Comments = drug.Comments.Select(x => new DrugCommentDTO { Fullname = x.User.FullName, Comment = x.Comment }).ToList(),
+                    Properties = drug.Properties,
                     Tags = drug.DrugTags?.Select(t => new DrugTagDTO
                     {
                         TagId = t.TagId,

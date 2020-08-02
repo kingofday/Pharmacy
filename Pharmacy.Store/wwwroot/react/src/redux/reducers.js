@@ -7,8 +7,9 @@ import basketReducer from './reducers/basketReducer';
 import reviewReducer from './reducers/reviewReducer';
 import mapReducer from './reducers/mapReducer';
 import productsReducer from './reducers/productsReducer';
-
+import authReducer from './reducers/authReducer';
 const reducers = combineReducers({
+    authReducer,
     modalReducer,
     toastReducer,
     initErrorReducer,

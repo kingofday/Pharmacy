@@ -11,11 +11,12 @@ import LinksWithInfo from './comps/linksWithInfo';
 import UsefulLinks from './comps/usefulLinks';
 import Footer from './comps/footer';
 
- import Products from '../../routes/products/products';
- import Product from '../../routes/product';
+import Products from '../../routes/products/products';
+import Product from '../../routes/product';
+import Basket from './../../routes/basket';
+import Auth from './../../routes/auth/auth';
 // import Store from '../../routes/store';
 // import ContactUs from '../../routes/contactUs';
-// import Basket from './../../routes/basket';
 // import TempBasket from './../../routes/tempBasket';
 // import AfterGateway from '../../routes/afterGateway';
 import NotFound from '../../routes/notFound';
@@ -32,14 +33,16 @@ class Layout extends React.Component {
         return (
             <Router className="layout">
                 <TopHeader />
-                <SearchBar/>
-                <Menu/>
+                <SearchBar />
+                <Menu />
                 <Switch>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/products" component={Products} />
-                   <Route exact path="/product/:id" component={Product} />
-                     {/* <Route exact path="/contactus" component={ContactUs} />
+                    <Route exact path="/product/:id" component={Product} />
                     <Route exact path="/basket" component={Basket} />
+                    <Route exact path="/auth" component={Auth} />
+                    {/* <Route exact path="/contactus" component={ContactUs} />
+                   
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />
                     <Route path="/completeInformation" component={CompleteInfo} />
                     <Route path="/selectAddress" component={SelectAddress} />
@@ -48,9 +51,9 @@ class Layout extends React.Component {
                     <Route path="/afterGateway/:status/:transId" component={AfterGateway} /> */}
                     <Route path="/:msg?" component={NotFound} />
                 </Switch>
-                <LinksWithInfo/>
-                <UsefulLinks/>
-                <Footer/>
+                <LinksWithInfo />
+                <UsefulLinks />
+                <Footer />
                 <Modal />
                 <InitError />
                 <ToastContainer containerId={'common_toast'} rtl />

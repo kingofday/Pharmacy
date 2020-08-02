@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Row, Col } from 'react-bootstrap';
+import { Button, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { ShowInitErrorAction, HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import strings from './../../shared/constant';
@@ -21,6 +21,7 @@ class Product extends React.Component {
         this.state = {
             loading: true,
             count: count,
+            activePanelKey: 'desc',
             product: {
                 name: '',
                 price: 0,
@@ -61,13 +62,12 @@ class Product extends React.Component {
     _addToBasket() {
         this.props.addToBasket(this.state.product, this.state.count);
     }
-
     render() {
         const p = this.state.product;
         return (
             <div id='page-drug' className='product-page with-header'>
                 <Container>
-                    <Row >
+                    <Row>
                         <Col col={12} sm={12} md={6}>
                             <div className='card padding w-100 mb-15'>
                                 <Slider slides={p.slides} />
@@ -76,9 +76,9 @@ class Product extends React.Component {
                         <Col col={12} sm={12} md={6}>
                             <div className='card padding w-100 mb-15'>
                                 <h1 id='name' className='mb-15'>{p.nameFa}</h1>
-                                <Row className='mb-15'>
-                                    <Col xs={6}>
-                                        {this.state.loading ? [1, 2].map(x => <Skeleton key={x} variant='text' height={20} />) :
+                                <Row>
+                                    <Col xs={6} className='flex-column d-flex justify-content-center'>
+                                        {this.state.loading ? [1, 2].map(x => <Skeleton key={x} className='w-100 mb-15' variant='rect' height={20} />) :
                                             (<div className='price-wrapper'>
                                                 {
                                                     p.discount ? (
@@ -87,15 +87,15 @@ class Product extends React.Component {
                                                             <DiscountBadg discount={p.discount} />
                                                         </div>) : null
                                                 }
-                                                <div className='real-price-wrapper'>
+                                                <div className='real-price-wrapper mb-15'>
                                                     <span className='real-price'>{commaThousondSeperator(p.realPrice.toString())}</span>
                                                     <span className='currency'>{strings.currency}</span>
                                                 </div>
                                             </div>)}
                                     </Col>
                                     <Col xs={6} className='d-flex justify-content-center flex-column'>
-                                        <label className='mb-15'>{strings.identifier}: {p.uniqueId}</label>
-                                        <label>{strings.category}: {p.categoryName}</label>
+                                        <label className='mb-15'>{strings.identifier}: {this.state.loading ? <Skeleton className='d-inline-block va-middle' height={25} width={70} /> : p.uniqueId}</label>
+                                        <label className='mb-15'>{strings.category}: {this.state.loading ? <Skeleton className='d-inline-block va-middle' height={25} width={70} /> : p.categoryName}</label>
                                     </Col>
                                 </Row>
                                 <Row className='mb-15'>
@@ -112,6 +112,50 @@ class Product extends React.Component {
                                     </Col>
                                 </Row>
                                 <div id='tags-wrapper'></div>
+                            </div>
+                        </Col>
+                        <Col xs={12} sm={12}>
+                            <div className='card padding w-100 mb-15'>
+                                <Tabs
+                                    id="controlled-tab-example"
+                                    activeKey={this.state.activePanelKey}
+                                    onSelect={(k) => this.setState(prev => ({ ...prev, activePanelKey: k }))}>
+                                    <Tab eventKey="desc" title={strings.description}>
+                                        <p className='padding'>
+                                            {this.state.loading ? [0, 1, 2, 3, 4].map(x => <Skeleton key={x} height={20} className='w-100' />) : p.description}
+                                        </p>
+                                    </Tab>
+                                    <Tab eventKey="properties" title={strings.properties}>
+                                        <Row>
+                                            <Col xs={12} sm={6}>
+                                                <div className='padding w-100'>
+                                                    {this.state.loading ? null : <table className='table table-striped table-bordered'>
+                                                        <tbody>
+                                                            {p.properties.map(prop => <tr>
+                                                                <td>{prop.name}</td>
+                                                                <td>{prop.value}</td>
+                                                            </tr>)}
+                                                        </tbody>
+                                                    </table>}
+                                                </div>
+                                            </Col>
+                                        </Row>
+
+
+
+                                    </Tab>
+                                    <Tab eventKey="comments" title={strings.comments}>
+                                        <div className='comments padding'>
+                                            {this.state.loading ? null : <ul>
+                                                {p.comments.map((c, idx) => <li key={idx}>
+                                                    <strong>{c.fullname}</strong>
+                                                    <p>{c.comment}</p>
+                                                </li>)}
+                                            </ul>}
+                                        </div>
+                                    </Tab>
+                                </Tabs>
+
                             </div>
                         </Col>
                     </Row>

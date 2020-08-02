@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogInAction } from '../../redux/actions/authenticationAction';
+import { LogInAction } from '../../redux/actions/authenAction';
 import { ShowToastAction } from '../../redux/actions/toastAction';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';

@@ -12,8 +12,11 @@ namespace Pharmacy.Domain
         public int DiscountPrice { get; set; }
         public string UniqueId { get; set; }
         public string UnitName { get; set; }
+        public string Description { get; set; }
         public IList<string> Slides { get; set; }
         public IList<DrugTagDTO> Tags { get; set; }
+        public IList<DrugCommentDTO> Comments { get; set; }
+        public IList<DrugProperty> Properties { get; set; }
 
     }
 }

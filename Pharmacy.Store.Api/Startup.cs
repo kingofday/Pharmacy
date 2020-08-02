@@ -43,7 +43,7 @@ namespace Pharmacy.Store.Api
                     opts.JsonSerializerOptions.PropertyNamingPolicy = null;
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
-
+            services.UseCustomizedJWT(_configuration);
             services.AddMemoryCache();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
             {
@@ -90,6 +90,7 @@ namespace Pharmacy.Store.Api
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseCors(AllowedOrigins);
             app.UseEndpoints(endpoints =>
             {

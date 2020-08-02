@@ -1,9 +1,9 @@
 ﻿using System;
 using Elk.Core;
 using Pharmacy.Domain.Resource;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Collections.Generic;
 
 namespace Pharmacy.Domain
 {

@@ -36,13 +36,6 @@ export function ClearBasketAction() {
     };
 };
 
-export function SetBasketRouteAction(route) {
-    return {
-        type: actionTypes.SET_BASKET_ROUTE,
-        payload: { route }
-    };
-};
-
 export function SetWholeBasketAction(items) {
     return {
         type: actionTypes.SET_WHOLE,

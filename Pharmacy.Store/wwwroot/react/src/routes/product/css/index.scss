@@ -1,4 +1,14 @@
+@import "./../../../assets/css/constant.scss";
+
 #page-drug {
+    .carousel-inner {
+        margin-bottom: 10px;
+        .MuiSkeleton-rect {
+            margin-right: auto;
+            margin-left: auto;
+        }
+    }
+
     .carousel-item {
         overflow: hidden;
         transition: none !important;
@@ -15,19 +25,20 @@
 
     .carousel-indicators {
         margin-bottom: 5px;
+        bottom: -10px;
 
         li {
             box-shadow: 0 0 3px 0px rgba(0, 0, 0, 0.5);
             background-color: #ccc;
             border-radius: 50%;
             background: rgba(var(--ba8, 168, 168, 168), 1);
-            width: 12px;
-            height: 12px;
+            width: 8px;
+            height: 8px;
             padding: 0;
             border: none;
 
             &.active {
-                background-color: #fff;
+                background-color: #4d9ad8;
             }
         }
     }
@@ -79,9 +90,18 @@
             padding: 0 5px;
         }
     }
-    #btn-add-wrapper{
-       .btn-purchase{
-           margin-top: 15px;
-       }
+    #btn-add-wrapper {
+        .btn-purchase {
+            margin-top: 15px;
+        }
+    }
+    .comments{
+        ul{
+            list-style: none;
+
+            li{
+                padding: 10px 0;
+            }
+        }
     }
 }

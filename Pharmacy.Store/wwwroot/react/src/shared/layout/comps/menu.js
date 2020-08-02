@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import strings from './../../constant';
-import { LogOutAction } from './../../../redux/actions/authenticationAction';
+import { LogOutAction } from './../../../redux/actions/authAction';
 import Categories from './categories';
 
 class Menu extends React.Component {

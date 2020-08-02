@@ -205,6 +205,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نظرات.
+        /// </summary>
+        public static string Comments {
+            get {
+                return ResourceManager.GetString("Comments", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to متن.
         /// </summary>
         public static string Content {
@@ -988,6 +997,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مشخصات.
+        /// </summary>
+        public static string Properies {
+            get {
+                return ResourceManager.GetString("Properies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to گیرنده.
         /// </summary>
         public static string Receiver {
@@ -1326,6 +1344,15 @@ namespace Pharmacy.Domain.Resource {
         public static string ValidToDate {
             get {
                 return ResourceManager.GetString("ValidToDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to مقدار.
+        /// </summary>
+        public static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
         

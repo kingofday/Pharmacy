@@ -16,7 +16,6 @@ export default class apiDrug {
                     lastPageNumber: Math.floor((rep.Result.TotalCount / 9) + (rep.Result.TotalCount % filter.pageSize === 0 ? 0 : 1)),
                     items: rep.Result.Items.map((d) => ({
                         drugId: d.DrugId,
-                        priceId: d.PriceId,
                         nameFa: d.NameFa,
                         nameEn: d.NameEn,
                         shortDescription: d.ShortDescription,
@@ -24,6 +23,7 @@ export default class apiDrug {
                         uniqueId: d.UniqueId,
                         discount: d.DiscountPrice,
                         price: d.Price,
+                        realPrice: d.Price - d.DiscountPrice,
                         unitName: d.UnitName,
                         thumbnailImageUrl: d.ThumbnailImageUrl
                     }))
@@ -59,6 +59,7 @@ export default class apiDrug {
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message };
             const p = rep.Result;
+            console.log(p);
             return {
                 success: true,
                 result: {
@@ -71,8 +72,21 @@ export default class apiDrug {
                     categoryName: p.CategoryName,
                     unitName: p.UnitName,
                     uniqueId: p.UniqueId,
+                    description: p.Description,
                     slides: p.Slides,
-                    tags: p.Tags
+                    properties: p.Properties ? p.Properties.map(prop => ({
+                        name: prop.Name,
+                        value: prop.Value
+                    })) : [],
+                    comments: p.Comments ? p.Comments.map(c => ({
+                        comment: c.Comment,
+                        fullname: c.Fullname
+                    })) : [],
+                    tags: p.Tags ? p.Tags.map(t => ({
+                        name: t.Name,
+                        id: t.TagId
+                    })) : []
+
                 }
             }
         }

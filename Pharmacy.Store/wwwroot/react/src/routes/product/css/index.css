@@ -1,3 +1,12 @@
+#page-drug .carousel-inner {
+  margin-bottom: 10px;
+}
+
+#page-drug .carousel-inner .MuiSkeleton-rect {
+  margin-right: auto;
+  margin-left: auto;
+}
+
 #page-drug .carousel-item {
   overflow: hidden;
   -webkit-transition: none !important;
@@ -15,6 +24,7 @@
 
 #page-drug .carousel-indicators {
   margin-bottom: 5px;
+  bottom: -10px;
 }
 
 #page-drug .carousel-indicators li {
@@ -23,14 +33,14 @@
   background-color: #ccc;
   border-radius: 50%;
   background: rgba(var(--ba8, 168, 168, 168), 1);
-  width: 12px;
-  height: 12px;
+  width: 8px;
+  height: 8px;
   padding: 0;
   border: none;
 }
 
 #page-drug .carousel-indicators li.active {
-  background-color: #fff;
+  background-color: #4d9ad8;
 }
 
 #page-drug #name {
@@ -106,5 +116,13 @@
 
 #page-drug #btn-add-wrapper .btn-purchase {
   margin-top: 15px;
+}
+
+#page-drug .comments ul {
+  list-style: none;
+}
+
+#page-drug .comments ul li {
+  padding: 10px 0;
 }
 /*# sourceMappingURL=index.css.map */

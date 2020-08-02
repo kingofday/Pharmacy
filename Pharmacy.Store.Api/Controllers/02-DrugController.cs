@@ -73,7 +73,7 @@ namespace Pharmacy.Store.Api.Controllers
                     DrugId =5,
                     NameFa = "پماد شفاف سازی",
                     NameEn = "Mouster Againt Head Skin",
-                    
+
                     ShortDescription="برای جلوگیری از چروکیدگی",
                     Count =4,
                     UniqueId ="ABc50F",
@@ -126,13 +126,27 @@ namespace Pharmacy.Store.Api.Controllers
                     UnitName = "شیشه",
                     Price = 25000,
                     DiscountPrice = 1000,
-                    Tags = new List<DrugTagDTO> { new DrugTagDTO { Name = "آرایشی", TagId =1 } },
+                    Tags = new List<DrugTagDTO> { new DrugTagDTO { Name = "آرایشی", TagId = 1 } },
                     NameFa = "پماد ضد حساسیت",
                     NameEn = "Mouster Againt Alergic",
                     CategoryName = "آرایشی بهداشتی",
                     UniqueId = "ABc12F",
+                    Properties = new List<DrugProperty> {
+                        new DrugProperty{ Name = "وزن",Value = "100 گرم" }
+                    },
+                    Comments = new List<DrugCommentDTO> {
+                        new DrugCommentDTO{ 
+                            Fullname = "مرتضی اجمدی",
+                            Comment = "محصول عالی هست، پیشنهاد میکنم بخرید"
+                        },
+                        new DrugCommentDTO{
+                            Fullname = "شاهین رجایی",
+                            Comment ="من راضیم، بخرید"
+                        }},
+                    Description = "ژل محافظت کننده مخصوص پوست‌های حساس",
                     Slides = new List<string>{
-                        "https://pharma.gocodeit.me/wp-content/uploads/2019/09/Capture.png"
+                        "https://pharma.gocodeit.me/wp-content/uploads/2019/09/Capture.png",
+                        "https://pharma.gocodeit.me/wp-content/uploads/2019/09/0034385_0.png"
                     }
                 }
             };

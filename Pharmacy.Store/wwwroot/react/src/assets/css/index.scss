@@ -9,13 +9,14 @@ body {
   min-height: 100vh;
   background-color: #f3f4f8;
 }
-*{
+* {
   outline: none !important;
 }
 #root {
   min-height: 100vh;
 }
-.MuiFormLabel-root,.MuiMenuItem-root {
+.MuiFormLabel-root,
+.MuiMenuItem-root {
   font-family: "iransans" !important;
 }
 h1,
@@ -49,8 +50,8 @@ a {
   color: #666;
   text-decoration: none;
 
-  &:hover{
-    color:#666;
+  &:hover {
+    color: #666;
   }
 }
 ul,
@@ -64,6 +65,7 @@ button {
   border-radius: 3px;
   &:hover {
     background-color: $btnHoverColor;
+    color: #fff;
   }
 }
 .rotate-90 {
@@ -85,11 +87,11 @@ button {
 .mb-15 {
   margin-bottom: 15px;
 }
-.icon{
+.icon {
   vertical-align: middle;
-  font-size: 20px!important;
+  font-size: 20px !important;
 }
-.ltr-elm{
+.ltr-elm {
   direction: ltr;
   text-align: left;
 }
@@ -98,6 +100,9 @@ button {
     direction: ltr;
     text-align: left;
   }
+}
+.va-middle {
+  vertical-align: middle;
 }
 /*-----------------------------------
      remove browser autofill 
@@ -177,21 +182,19 @@ input:-webkit-autofill:active {
   margin-left: 0 !important;
 }
 .btn-next {
-  width: 100%;
+  min-width: 150px;
   padding: 10px;
   border: 1px solid transparent;
   color: #fff;
   background-color: $btnBgColor;
   text-align: center;
-
-  &:hover{
+  text-decoration: none;
+  &:hover {
     background-color: $btnHoverColor;
+    color: #fff;
+    text-decoration: none;
   }
 }
-.with-header {
-  padding-top: 55px;
-}
-
 .comp-heading {
   font-size: 1.3rem;
   padding: 15px 0;
@@ -199,11 +202,11 @@ input:-webkit-autofill:active {
   display: flex;
   flex-direction: row;
   align-items: center;
-  
-  &.bordered{
-    &:after{
-      content: '';
-      content: '';
+
+  &.bordered {
+    &:after {
+      content: "";
+      content: "";
       flex: 1;
       background-color: #00346e;
       height: 3px;
@@ -214,7 +217,7 @@ input:-webkit-autofill:active {
 .slick-list {
   direction: ltr;
 }
-.padding{
+.padding {
   padding: $padding;
 }
 .padding-r {
@@ -223,8 +226,12 @@ input:-webkit-autofill:active {
 .padding-l {
   padding-left: $padding;
 }
-[class^='col-']{
+[class^="col-"] {
   display: flex;
+}
+.page-comp{
+  margin-top: 30px;
+  margin-bottom: 30px;
 }
 @import "./rtl.scss";
 @import "./../../shared/layout/css/index.scss";
@@ -238,3 +245,5 @@ input:-webkit-autofill:active {
 @import "./../../shared/counter/css/index.scss";
 @import "./../../shared/discountBadg/css/index.scss";
 @import "./../../shared/categories/css/index.scss";
+@import "./../../routes/basket/css/index.scss";
+@import "./../../routes/auth/css/index.scss";

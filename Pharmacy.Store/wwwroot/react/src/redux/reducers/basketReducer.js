@@ -4,8 +4,7 @@
 const initState = {
     items: [],
     totalPrice: 0,
-    totalDiscount: 0,
-    route: '/basket'
+    totalDiscount: 0
 };
 const calculate = (items) => {
     let totalPrice = items.reduce(function (total, x) {

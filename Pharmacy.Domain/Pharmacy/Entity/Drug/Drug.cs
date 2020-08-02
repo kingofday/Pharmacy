@@ -99,5 +99,11 @@ namespace Pharmacy.Domain
 
         [Display(Name = nameof(Strings.Tag), ResourceType = typeof(Strings))]
         public IList<DrugTag> DrugTags { get; set; }
+
+        [Display(Name = nameof(Strings.Comments), ResourceType = typeof(Strings))]
+        public IList<DrugComment> Comments { get; set; }
+
+        [Display(Name = nameof(Strings.Properies), ResourceType = typeof(Strings))]
+        public IList<DrugProperty> Properties { get; set; }
     }
 }

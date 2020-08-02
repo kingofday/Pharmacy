@@ -552,4 +552,13 @@
   <data name="ShortDescription" xml:space="preserve">
     <value>شرح مختصر</value>
   </data>
+  <data name="Value" xml:space="preserve">
+    <value>مقدار</value>
+  </data>
+  <data name="Comments" xml:space="preserve">
+    <value>نظرات</value>
+  </data>
+  <data name="Properies" xml:space="preserve">
+    <value>مشخصات</value>
+  </data>
 </root>

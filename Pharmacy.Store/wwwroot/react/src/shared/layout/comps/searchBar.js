@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import SearchDrug from '../../searchDrug/searchDrug';
-import { LogOutAction } from './../../../redux/actions/authenticationAction';
+import { LogOutAction } from './../../../redux/actions/authAction';
 import prescriptImage from './../../../assets/images/layout/prescription.png';
 
 class SearchBar extends React.Component {
