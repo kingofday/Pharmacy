@@ -154,7 +154,7 @@ namespace Pharmacy.Service
                     Password = HashGenerator.Hash(mobileNumber.ToString()),
                     NewPassword = HashGenerator.Hash(mobileNumber.ToString()),
                     MustChangePassword = false,
-                    UserStatus = UserStatus.AddDrugStore
+                    UserStatus = UserStatus.Added
                 }
             };
             await _drugStoreRepo.AddAsync(drugStore);

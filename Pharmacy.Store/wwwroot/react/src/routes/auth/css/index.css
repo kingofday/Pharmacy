@@ -1,4 +1,36 @@
 #page-auth {
   min-height: 80%;
 }
+
+#page-auth .MuiTab-labelIcon:hover {
+  color: #fff;
+}
+
+#page-auth .MuiTab-labelIcon .MuiTab-wrapper {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+#page-auth .MuiTab-labelIcon .MuiTab-wrapper i {
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+
+#page-auth #comp-login,
+#page-auth #comp-signup {
+  padding: 30px 15px;
+}
+
+#page-auth #mobileNumber,
+#page-auth #email,
+#page-auth #username,
+#page-auth #password,
+#page-auth #newPassword,
+#page-auth #repeatPassword,
+#page-auth #confirmCode {
+  direction: ltr !important;
+  text-align: left !important;
+}
 /*# sourceMappingURL=index.css.map */

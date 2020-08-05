@@ -7,11 +7,11 @@ using Pharmacy.Domain;
 using Pharmacy.DataAccess.Ef;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using Pharmacy.InfraStructure;
 using Pharmacy.Service.Resource;
 using Pharmacy.DataAccess.Dapper;
 using System.Collections.Generic;
 using DomainStrings = Pharmacy.Domain.Resource.Strings;
-using Pharmacy.InfraStructure;
 
 namespace Pharmacy.Service
 {
@@ -22,14 +22,16 @@ namespace Pharmacy.Service
         private readonly IMemoryCacheProvider _cache;
         private readonly DashboardMenuSp _dashboardMenuSp;
         readonly IUserRepo _userRepo;
-        public UserService(AppUnitOfWork uow, IMemoryCacheProvider cache,
+        readonly AuthUnitOfWork _authUow;
+        public UserService(AppUnitOfWork appUow, AuthUnitOfWork authUow, IMemoryCacheProvider cache,
             IEmailService emailService, DashboardMenuSp dashboardMenuSp)
         {
-            _appUow = uow;
+            _appUow = appUow;
             _cache = cache;
             _emailService = emailService;
             _dashboardMenuSp = dashboardMenuSp;
-            _userRepo = uow.UserRepo;
+            _userRepo = appUow.UserRepo;
+            authUow = _authUow;
         }
 
 
@@ -37,8 +39,14 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<User>> AddAsync(User model)
         {
+            var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == model.MobileNumber);
+            if (user != null) return new Response<User>
+            {
+                IsSuccessful = true,
+                Result = user
+            };
             model.UserId = Guid.NewGuid();
-            model.Password = HashGenerator.Hash(model.Password);
+            model.Password = HashGenerator.Hash(model.NewPassword);
             await _userRepo.AddAsync(model);
 
             var saveResult = await _appUow.ElkSaveChangesAsync();
@@ -312,6 +320,85 @@ namespace Pharmacy.Service
             model.Body = model.Body.Fill(newPassword);
             _emailService.Send(user.Email, new List<string> { from }, model);
             return new Response<string> { IsSuccessful = true, Message = saveResult.Message };
+        }
+        //=======================================================================
+        //-- api
+        //=======================================================================
+        public async Task<IResponse<User>> SignUp(SignUpModel model, int defaultRoleId)
+        {
+            using var db = _appUow.Database.BeginTransaction();
+            var mobNum = long.Parse(model.MobileNumber);
+            var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobNum);
+            if (user != null)
+                return new Response<User> { Message = ServiceMessage.AlreadySignedUp };
+            user = new User
+            {
+                UserId = Guid.NewGuid(),
+                MobileNumber = long.Parse(model.MobileNumber),
+                Email = model.Email,
+                Password = HashGenerator.Hash(model.NewPassword),
+                FullName = model.Fullname,
+                MobileConfirmCode = Randomizer.GetRandomInteger(4),
+                LastLoginDateMi = DateTime.Now,
+                LastLoginDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date),
+                UserStatus = UserStatus.Added
+            };
+            await _userRepo.AddAsync(user);
+            var saveUser = await _appUow.ElkSaveChangesAsync();
+            if (!saveUser.IsSuccessful)
+                return new Response<User> { Message = saveUser.Message };
+            await _authUow.UserInRoleRepo.AddAsync(new UserInRole
+            {
+                RoleId = defaultRoleId,
+                UserId = user.UserId
+            });
+            var saveUIR = await _authUow.ElkSaveChangesAsync();
+            return new Response<User> { Result = user, IsSuccessful = saveUIR.IsSuccessful, Message = saveUIR.Message };
+        }
+        public async Task<Response<AuthResponse>> Confirm(long mobileNumber, int code)
+        {
+            var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobileNumber && x.MobileConfirmCode == code);
+            if (user == null) return new Response<AuthResponse> { Message = ServiceMessage.WrongConfirmCode };
+            user.IsConfirmed = true;
+            user.MobileConfirmCode = null;
+            _userRepo.Update(user);
+            var update = await _appUow.ElkSaveChangesAsync();
+            if (!update.IsSuccessful)
+                return new Response<AuthResponse> { Message = update.Message };
+            return new Response<AuthResponse>
+            {
+                Result = new AuthResponse
+                {
+                    Email = user.Email,
+                    Fullname = user.Email,
+                    MobileNumber = user.MobileNumber.ToString(),
+                    IsConfirmed = false
+                }
+            };
+        }
+        public async Task<IResponse<AuthResponse>> LogIn(long username, string password)
+        {
+            var pw = HashGenerator.Hash(password);
+            var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == username && x.Password == pw);
+            if (user == null) return new Response<AuthResponse> { Message = ServiceMessage.WrongUsernameOrPassword };
+            if (user.IsConfirmed)
+            {
+                user.LastLoginDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date);
+                user.LastLoginDateMi = DateTime.Now;
+                _userRepo.Update(user);
+                await _appUow.ElkSaveChangesAsync();
+            }
+            return new Response<AuthResponse>
+            {
+                IsSuccessful = true,
+                Result = new AuthResponse
+                {
+                    Email = user.Email,
+                    Fullname = user.Email,
+                    MobileNumber = user.MobileNumber.ToString(),
+                    IsConfirmed = true
+                }
+            };
         }
     }
 }

@@ -4,10 +4,9 @@ namespace Pharmacy.Domain
 {
     public enum UserStatus : byte
     {
+        Added = 0,
         MobileVerified = 1,
-        AddDrugStore = 2,
-        AddAddress = 3,
-        UploadDocument = 4,
-        AddBankAcount = 5
+        Blocked = 6
+
     }
 }

@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Paper, Tabs, Tab, Box } from '@material-ui/core';
 import strings from '../../shared/constant';
-import Steps from './../../shared/steps';
 import Login from './comps/logIn';
+import SignUp from './comps/signUp';
 
 class Auth extends React.Component {
     state = {
@@ -26,8 +26,8 @@ class Auth extends React.Component {
                                 textColor="primary"
                                 centered
                             >
-                                <Tab value='signup' label={strings.logIn} />
-                                <Tab value='login' label={strings.signUp} />
+                                <Tab value='signup' label={strings.signUp} icon={<i className='zmdi zmdi-account-add icon'></i>} />
+                                <Tab value='login' label={strings.logIn} icon={<i className='zmdi zmdi-sign-in icon'></i>} />
                             </Tabs>
                         </Paper>
                         <div
@@ -35,16 +35,15 @@ class Auth extends React.Component {
                             hidden={this.state.panel !== 'signup'}
                             id='wrapped-tabpanel-signup'
                             aria-labelledby='wrapped-tab-signup'>
-                            <Login />
+                            <SignUp />
+
                         </div>
                         <div
                             role="tabpanel"
                             hidden={this.state.panel !== 'login'}
                             id='wrapped-tabpanel-login'
                             aria-labelledby='wrapped-tab-login'>
-                            <Box p={3}>
-                                2
-                                </Box>
+                            <Login />
                         </div>
                     </Col>
                 </Row>

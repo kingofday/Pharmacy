@@ -1,3 +1,30 @@
-#page-auth{
+#page-auth {
     min-height: 80%;
+    .MuiTab-labelIcon{
+        &:hover{
+            color:#fff;
+        }
+        .MuiTab-wrapper{
+            flex-direction: row;
+            i{
+                margin-left: 5px;
+                margin-bottom: 0;
+            }
+        }
+    }
+
+    #comp-login,
+    #comp-signup {
+        padding: 30px 15px;
+    }
+    #mobileNumber,
+    #email,
+    #username,
+    #password,
+    #newPassword,
+    #repeatPassword,
+    #confirmCode {
+        direction: ltr !important;
+        text-align: left !important;
+    }
 }

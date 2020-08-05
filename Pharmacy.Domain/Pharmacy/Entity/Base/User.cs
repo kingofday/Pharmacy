@@ -14,6 +14,10 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid UserId { get; set; }
 
+        public bool IsConfirmed { get; set; }
+
+        public int? MobileConfirmCode { get; set; }
+
         [Display(Name = nameof(Strings.MobileNumber), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public long MobileNumber { get; set; }

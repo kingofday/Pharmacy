@@ -1,6 +1,6 @@
 ﻿import actionTypes from './../actions/actionTypes';
 import strings from './../../shared/constant';
-import authSrv from './../../service/authSrv';
+import srvAuth from './../../service/srvAuth';
 
 const getInitilState = () => {
     if (!localStorage) {
@@ -8,46 +8,57 @@ const getInitilState = () => {
         return {
             authenticated: false,
             token: null,
-            userId: null,
-            username: ''
+            mobileNumber: '',
+            email: '',
+            fullname: '',
+            nextPage: '/'
         };
     }
 
 
-    let rep = authSrv.getUserInfo();
+    let rep = srvAuth.getUserInfo();
     if (rep.success)
         return {
             authenticated: true,
             token: rep.result.token,
-            userId: rep.result.userId,
-            username: rep.result.username
+            fullname: rep.result.fullname,
+            mobileNumber: rep.result.mobileNumber,
+            email: rep.result.email,
         };
     else
         return {
             authenticated: false,
             token: null,
-            userId: null,
-            username: ''
+            fullname: '',
+            mobileNumber: '',
+            email: ''
         };
 
 }
-const authenticationReducer = (state = getInitilState(), action) => {
+const authReducer = (state = getInitilState(), action) => {
     switch (action.type) {
         case actionTypes.LOGIN:
             return {
                 ...state,
                 authenticated: true,
                 token: action.token,
-                userId: action.userId,
-                username: action.username
+                fullname: action.payload.fullname,
+                mobileNumber: action.payload.mobileNumber,
+                email: action.payload.email,
             };
         case actionTypes.LOGOUT:
             return {
                 ...state,
                 authenticated: false,
                 token: null,
-                userId: null,
-                username: ''
+                fullname: '',
+                mobileNumber: '',
+                email: ''
+            };
+        case actionTypes.SET_AUTH_NEXT_PAGE:
+            return {
+                ...state,
+                nextPage: action.payload.nextPage
             };
         default:
             return { ...state };
@@ -55,4 +66,4 @@ const authenticationReducer = (state = getInitilState(), action) => {
 };
 
 
-export default authenticationReducer;
+export default authReducer;

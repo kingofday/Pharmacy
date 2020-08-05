@@ -1,5 +1,4 @@
 import React from 'react';
-import Modal from '../modal';
 import { connect } from 'react-redux'
 import { ToastContainer } from 'react-toastify';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -54,7 +53,6 @@ class Layout extends React.Component {
                 <LinksWithInfo />
                 <UsefulLinks />
                 <Footer />
-                <Modal />
                 <InitError />
                 <ToastContainer containerId={'common_toast'} rtl />
             </Router>

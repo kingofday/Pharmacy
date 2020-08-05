@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Modal, Button } from 'react-bootstrap';
 import { CloseModalAction } from '../../redux/actions/modalAction';
 
-class CustomModal extends React.Component {
+export default class CustomModal extends React.Component {
 
   _onHide(){
     this.props.closeModal();
@@ -11,7 +11,6 @@ class CustomModal extends React.Component {
   }
   
   render() {
-    const Body = this.props.body;
     return (
       <Modal
         show={this.props.show}
@@ -25,7 +24,7 @@ class CustomModal extends React.Component {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          {Body !== null ? <Body /> : null}
+          {this.props.children}
         </Modal.Body>
         {this.props.hasFooter ?
           (<Modal.Footer>
@@ -40,13 +39,3 @@ class CustomModal extends React.Component {
     );
   }
 }
-
-const mapStateToProps = (state, ownProps) => {
-  return { ...ownProps, ...state.modalReducer };
-}
-
-const mapDispatchToProps = dispatch => ({
-  closeModal: () => { dispatch(CloseModalAction()); }
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CustomModal);

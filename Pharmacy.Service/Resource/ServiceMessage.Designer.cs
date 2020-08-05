@@ -212,5 +212,23 @@ namespace Pharmacy.Service.Resource {
                 return ResourceManager.GetString("VerifyTransactionFailed", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کد تایید اشتباه است.
+        /// </summary>
+        public static string WrongConfirmCode {
+            get {
+                return ResourceManager.GetString("WrongConfirmCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to نام کاربری یا رمز عبور اشتباه است.
+        /// </summary>
+        public static string WrongUsernameOrPassword {
+            get {
+                return ResourceManager.GetString("WrongUsernameOrPassword", resourceCulture);
+            }
+        }
     }
 }

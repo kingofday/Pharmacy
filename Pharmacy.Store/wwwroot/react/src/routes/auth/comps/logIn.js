@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import { Row, Col, Alert, Button } from 'react-bootstrap';
+import { Row, Col, Alert } from 'react-bootstrap';
 import { LogInAction } from './../../../redux/actions/authAction';
 import { ShowToastAction } from './../../../redux/actions/toastAction';
 import strings from './../../../shared/constant';
@@ -30,7 +30,9 @@ class LogIn extends React.Component {
 
     _inputChanged(e) {
         let state = this.state;
-        state[e.target.id].value = e.target.value
+        state[e.target.id].value = e.target.value;
+        state[e.target.id].error = false;
+        state[e.target.id].errorMessage = '';
         this.setState((p) => ({ ...state }));
     }
 
@@ -86,9 +88,9 @@ class LogIn extends React.Component {
                             />
                         </div>
                         <div className="btn-group">
-                            <Button variant="outline-info" onClick={this.submit.bind(this)}>{strings.logIn}</Button>
+                            <button className='text-center w-100' onClick={this.submit.bind(this)}>{strings.logIn}</button>
                         </div>
-                        <div className="recover-password">
+                        <div className="recover-password text-center">
                             <Link to="/recoverPassword"><small>{strings.forgotMyPassword}</small></Link>
                         </div>
                     </Col>

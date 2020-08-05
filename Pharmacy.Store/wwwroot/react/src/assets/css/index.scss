@@ -15,10 +15,6 @@ body {
 #root {
   min-height: 100vh;
 }
-.MuiFormLabel-root,
-.MuiMenuItem-root {
-  font-family: "iransans" !important;
-}
 h1,
 h2,
 h3 {
@@ -167,19 +163,12 @@ input:-webkit-autofill:active {
   display: none;
 }
 .form-group {
-  margin-bottom: $marginBottom;
+  margin-bottom: $marginBottom - 5px;
   text-align: center;
 }
 .btn-group {
   margin-bottom: $marginBottom;
   width: 100%;
-}
-.MuiFormControl-root {
-  width: 100%;
-}
-.MuiFormHelperText-contained {
-  margin-right: 0 !important;
-  margin-left: 0 !important;
 }
 .btn-next {
   min-width: 150px;
@@ -229,10 +218,42 @@ input:-webkit-autofill:active {
 [class^="col-"] {
   display: flex;
 }
-.page-comp{
+.page-comp {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+/*==================================
+-- Material UI
+====================================*/
+.MuiFormLabel-root,
+.MuiMenuItem-root {
+  font-family: "iransans" !important;
+}
+.MuiFormControl-root {
+  width: 100%;
+}
+.MuiFormHelperText-contained {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+.MuiInputBase-root {
+  margin-bottom: 18px;
+  &.Mui-error {
+    margin-bottom: 0;
+  }
+}
+.MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error{
+  height: 15px;
+}
+.MuiTextField-root {
+  .MuiOutlinedInput-input {
+    padding: 14px;
+  }
+  .MuiInputLabel-outlined {
+    transform: translate(-14px, 15px) scale(1);
+  }
+}
+
 @import "./rtl.scss";
 @import "./../../shared/layout/css/index.scss";
 @import "./../../shared/searchDrug/css/index.scss";

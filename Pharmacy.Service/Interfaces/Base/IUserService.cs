@@ -20,5 +20,10 @@ namespace Pharmacy.Service
         PagingListDetails<User> Get(UserSearchFilter filter);
         IDictionary<object, object> Search(string query, int take = 10);
         Task<IResponse<string>> RecoverPassword(long mobileNumber, string from, EmailMessage model);
+        //=======================================================================
+        //-- api
+        //=======================================================================
+        Task<IResponse<User>> SignUp(SignUpModel model, int defaultRoleId);
+        Task<Response<AuthResponse>> Confirm(long mobileNumber, int code);
     }
 }

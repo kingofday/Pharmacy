@@ -93,11 +93,12 @@ namespace Pharmacy.DependencyResolver
         public static IServiceCollection AddSingleton(this IServiceCollection services, IConfiguration _configuration)
         {
             services.AddSingleton<IMemoryCacheProvider, MemoryCacheProvider>();
-
             services.AddSingleton<IEmailService>(s => new EmailService(
-                _configuration["CustomSettings:EmailServiceConfig:EmailHost"],
-                _configuration["CustomSettings:EmailServiceConfig:EmailUserName"],
-                _configuration["CustomSettings:EmailServiceConfig:EmailPassword"]));
+                _configuration["CustomSettings:Email:EmailHost"],
+                _configuration["CustomSettings:Email:EmailUserName"],
+                _configuration["CustomSettings:Email:EmailPassword"]));
+
+
             return services;
         }
 

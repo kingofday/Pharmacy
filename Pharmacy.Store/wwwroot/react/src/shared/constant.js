@@ -24,10 +24,13 @@
     comments: 'نظرات',
     username: 'نام کاربری',
     password: 'گذرواژه',
+    repeatPassword: 'تکرار گذرواژه',
     confirmPassword: 'تکرار کلمه عبور',
     signUp: 'ثبت نام',
     logIn: 'ورود',
     logOut: 'خروج',
+    confirmCode:'کد تایید',
+    confirm:'تایید',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',
@@ -110,7 +113,10 @@ export default strings;
 export const validationStrings = {
     required: 'این فیلد اجباری است',
     mustBeNumber: 'این فیلد باید عددی باشد',
-    invalidMobileNumber: 'شماره موبایل ورودی صحیح نیست'
+    invalidMobileNumber: 'شماره موبایل ورودی صحیح نیست',
+    invalidEmail:'ایمیل اشتباه است',
+    passwordInvalidLength:'گذروازه باید حداقل 5 کاراکتر داشته باشد',
+    incorrectRepeatPassword:'تکرار گذروازه اشتباه است'
 }
 export const enums = {
     drugFilterType: {

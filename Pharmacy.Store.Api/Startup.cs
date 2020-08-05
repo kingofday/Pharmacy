@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Pharmacy.Domain;
 
 namespace Pharmacy.Store.Api
 {
@@ -50,7 +51,9 @@ namespace Pharmacy.Store.Api
                 opt.Cookie.SameSite = SameSiteMode.Lax;
             });
             services.AddHttpContextAccessor();
+            services.AddOptions();
 
+            services.Configure<CustomSetting>(_configuration.GetSection("CustomSettings"));
             services.AddTransient(_configuration);
             services.AddScoped(_configuration);
             services.AddSingleton(_configuration);

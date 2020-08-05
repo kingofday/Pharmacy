@@ -16,11 +16,6 @@ body {
   min-height: 100vh;
 }
 
-.MuiFormLabel-root,
-.MuiMenuItem-root {
-  font-family: "iransans" !important;
-}
-
 h1,
 h2,
 h3 {
@@ -189,22 +184,13 @@ input:-webkit-autofill:active {
 }
 
 .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   text-align: center;
 }
 
 .btn-group {
   margin-bottom: 15px;
   width: 100%;
-}
-
-.MuiFormControl-root {
-  width: 100%;
-}
-
-.MuiFormHelperText-contained {
-  margin-right: 0 !important;
-  margin-left: 0 !important;
 }
 
 .btn-next {
@@ -275,6 +261,44 @@ input:-webkit-autofill:active {
 .page-comp {
   margin-top: 30px;
   margin-bottom: 30px;
+}
+
+/*==================================
+-- Material UI
+====================================*/
+.MuiFormLabel-root,
+.MuiMenuItem-root {
+  font-family: "iransans" !important;
+}
+
+.MuiFormControl-root {
+  width: 100%;
+}
+
+.MuiFormHelperText-contained {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.MuiInputBase-root {
+  margin-bottom: 18px;
+}
+
+.MuiInputBase-root.Mui-error {
+  margin-bottom: 0;
+}
+
+.MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error {
+  height: 15px;
+}
+
+.MuiTextField-root .MuiOutlinedInput-input {
+  padding: 14px;
+}
+
+.MuiTextField-root .MuiInputLabel-outlined {
+  -webkit-transform: translate(-14px, 15px) scale(1);
+          transform: translate(-14px, 15px) scale(1);
 }
 
 @font-face {
@@ -1561,5 +1585,37 @@ html[dir="ltr"] .main-nav ul .close-menu {
 
 #page-auth {
   min-height: 80%;
+}
+
+#page-auth .MuiTab-labelIcon:hover {
+  color: #fff;
+}
+
+#page-auth .MuiTab-labelIcon .MuiTab-wrapper {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+#page-auth .MuiTab-labelIcon .MuiTab-wrapper i {
+  margin-left: 5px;
+  margin-bottom: 0;
+}
+
+#page-auth #comp-login,
+#page-auth #comp-signup {
+  padding: 30px 15px;
+}
+
+#page-auth #mobileNumber,
+#page-auth #email,
+#page-auth #username,
+#page-auth #password,
+#page-auth #newPassword,
+#page-auth #repeatPassword,
+#page-auth #confirmCode {
+  direction: ltr !important;
+  text-align: left !important;
 }
 /*# sourceMappingURL=index.css.map */

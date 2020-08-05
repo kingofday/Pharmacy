@@ -1,7 +1,8 @@
 import CryptoJS from 'crypto-js';
-import strings from './../shared/constant';
+import strings from '../shared/constant';
+import userApi from '../api/apiUser';
 
-export default class authSrv{
+export default class srvAuth{
     static getUserInfo() {
         let ciphertext = localStorage.getItem('user');
         if (ciphertext == null)
@@ -22,5 +23,9 @@ export default class authSrv{
     
     static removeUserInfo() {
         localStorage.removeItem('user');
+    }
+
+    static async signUp(model){
+        return await userApi.signUp(model);
     }
 }
