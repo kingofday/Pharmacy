@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 using Elk.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Elk.Core;
+using System.Collections.Generic;
+using System;
 
 namespace Pharmacy.DataAccess.Ef
 {
@@ -13,5 +15,8 @@ namespace Pharmacy.DataAccess.Ef
         {
             _appContext = appContext;
         }
+
+        public async Task<List<MenuSPModel>> GetUserMenu(Guid userId) =>
+         await _appContext.MenuSPModel.FromSqlRaw("EXEC [Auth].[GetUserMenu] @UserId", userId).ToListAsync();
     }
 }

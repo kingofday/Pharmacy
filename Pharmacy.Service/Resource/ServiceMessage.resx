@@ -123,6 +123,13 @@
   <data name="AlreadySignedUp" xml:space="preserve">
     <value>کاربر مورد نظر هم اکنون عضو می باشد</value>
   </data>
+  <data name="ConfirmCodeMessage" xml:space="preserve">
+    <value>کد تایید ثبت نام در سایت فارما
+{0}</value>
+  </data>
+  <data name="ConfirmedBefore" xml:space="preserve">
+    <value>قبلا تایید شده است</value>
+  </data>
   <data name="CreateTransactionFailed" xml:space="preserve">
     <value>خطا در ارتباط با درگاه پرداخت، دوباره تلاش نمایید</value>
   </data>

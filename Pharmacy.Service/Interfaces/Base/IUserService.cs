@@ -14,7 +14,7 @@ namespace Pharmacy.Service
         Task<IResponse<bool>> DeleteAsync(Guid userId);
         Task<IResponse<User>> FindAsync(Guid userId);
         Task<IResponse<User>> FindByMobileNumber(long mobileNumber);
-        MenuModel GetAvailableActions(Guid userId, List<MenuSPModel> spResult = null, string urlPrefix = "");
+        Task<MenuModel> GetAvailableActions(Guid userId, List<MenuSPModel> spResult = null, string urlPrefix = "");
         Task<IResponse<User>> Authenticate(long mobileNumber, string password);
         void SignOut(Guid userId);
         PagingListDetails<User> Get(UserSearchFilter filter);
@@ -24,6 +24,8 @@ namespace Pharmacy.Service
         //-- api
         //=======================================================================
         Task<IResponse<User>> SignUp(SignUpModel model, int defaultRoleId);
+        Task<IResponse<AuthResponse>> SignIn(long username, string password);
         Task<Response<AuthResponse>> Confirm(long mobileNumber, int code);
+        Task<Response<bool>> Resend(long mobileNumber);
     }
 }

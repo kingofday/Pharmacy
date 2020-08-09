@@ -1024,6 +1024,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مرا بخاطر بسپار.
+        /// </summary>
+        public static string RememberMe {
+            get {
+                return ResourceManager.GetString("RememberMe", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نقش.
         /// </summary>
         public static string Role {

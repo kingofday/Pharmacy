@@ -561,4 +561,7 @@
   <data name="Properies" xml:space="preserve">
     <value>مشخصات</value>
   </data>
+  <data name="RememberMe" xml:space="preserve">
+    <value>مرا بخاطر بسپار</value>
+  </data>
 </root>

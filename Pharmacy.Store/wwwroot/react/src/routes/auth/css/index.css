@@ -2,6 +2,11 @@
   min-height: 80%;
 }
 
+#page-auth .MuiTabs-root,
+#page-auth .MuiTab-labelIcon {
+  min-height: 40px;
+}
+
 #page-auth .MuiTab-labelIcon:hover {
   color: #fff;
 }
@@ -19,7 +24,8 @@
 }
 
 #page-auth #comp-login,
-#page-auth #comp-signup {
+#page-auth #comp-signup,
+#page-auth #comp-confirm {
   padding: 30px 15px;
 }
 
@@ -28,9 +34,23 @@
 #page-auth #username,
 #page-auth #password,
 #page-auth #newPassword,
-#page-auth #repeatPassword,
-#page-auth #confirmCode {
+#page-auth #repeatPassword {
   direction: ltr !important;
   text-align: left !important;
+}
+
+#code {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.btn-confirm-retry {
+  background-color: transparent;
+  color: #18346e;
+}
+
+.btn-confirm-retry:hover {
+  background-color: transparent;
+  color: #18346e;
 }
 /*# sourceMappingURL=index.css.map */

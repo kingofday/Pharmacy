@@ -3,7 +3,6 @@ using Elk.Cache;
 using Pharmacy.Domain;
 using Pharmacy.Service;
 using Pharmacy.DataAccess.Ef;
-using Pharmacy.DataAccess.Dapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -80,11 +79,6 @@ namespace Pharmacy.DependencyResolver
             services.AddScoped<IDrugAssetService, DrugAssetService>();
             services.AddScoped<IDrugCategoryService, DrugCategoryService>();
             //services.AddScoped<IDiscountRepo, DiscountRepo>();
-            #endregion
-            #region Dapper Sp
-
-            services.AddScoped<DashboardMenuSp>(factory => new DashboardMenuSp(_configuration.GetConnectionString("AuthDbContext")));
-
             #endregion
 
             return services;

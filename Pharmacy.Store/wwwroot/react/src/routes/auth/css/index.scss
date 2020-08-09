@@ -1,12 +1,16 @@
 #page-auth {
     min-height: 80%;
-    .MuiTab-labelIcon{
-        &:hover{
-            color:#fff;
+    .MuiTabs-root,
+    .MuiTab-labelIcon {
+        min-height: 40px;
+    }
+    .MuiTab-labelIcon {
+        &:hover {
+            color: #fff;
         }
-        .MuiTab-wrapper{
+        .MuiTab-wrapper {
             flex-direction: row;
-            i{
+            i {
                 margin-left: 5px;
                 margin-bottom: 0;
             }
@@ -14,7 +18,8 @@
     }
 
     #comp-login,
-    #comp-signup {
+    #comp-signup,
+    #comp-confirm {
         padding: 30px 15px;
     }
     #mobileNumber,
@@ -22,9 +27,21 @@
     #username,
     #password,
     #newPassword,
-    #repeatPassword,
-    #confirmCode {
+    #repeatPassword {
         direction: ltr !important;
         text-align: left !important;
+    }
+}
+#code {
+    direction: ltr !important;
+    text-align: left !important;
+}
+.btn-confirm-retry {
+    background-color: transparent;
+    color: #18346e;
+
+    &:hover {
+        background-color: transparent;
+        color: #18346e;
     }
 }

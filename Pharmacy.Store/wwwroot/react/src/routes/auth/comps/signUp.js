@@ -79,8 +79,6 @@ class SignUp extends React.Component {
 
     }
     async _submit(e) {
-        this.setState(p => ({ ...p, showModal: true }))
-        return;
         if (!this._validate()) return;
         this.setState(p => ({ ...p, disableBtn: true }));
         let model = {};
@@ -92,22 +90,14 @@ class SignUp extends React.Component {
             toast(signup.message, { type: toast.TYPE.ERROR });
             return;
         }
-
+        this.modal.toggleModal(true);
     }
 
     render() {
         return (
             <div id="comp-signup" className='card padding'>
                 <Row className='ltr-elm'>
-                    <Col xs={12} sm={12} md={{ span: 4, offset: 4 }} className='flex-column'>
-                        {/* <div className="form-group">
-                            {
-                                this.state.message.variant !== '' ?
-                                    (<Alert variant={this.state.message.variant}>
-                                        <p className="text-center">{this.state.message.text}</p>
-                                    </Alert>) : null
-                            }
-                        </div> */}
+                    <Col xs={12} sm={12} md={{ span: 8, offset: 2 }} className='flex-column'>
                         <div className="form-group">
                             <TextField
                                 error={this.state.fullname.error}
@@ -121,6 +111,8 @@ class SignUp extends React.Component {
                                 variant="outlined"
                             />
                         </div>
+                    </Col>
+                    <Col xs={12} sm={12} md={{ span: 4, offset: 2 }} className='flex-column'>
                         <div className="form-group">
                             <TextField
                                 error={this.state.email.error}
@@ -134,14 +126,14 @@ class SignUp extends React.Component {
                                 variant="outlined"
                             />
                         </div>
+                    </Col>
+                    <Col xs={12} sm={12} md={{ span: 4 }} className='flex-column'>
                         <div className="form-group">
                             <TextField
                                 error={this.state.mobileNumber.error}
                                 id="mobileNumber"
                                 name="mobileNumber"
-                                placeholder='9xxxxxxxxx'
-                                type='number'
-                                label={strings.mobile}
+                                label={strings.mobileNumber}
                                 value={this.state.mobileNumber.value}
                                 onChange={this._handleChange.bind(this)}
                                 helperText={this.state.mobileNumber.errorMessage}
@@ -149,22 +141,13 @@ class SignUp extends React.Component {
                                 variant="outlined"
                             />
                         </div>
-                        <div className="form-group">
-                            <TextField
-                                error={this.state.newPassword.error}
-                                id="newPassword"
-                                type='newPassword'
-                                label={strings.password}
-                                value={this.state.newPassword.value}
-                                onChange={this._handleChange.bind(this)}
-                                helperText={this.state.newPassword.errorMessage}
-                                variant="outlined"
-                            />
-                        </div>
+                    </Col>
+                    <Col xs={12} sm={12} md={{ span: 4, offset: 2 }} className='flex-column'>
                         <div className="form-group">
                             <TextField
                                 error={this.state.repeatPassword.error}
                                 id="repeatPassword"
+                                name="repeatPassword"
                                 type='password'
                                 label={strings.repeatPassword}
                                 value={this.state.repeatPassword.value}
@@ -173,13 +156,32 @@ class SignUp extends React.Component {
                                 variant="outlined"
                             />
                         </div>
+                    </Col>
+                    <Col xs={12} sm={12} md={{ span: 4 }} className='flex-column'>
+                        <div className="form-group">
+                            <TextField
+                                error={this.state.newPassword.error}
+                                id="newPassword"
+                                name="newPassword"
+                                type="password"
+                                label={strings.password}
+                                value={this.state.newPassword.value}
+                                onChange={this._handleChange.bind(this)}
+                                helperText={this.state.newPassword.errorMessage}
+                                variant="outlined"
+                            />
+                        </div>
+                    </Col>
+                    <Col xs={12} sm={12} md={{ span: 4, offset: 4 }} className='flex-column'>
                         <div className="btn-group">
                             <Button disabled={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.signUp}</Button>
                         </div>
                     </Col>
+
+
                 </Row>
-                <Modal title="test" show={this.state.showModal}>
-                    <Confirm code={this.state.mobileNumber.value} />
+                <Modal ref={c => this.modal = c} title={strings.confirmCode}>
+                    <Confirm code={this.state.mobileNumber.value} mobileNumber={this.state.mobileNumber.value} />
                 </Modal>
             </div>
         );

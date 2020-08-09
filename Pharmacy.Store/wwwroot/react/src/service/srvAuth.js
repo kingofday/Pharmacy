@@ -24,8 +24,16 @@ export default class srvAuth{
     static removeUserInfo() {
         localStorage.removeItem('user');
     }
-
+    static async signIn(model){
+        return await userApi.signIn(model);
+    }
     static async signUp(model){
         return await userApi.signUp(model);
+    }
+    static async confirm(mobileNumber,code){
+        return await userApi.confirm(mobileNumber,code);
+    }
+    static async resendSMS(mobileNumber){
+        return await userApi.resendSMS(mobileNumber);
     }
 }

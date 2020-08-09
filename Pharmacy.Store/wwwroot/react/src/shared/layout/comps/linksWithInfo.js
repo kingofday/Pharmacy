@@ -45,7 +45,7 @@ export default class LinksWithInfo extends React.Component {
                                                 text: 'لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطر آنچنان که لازم است.'
                                             }
                                             ].map((info, idx) =>
-                                                <Col key={idx} xs={12} sm={12} md={6} className='mb-15'>
+                                                <Col key={idx} xs={12} sm={12} md={12} lg={6} className='mb-15'>
                                                     <Link className='link-img d-flex' to={info.to}>
                                                         <img src={info.img} />
                                                         <div className='info'>

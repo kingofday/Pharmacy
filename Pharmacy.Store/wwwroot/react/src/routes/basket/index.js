@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import strings from './../../shared/constant';
 import DiscountBadg from './../../shared/discountBadg';
 import Counter from './../../shared/counter';
@@ -9,9 +9,13 @@ import { commaThousondSeperator } from './../../shared/utils';
 import { UpdateBasketAction, RemoveFromBasketAction } from './../../redux/actions/basketAction';
 import ConfirmModal from './../../shared/confirm';
 import { HideInitErrorAction } from "../../redux/actions/InitErrorAction";
+import { SetNexPage } from "../../redux/actions/authAction";
 import emptyBasketImage from './../../assets/images/empty-basket.png';
 
 class Basket extends React.Component {
+    state = {
+        redirect: null
+    }
     async componentDidMount() {
         this.props.hideInitError();
     }
@@ -27,8 +31,19 @@ class Basket extends React.Component {
     _confirmDelete(id) {
         this.props.removeFromBasket(id);
     }
+    _goToNext() {
+        console.log(this.props.authenticated);
+        if (this.props.authenticated)
+            this.setState(p => ({ ...p, redirect: '/selectAddress' }));
+        else {
+            this.props.setAuthNextPage('/selectAddress');
+            this.setState(p => ({ ...p, redirect: '/auth' }));
+        }
+    }
     render() {
-        if (this.props.items.length == 0)
+        if (this.state.redirect)
+            return <Redirect to={this.state.redirect} />
+        else if (this.props.items.length == 0)
             return (<div className='basket-page with-header'>
                 <div className='empty'>
                     {/* <i className='zmdi zmdi-mood-bad'></i> */}
@@ -89,9 +104,9 @@ class Basket extends React.Component {
                                         </span>
                                         <small>&nbsp;{strings.currency}</small>
                                     </div>
-                                    <Link className='btn-next d-block' to={this.props.authenticated?'/selectAddress':'/auth'}>
+                                    <button className='btn-next d-block' onClick={this._goToNext.bind(this)}>
                                         <span>{strings.continuePurchase}</span>
-                                    </Link>
+                                    </button>
                                 </div>
                             </Col>
                         </Row>
@@ -109,7 +124,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     hideInitError: () => dispatch(HideInitErrorAction()),
     updateBasket: (id, count) => dispatch(UpdateBasketAction(id, count)),
-    removeFromBasket: (id) => dispatch(RemoveFromBasketAction(id))
+    removeFromBasket: (id) => dispatch(RemoveFromBasketAction(id)),
+    setAuthNextPage: () => dispatch(SetNexPage())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Basket);

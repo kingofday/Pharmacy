@@ -4,28 +4,31 @@ import { Link } from 'react-router-dom';
 import { Row, Col, Alert } from 'react-bootstrap';
 import { LogInAction } from './../../../redux/actions/authAction';
 import { ShowToastAction } from './../../../redux/actions/toastAction';
-import strings from './../../../shared/constant';
+import strings, { validationStrings } from './../../../shared/constant';
+import { validate } from './../../../shared/utils';
 import { TextField } from '@material-ui/core';
+import srvAuth from './../../../service/srvAuth';
+
+const inputs = ['username', 'password'];
 
 class LogIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+            isValid: false,
+            disableBtn: false,
+            showModal: false,
             message: {
                 variant: '',
                 text: ''
-            },
-            username: {
-                value: '',
-                error: false,
-                errorMessage: ''
-            },
-            password: {
-                value: '',
-                error: false,
-                errorMessage: ''
             }
-        }
+        };
+        for (let i = 0; i < inputs.length; i++)
+            this.state[inputs[i]] = {
+                value: '',
+                error: false,
+                errorMessage: ''
+            };
     }
 
     _inputChanged(e) {
@@ -36,17 +39,46 @@ class LogIn extends React.Component {
         this.setState((p) => ({ ...state }));
     }
 
-    submit(e) {
-        if (this.state.username.value !== 'admin' || this.state.password.value !== 'admin') {
-            this.setState(p => ({
-                ...p,
-                message: {
-                    variant: 'danger',
-                    text: strings.wrongUsernameOrPassword
-                }
-            }))
-            return;
+    _validate() {
+        let isValid = true;
+        let state = this.state;
+        for (let i = 0; i < inputs.length; i++) {
+            let k = inputs[i];
+            if (!state[k].value) {
+                state[k].error = true;
+                state[k].errorMessage = validationStrings.required;
+                this.setState(p => ({ ...state }));
+                isValid = false;
+                continue;
+            }
+            let msg = null;
+            switch (k) {
+                case 'username':
+                    if (validate.mobileNumber(state[k])) msg = validationStrings.invalidMobileNumber;
+                    break;
+                case 'password':
+                    if (state[k].length < 5 || state[k].length > 50) msg = validationStrings.passwordInvalidLength;
+                    break;
+            }
+            if (msg) {
+                state[k].error = true;
+                state[k].errorMessage = msg;
+                this.setState(p => ({ ...state }));
+                isValid = false;
+            }
         }
+        if (!isValid) return isValid;
+        return isValid
+
+    }
+
+    _submit(e) {
+        if (!this._validate()) return;
+        this.setState(p => ({ ...p, disableBtn: true }));
+        let model = {};
+        for (let i = 0; i < inputs.length; i++)
+            model[inputs[i]] = this.state[inputs[i]].value;
+        srvAuth.signIn({})
         this.props.logIn('xxx', 1, this.state.username.value);
     }
 
@@ -88,7 +120,7 @@ class LogIn extends React.Component {
                             />
                         </div>
                         <div className="btn-group">
-                            <button className='text-center w-100' onClick={this.submit.bind(this)}>{strings.logIn}</button>
+                            <button className='text-center w-100' onClick={this._submit.bind(this)}>{strings.logIn}</button>
                         </div>
                         <div className="recover-password text-center">
                             <Link to="/recoverPassword"><small>{strings.forgotMyPassword}</small></Link>

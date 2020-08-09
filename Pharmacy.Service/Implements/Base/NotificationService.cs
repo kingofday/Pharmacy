@@ -8,16 +8,17 @@ using System.Net.Http;
 using System.Text;
 using System;
 using Pharmacy.Service.Resource;
+using Microsoft.Extensions.Options;
 
 namespace Pharmacy.Service
 {
     public class NotificationService : INotificationService
     {
-        private IConfiguration _configuration { get; }
+        private IOptions<CustomSetting> _settings { get; }
 
-        public NotificationService(IConfiguration configuration)
+        public NotificationService(IOptions<CustomSetting> settings)
         {
-            _configuration = configuration;
+            _settings = settings;
         }
 
 
@@ -26,8 +27,8 @@ namespace Pharmacy.Service
             try
             {
                 using var http = new HttpClient();
-                http.DefaultRequestHeaders.Add("Token", _configuration["CustomSettings:NotifierToken"]);
-                var notify = await http.PostAsync(_configuration["CustomSettings:NotifierUrl"], new StringContent(notifyDto.SerializeToJson(), Encoding.UTF8, "application/json"));
+                http.DefaultRequestHeaders.Add("Token", _settings.Value.NotifierToken);
+                var notify = await http.PostAsync(_settings.Value.NotifierUrl, new StringContent(notifyDto.SerializeToJson(), Encoding.UTF8, "application/json"));
                 if (!notify.IsSuccessStatusCode) return new Response<bool> {Message = ServiceMessage.Error };
                 return (await notify.Content.ReadAsStringAsync()).DeSerializeJson<Response<bool>>();
             }

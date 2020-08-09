@@ -5,7 +5,9 @@ const addr = {
     searchDrug: (filter) => `${baseUrl}drug?name=${filter.name ? filter.name : ''}&type=${filter.type || 0}&minPrice=${filter.minPrice || ''}&maxPrice=${filter.maxPrice || ''}&pageNumber=${filter.pageSize || 9}&pageNumber=${filter.pageNumber || 1}&pageSize=${filter.pageSize || 10}`,
     getSingleDrug: id => `${baseUrl}drug/${id}`,
     getDrugStores: `${baseUrl}DrugStore`,
-    signUp: `${baseUrl}Auth`,
-    confirm: (mobileNumber) => `${baseUrl}Auth/${mobileNumber}`
+    signUp: `${baseUrl}SignUp`,
+    signIn: `${baseUrl}SignIn`,
+    confirm: `${baseUrl}Confirm`,
+    resendSMS: (mobileNumber) => `${baseUrl}Auth/${mobileNumber}`
 }
 export default addr;

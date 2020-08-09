@@ -457,8 +457,8 @@ body[dir="rtl"] .modal-header .close {
 }
 
 #comp-search-bar {
-  padding-top: 15px;
-  padding-bottom: 15px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   background-color: #fff;
 }
 
@@ -1587,6 +1587,11 @@ html[dir="ltr"] .main-nav ul .close-menu {
   min-height: 80%;
 }
 
+#page-auth .MuiTabs-root,
+#page-auth .MuiTab-labelIcon {
+  min-height: 40px;
+}
+
 #page-auth .MuiTab-labelIcon:hover {
   color: #fff;
 }
@@ -1604,7 +1609,8 @@ html[dir="ltr"] .main-nav ul .close-menu {
 }
 
 #page-auth #comp-login,
-#page-auth #comp-signup {
+#page-auth #comp-signup,
+#page-auth #comp-confirm {
   padding: 30px 15px;
 }
 
@@ -1613,9 +1619,23 @@ html[dir="ltr"] .main-nav ul .close-menu {
 #page-auth #username,
 #page-auth #password,
 #page-auth #newPassword,
-#page-auth #repeatPassword,
-#page-auth #confirmCode {
+#page-auth #repeatPassword {
   direction: ltr !important;
   text-align: left !important;
+}
+
+#code {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.btn-confirm-retry {
+  background-color: transparent;
+  color: #18346e;
+}
+
+.btn-confirm-retry:hover {
+  background-color: transparent;
+  color: #18346e;
 }
 /*# sourceMappingURL=index.css.map */

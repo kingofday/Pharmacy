@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Pharmacy.DataAccess.Dapper\Pharmacy.DataAccess.Dapper.csproj" />
     <ProjectReference Include="..\Pharmacy.DataAccess.Ef\Pharmacy.DataAccess.Ef.csproj" />
     <ProjectReference Include="..\Pharmacy.InfraStructure\Pharmacy.InfraStructure.csproj" />
   </ItemGroup>

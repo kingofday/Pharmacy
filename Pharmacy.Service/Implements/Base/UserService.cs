@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using System.Linq.Expressions;
 using Pharmacy.InfraStructure;
 using Pharmacy.Service.Resource;
-using Pharmacy.DataAccess.Dapper;
 using System.Collections.Generic;
 using DomainStrings = Pharmacy.Domain.Resource.Strings;
 
@@ -18,20 +17,21 @@ namespace Pharmacy.Service
     public class UserService : IUserService, IUserActionProvider
     {
         private readonly AppUnitOfWork _appUow;
-        private readonly IEmailService _emailService;
+        private readonly INotificationService _notifSrv;
+        private readonly IEmailService _emailSrv;
         private readonly IMemoryCacheProvider _cache;
-        private readonly DashboardMenuSp _dashboardMenuSp;
         readonly IUserRepo _userRepo;
         readonly AuthUnitOfWork _authUow;
         public UserService(AppUnitOfWork appUow, AuthUnitOfWork authUow, IMemoryCacheProvider cache,
-            IEmailService emailService, DashboardMenuSp dashboardMenuSp)
+            IEmailService emailService,
+            INotificationService notifSrv)
         {
             _appUow = appUow;
             _cache = cache;
-            _emailService = emailService;
-            _dashboardMenuSp = dashboardMenuSp;
+            _emailSrv = emailService;
             _userRepo = appUow.UserRepo;
-            authUow = _authUow;
+            _authUow = authUow;
+            _notifSrv = notifSrv;
         }
 
 
@@ -112,12 +112,11 @@ namespace Pharmacy.Service
 
         private string MenuModelCacheKey(Guid userId) => $"MenuModel_{userId.ToString().Replace("-", "_")}";
 
+        public async Task<IEnumerable<UserAction>> GetUserActionsAsync(string userId, string urlPrefix = "")
+            => (await GetAvailableActions(Guid.Parse(userId), null, urlPrefix)).ActionList;
+
         public IEnumerable<UserAction> GetUserActions(string userId, string urlPrefix = "")
-            => GetAvailableActions(Guid.Parse(userId), null, urlPrefix).ActionList;
-
-        public Task<IEnumerable<UserAction>> GetUserActionsAsync(string userId, string urlPrefix = "")
-            => (Task.Run(() => GetAvailableActions(Guid.Parse(userId), null, urlPrefix).ActionList));
-
+            => (GetAvailableActions(Guid.Parse(userId), null, urlPrefix)).Result.ActionList;
         public async Task<IResponse<User>> FindByMobileNumber(long mobileNumber)
         {
             var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobileNumber, includeProperties: null);
@@ -187,39 +186,39 @@ namespace Pharmacy.Service
             return sb.ToString();
         }
 
-        public MenuModel GetAvailableActions(Guid userId, List<MenuSPModel> spResult = null, string urlPrefix = "")
+        public async Task<MenuModel> GetAvailableActions(Guid userId, List<MenuSPModel> spResult = null, string urlPrefix = "")
         {
             var userMenu = (MenuModel)_cache.Get(GlobalVariables.CacheSettings.MenuModelCacheKey(userId));
             if (userMenu != null) return userMenu;
 
             userMenu = new MenuModel();
-            if (spResult == null) spResult = _dashboardMenuSp.GetUserMenu(userId).ToList();
+            if (spResult == null) spResult = await _userRepo.GetUserMenu(userId);
 
-            //#region Find Default View
-            //foreach (var menuItem in spResult)
-            //{
-            //    if (menuItem.IsAction && menuItem.IsDefault)
-            //    {
-            //        userMenu.DefaultUserAction = new UserAction
-            //        {
-            //            Action = menuItem.ActionName,
-            //            Controller = menuItem.ControllerName
-            //        };
-            //        break;
-            //    }
-            //    var actions = menuItem.ActionsList;
-            //    if (actions.Any(x => x.IsDefault))
-            //    {
-            //        userMenu.DefaultUserAction = new UserAction
-            //        {
-            //            Action = actions.FirstOrDefault(x => x.IsDefault).ActionName,
-            //            Controller = actions.FirstOrDefault(x => x.IsDefault).ControllerName
-            //        };
-            //        break;
-            //    }
-            //}
-            //if (userMenu.DefaultUserAction == null || userMenu.DefaultUserAction.Controller == null) return null;
-            //#endregion
+            #region Find Default View
+            foreach (var menuItem in spResult)
+            {
+                if (menuItem.IsAction && menuItem.IsDefault)
+                {
+                    userMenu.DefaultUserAction = new UserAction
+                    {
+                        Action = menuItem.ActionName,
+                        Controller = menuItem.ControllerName
+                    };
+                    break;
+                }
+                var actions = menuItem.ActionsList;
+                if (actions.Any(x => x.IsDefault))
+                {
+                    userMenu.DefaultUserAction = new UserAction
+                    {
+                        Action = actions.FirstOrDefault(x => x.IsDefault).ActionName,
+                        Controller = actions.FirstOrDefault(x => x.IsDefault).ControllerName
+                    };
+                    break;
+                }
+            }
+
+            #endregion
             var userActions = new List<UserAction>();
             void AddAction(MenuSPModel item)
             {
@@ -239,26 +238,7 @@ namespace Pharmacy.Service
                     foreach (var child in item.ActionsList) AddAction(child);
             }
             foreach (var item in spResult) AddAction(item);
-            //foreach (var item in spResult)
-            //{
-            //    if (item.IsAction)
-            //        userActions.Add(new UserAction
-            //        {
-            //            Controller = item.ControllerName.ToLower(),
-            //            Action = item.ActionName.ToLower(),
-            //            RoleId = item.RoleId,
-            //            RoleNameFa = item.RoleNameFa
-            //        });
-            //    if (item.ActionsList != null)
-            //        foreach (var child in item.ActionsList)
-            //            userActions.Add(new UserAction
-            //            {
-            //                Controller = child.ControllerName.ToLower(),
-            //                Action = child.ActionName.ToLower(),
-            //                RoleId = child.RoleId,
-            //                RoleNameFa = child.RoleNameFa
-            //            });
-            //}
+            if (userMenu.DefaultUserAction == null || userMenu.DefaultUserAction.Controller == null) return null;
             userActions = userActions.Distinct().ToList();
             userMenu.Menu = GetAvailableMenu(spResult, urlPrefix);
             userMenu.ActionList = userActions;
@@ -318,7 +298,7 @@ namespace Pharmacy.Service
 
             model.Subject = ServiceMessage.RecoverPassword;
             model.Body = model.Body.Fill(newPassword);
-            _emailService.Send(user.Email, new List<string> { from }, model);
+            _emailSrv.Send(user.Email, new List<string> { from }, model);
             return new Response<string> { IsSuccessful = true, Message = saveResult.Message };
         }
         //=======================================================================
@@ -353,6 +333,18 @@ namespace Pharmacy.Service
                 UserId = user.UserId
             });
             var saveUIR = await _authUow.ElkSaveChangesAsync();
+            if (saveUIR.IsSuccessful)
+            {
+                var notif = await _notifSrv.NotifyAsync(new NotificationDto
+                {
+                    Content = ServiceMessage.ConfirmCodeMessage,
+                    FullName = user.FullName,
+                    MobileNumber = user.MobileNumber,
+                    Type = EventType.Subscription
+                });
+                db.Commit();
+            }
+            else db.Rollback();
             return new Response<User> { Result = user, IsSuccessful = saveUIR.IsSuccessful, Message = saveUIR.Message };
         }
         public async Task<Response<AuthResponse>> Confirm(long mobileNumber, int code)
@@ -376,7 +368,7 @@ namespace Pharmacy.Service
                 }
             };
         }
-        public async Task<IResponse<AuthResponse>> LogIn(long username, string password)
+        public async Task<IResponse<AuthResponse>> SignIn(long username, string password)
         {
             var pw = HashGenerator.Hash(password);
             var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == username && x.Password == pw);
@@ -388,6 +380,16 @@ namespace Pharmacy.Service
                 _userRepo.Update(user);
                 await _appUow.ElkSaveChangesAsync();
             }
+            else
+            {
+                var nofity = await _notifSrv.NotifyAsync(new NotificationDto
+                {
+                    Content = ServiceMessage.ConfirmCodeMessage,
+                    FullName = user.FullName,
+                    MobileNumber = user.MobileNumber,
+                    Type = EventType.Subscription
+                });
+            }
             return new Response<AuthResponse>
             {
                 IsSuccessful = true,
@@ -396,9 +398,28 @@ namespace Pharmacy.Service
                     Email = user.Email,
                     Fullname = user.Email,
                     MobileNumber = user.MobileNumber.ToString(),
-                    IsConfirmed = true
+                    IsConfirmed = user.IsConfirmed
                 }
             };
+        }
+        public async Task<Response<bool>> Resend(long mobileNumber)
+        {
+            var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobileNumber);
+            if (user == null)
+                return new Response<bool> { Message = ServiceMessage.RecordNotExist };
+            if (user.IsConfirmed)
+                return new Response<bool> { Message = ServiceMessage.ConfirmedBefore };
+            var notify = await _notifSrv.NotifyAsync(new NotificationDto
+            {
+                Content = ServiceMessage.ConfirmCodeMessage,
+                FullName = user.FullName,
+                Email = user.Email,
+                MobileNumber = user.MobileNumber,
+                Type = EventType.Subscription
+            });
+            return new Response<bool> { IsSuccessful = notify.IsSuccessful };
+
+
         }
     }
 }

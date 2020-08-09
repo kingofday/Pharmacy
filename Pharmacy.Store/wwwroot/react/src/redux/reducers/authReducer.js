@@ -6,6 +6,7 @@ const getInitilState = () => {
     if (!localStorage) {
         alert(strings.browserIsOld);
         return {
+            goToNextPage:false,
             authenticated: false,
             token: null,
             mobileNumber: '',
@@ -19,6 +20,7 @@ const getInitilState = () => {
     let rep = srvAuth.getUserInfo();
     if (rep.success)
         return {
+            goToNextPage:false,
             authenticated: true,
             token: rep.result.token,
             fullname: rep.result.fullname,
@@ -27,6 +29,7 @@ const getInitilState = () => {
         };
     else
         return {
+            goToNextPage:false,
             authenticated: false,
             token: null,
             fullname: '',
@@ -37,7 +40,7 @@ const getInitilState = () => {
 }
 const authReducer = (state = getInitilState(), action) => {
     switch (action.type) {
-        case actionTypes.LOGIN:
+        case actionTypes.LOG_IN:
             return {
                 ...state,
                 authenticated: true,
@@ -46,7 +49,7 @@ const authReducer = (state = getInitilState(), action) => {
                 mobileNumber: action.payload.mobileNumber,
                 email: action.payload.email,
             };
-        case actionTypes.LOGOUT:
+        case actionTypes.LOG_OUT:
             return {
                 ...state,
                 authenticated: false,
@@ -59,6 +62,11 @@ const authReducer = (state = getInitilState(), action) => {
             return {
                 ...state,
                 nextPage: action.payload.nextPage
+            };
+        case actionTypes.AUTH_GOTO_NEXT_PAGE:
+            return {
+                ...state,
+                goToNextPage: action.payload.goToNextPage
             };
         default:
             return { ...state };

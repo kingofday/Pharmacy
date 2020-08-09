@@ -79,6 +79,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to حداقل کاراکتر مجاز 5  و حداکثر {1} می باشد..
+        /// </summary>
+        public static string LengthRangeError {
+            get {
+                return ResourceManager.GetString("LengthRangeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to لطفا بیشتر از {1} کاراکتر وارد نکنید.
         /// </summary>
         public static string MaxLength {

@@ -4,16 +4,20 @@ import { Modal, Button } from 'react-bootstrap';
 import { CloseModalAction } from '../../redux/actions/modalAction';
 
 export default class CustomModal extends React.Component {
-
-  _onHide(){
-    this.props.closeModal();
-    if(this.props.onClose) this.props.onClose();
+  state = {
+    show: false
+  };
+  _onHide() {
+    this.setState(p => ({ ...p, show: false }));
   }
-  
+  toggleModal(show) {
+    this.setState(p => ({ ...p, show }));
+  }
   render() {
     return (
       <Modal
-        show={this.props.show}
+        centered
+        show={this.state.show}
         onHide={() => this._onHide()}
         dialogClassName="modal-90w"
         aria-labelledby="modal-title"

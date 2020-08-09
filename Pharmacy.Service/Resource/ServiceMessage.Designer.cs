@@ -79,6 +79,25 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to کد تایید ثبت نام در سایت فارما
+        ///{0}.
+        /// </summary>
+        public static string ConfirmCodeMessage {
+            get {
+                return ResourceManager.GetString("ConfirmCodeMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to قبلا تایید شده است.
+        /// </summary>
+        public static string ConfirmedBefore {
+            get {
+                return ResourceManager.GetString("ConfirmedBefore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to خطا در ارتباط با درگاه پرداخت، دوباره تلاش نمایید.
         /// </summary>
         public static string CreateTransactionFailed {

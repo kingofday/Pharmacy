@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Pharmacy.Domain\Pharmacy.Domain.csproj" />
     <ProjectReference Include="..\Pharmacy.InfraStructure\Pharmacy.InfraStructure.csproj" />
     <ProjectReference Include="..\Pharmacy.Notifier.DataAccess.Dapper\Pharmacy.Notifier.DataAccess.Dapper.csproj" />
     <ProjectReference Include="..\Pharmacy.Notifier.DataAccess.Ef\Pharmacy.Notifier.DataAccess.Ef.csproj" />

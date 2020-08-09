@@ -1,8 +1,10 @@
 ﻿const actionTypes = {
      //------------------------------------Auth Actions
-    LOGIN: 'LOGIN',
-    LOGOUT: 'LOGOUT',
+    LOG_IN: 'LOG_IN',
+    LOG_OUT: 'LOG_OUT',
+    SIGN_UP:'SIGN_UP',
     SET_AUTH_NEXT_PAGE:'SET_AUTH_NEXT_PAGE',
+    AUTH_GOTO_NEXT_PAGE:'AUTH_GOTO_NEXT_PAGE',
     SHOWMODAL: 'SHOWMODAL',
     CLOSEMODAL: 'CLOSEMODAL',
     SHOWTOAST: 'SHOWTOAST',

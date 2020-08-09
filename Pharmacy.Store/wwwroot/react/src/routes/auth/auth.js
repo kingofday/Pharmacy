@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Paper, Tabs, Tab, Box } from '@material-ui/core';
 import strings from '../../shared/constant';
@@ -14,6 +15,8 @@ class Auth extends React.Component {
         this.setState(p => ({ ...p, panel: panel }));
     };
     render() {
+        if (this.props.goToNextPage)
+            return <Redirect to={this.props.nextPage} />
         return (
             <Container id="page-auth" className=' page-comp'>
                 <Row>

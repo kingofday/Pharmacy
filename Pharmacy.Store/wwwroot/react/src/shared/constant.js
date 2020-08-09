@@ -31,6 +31,8 @@
     logOut: 'خروج',
     confirmCode:'کد تایید',
     confirm:'تایید',
+    mobileNumberConfirmDescription:'لطفا کد ارسالی به موبایلتان را وارد نمایید',
+    sendAgain:'ارسال مجدد',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',

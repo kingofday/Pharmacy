@@ -19,9 +19,10 @@ namespace Pharmacy.DataAccess.Ef
             builder.Entity<Drug>().HasIndex(x => x.NameFa).HasName("IX_NameFa");
             builder.Entity<OrderDrugStore>().HasIndex(x => new { x.OrderDrugStoreId, x.DrugStoreId }).HasName("IX_OrderDrugStore").IsUnique();
             builder.Entity<Tag>().HasIndex(x => x.Name).HasName("IX_Title").IsUnique();
-
+            builder.Entity<MenuSPModel>().HasNoKey().ToView(null);
             builder.OverrideDeleteBehavior();
             builder.RegisterAllEntities<IEntity>(typeof(User).Assembly);
         }
+        public DbSet<MenuSPModel> MenuSPModel { get; set; }
     }
 }

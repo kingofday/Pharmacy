@@ -4,6 +4,8 @@
     {
         public int EndUserRoleId { get; set; }
         public int DefaultGatewayId { get; set; }
+        public string NotifierUrl { get; set; }
+        public string NotifierToken { get; set; }
         public Jwt Jwt { get; set; }
         public Delivery Delivery { get; set; }
         public ShowPaymentResult ShowPaymentResult { get; set; }

@@ -565,24 +565,6 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to حداقل کاراکتر مجاز 5  و حداکثر {1} می باشد..
-        /// </summary>
-        public static string Min5MaxLength {
-            get {
-                return ResourceManager.GetString("Min5MaxLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to لطفا کمتر از {1} کاراکتر وارد ننمایید.
-        /// </summary>
-        public static string MinLength {
-            get {
-                return ResourceManager.GetString("MinLength", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to لطفا حداقل {0} کاراکتر وارد نمایید.
         /// </summary>
         public static string MinLengthNotReached {
@@ -750,15 +732,6 @@ namespace Pharmacy.Dashboard.Resources {
         public static string RecoverPasswordHint {
             get {
                 return ResourceManager.GetString("RecoverPasswordHint", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to مرا بخاطر بسپار.
-        /// </summary>
-        public static string RememberMe {
-            get {
-                return ResourceManager.GetString("RememberMe", resourceCulture);
             }
         }
         
