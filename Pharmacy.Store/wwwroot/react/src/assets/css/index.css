@@ -981,9 +981,8 @@ html[dir="ltr"] .main-nav ul .close-menu {
 #home-page #first-row .r-bg {
   height: 100%;
   width: 100%;
-  background-image: url("/home-right-bg.png");
+  background-image: url("/home-right-bg.jpg");
   background-repeat: no-repeat;
-  background-position: -110px center;
   background-size: auto 100%;
   height: 350px;
 }
@@ -992,7 +991,7 @@ html[dir="ltr"] .main-nav ul .close-menu {
   padding: 100px 0;
   height: 100%;
   width: 100%;
-  background-image: url("/home-left-bg.png");
+  background-image: url("/home-left-bg.jpg");
   background-repeat: no-repeat;
   background-position: center center;
 }

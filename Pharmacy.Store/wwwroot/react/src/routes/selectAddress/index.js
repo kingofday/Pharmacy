@@ -32,7 +32,7 @@ class SelectAddress extends React.Component {
             },
             placeName: '',
             deliveryId: '',
-            selectedAddress:''
+            prevAddress:''
         };
     }
 
@@ -48,7 +48,7 @@ class SelectAddress extends React.Component {
     }
 
     async _selectAddress(item) {
-        this.setState(p => ({ ...p, selectedAddress: item, lng: null, lat: null, deliveryId: '', deliveryCost: null, placeName: null }));
+        this.setState(p => ({ ...p, prevAddress: item, lng: null, lat: null, deliveryId: '', deliveryCost: null, placeName: null }));
     }
 
     _remmoveAddress() {
@@ -88,6 +88,7 @@ class SelectAddress extends React.Component {
         let type = this.state.deliveryTypes.find(x => x.id === parseInt(deliveryId));
         this.setState(p => ({ ...p, deliveryId: deliveryId, deliveryCost: type.cost }));
     }
+
     async _submit() {
 
         if (!this.state.prevAddress) {
@@ -99,14 +100,6 @@ class SelectAddress extends React.Component {
                 this.setState(p => ({ ...p, address: { ...p.address, error: true, message: validationStrings.required } }))
                 return;
             }
-        }
-        if (!this.state.reciever.value) {
-            this.setState(p => ({ ...p, reciever: { ...p.reciever, error: true, message: validationStrings.required } }))
-            return;
-        }
-        if (!this.state.recieverMobileNumber.value) {
-            this.setState(p => ({ ...p, recieverMobileNumber: { ...p.recieverMobileNumber, error: true, message: validationStrings.required } }))
-            return;
         }
         if (!this.state.prevAddress) {
             this.props.setAddress({
@@ -137,8 +130,7 @@ class SelectAddress extends React.Component {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />;
         return (
             <div className="select-address-page with-header">
-                <Header goBack={this.props.history.goBack} />
-                <Steps activeStep={1} />
+                {/* <Steps activeStep={1} /> */}
                 <Container>
                     {this.state.prevAddress ? (
                         <Row className='m-b'>

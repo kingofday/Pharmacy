@@ -7,8 +7,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController]
-    [Route("[controller]")]
+    [ApiController, EnableCors("AllowedOrigins"), Route("[controller]")]
     public class CategoryController : ControllerBase
     {
         readonly IDrugCategoryService _drugCategorySrv;
@@ -17,7 +16,7 @@ namespace Pharmacy.API.Controllers
             _drugCategorySrv = drugCategorySrv;
         }
 
-        [HttpGet, EnableCors]
+        [HttpGet]
         public ActionResult<IResponse<List<DrugCategoryDTO>>> GetAll()
         //=> _drugCategorySrv.Get();
         => new Response<List<DrugCategoryDTO>>

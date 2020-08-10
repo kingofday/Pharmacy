@@ -1,13 +1,13 @@
-﻿using Pharmacy.Domain;
+﻿using Elk.Core;
+using Pharmacy.Domain;
 using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Elk.Core;
 using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController]
+    [ApiController, EnableCors("AllowedOrigins")]
     public class DrugController : ControllerBase
     {
         readonly IDrugService _drugService;
@@ -101,7 +101,7 @@ namespace Pharmacy.API.Controllers
             };
         }
 
-        [HttpGet,EnableCors,Route("[controller]")]
+        [HttpGet, Route("[controller]")]
         public ActionResult<IResponse<GetDrugsModel>> Get([FromQuery] DrugSearchFilter filter)
                        //=> _drugService.GetAsDto(filter);
                        => new Response<GetDrugsModel>
@@ -136,7 +136,7 @@ namespace Pharmacy.API.Controllers
                         new DrugProperty{ Name = "وزن",Value = "100 گرم" }
                     },
                     Comments = new List<DrugCommentDTO> {
-                        new DrugCommentDTO{ 
+                        new DrugCommentDTO{
                             Fullname = "مرتضی اجمدی",
                             Comment = "محصول عالی هست، پیشنهاد میکنم بخرید"
                         },

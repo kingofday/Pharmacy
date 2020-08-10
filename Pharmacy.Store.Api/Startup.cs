@@ -16,7 +16,7 @@ namespace Pharmacy.API
 {
     public class Startup
     {
-        readonly string AllowedOrigins = "_Origins";
+        readonly string AllowedOrigins = "AllowedOrigins";
         public IConfiguration _configuration { get; }
 
         public Startup(IConfiguration configuration)
