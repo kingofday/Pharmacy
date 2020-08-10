@@ -101,7 +101,7 @@ namespace Pharmacy.API.Controllers
             };
         }
 
-        [HttpGet,Route("[controller]")]
+        [HttpGet,EnableCors,Route("[controller]")]
         public ActionResult<IResponse<GetDrugsModel>> Get([FromQuery] DrugSearchFilter filter)
                        //=> _drugService.GetAsDto(filter);
                        => new Response<GetDrugsModel>
@@ -115,7 +115,7 @@ namespace Pharmacy.API.Controllers
                            }
                        };
 
-        [HttpGet, Route("drug/{id:int}")]
+        [HttpGet, EnableCors, Route("drug/{id:int}")]
         public ActionResult<IResponse<SingleDrugDTO>> GetSingle(int id)
             //=> _drugService.GetSingle(id);
             => new Response<SingleDrugDTO>

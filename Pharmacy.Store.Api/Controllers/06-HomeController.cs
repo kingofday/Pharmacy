@@ -1,6 +1,5 @@
 ﻿using Elk.Core;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace Pharmacy.API.Controllers
 {

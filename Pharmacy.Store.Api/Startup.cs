@@ -44,12 +44,6 @@ namespace Pharmacy.API
                     opts.JsonSerializerOptions.PropertyNamingPolicy = null;
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
-            //services.AddControllersWithViews()
-            //    .AddJsonOptions(opts =>
-            //    {
-            //        opts.JsonSerializerOptions.PropertyNamingPolicy = null;
-            //        opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-            //    });
             services.UseCustomizedJWT(_configuration);
             services.AddMemoryCache();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>

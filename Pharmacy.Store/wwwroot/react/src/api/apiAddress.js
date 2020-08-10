@@ -12,6 +12,8 @@ export default class apiAddress {
                 success: true,
                 result: rep.Result.Items.map((a) => ({
                     id: a.Id,
+                    fullname:a.fullname,
+                    mobileNumber:a.MobileNumber,
                     details: a.Details,
                     lat: a.Lat,
                     lng: a.Lng

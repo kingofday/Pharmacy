@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Pharmacy.Domain;
 using System.Collections.Generic;
 using Elk.Core;
+using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
@@ -16,7 +17,7 @@ namespace Pharmacy.API.Controllers
             _drugCategorySrv = drugCategorySrv;
         }
 
-        [HttpGet]
+        [HttpGet, EnableCors]
         public ActionResult<IResponse<List<DrugCategoryDTO>>> GetAll()
         //=> _drugCategorySrv.Get();
         => new Response<List<DrugCategoryDTO>>

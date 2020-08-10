@@ -60,25 +60,6 @@ class SelectAddress extends React.Component {
     async componentDidMount() {
         this.props.hideInitError();
         let addressInfo = addressSrv.getInfo();
-
-        if (addressInfo) this.setState(p => ({ ...p, reciever: { ...p.reciever, value: addressInfo.reciever }, recieverMobileNumber: { ...p.recieverMobileNumber, value: addressInfo.recieverMobileNumber } }));
-        if (this.props.lat) await this._getDeliveryCost();
-
-        if (this.props.items.length === 0)
-            toast(strings.doPurchaseProcessAgain, {
-                type: toast.TYPE.INFO,
-                onClose: function () {
-                    this.setState(p => ({ ...p, redirect: '/basket' }));
-                }.bind(this)
-            });
-        let info = orderSrv.getInfo();
-        if (!info || !info.token)
-            toast(strings.doPurchaseProcessAgain, {
-                type: toast.TYPE.INFO,
-                onClose: function () {
-                    this.setState(p => ({ ...p, redirect: '/completeInformation' }));
-                }.bind(this)
-            });
     }
 
     async _showModal() {
