@@ -10,14 +10,13 @@ import { Radio, FormControlLabel, RadioGroup } from '@material-ui/core';
 //import Steps from './../../shared/steps';
 import strings, { validationStrings } from './../../shared/constant';
 import AddressListModal from './comps/addressListModal';
-import orderSrv from './../../service/srvAddress';
 import { Redirect, Link } from 'react-router-dom';
 import { SetAddrssAction } from './../../redux/actions/addressAction';
 import { ShowInitErrorAction, HideInitErrorAction } from './../../redux/actions/InitErrorAction';
 import { commaThousondSeperator } from './../../shared/utils';
-import addressSrv from './../../service/addressSrv';
+import addressSrv from './../../service/srvAddress';
 
-const inputs = ['mobileNumber','fullname', 'details'];
+const inputs = ['mobileNumber', 'fullname', 'details'];
 
 class SelectAddress extends React.Component {
     constructor(props) {
@@ -32,8 +31,15 @@ class SelectAddress extends React.Component {
             },
             placeName: '',
             deliveryId: '',
-            prevAddress:''
+            prevAddress: '',
+            deliveryTypes: []
         };
+        for (let i = 0; i < inputs.length; i++)
+            this.state[inputs[i]] = {
+                value: '',
+                error: false,
+                errorMessage: ''
+            };
     }
 
     _inputChanged(e) {
@@ -54,35 +60,18 @@ class SelectAddress extends React.Component {
     _remmoveAddress() {
         this.setState(p => ({ ...p, prevAddress: null }));
     }
-    _fetchData(){
+
+    _fetchData() {
 
     }
     async componentDidMount() {
         this.props.hideInitError();
-        let addressInfo = addressSrv.getInfo();
     }
 
     async _showModal() {
         await this.modal._toggle();
     }
 
-    async _getDeliveryCost() {
-        this.setState(p => ({ ...p, loading: true }));
-        let apiRep = await addressApi.getDeliveryCost(this.state.prevAddress ? this.state.prevAddress : {
-            address: this.state.address.value,
-            lng: this.state.location.lng,
-            lat: this.state.location.lat
-        });
-
-        if (!apiRep.success) {
-            this.setState(p => ({ ...p, loading: false }));
-            this.props.showInitError(this._getDeliveryCost.bind(this), apiRep.message);
-            return;
-        }
-        else this.setState(p => ({ ...p, loading: false, deliveryCost: apiRep.result.items[0].cost, deliveryId: apiRep.result.items[0].id.toString(), deliveryTypes: apiRep.result.items, placeName: apiRep.result.placeName }));
-
-
-    }
     _selectDeliveryType(e) {
         let deliveryId = e.target.value;
         let type = this.state.deliveryTypes.find(x => x.id === parseInt(deliveryId));
@@ -129,95 +118,103 @@ class SelectAddress extends React.Component {
     render() {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />;
         return (
-            <div className="select-address-page with-header">
-                {/* <Steps activeStep={1} /> */}
+            <div id='page-select-address' className="page-comp">
+
                 <Container>
-                    {this.state.prevAddress ? (
-                        <Row className='m-b'>
-                            <Col xs={10}>
-                                <RadioGroup aria-label="address" name="old-address" value={this.state.prevAddress.id.toString()}>
-                                    <FormControlLabel value={this.state.prevAddress.id.toString()} control={<Radio color="primary" />} label={this.state.prevAddress.address} />
-                                </RadioGroup>
-                            </Col>
-                            <Col xs={2} className='d-flex align-items-center'>
-                                <button className='btn-remove-address' onClick={this._remmoveAddress.bind(this)}>
-                                    <i className='zmdi zmdi-close'></i>
-                                </button>
-                            </Col>
-                        </Row>
-
-                    ) :
-                        (<Row>
-                            <Col xs={12} className='m-b'>
-                                <Link className={'location-selector ' + (this.state.location.message ? 'error' : '')} to={`/selectLocation?lng=${this.props.lng}&lat=${this.props.lat}`}>
-                                    <CustomMap height='50px' lng={this.props.lng} lat={this.props.lat} hideMarker={true} />
-                                    <label>
-                                        <span>{this.state.placeName ? this.state.placeName : strings.selectLocation}</span>
-                                        <i className='zmdi zmdi-google-maps'></i>
-                                    </label>
-                                </Link>
-                                <p className='Mui-error'>{this.state.location.message}</p>
-                            </Col>
-                            <Col xs={12}>
-                                <div className="form-group">
-                                    <TextField
-                                        id="address"
-                                        error={this.state.address.error}
-                                        label={strings.address}
-                                        multiline
-                                        rows={2}
-                                        value={this.state.address.value}
-                                        onChange={this._inputChanged.bind(this)}
-                                        helperText={this.state.address.message}
-                                        variant="outlined" />
-                                </div>
-                            </Col>
-                        </Row>)}
-
                     <Row>
-                        <Col className='d-flex justify-content-end m-b'>
-                            <button onClick={this._showModal.bind(this)}>{strings.previouseAddresses}</button>
-                        </Col>
+                        <Col xs={12}>
+                            <div className='card padding w-100'>
+                                {this.state.prevAddress ? (
+                                    <Row className='m-b'>
+                                        <Col xs={10}>
+                                            <RadioGroup aria-label="address" name="old-address" value={this.state.prevAddress.id.toString()}>
+                                                <FormControlLabel value={this.state.prevAddress.id.toString()} control={<Radio color="primary" />} label={this.state.prevAddress.address} />
+                                            </RadioGroup>
+                                        </Col>
+                                        <Col xs={2} className='d-flex align-items-center'>
+                                            <button className='btn-remove-address' onClick={this._remmoveAddress.bind(this)}>
+                                                <i className='zmdi zmdi-close'></i>
+                                            </button>
+                                        </Col>
+                                    </Row>
 
-                    </Row>
-                    <Row>
-                        <Col xs={12} sm={6}>
-                            <div className="form-group">
-                                <TextField
-                                    error={this.state.reciever.error}
-                                    id="reciever"
-                                    label={strings.reciever}
-                                    value={this.state.reciever.value}
-                                    onChange={this._inputChanged.bind(this)}
-                                    helperText={this.state.reciever.message}
-                                    style={{ fontFamily: 'iransans' }}
-                                    variant="outlined" />
+                                ) :
+                                    (<Row>
+                                        <Col xs={12} className='m-b'>
+                                            <Link className={'location-selector ' + (this.state.location.message ? 'error' : '')} to={`/selectLocation?lng=${this.props.lng}&lat=${this.props.lat}`}>
+                                                <CustomMap height='50px' lng={this.props.lng} lat={this.props.lat} hideMarker={true} />
+                                                <label>
+                                                    <span>{this.state.placeName ? this.state.placeName : strings.selectLocation}</span>
+                                                    <i className='zmdi zmdi-google-maps'></i>
+                                                </label>
+                                            </Link>
+                                            <p className='Mui-error'>{this.state.location.message}</p>
+                                        </Col>
+                                        <Col xs={12}>
+                                            <div className="form-group">
+                                                <TextField
+                                                    id="address"
+                                                    error={this.state.details.error}
+                                                    label={strings.address}
+                                                    multiline
+                                                    rows={2}
+                                                    value={this.state.details.value}
+                                                    onChange={this._inputChanged.bind(this)}
+                                                    helperText={this.state.details.message}
+                                                    variant="outlined" />
+                                            </div>
+                                        </Col>
+                                    </Row>)}
+
+                                <Row>
+                                    <Col className='d-flex justify-content-end m-b'>
+                                        <button onClick={this._showModal.bind(this)}>{strings.previouseAddresses}</button>
+                                    </Col>
+
+                                </Row>
+                                <Row>
+                                    <Col xs={12} sm={6}>
+                                        <div className="form-group">
+                                            <TextField
+                                                error={this.state.fullname.error}
+                                                id="fullname"
+                                                label={strings.recieverFullname}
+                                                value={this.state.fullname.value}
+                                                onChange={this._inputChanged.bind(this)}
+                                                helperText={this.state.fullname.message}
+                                                style={{ fontFamily: 'iransans' }}
+                                                variant="outlined" />
+                                        </div>
+                                    </Col>
+                                    <Col xs={12} sm={6}>
+                                        <div className="form-group">
+                                            <TextField
+                                                error={this.state.mobileNumber.error}
+                                                id="mobileNumber"
+                                                name="mobileNumber"
+                                                type='number'
+                                                className='ltr-input'
+                                                label={strings.mobileNumber}
+                                                value={this.state.mobileNumber.value}
+                                                onChange={this._inputChanged.bind(this)}
+                                                helperText={this.state.mobileNumber.message}
+                                                style={{ fontFamily: 'iransans' }}
+                                                variant="outlined" />
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        {this.state.loading ? [0, 1].map((x) => <Skeleton className='m-b' key={x} variant='rect' height={25} />) :
+                                            <RadioGroup aria-label="address" name="old-address" value={this.state.deliveryId} onChange={this._selectDeliveryType.bind(this)}>
+                                                {this.state.deliveryTypes.map((d) => <FormControlLabel key={d.id} value={d.id.toString()} control={<Radio color="primary" />} label={`${d.name} (${d.cost} ${strings.currency})`} />)}
+                                            </RadioGroup>}
+                                    </Col>
+                                </Row>
                             </div>
                         </Col>
-                        <Col xs={12} sm={6}>
-                            <div className="form-group">
-                                <TextField
-                                    error={this.state.recieverMobileNumber.error}
-                                    id="recieverMobileNumber"
-                                    type='number'
-                                    className='ltr-input'
-                                    label={strings.recieverMobileNumber}
-                                    value={this.state.recieverMobileNumber.value}
-                                    onChange={this._inputChanged.bind(this)}
-                                    helperText={this.state.recieverMobileNumber.message}
-                                    style={{ fontFamily: 'iransans' }}
-                                    variant="outlined" />
-                            </div>
-                        </Col>
                     </Row>
-                    <Row>
-                        <Col>
-                            {this.state.loading ? [0, 1].map((x) => <Skeleton className='m-b' key={x} variant='rect' height={25} />) :
-                                <RadioGroup aria-label="address" name="old-address" value={this.state.deliveryId} onChange={this._selectDeliveryType.bind(this)}>
-                                    {this.state.deliveryTypes.map((d) => <FormControlLabel key={d.id} value={d.id.toString()} control={<Radio color="primary" />} label={`${d.name} (${d.cost} ${strings.currency})`} />)}
-                                </RadioGroup>}
-                        </Col>
-                    </Row>
+
                 </Container>
                 <button className='btn-next' onClick={this._submit.bind(this)} disabled={this.state.loading}>
                     {strings.continuePurchase}
@@ -229,7 +226,7 @@ class SelectAddress extends React.Component {
 
 }
 const mapStateToProps = state => {
-    return { ...state.mapReducer,...state.basketReducer };
+    return { ...state.mapReducer, ...state.basketReducer };
 }
 
 const mapDispatchToProps = dispatch => ({

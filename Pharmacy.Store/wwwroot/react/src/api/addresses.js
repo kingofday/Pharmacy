@@ -1,5 +1,6 @@
 export const imagePrefixUrl = '';
-const baseUrl = 'http://pharma.api.hillavas.com/';//'https://localhost:44328/';
+//const baseUrl = 'https://pharma.hillavas.com/Api/';
+const baseUrl = 'https://localhost:44328/';
 const addr = {
     getCategories: parentId => `${baseUrl}Category?parentId=${parentId}`,
     searchDrug: (filter) => `${baseUrl}drug?name=${filter.name ? filter.name : ''}&type=${filter.type || 0}&minPrice=${filter.minPrice || ''}&maxPrice=${filter.maxPrice || ''}&pageNumber=${filter.pageSize || 9}&pageNumber=${filter.pageNumber || 1}&pageSize=${filter.pageSize || 10}`,

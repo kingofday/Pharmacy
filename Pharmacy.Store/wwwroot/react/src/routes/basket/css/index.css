@@ -66,6 +66,11 @@
   font-weight: 900;
 }
 
+.basket-page .basket-wrapper .item .main-info .info {
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
 .basket-page .basket-wrapper .item .extra-info {
   display: -webkit-box;
   display: -ms-flexbox;

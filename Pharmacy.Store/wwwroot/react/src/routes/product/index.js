@@ -65,7 +65,7 @@ class Product extends React.Component {
     render() {
         const p = this.state.product;
         return (
-            <div id='page-drug' className='product-page with-header'>
+            <div id='page-drug'>
                 <Container>
                     <Row>
                         <Col col={12} sm={12} md={6}>

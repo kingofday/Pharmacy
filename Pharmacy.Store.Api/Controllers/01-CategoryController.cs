@@ -1,8 +1,8 @@
-﻿using Pharmacy.Service;
+﻿using Elk.Core;
+using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
 using Pharmacy.Domain;
 using System.Collections.Generic;
-using Elk.Core;
 using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers

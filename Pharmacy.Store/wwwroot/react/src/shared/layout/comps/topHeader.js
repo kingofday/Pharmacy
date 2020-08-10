@@ -26,6 +26,8 @@ class TopHeader extends React.Component {
         window.location.href='/';
     }
     render() {
+        console.log('topHeader');
+        console.log(this.props.authenticated);
         return (
             <section id='comp-top-header'>
                 <Container>

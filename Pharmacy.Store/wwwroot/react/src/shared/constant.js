@@ -33,6 +33,7 @@
     confirm:'تایید',
     mobileNumberConfirmDescription:'لطفا کد ارسالی به موبایلتان را وارد نمایید',
     sendAgain:'ارسال مجدد',
+    recieverFullname: 'نام تحویل گیرنده',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',
@@ -60,7 +61,6 @@
     plague: 'پلاک',
     unit: 'واحد',
     mobileNumber: 'شماره موبایل',
-    reciever: 'نام تحویل گیرنده',
     recieverMobileNumber: 'شماره موبایل تحویل گیرنده',
     submit: 'ثبت',
     name: 'نام',

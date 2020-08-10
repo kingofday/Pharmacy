@@ -2,11 +2,10 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import Skeleton from '@material-ui/lab/Skeleton';
 import strings from './../../../shared/constant';
-import addressApi from './../../../api/addressApi';
+import srvAddress from './../../../service/srvAddress';
 import { ShowInitErrorAction } from '../../../redux/actions/InitErrorAction';
 import { connect } from 'react-redux';
 import { Radio, FormControlLabel, RadioGroup } from '@material-ui/core';
-import orderSrv from './../../../service/orderSrv';
 import Error from './../../../shared/Error';
 
 class AddressListModal extends React.Component {
@@ -24,12 +23,7 @@ class AddressListModal extends React.Component {
         this._isMounted = true;
     }
     async _fetchData() {
-        let info = orderSrv.getInfo();
-        if (!info) {
-            this.setState(p => ({ ...p, loading: false }));
-            return;
-        }
-        let apiRep = await addressApi.getAddresses(info.token);
+        let apiRep = await srvAddress.get();
         if (!this._isMounted) return;
         if (apiRep.success) this.setState(p => ({
             ...p,

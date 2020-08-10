@@ -21,8 +21,8 @@ import Auth from './../../routes/auth/auth';
 import NotFound from '../../routes/notFound';
 import InitError from '../initError';
 import Home from '../../routes/home';
+import SelectAddress from '../../routes/selectAddress';
 // import CompleteInfo from '../../routes/completeInformation';
-// import SelectAddress from '../../routes/selectAddress';
 // import SelectLocation from '../../routes/selectLocation';
 // import Review from './../../routes/review';
 
@@ -40,6 +40,7 @@ class Layout extends React.Component {
                     <Route exact path="/product/:id" component={Product} />
                     <Route exact path="/basket" component={Basket} />
                     <Route exact path="/auth" component={Auth} />
+                    <Route path="/selectAddress" component={SelectAddress} />
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />

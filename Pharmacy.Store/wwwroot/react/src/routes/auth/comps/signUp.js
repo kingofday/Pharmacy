@@ -45,7 +45,7 @@ class SignUp extends React.Component {
         let state = this.state;
         for (let i = 0; i < inputs.length; i++) {
             let k = inputs[i];
-            if (!state[k].value) {
+            if (k !== 'email' && !state[k].value) {
                 state[k].error = true;
                 state[k].errorMessage = validationStrings.required;
                 this.setState(p => ({ ...state }));
@@ -133,6 +133,7 @@ class SignUp extends React.Component {
                                 error={this.state.mobileNumber.error}
                                 id="mobileNumber"
                                 name="mobileNumber"
+                                placeholder="9xxxxxxxxx"
                                 label={strings.mobileNumber}
                                 value={this.state.mobileNumber.value}
                                 onChange={this._handleChange.bind(this)}
@@ -181,7 +182,7 @@ class SignUp extends React.Component {
 
                 </Row>
                 <Modal ref={c => this.modal = c} title={strings.confirmCode}>
-                    <Confirm  mobileNumber={this.state.mobileNumber.value} />
+                    <Confirm mobileNumber={this.state.mobileNumber.value} />
                 </Modal>
             </div>
         );

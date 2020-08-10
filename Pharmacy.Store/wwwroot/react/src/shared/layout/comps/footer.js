@@ -14,7 +14,7 @@ export default class Footer extends React.Component {
                         <Row>
                             <Col col={12}>
                                 <p className='text-center'>
-                                    @ComprRight 2020
+                                    Copyright 2020
                                 </p>
                             </Col>
                         </Row>
