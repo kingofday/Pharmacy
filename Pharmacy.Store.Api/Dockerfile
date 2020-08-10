@@ -7,16 +7,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["Pharmacy.Store.Api/Pharmacy.Store.Api.csproj", "Pharmacy.Store.Api/"]
-RUN dotnet restore "Pharmacy.Store.Api/Pharmacy.Store.Api.csproj"
+COPY ["Pharmacy.API/Pharmacy.API.csproj", "Pharmacy.API/"]
+RUN dotnet restore "Pharmacy.API/Pharmacy.API.csproj"
 COPY . .
-WORKDIR "/src/Pharmacy.Store.Api"
-RUN dotnet build "Pharmacy.Store.Api.csproj" -c Release -o /app/build
+WORKDIR "/src/Pharmacy.API"
+RUN dotnet build "Pharmacy.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Pharmacy.Store.Api.csproj" -c Release -o /app/publish
+RUN dotnet publish "Pharmacy.API.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Pharmacy.Store.Api.dll"]
+ENTRYPOINT ["dotnet", "Pharmacy.API.dll"]

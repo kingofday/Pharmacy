@@ -64,6 +64,7 @@ const authReducer = (state = getInitilState(), action) => {
                 nextPage: action.payload.nextPage
             };
         case actionTypes.AUTH_GOTO_NEXT_PAGE:
+            console.log(action.payload);
             return {
                 ...state,
                 goToNextPage: action.payload.goToNextPage

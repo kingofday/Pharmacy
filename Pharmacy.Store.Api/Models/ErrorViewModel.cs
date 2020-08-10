@@ -1,6 +1,6 @@
 using System;
 
-namespace Pharmacy.Store.Api.Models
+namespace Pharmacy.API.Models
 {
     public class ErrorViewModel
     {

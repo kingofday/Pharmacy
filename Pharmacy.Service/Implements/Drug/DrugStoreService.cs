@@ -261,7 +261,7 @@ namespace Pharmacy.Service
                     DrugStoreId = model.DrugStoreId,
                     Latitude = model.Address.Latitude,
                     Longitude = model.Address.Longitude,
-                    AddressDetails = model.Address.AddressDetails
+                    Details = model.Address.Details
                 });
                 var addAddress = await _appUow.ElkSaveChangesAsync();
                 if (addAddress.IsSuccessful) drugStore.AddressId = addr.DrugStoreAddressId;
@@ -271,7 +271,7 @@ namespace Pharmacy.Service
             {
                 addr.Latitude = model.Address.Latitude;
                 addr.Longitude = model.Address.Longitude;
-                addr.AddressDetails = model.Address.AddressDetails;
+                addr.Details = model.Address.Details;
                 _appUow.DrugStoreAddressRepo.Update(addr);
             }
             drugStore.Name = model.Name;

@@ -5,18 +5,19 @@ import { TextField } from '@material-ui/core';
 import { Container, Row, Col } from 'react-bootstrap';
 import Skeleton from '@material-ui/lab/Skeleton';
 import CustomMap from '../../shared/map';
-import Header from './../../shared/header';
-import Steps from './../../shared/steps';
+import { Radio, FormControlLabel, RadioGroup } from '@material-ui/core';
+
+//import Steps from './../../shared/steps';
 import strings, { validationStrings } from './../../shared/constant';
 import AddressListModal from './comps/addressListModal';
-import { Radio, FormControlLabel, RadioGroup } from '@material-ui/core';
-import orderSrv from './../../service/orderSrv';
+import orderSrv from './../../service/srvAddress';
 import { Redirect, Link } from 'react-router-dom';
 import { SetAddrssAction } from './../../redux/actions/addressAction';
 import { ShowInitErrorAction, HideInitErrorAction } from './../../redux/actions/InitErrorAction';
 import { commaThousondSeperator } from './../../shared/utils';
-import addressApi from './../../api/addressApi';
 import addressSrv from './../../service/addressSrv';
+
+const inputs = ['mobileNumber','fullname', 'details'];
 
 class SelectAddress extends React.Component {
     constructor(props) {
@@ -24,21 +25,6 @@ class SelectAddress extends React.Component {
         this.state = {
             loading: false,
             redirect: false,
-            address: {
-                value: '',
-                error: false,
-                message: ''
-            },
-            recieverMobileNumber: {
-                value: '',
-                error: false,
-                message: ''
-            },
-            reciever: {
-                value: '',
-                error: false,
-                message: ''
-            },
             location: {
                 lng: this.props.lng,
                 lat: this.props.lat,
@@ -46,12 +32,8 @@ class SelectAddress extends React.Component {
             },
             placeName: '',
             deliveryId: '',
-            deliveryCost: null,
-            deliveryTypes: [],
-            prevAddress: null
+            selectedAddress:''
         };
-        console.log('ctor');
-        console.log(this.state.location);
     }
 
     _inputChanged(e) {
@@ -66,14 +48,15 @@ class SelectAddress extends React.Component {
     }
 
     async _selectAddress(item) {
-        this.setState(p => ({ ...p, prevAddress: item, lng: null, lat: null, deliveryId: '', deliveryCost: null, placeName: null }));
-        await this._getDeliveryCost();
+        this.setState(p => ({ ...p, selectedAddress: item, lng: null, lat: null, deliveryId: '', deliveryCost: null, placeName: null }));
     }
 
     _remmoveAddress() {
         this.setState(p => ({ ...p, prevAddress: null }));
     }
+    _fetchData(){
 
+    }
     async componentDidMount() {
         this.props.hideInitError();
         let addressInfo = addressSrv.getInfo();

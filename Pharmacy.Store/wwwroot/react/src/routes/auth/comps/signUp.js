@@ -181,7 +181,7 @@ class SignUp extends React.Component {
 
                 </Row>
                 <Modal ref={c => this.modal = c} title={strings.confirmCode}>
-                    <Confirm code={this.state.mobileNumber.value} mobileNumber={this.state.mobileNumber.value} />
+                    <Confirm  mobileNumber={this.state.mobileNumber.value} />
                 </Modal>
             </div>
         );

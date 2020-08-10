@@ -2,7 +2,7 @@
 using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Pharmacy.Store.Api.Controllers
+namespace Pharmacy.API.Controllers
 {
     public class TempBasketItemController : Controller
     {

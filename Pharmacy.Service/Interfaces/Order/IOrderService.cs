@@ -7,8 +7,8 @@ namespace Pharmacy.Service
 {
     public interface IOrderService
     {
-        Task<IResponse<(Order Order, bool IsChanged)>> AddByUserAsync(OrderDTO model);
-        Task<IResponse<Order>> AddTempBasket(TempOrderDTO model);
+        //Task<IResponse<(Order Order, bool IsChanged)>> AddByUserAsync(OrderDTO model);
+        //Task<IResponse<Order>> AddTempBasket(TempOrderDTO model);
         //Task<bool> CheckOwner(Guid userId, int orderId);
         //Task<IResponse<Order>> FindAsync(int OrderId);
         //Task<IResponse<Order>> GetDetails(int OrderId);

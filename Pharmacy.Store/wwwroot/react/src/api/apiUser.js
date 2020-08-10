@@ -29,7 +29,7 @@ export default class apiDrug {
 
     static async signIn(model) {
         try {
-            const response = await fetch(addr.confirm, {
+            const response = await fetch(addr.signIn, {
                 method: 'POST',
                 mode: 'cors',
                 headers: {

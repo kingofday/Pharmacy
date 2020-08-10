@@ -39,6 +39,14 @@
   color: red;
 }
 
+#comp-top-header .auth-wrapper .log-out {
+  padding: 0;
+}
+
+#comp-top-header .auth-wrapper .log-out:hover {
+  background: transparent;
+}
+
 #comp-top-header .log-out {
   background-color: none;
 }
@@ -151,7 +159,7 @@
 }
 
 #comp-links-with-info .link-img .info p {
-  color: #7A7A7A;
+  color: #7a7a7a;
 }
 
 #comp-links-with-info .link-no-img {
@@ -181,7 +189,7 @@
 #comp-useful-links p {
   font-size: 0.9rem;
   text-align: justify;
-  color: #7A7A7A;
+  color: #7a7a7a;
 }
 
 #comp-useful-links p .info {
@@ -192,7 +200,7 @@
 #comp-useful-links .more {
   display: inline-block;
   margin-top: 15px;
-  background-color: #0099D7;
+  background-color: #0099d7;
   font-weight: 500;
   color: #fff;
   padding: 8px 24px;

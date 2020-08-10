@@ -8,6 +8,7 @@ const addr = {
     signUp: `${baseUrl}SignUp`,
     signIn: `${baseUrl}SignIn`,
     confirm: `${baseUrl}Confirm`,
-    resendSMS: (mobileNumber) => `${baseUrl}Auth/${mobileNumber}`
+    resendSMS: (mobileNumber) => `${baseUrl}Auth/${mobileNumber}`,
+    getAddresses:`${baseUrl}Address`
 }
 export default addr;

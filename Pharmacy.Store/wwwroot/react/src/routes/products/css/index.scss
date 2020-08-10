@@ -33,7 +33,12 @@
             justify-content: space-between;
         }
     }
+    .MuiSelect-select:focus{
+        background-color: #fff;
+    }
     .MuiOutlinedInput-root {
+        background-color: #fff;
+        margin-bottom: 0;
         .PrivateNotchedOutline-root-61:focus {
             border-color: rgba(0, 0, 0, 0.23);
         }

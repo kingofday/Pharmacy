@@ -2,12 +2,15 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { Row, Col, Alert } from 'react-bootstrap';
-import { LogInAction } from './../../../redux/actions/authAction';
-import { ShowToastAction } from './../../../redux/actions/toastAction';
+import { LogInAction, GoToNextPage } from './../../../redux/actions/authAction';
 import strings, { validationStrings } from './../../../shared/constant';
 import { validate } from './../../../shared/utils';
 import { TextField } from '@material-ui/core';
 import srvAuth from './../../../service/srvAuth';
+import Confirm from './confirm';
+import Modal from './../../../shared/modal';
+import { toast } from 'react-toastify';
+import Button from './../../../shared/Button';
 
 const inputs = ['username', 'password'];
 
@@ -72,14 +75,25 @@ class LogIn extends React.Component {
 
     }
 
-    _submit(e) {
+    async _submit(e) {
         if (!this._validate()) return;
         this.setState(p => ({ ...p, disableBtn: true }));
         let model = {};
         for (let i = 0; i < inputs.length; i++)
             model[inputs[i]] = this.state[inputs[i]].value;
-        srvAuth.signIn({})
-        this.props.logIn('xxx', 1, this.state.username.value);
+        console.log(model);
+        let signin = await srvAuth.signIn(model);
+        this.setState(p => ({ ...p, disableBtn: false }));
+        if (!signin.success) {
+            toast(signin.message, { type: toast.TYPE.ERROR });
+            return;
+        }
+        if (!signin.result.isConfirmed) {
+            this.modal.toggleModal(true);
+            return;
+        }
+        this.props.logIn(signin.result);
+        this.props.goToNextPage();
     }
 
     render() {
@@ -99,7 +113,8 @@ class LogIn extends React.Component {
                             <TextField
                                 error={this.state.username.error}
                                 id="username"
-                                label={strings.username}
+                                label={strings.mobileNumber}
+                                placeholder='9xxxxxxxxx'
                                 value={this.state.username.value}
                                 onChange={this._inputChanged.bind(this)}
                                 helperText={this.state.username.errorMessage}
@@ -120,14 +135,16 @@ class LogIn extends React.Component {
                             />
                         </div>
                         <div className="btn-group">
-                            <button className='text-center w-100' onClick={this._submit.bind(this)}>{strings.logIn}</button>
+                            <Button disabled={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.logIn}</Button>
                         </div>
                         <div className="recover-password text-center">
                             <Link to="/recoverPassword"><small>{strings.forgotMyPassword}</small></Link>
                         </div>
                     </Col>
                 </Row>
-
+                <Modal ref={c => this.modal = c} title={strings.confirmCode}>
+                    <Confirm mobileNumber={this.state.username.value} />
+                </Modal>
             </div>
         );
     }
@@ -138,8 +155,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    logIn: (token, userId, username) => { dispatch(LogInAction(token, userId, username)); },
-    showToast: (title, body) => dispatch(ShowToastAction(title, body))
+    logIn: (model) => dispatch(LogInAction(model)),
+    goToNextPage: () => dispatch(GoToNextPage())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LogIn);

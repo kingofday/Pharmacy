@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
-namespace Pharmacy.Store.Api
+namespace Pharmacy.API
 {
     public static class JWTService
     {

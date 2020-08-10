@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Pharmacy.Store.Api
+namespace Pharmacy.API
 {
     public class Program
     {

@@ -3,8 +3,9 @@ using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Elk.Core;
+using Microsoft.AspNetCore.Cors;
 
-namespace Pharmacy.Store.Api.Controllers
+namespace Pharmacy.API.Controllers
 {
     [ApiController]
     public class DrugController : ControllerBase
@@ -100,7 +101,7 @@ namespace Pharmacy.Store.Api.Controllers
             };
         }
 
-        [HttpGet, Route("[controller]")]
+        [HttpGet,Route("[controller]")]
         public ActionResult<IResponse<GetDrugsModel>> Get([FromQuery] DrugSearchFilter filter)
                        //=> _drugService.GetAsDto(filter);
                        => new Response<GetDrugsModel>

@@ -388,6 +388,14 @@ body[dir="rtl"] .modal-header .close {
   color: red;
 }
 
+#comp-top-header .auth-wrapper .log-out {
+  padding: 0;
+}
+
+#comp-top-header .auth-wrapper .log-out:hover {
+  background: transparent;
+}
+
 #comp-top-header .log-out {
   background-color: none;
 }
@@ -500,7 +508,7 @@ body[dir="rtl"] .modal-header .close {
 }
 
 #comp-links-with-info .link-img .info p {
-  color: #7A7A7A;
+  color: #7a7a7a;
 }
 
 #comp-links-with-info .link-no-img {
@@ -530,7 +538,7 @@ body[dir="rtl"] .modal-header .close {
 #comp-useful-links p {
   font-size: 0.9rem;
   text-align: justify;
-  color: #7A7A7A;
+  color: #7a7a7a;
 }
 
 #comp-useful-links p .info {
@@ -541,7 +549,7 @@ body[dir="rtl"] .modal-header .close {
 #comp-useful-links .more {
   display: inline-block;
   margin-top: 15px;
-  background-color: #0099D7;
+  background-color: #0099d7;
   font-weight: 500;
   color: #fff;
   padding: 8px 24px;
@@ -1209,6 +1217,15 @@ html[dir="ltr"] .main-nav ul .close-menu {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+}
+
+#page-products .MuiSelect-select:focus {
+  background-color: #fff;
+}
+
+#page-products .MuiOutlinedInput-root {
+  background-color: #fff;
+  margin-bottom: 0;
 }
 
 #page-products .MuiOutlinedInput-root .PrivateNotchedOutline-root-61:focus {

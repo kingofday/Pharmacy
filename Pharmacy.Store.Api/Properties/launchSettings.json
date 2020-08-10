@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Pharmacy.Store.Api": {
+    "Pharmacy.API": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

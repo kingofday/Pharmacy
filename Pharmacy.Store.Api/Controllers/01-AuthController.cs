@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Microsoft.VisualStudio.Web.CodeGeneration;
 
-namespace Pharmacy.Store.Api.Controllers
+namespace Pharmacy.API.Controllers
 {
     [ApiController]
     public class AuthController : ControllerBase
@@ -73,7 +73,7 @@ namespace Pharmacy.Store.Api.Controllers
                 {
                     Email = "kingofday.b@gmail.com",
                     Fullname = "شهروز بذرافشان",
-                    IsConfirmed = true,
+                    IsConfirmed = false,
                     MobileNumber = model.Username,
                     Token = CreateToken(new User
                     {

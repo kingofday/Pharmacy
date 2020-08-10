@@ -23,7 +23,7 @@ class TopHeader extends React.Component {
     }
     _handleLogOut() {
         this.props.logOut();
-        this.props.history.push("/");
+        window.location.href='/';
     }
     render() {
         return (
@@ -52,8 +52,8 @@ class TopHeader extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return { ...state.basketReducer, ...state.authReducer };
+const mapStateToProps = (state,ownProps) => {
+    return { ...ownProps,...state.basketReducer, ...state.authReducer };
 }
 
 const mapDispatchToProps = dispatch => ({

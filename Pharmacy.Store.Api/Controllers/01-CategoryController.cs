@@ -4,7 +4,7 @@ using Pharmacy.Domain;
 using System.Collections.Generic;
 using Elk.Core;
 
-namespace Pharmacy.Store.Api.Controllers
+namespace Pharmacy.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

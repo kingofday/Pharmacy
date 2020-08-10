@@ -6,6 +6,6 @@ namespace Pharmacy.Domain
     {
         public string PlaceName { get; set; }
 
-        public List<DeliveryDto> Items { get; set; }
+        public List<DeliveryDTO> Items { get; set; }
     }
 }

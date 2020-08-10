@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using Elk.Core;
 
-namespace Pharmacy.Store.Api.Controllers
+namespace Pharmacy.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]

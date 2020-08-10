@@ -11,8 +11,6 @@ namespace Pharmacy.Domain
         public AddressDTO Address { get; set; }
         public Guid UserToken { get; set; }
         public string Description { get; set; }
-        public string Reciever { get; set; }
-        public string RecieverMobileNumber { get; set; }
         public List<OrderItemDTO> Items { get; set; }
     }
 }

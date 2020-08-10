@@ -1,6 +1,5 @@
 using Elk.Http;
 using System.Linq;
-using Pharmacy.DataAccess.Ef;
 using Pharmacy.DependencyResolver;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Builder;
@@ -13,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Pharmacy.Domain;
 
-namespace Pharmacy.Store.Api
+namespace Pharmacy.API
 {
     public class Startup
     {
@@ -29,26 +28,33 @@ namespace Pharmacy.Store.Api
         {
             services.AddCors(options =>
             {
-                options.AddPolicy(name: AllowedOrigins,
+                options.AddPolicy(name:AllowedOrigins,
                                   builder =>
                                   {
-                                      builder.AllowAnyOrigin()
+                                      builder
+                                            .AllowAnyOrigin()
                                             .AllowAnyMethod()
                                             .AllowAnyHeader();
+                                          
                                   });
             });
-
-            services.AddControllersWithViews()
+            services.AddControllers()
                 .AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.PropertyNamingPolicy = null;
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
+            //services.AddControllersWithViews()
+            //    .AddJsonOptions(opts =>
+            //    {
+            //        opts.JsonSerializerOptions.PropertyNamingPolicy = null;
+            //        opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            //    });
             services.UseCustomizedJWT(_configuration);
             services.AddMemoryCache();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
             {
-                opt.Cookie.SameSite = SameSiteMode.Lax;
+                opt.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
             });
             services.AddHttpContextAccessor();
             services.AddOptions();
@@ -97,9 +103,7 @@ namespace Pharmacy.Store.Api
             app.UseCors(AllowedOrigins);
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }

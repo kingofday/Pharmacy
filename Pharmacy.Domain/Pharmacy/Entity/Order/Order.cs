@@ -111,8 +111,5 @@ namespace Pharmacy.Domain
 
         [ForeignKey(nameof(TempBasketId))]
         public TempBasket TempBasket { get; set; }
-
-        [NotMapped]
-        public ExtraInfo ExtraInfo => ExtraInfoJson?.DeSerializeJson<ExtraInfo>();
     }
 }

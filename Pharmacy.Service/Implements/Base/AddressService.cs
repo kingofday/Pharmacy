@@ -5,6 +5,7 @@ using Pharmacy.Domain;
 using Pharmacy.DataAccess.Ef;
 using System.Threading.Tasks;
 using Pharmacy.Service.Resource;
+using System.Collections.Generic;
 
 namespace Pharmacy.Service
 {
@@ -18,7 +19,7 @@ namespace Pharmacy.Service
             _addressRepo = addressRepo;
         }
 
-        public IResponse<PagingListDetails<AddressDTO>> Get(Guid userId)
+        public Response<List<AddressDTO>> Get(Guid userId)
         {
             var currentDT = DateTime.Now;
             var addresses = _addressRepo.Get(selector: a => new AddressDTO
@@ -26,7 +27,7 @@ namespace Pharmacy.Service
                 Id = a.UserAddressId,
                 Lat = a.Latitude,
                 Lng = a.Longitude,
-                Address = a.AddressDetails
+                Details = a.Details
             },
             conditions: x => x.UserId == userId,
             pagingParameter: new PagingParameter
@@ -35,9 +36,9 @@ namespace Pharmacy.Service
                 PageSize = 3
             },
             orderBy: o => o.OrderByDescending(x => x.UserAddressId));
-            return new Response<PagingListDetails<AddressDTO>>
+            return new Response<List<AddressDTO>>
             {
-                Result = addresses,
+                Result = addresses.Items,
                 IsSuccessful = true
             };
         }

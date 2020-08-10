@@ -56,7 +56,7 @@ class Auth extends React.Component {
 }
 
 const mapStateToProps = state => {
-    return { ...state.basketReducer };
+    return { ...state.authReducer };
 }
 
 // const mapDispatchToProps = dispatch => ({

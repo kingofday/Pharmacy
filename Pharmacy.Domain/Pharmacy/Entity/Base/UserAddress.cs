@@ -21,7 +21,10 @@ namespace Pharmacy.Domain
         public bool IsDefault { get; set; }
 
         [Display(Name = nameof(Strings.ReciverName), ResourceType = typeof(Strings))]
-        public string ReciverName { get; set; }
+        public string Fullname { get; set; }
+
+        [Display(Name = nameof(Strings.MobileNumber), ResourceType = typeof(Strings))]
+        public long MobileNumber { get; set; }
 
         [ForeignKey(nameof(UserId))]
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]

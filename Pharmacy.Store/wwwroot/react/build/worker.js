@@ -27,12 +27,13 @@ self.addEventListener('fetch', e => {
     e.respondWith(
       fetch(e.request)
         .then(function (response) {
-          return caches.open(dataCacheName).then(function (cache) {
+          return caches.open(CACHE_NAME).then(function (cache) {
             cache.put(e.request.url, response.clone());
             console.log('[ServiceWorker] Fetched&Cached Data');
             return response;
           });
         })
+        .catch(function(err){})
     );
   } else {
     //for shell
