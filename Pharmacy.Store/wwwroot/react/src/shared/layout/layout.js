@@ -22,8 +22,8 @@ import NotFound from '../../routes/notFound';
 import InitError from '../initError';
 import Home from '../../routes/home';
 import SelectAddress from '../../routes/selectAddress';
+import SelectLocation from '../../routes/selectLocation';
 // import CompleteInfo from '../../routes/completeInformation';
-// import SelectLocation from '../../routes/selectLocation';
 // import Review from './../../routes/review';
 
 
@@ -41,12 +41,13 @@ class Layout extends React.Component {
                     <Route exact path="/basket" component={Basket} />
                     <Route exact path="/auth" component={Auth} />
                     <Route path="/selectAddress" component={SelectAddress} />
+                    <Route path="/selectLocation" component={SelectLocation} />
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />
                     <Route path="/completeInformation" component={CompleteInfo} />
-                    <Route path="/selectAddress" component={SelectAddress} />
-                    <Route path="/selectLocation" component={SelectLocation} />
+
+                   
                     <Route path="/review" component={Review} />
                     <Route path="/afterGateway/:status/:transId" component={AfterGateway} /> */}
                     <Route path="/:msg?" component={NotFound} />

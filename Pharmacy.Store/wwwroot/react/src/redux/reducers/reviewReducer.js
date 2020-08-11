@@ -11,7 +11,7 @@ const initState = {
 export default function reviewReducer(state = initState, action) {
     switch (action.type) {
         case actionTypes.SET_ADDRESS:
-            return { ...state, ...action.payload }
+            return { ...state, address: { ...action.payload } }
         case actionTypes.SET_BASKET_ID:
             return { ...state, basketId: action.payload.basketId }
         default:

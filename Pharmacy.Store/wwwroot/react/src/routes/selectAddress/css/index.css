@@ -62,6 +62,7 @@
 
 #page-select-address .Mui-error {
   color: #f44336;
+  font-size: 0.75rem;
 }
 
 .address-list-modal .empty-list {

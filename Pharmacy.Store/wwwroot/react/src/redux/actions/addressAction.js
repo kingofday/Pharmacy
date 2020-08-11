@@ -1,8 +1,8 @@
 import actionTypes from './actionTypes';
 
-export function SetAddrssAction(address, reciever, recieverMobileNumber, deliveryId, deliveryCost) {
+export function SetAddrssAction(addr) {
     return {
         type: actionTypes.SET_ADDRESS,
-        payload: { address, reciever, recieverMobileNumber, deliveryId, deliveryCost}
+        payload: { ...addr }
     };
 };

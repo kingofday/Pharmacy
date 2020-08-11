@@ -4,7 +4,6 @@ import strings from './../shared/constant';
 export default class apiDrugStore {
     static async get() {
         let url = addr.getDrugStores;
-        console.log(url);
         var handleResponse = async (response) => {
             const rep = await response.json();
             console.log(rep);

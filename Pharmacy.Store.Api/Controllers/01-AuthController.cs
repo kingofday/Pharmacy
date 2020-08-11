@@ -12,33 +12,36 @@ using System;
 using Elk.AspNetCore;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Microsoft.VisualStudio.Web.CodeGeneration;
+using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
+    [EnableCors("AllowedOrigins")]
     [ApiController]
     public class AuthController : ControllerBase
     {
         readonly IUserService _userSrv;
         readonly IConfiguration _config;
-        public AuthController(IUserService userSrv, IConfiguration config)
+        readonly IOptions<CustomSetting> _settings;
+        public AuthController(IUserService userSrv, IConfiguration config, IOptions<CustomSetting> settings)
         {
             _userSrv = userSrv;
             _config = config;
+            _settings = settings;
         }
 
         [NonAction]
         private string CreateToken(User user, int timeout)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_config["CustomSettings:Jwt:Key"]));
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_settings.Value.Jwt.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.MobilePhone, user.MobileNumber.ToString()),
                 new Claim(ClaimTypes.Name, user.FullName.ToString()),
                 new Claim(ClaimTypes.Email, user.Email.ToString())};
-            var token = new JwtSecurityToken(_config["CustomSettings:Jwt:Issuer"],
-              _config["CustomSettings:Jwt:Issuer"],
+            var token = new JwtSecurityToken(_settings.Value.Jwt.Issuer,
+              _settings.Value.Jwt.Issuer,
               claims,
               expires: DateTime.Now.AddMinutes(timeout),
               signingCredentials: credentials);
@@ -46,7 +49,7 @@ namespace Pharmacy.API.Controllers
         }
 
         [HttpPost, Route("SignUp")]
-        public async Task<ActionResult<IResponse<string>>> SignUp([FromServices] IOptions<CustomSetting> settings, SignUpModel model)
+        public async Task<ActionResult<IResponse<string>>> SignUp(SignUpModel model)
         {
             return new Response<string>
             {
@@ -54,7 +57,7 @@ namespace Pharmacy.API.Controllers
                 Result = model.MobileNumber
             };
             if (!ModelState.IsValid) return new Response<string> { Message = ModelState.GetModelError() };
-            var add = await _userSrv.SignUp(model, settings.Value.EndUserRoleId);
+            var add = await _userSrv.SignUp(model, _settings.Value.EndUserRoleId);
             if (!add.IsSuccessful) return new Response<string> { Message = add.Message };
             return new Response<string>
             {
@@ -64,7 +67,7 @@ namespace Pharmacy.API.Controllers
         }
 
         [HttpPost, Route("Signin")]
-        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn([FromServices] IOptions<CustomSetting> settings, SignInModel model)
+        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn(SignInModel model)
         {
             return new Response<AuthResponse>
             {
@@ -80,7 +83,7 @@ namespace Pharmacy.API.Controllers
                         MobileNumber = long.Parse(model.Username),
                         Email = "kingofday.b@gmail.com",
                         FullName = "شهروز بذرافشان"
-                    }, settings.Value.Jwt.TimoutInMinutes)
+                    }, _settings.Value.Jwt.TimoutInMinutes)
                 }
             };
             //if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };

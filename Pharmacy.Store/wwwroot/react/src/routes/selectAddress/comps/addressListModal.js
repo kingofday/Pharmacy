@@ -24,6 +24,7 @@ class AddressListModal extends React.Component {
     }
     async _fetchData() {
         let apiRep = await srvAddress.get();
+        console.log(apiRep);
         if (!this._isMounted) return;
         if (apiRep.success) this.setState(p => ({
             ...p,
@@ -79,7 +80,7 @@ class AddressListModal extends React.Component {
                             <span>{strings.thereIsNoList}</span>
                         </div>) :
                             (<RadioGroup aria-label="address" name="old-address" value={this.state.id.toString()} onChange={this._onChange.bind(this)}>
-                                {this.state.items.map((x) => <FormControlLabel key={x.id} className='m-b' value={x.id.toString()} control={<Radio color="primary" />} label={x.address} />)}
+                                {this.state.items.map((x) => <FormControlLabel key={x.id} className='m-b' value={x.id.toString()} control={<Radio color="primary" />} label={x.details} />)}
                             </RadioGroup>)))
 
                     }

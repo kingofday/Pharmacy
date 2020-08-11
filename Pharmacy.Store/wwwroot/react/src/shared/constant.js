@@ -34,6 +34,11 @@
     mobileNumberConfirmDescription:'لطفا کد ارسالی به موبایلتان را وارد نمایید',
     sendAgain:'ارسال مجدد',
     recieverFullname: 'نام تحویل گیرنده',
+    addressDetails:'جزییات آدرس',
+    recieverMobileNumber:'شماره موبایل تحویل گیرنده',
+    selectDeliveryType:'نحوه ارسال',
+    review: 'بازبینی',
+    map: 'نقشه',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',
@@ -105,11 +110,8 @@
     priceToPay: 'مبلغ قابل پرداخت',
     attention: 'توجه',
     basketProductsChanged: 'برخی از محصولات سبد خرید تغییر کرده اند',
-    review: 'بازبینی',
     continue: 'ادامه',
     selectLocation: 'انتخاب مکان',
-    map: 'نقشه',
-    mostVisited: 'پر بازدیدترین ها'
 };
 export default strings;
 export const validationStrings = {

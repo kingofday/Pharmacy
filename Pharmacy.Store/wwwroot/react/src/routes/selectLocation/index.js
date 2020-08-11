@@ -4,8 +4,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import CustomMap from '../../shared/map';
 import { SetLocationAction } from './../../redux/actions/mapAction';
 import strings from './../../shared/constant';
-import Header from './../../shared/header';
 import queryString from 'query-string'
+import Button from './../../shared/Button';
 
 class SelectLocation extends React.Component {
     constructor(props) {
@@ -29,10 +29,9 @@ class SelectLocation extends React.Component {
     }
     render() {
         return (
-            <div className="select-location-page with-header">
-                <Header hasTitle={true} title={strings.map} goBack={this.props.history.goBack} />
+            <div className="page-select-location">
                 <CustomMap height='100vh' lng={this.lng} lat={this.lat} onChanged={this._mapChanged.bind(this)} />
-                <button className='btn-next' onClick={this._setLocation.bind(this)}>{strings.selectLocation}</button>
+                <Button className='btn-next' onClick={this._setLocation.bind(this)}>{strings.selectLocation}</Button>
             </div>
         );
     }

@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController, EnableCors("AllowedOrigins")]
+    [EnableCors("AllowedOrigins")]
+    [ApiController]
     public class DrugController : ControllerBase
     {
         readonly IDrugService _drugService;
@@ -115,7 +116,7 @@ namespace Pharmacy.API.Controllers
                            }
                        };
 
-        [HttpGet, EnableCors, Route("drug/{id:int}")]
+        [HttpGet, Route("drug/{id:int}")]
         public ActionResult<IResponse<SingleDrugDTO>> GetSingle(int id)
             //=> _drugService.GetSingle(id);
             => new Response<SingleDrugDTO>

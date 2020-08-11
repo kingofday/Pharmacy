@@ -70,6 +70,7 @@ const authReducer = (state = getInitilState(), action) => {
                 goToNextPage: action.payload.goToNextPage
             };
         default:
+            state.goToNextPage = false;
             return state;
     }
 };

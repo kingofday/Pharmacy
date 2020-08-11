@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Pharmacy.Domain;
+using Pharmacy.API.JWT;
+using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API
 {
@@ -26,24 +28,27 @@ namespace Pharmacy.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
-            {
-                options.AddPolicy(name:AllowedOrigins,
-                                  builder =>
-                                  {
-                                      builder
-                                            .AllowAnyOrigin()
-                                            .AllowAnyMethod()
-                                            .AllowAnyHeader();
-                                          
-                                  });
-            });
             services.AddControllers()
                 .AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.PropertyNamingPolicy = null;
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: AllowedOrigins,
+                                  builder =>
+                                  {
+                                      builder
+                                            .AllowAnyOrigin()
+                                            //.WithOrigins("https://localhost:44328")
+                                            .AllowAnyMethod()
+                                            .AllowAnyHeader()
+                                            .SetIsOriginAllowed(hostName => true);
+                                            //.AllowCredentials();
+
+                                  });
+            });
             services.UseCustomizedJWT(_configuration);
             services.AddMemoryCache();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
@@ -51,8 +56,8 @@ namespace Pharmacy.API
                 opt.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
             });
             services.AddHttpContextAccessor();
-            services.AddOptions();
-
+            //services.AddOptions();
+            
             services.Configure<CustomSetting>(_configuration.GetSection("CustomSettings"));
             services.AddTransient(_configuration);
             services.AddScoped(_configuration);
@@ -94,6 +99,7 @@ namespace Pharmacy.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+            //app.UseCustomizedSwagger();
             app.UseCors(AllowedOrigins);
             app.UseEndpoints(endpoints =>
             {

@@ -10,9 +10,9 @@ export default class apiAddress {
                 return { success: false, message: rep.Message };
             else return {
                 success: true,
-                result: rep.Result.Items.map((a) => ({
+                result: rep.Result.map((a) => ({
                     id: a.Id,
-                    fullname:a.fullname,
+                    fullname:a.Fullname,
                     mobileNumber:a.MobileNumber,
                     details: a.Details,
                     lat: a.Lat,
@@ -22,11 +22,13 @@ export default class apiAddress {
         }
         try {
             const response = await fetch(url, {
-                method: 'GET',
-                mode: 'cors',
-                headers: {
+                'method': 'GET',
+                'mode': 'cors',
+                //'credentials': 'include',
+                'headers': {
                     'Content-Type': 'application/json; charset=utf-8;',
-                    'Authorize':`bearer ${token}`
+                    //'Content-Type':'application/x-www-form-urlencoded',
+                    'Authorization':`Bearer ${token}`
                 }
             });
             return await handleResponse(response);
@@ -36,4 +38,30 @@ export default class apiAddress {
         }
     }
 
+    static async add(token) {
+        let url = addr.getAddresses;
+        var handleResponse = async (response) => {
+            const rep = await response.json();
+            if (!rep.IsSuccessful)
+                return { success: false, message: rep.Message };
+            else return {
+                success: true,
+                result: rep.Result
+            }
+        }
+        try {
+            const response = await fetch(url, {
+                'method': 'POST',
+                'mode': 'cors',
+                'headers': {
+                    'Content-Type': 'application/json; charset=utf-8;',
+                    'Authorization':`Bearer ${token}`
+                }
+            });
+            return await handleResponse(response);
+        } catch (error) {
+            console.log(error);
+            return ({ success: false, message: strings.connectionFailed });
+        }
+    }
 }

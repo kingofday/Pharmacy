@@ -49,5 +49,41 @@ namespace Pharmacy.Service
             if (addr == null) return new Response<UserAddress> { Message = ServiceMessage.RecordNotExist };
             else return new Response<UserAddress> { IsSuccessful = true, Result = addr };
         }
+
+        public async Task<Response<int>> AddAsync(Guid userId, AddressDTO model)
+        {
+            var addr = new UserAddress
+            {
+                UserId = userId,
+                Latitude = model.Lat,
+                Longitude = model.Lng,
+                IsDefault = true,
+                Fullname = model.Fullname,
+                MobileNumber = model.MobileNumber,
+                Details = model.Details
+            };
+            await _addressRepo.AddAsync(addr);
+            var add = await _appUow.ElkSaveChangesAsync();
+            return new Response<int>
+            {
+                Result = addr.UserAddressId,
+                Message = add.IsSuccessful ? null : ServiceMessage.Error,
+                IsSuccessful = add.IsSuccessful
+            };
+        }
+
+        public async Task<Response<bool>> DeleteAsync(Guid userId, int id)
+        {
+            var addr = await _addressRepo.FirstOrDefaultAsync(conditions: x => x.UserId == userId && x.UserAddressId == id);
+            if (addr == null) return new Response<bool> { Message = ServiceMessage.RecordNotExist };
+            _addressRepo.Delete(addr);
+            var delete = await _appUow.ElkSaveChangesAsync();
+            return new Response<bool>
+            {
+                Result = delete.IsSuccessful,
+                Message = delete.IsSuccessful ? null : ServiceMessage.Error,
+                IsSuccessful = delete.IsSuccessful
+            };
+        }
     }
 }

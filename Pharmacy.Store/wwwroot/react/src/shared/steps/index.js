@@ -2,7 +2,7 @@ import React from 'react';
 import { Stepper, Step, StepLabel } from '@material-ui/core';
 import strings from './../../shared/constant';
 
-const steps = [strings.completeInformation, strings.selectAddress, strings.initialOrderSubmit]
+const steps = [strings.selectAddress,strings.selectDeliveryType,strings.review]
 export default class Steps extends React.Component {
     render() {
         return (

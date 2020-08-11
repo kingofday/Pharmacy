@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController, EnableCors("AllowedOrigins"), Route("[controller]")]
+    [EnableCors("AllowedOrigins")]
+    [ApiController, Route("[controller]")]
     public class CategoryController : ControllerBase
     {
         readonly IDrugCategoryService _drugCategorySrv;
