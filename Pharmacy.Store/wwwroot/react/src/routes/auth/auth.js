@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { Paper, Tabs, Tab, Box } from '@material-ui/core';
 import strings from '../../shared/constant';
-import Login from './comps/logIn';
+import Login from './comps/SignIn';
 import SignUp from './comps/signUp';
 
 class Auth extends React.Component {
@@ -55,8 +55,8 @@ class Auth extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return { ...state.authReducer };
+const mapStateToProps = (state, ownProps) => {
+    return { ...ownProps,...state.authReducer };
 }
 
 // const mapDispatchToProps = dispatch => ({

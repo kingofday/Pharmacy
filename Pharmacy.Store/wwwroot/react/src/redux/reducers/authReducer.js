@@ -7,12 +7,12 @@ const getInitilState = () => {
         alert(strings.browserIsOld);
         return {
             goToNextPage:false,
+            nextPage: '/',
             authenticated: false,
             token: null,
             mobileNumber: '',
             email: '',
-            fullname: '',
-            nextPage: '/'
+            fullname: '', 
         };
     }
 
@@ -21,6 +21,7 @@ const getInitilState = () => {
     if (rep.success)
         return {
             goToNextPage:false,
+            nextPage:'/',
             authenticated: true,
             token: rep.result.token,
             fullname: rep.result.fullname,
@@ -30,6 +31,7 @@ const getInitilState = () => {
     else
         return {
             goToNextPage:false,
+            nextPage:'/',
             authenticated: false,
             token: null,
             fullname: '',

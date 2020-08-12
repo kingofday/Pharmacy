@@ -2,19 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { Row, Col, Alert } from 'react-bootstrap';
-import { LogInAction, GoToNextPage } from './../../../redux/actions/authAction';
-import strings, { validationStrings } from './../../../shared/constant';
-import { validate } from './../../../shared/utils';
+import { LogInAction, GoToNextPage } from '../../../redux/actions/authAction';
+import strings, { validationStrings } from '../../../shared/constant';
+import { validate } from '../../../shared/utils';
 import { TextField } from '@material-ui/core';
-import srvAuth from './../../../service/srvAuth';
+import srvAuth from '../../../service/srvAuth';
 import Confirm from './confirm';
-import Modal from './../../../shared/modal';
+import Modal from '../../../shared/modal';
 import { toast } from 'react-toastify';
-import Button from './../../../shared/Button';
+import Button from '../../../shared/Button';
 
 const inputs = ['username', 'password'];
 
-class LogIn extends React.Component {
+class SignIn extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -57,7 +57,7 @@ class LogIn extends React.Component {
             let msg = null;
             switch (k) {
                 case 'username':
-                    if (validate.mobileNumber(state[k])) msg = validationStrings.invalidMobileNumber;
+                    if (!validate.mobileNumber(state[k].value)) msg = validationStrings.invalidMobileNumber;
                     break;
                 case 'password':
                     if (state[k].length < 5 || state[k].length > 50) msg = validationStrings.passwordInvalidLength;
@@ -159,4 +159,4 @@ const mapDispatchToProps = dispatch => ({
     goToNextPage: () => dispatch(GoToNextPage())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(LogIn);
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

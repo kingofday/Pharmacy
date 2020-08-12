@@ -21,6 +21,7 @@
     favorites: 'محبوب ترین ها',
     description: 'توضیحات',
     properties: 'مشخصات',
+    comment:'توضیحات',
     comments: 'نظرات',
     username: 'نام کاربری',
     password: 'گذرواژه',
@@ -39,6 +40,7 @@
     selectDeliveryType:'نحوه ارسال',
     review: 'بازبینی',
     map: 'نقشه',
+    deliveryPriceGuid:'هزینه ارسال پس از تعیین شدن دازوخانه مشخض خواهد شد',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',

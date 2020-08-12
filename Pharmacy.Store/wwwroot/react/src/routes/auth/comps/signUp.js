@@ -55,10 +55,10 @@ class SignUp extends React.Component {
             let msg = null;
             switch (k) {
                 case 'mobileNumber':
-                    if (validate.mobileNumber(state[k])) msg = validationStrings.invalidMobileNumber;
+                    if (!validate.mobileNumber(state[k].value)) msg = validationStrings.invalidMobileNumber;
                     break;
                 case 'email':
-                    if (validate.email(state[k])) msg = validationStrings.invalidEmail;
+                    if (!validate.email(state[k].value)) msg = validationStrings.invalidEmail;
                     break;
                 case 'newPassword':
                     if (state[k].length < 5 || state[k].length > 50) msg = validationStrings.passwordInvalidLength;

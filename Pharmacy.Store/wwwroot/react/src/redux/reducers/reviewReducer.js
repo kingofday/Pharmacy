@@ -2,9 +2,8 @@
 
 const initState = {
     address: null,
-    cost: 0,
-    reciever: '',
-    mobileNumber: '',
+    delivery:null,
+    comment:'',
     basketId: null
 };
 

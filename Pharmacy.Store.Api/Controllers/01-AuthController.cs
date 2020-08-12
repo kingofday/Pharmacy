@@ -76,7 +76,7 @@ namespace Pharmacy.API.Controllers
                 {
                     Email = "kingofday.b@gmail.com",
                     Fullname = "شهروز بذرافشان",
-                    IsConfirmed = false,
+                    IsConfirmed = true,
                     MobileNumber = model.Username,
                     Token = CreateToken(new User
                     {

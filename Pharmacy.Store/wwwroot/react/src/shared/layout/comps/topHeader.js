@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import { LogOutAction } from './../../../redux/actions/authAction';
 import logoImage from './../../../assets/images/layout/logo.png';
@@ -8,12 +8,10 @@ import logoImage from './../../../assets/images/layout/logo.png';
 class TopHeader extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { animate: false }
+        this.state = { redirect: null, animate: false }
     }
     componentDidUpdate(prevProps) {
-        console.log('fired');
         if (this.props.items.length !== prevProps.items.length) {
-            console.log('changed');
             this.setState(p => ({ ...p, animate: true }));
             let context = this;
             setTimeout(() => {
@@ -23,9 +21,11 @@ class TopHeader extends React.Component {
     }
     _handleLogOut() {
         this.props.logOut();
-        window.location.href='/';
+        this.setState(p => ({ ...p, redirect: '/' }));
     }
     render() {
+        if (this.state.redirect)
+            return <Redirect to={this.state.redirect} />;
         return (
             <section id='comp-top-header'>
                 <Container>
@@ -52,8 +52,8 @@ class TopHeader extends React.Component {
     }
 }
 
-const mapStateToProps = (state,ownProps) => {
-    return { ...ownProps,...state.basketReducer, ...state.authReducer };
+const mapStateToProps = (state, ownProps) => {
+    return { ...ownProps, ...state.basketReducer, ...state.authReducer };
 }
 
 const mapDispatchToProps = dispatch => ({

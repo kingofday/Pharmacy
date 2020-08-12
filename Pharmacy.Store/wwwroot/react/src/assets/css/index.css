@@ -280,6 +280,10 @@ input:-webkit-autofill:active {
   width: 100%;
 }
 
+.MuiFormControl-root .MuiOutlinedInput-multiline {
+  padding: 0;
+}
+
 .MuiFormHelperText-contained {
   margin-right: 0 !important;
   margin-left: 0 !important;

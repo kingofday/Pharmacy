@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Redirect } from 'react-router-dom';
 import CustomMap from '../../shared/map';
 import { SetLocationAction } from './../../redux/actions/mapAction';
 import strings from './../../shared/constant';
@@ -10,6 +10,9 @@ import Button from './../../shared/Button';
 class SelectLocation extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            redirect: ''
+        };
         const values = queryString.parse(this.props.location.search)
 
         if (values['lng']) this.lng = parseFloat(values['lng'])
@@ -25,9 +28,12 @@ class SelectLocation extends React.Component {
 
     _setLocation() {
         this.props.setLocation(this.lng, this.lat);
-        this.props.history.goBack();
+        this.setState(p => ({ ...p, redirect: '/selectAddress' }));
+        //this.props.history.goBack();
     }
     render() {
+        if (this.state.redirect)
+            return <Redirect to={this.state.redirect} />
         return (
             <div className="page-select-location">
                 <CustomMap height='100vh' lng={this.lng} lat={this.lat} onChanged={this._mapChanged.bind(this)} />

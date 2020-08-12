@@ -3,10 +3,12 @@ using Pharmacy.Domain;
 using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Pharmacy.API.Controllers
 {
+    [EnableCors("AllowedOrigins")]
     [ApiController]
     [Route("[controller]")]
     public class DeliveryProviderController : ControllerBase

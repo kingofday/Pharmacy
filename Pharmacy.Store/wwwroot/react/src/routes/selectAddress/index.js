@@ -12,7 +12,7 @@ import Button from './../../shared/Button';
 import strings, { validationStrings } from './../../shared/constant';
 import AddressListModal from './comps/addressListModal';
 import { Redirect, Link } from 'react-router-dom';
-import { SetAddrssAction } from './../../redux/actions/addressAction';
+import { SetAddrssAction } from './../../redux/actions/reviewAction';
 import { ShowInitErrorAction, HideInitErrorAction } from './../../redux/actions/InitErrorAction';
 import { commaThousondSeperator, validate } from './../../shared/utils';
 import addressSrv from './../../service/srvAddress';
@@ -56,6 +56,7 @@ class SelectAddress extends React.Component {
     async _selectAddress(item) {
         this.setState(p => ({
             ...p,
+            loading: false,
             prevAddress: item,
             location: { ...p.location, message: '' },
             fullname: { ...p.fullname, value: item.fullname },
@@ -95,30 +96,32 @@ class SelectAddress extends React.Component {
         if (!this._validate())
             return
         let addr = null;
-
+        this.setState(p => ({ ...p, loading: true }));
         if (!this.state.prevAddress) {
             addr = {
-                fullname: this.state.fullname,
-                mobileNumber: this.state.mobileNumber,
-                details: this.state.details,
-                lat: this.state.lat,
-                lng: this.state.lng
+                fullname: this.state.fullname.value,
+                mobileNumber: this.state.mobileNumber.value,
+                details: this.state.details.value,
+                lat: this.state.location.lat,
+                lng: this.state.location.lng
             };
             let add = await addressSrv.add(addr);
+            console.log(add);
             if (!add.success) {
                 toast(add.message, { type: toast.TYPE.ERROR });
+                this.setState(p => ({ ...p, loading: false }));
                 return;
             }
             addr.id = add.result;
         }
         else addr = {
             ...this.state.prevAddress,
-            fullname: this.state.fullname,
-            mobileNumber: this.state.mobileNumber,
+            fullname: this.state.fullname.value,
+            mobileNumber: this.state.mobileNumber.value,
         };
 
         this.props.setAddress(addr);
-        this.setState(p => ({ ...p, redirect: '/selectDelivery' }));
+        this.setState(p => ({ ...p,loading:false, redirect: '/selectDelivery' }));
 
     }
 
@@ -126,7 +129,6 @@ class SelectAddress extends React.Component {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />;
         return (
             <div id='page-select-address' className="page-comp">
-
                 <Container>
                     <Row>
                         <Col xs={12}>
@@ -165,7 +167,7 @@ class SelectAddress extends React.Component {
                                         <Col xs={12}>
                                             <div className="form-group mb-0">
                                                 <TextField
-                                                    id="address"
+                                                    id="details"
                                                     error={this.state.details.error}
                                                     label={strings.addressDetails}
                                                     multiline
@@ -234,7 +236,7 @@ class SelectAddress extends React.Component {
 
 }
 const mapStateToProps = state => {
-    return { ...state.mapReducer, ...state.basketReducer };
+    return { ...state.authReducer,...state.mapReducer, ...state.basketReducer };
 }
 
 const mapDispatchToProps = dispatch => ({

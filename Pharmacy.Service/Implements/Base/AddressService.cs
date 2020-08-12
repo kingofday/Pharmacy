@@ -59,7 +59,7 @@ namespace Pharmacy.Service
                 Longitude = model.Lng,
                 IsDefault = true,
                 Fullname = model.Fullname,
-                MobileNumber = model.MobileNumber,
+                MobileNumber = long.Parse(model.MobileNumber),
                 Details = model.Details
             };
             await _addressRepo.AddAsync(addr);

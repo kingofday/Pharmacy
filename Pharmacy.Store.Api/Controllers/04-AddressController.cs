@@ -31,7 +31,7 @@ namespace Pharmacy.API.Controllers
                     {
                         Id = 1,
                         Fullname = "کامران زرینی",
-                        MobileNumber = 9334188184,
+                        MobileNumber = "9334188184",
                         Details = "میدان ونک، خیابن گاندی پلاک 36",
                         Lat = 35.757474,
                         Lng = 51.410109
@@ -40,7 +40,7 @@ namespace Pharmacy.API.Controllers
                     {
                         Id = 2,
                         Fullname = "هومن زرینی",
-                        MobileNumber = 9334188189,
+                        MobileNumber = "9334188189",
                         Details = "میدان آرزانتین، گوچه بهار پلاک 16",
                         Lat = 35.737040,
                         Lng = 51.415576

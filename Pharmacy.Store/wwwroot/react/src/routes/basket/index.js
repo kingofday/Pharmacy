@@ -125,7 +125,7 @@ const mapDispatchToProps = dispatch => ({
     hideInitError: () => dispatch(HideInitErrorAction()),
     updateBasket: (id, count) => dispatch(UpdateBasketAction(id, count)),
     removeFromBasket: (id) => dispatch(RemoveFromBasketAction(id)),
-    setAuthNextPage: () => dispatch(SetNexPage())
+    setAuthNextPage: (nextPage) => dispatch(SetNexPage(nextPage))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Basket);
