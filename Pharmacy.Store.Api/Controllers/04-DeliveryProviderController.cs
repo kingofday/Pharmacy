@@ -19,7 +19,7 @@ namespace Pharmacy.API.Controllers
             _deliveryProviderSrv = deliveryProviderSrv;
         }
 
-        [Authorize, HttpGet]
+        [HttpGet]
         public ActionResult<IResponse<List<DeliveryDTO>>> Get()
                 //=> _deliveryProviderSrv.GetAllAsDTO();
                 => new Response<List<DeliveryDTO>>
@@ -34,8 +34,8 @@ namespace Pharmacy.API.Controllers
                         },
                         new DeliveryDTO
                         {
-                            Id = 1,
-                            Name = "پیک"
+                            Id = 2,
+                            Name = "پست"
                         },
                     }
                 };

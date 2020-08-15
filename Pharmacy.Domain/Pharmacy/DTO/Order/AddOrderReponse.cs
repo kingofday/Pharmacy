@@ -1,7 +1,7 @@
 ﻿using Pharmacy.Domain;
 using System.Collections.Generic;
 
-namespace Pharmacy.API
+namespace Pharmacy.Domain
 {
     public class AddOrderReponse
     {

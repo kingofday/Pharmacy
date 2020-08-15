@@ -2,10 +2,14 @@ import React from 'react';
 import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
+
+
 import strings from './../../shared/constant';
 import DiscountBadg from './../../shared/discountBadg';
+
 import orderSrv from './../../service/orderSrv';
-import Header from './../../shared/header';
+
+
 import { commaThousondSeperator } from './../../shared/utils';
 import { ShowInitErrorAction, HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import { ChangedBasketItemsAction } from './../../redux/actions/basketAction';
@@ -75,16 +79,15 @@ class Review extends React.Component {
     render() {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />
         return (
-            <div className='review-page with-header'>
-                <Header goBack={this.props.history.goBack} />
+            <div id='page-review' className=' with-header'>
                 <Container className='basket-wrapper'>
                     {this.props.items.map((x) => (
                         <Row key={x.id}>
                             <Col>
                                 <div className='item'>
-                                    {x.imgUrl ?
+                                    {x.thumbnailImageUrl ?
                                         (<div className='img-wrapper'>
-                                            <Link to={`product/${x.id}`}><img src={x.imgUrl} alt='img item' /></Link>
+                                            <Link to={`product/${x.id}`}><img src={x.thumbnailImageUrl} alt='img item' /></Link>
                                         </div>) : null}
 
                                     <div className='info'>
@@ -104,7 +107,7 @@ class Review extends React.Component {
                         <Col className='total-wrapper'>
                             <div className='cost m-b'>
                                 <img src={deliveryCostImage} alt='delivery' />&nbsp;
-                                    <span className='val'>{strings.deliverCost} : {commaThousondSeperator(this.props.deliveryCost.toString())} {strings.currency}</span>
+                                    <span className='val'>{strings.deliveryType} : {this.props.delivery.name}</span>
                             </div>
 
                             <div className='discount m-b'>
@@ -114,7 +117,7 @@ class Review extends React.Component {
 
                             <div className='price m-b'>
                                 <span>{strings.priceToPay} : </span>
-                                <span className='val'>{commaThousondSeperator((this.props.deliveryCost + this.props.totalPrice).toString())}</span>
+                                <span className='val'>{commaThousondSeperator(this.props.totalPrice)}</span>
                                 <span>{strings.currency}</span>
                             </div>
                         </Col>

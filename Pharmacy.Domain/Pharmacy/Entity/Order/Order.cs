@@ -14,6 +14,13 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderId { get; set; }
 
+        public DeliveryType DeliveryType { get; set; }
+
+        [Column(TypeName = "varchar(20)")]
+        [MaxLength(20, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(20, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string DeliveryAgentName { get; set; }
+
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         //[Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
@@ -24,9 +31,6 @@ namespace Pharmacy.Domain
 
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
         public int AddressId { get; set; }
-
-        [Display(Name = nameof(Strings.DeliveryProvider), ResourceType = typeof(Strings))]
-        public int DeliveryProviderId { get; set; }
 
         [Display(Name = nameof(Strings.DeliveryTime), ResourceType = typeof(Strings))]
         public int DeliveryTime { get; set; }

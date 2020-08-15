@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Pharmacy.Service.Resource;
 using System.Linq.Expressions;
 using System;
+using System.Collections.Generic;
 
 namespace Pharmacy.Service
 {
@@ -17,11 +18,13 @@ namespace Pharmacy.Service
         readonly IDrugStoreService _drugStoreSrv;
         readonly IGatewayFactory _gatewayFactory;
         readonly ITempBasketItemService _TempBasketItemSrv;
+        readonly IDeliveryAgentFactory _delAgent;
         public OrderService(AppUnitOfWork appUOW,
             IGatewayFactory gatewayFactory,
             IDrugService drugSrv,
             IDrugStoreService drugStoreSrv,
-            ITempBasketItemService TempBasketItemSrv)
+            ITempBasketItemService TempBasketItemSrv,
+            IDeliveryAgentFactory delAgent)
         {
             _appUow = appUOW;
             _orderRepo = appUOW.OrderRepo;
@@ -29,67 +32,73 @@ namespace Pharmacy.Service
             _gatewayFactory = gatewayFactory;
             _TempBasketItemSrv = TempBasketItemSrv;
             _drugStoreSrv = drugStoreSrv;
+            _delAgent= delAgent;
         }
 
-        //public async Task<IResponse<(Order Order, bool IsChanged)>> AddByUserAsync(OrderDTO model)
-        //{
-        //    var chkItems = await _drugSrv.CheckChanges(model.Items);
-        //    var drugStore = _drugStoreSrv.GetNearest(model.Address);
-        //    if (!drugStore.IsSuccessful)
-        //        return new Response<(Order Order, bool IsChanged)>
-        //        {
-        //            Message = drugStore.Message
-        //        };
-
-        //    var getDeliveryCost = await _deliverySrv.GetDeliveryCost(model.DeliveryId, drugStore.Result.DrugStoreId, new LocationDTO { Lat = model.Address.Lat, Lng = model.Address.Lng });
-        //    if (!getDeliveryCost.IsSuccessful) return new Response<(Order, bool)> { Message = getDeliveryCost.Message };
-        //    var orderItems = chkItems.Items.Where(x => x.Count != 0).Select(i => new OrderItem
-        //    {
-        //        DrugId = i.Id,
-        //        Count = i.Count,
-        //        Price = i.Price,
-        //        TotalPrice = i.GetTotalPrice(),
-        //        DiscountPrice = i.DiscountPrice
-        //    }).ToList();
-        //    var order = new Order
-        //    {
-        //        TotalItemsPrice = orderItems.Sum(x => x.TotalPrice),
-        //        TotalPriceWithoutDiscount = orderItems.Sum(x => x.Price * x.Count) + getDeliveryCost.Result,
-        //        TotalPrice = orderItems.Sum(x => x.TotalPrice) + getDeliveryCost.Result,
-        //        TotalDiscountPrice = orderItems.Sum(x => x.DiscountPrice),
-        //        UserId = model.UserToken,
-        //        OrderStatus = OrderStatus.WaitForPayment,
-        //        DeliveryProviderId = model.DeliveryId,
-        //        Description = model.Description,
-        //        ExtraInfoJson = "",// new ExtraInfo { Reciever = model.Reciever, RecieverMobileNumber = model.RecieverMobileNumber }.SerializeToJson(),
-        //        AddressId = model.Address.Id ?? 0,
-        //        DrugStoreId = drugStore.Result.DrugStoreId,
-        //        OrderDrugStores = new List<OrderDrugStore> {
-        //            new OrderDrugStore{
-        //                DrugStoreId = drugStore.Result.DrugStoreId,
-        //                Status = OrderPharmacyStatus.Proccessing,
-        //                DeliveryPrice = getDeliveryCost.Result
-        //            }
-        //        },
-        //        Address = model.Address.Id == null ? new UserAddress
-        //        {
-        //            UserId = model.UserToken,
-        //            Latitude = model.Address.Lat,
-        //            Longitude = model.Address.Lng,
-        //            Details = model.Address.Details
-        //        } : null,
-        //        OrderDetails = orderItems
-        //    };
-        //    await _orderRepo.AddAsync(order);
-        //    var addOrder = await _appUow.ElkSaveChangesAsync();
-        //    if (!addOrder.IsSuccessful)
-        //        return new Response<(Order, bool)> { Message = addOrder.Message };
-        //    return new Response<(Order, bool)>
-        //    {
-        //        IsSuccessful = true,
-        //        Result = (order, chkItems.Changed)
-        //    };
-        //}
+        public async Task<IResponse<(Order Order, bool IsChanged)>> AddByUserAsync(Guid userId, OrderDTO model)
+        {
+            var chkItems = await _drugSrv.CheckChanges(model.Items);
+            var drugStore = _drugStoreSrv.GetNearest(model.Address);
+            if (!drugStore.IsSuccessful)
+                return new Response<(Order Order, bool IsChanged)>
+                {
+                    Message = drugStore.Message
+                };
+            var delAgent = _delAgent.Get(model.DeliveryType);
+            var getPrice = await delAgent.PriceInquiry(drugStore.Result, model.Address, false, false);
+            if (!getPrice.IsSuccessful)
+                return new Response<(Order Order, bool IsChanged)>
+                {
+                    Message = getPrice.Message
+                };
+            var orderItems = chkItems.Items.Where(x => x.Count != 0).Select(i => new OrderItem
+            {
+                DrugId = i.Id,
+                Count = i.Count,
+                Price = i.Price,
+                TotalPrice = i.GetTotalPrice(),
+                DiscountPrice = i.DiscountPrice
+            }).ToList();
+            var order = new Order
+            {
+                TotalItemsPrice = orderItems.Sum(x => x.TotalPrice),
+                TotalPriceWithoutDiscount = orderItems.Sum(x => x.Price * x.Count),
+                TotalPrice = orderItems.Sum(x => x.TotalPrice),
+                TotalDiscountPrice = orderItems.Sum(x => x.DiscountPrice),
+                UserId = userId,
+                OrderStatus = OrderStatus.WaitForPayment,
+                DeliveryType = model.DeliveryType,
+                DeliveryAgentName = delAgent.Name,
+                Description = model.Description,
+                ExtraInfoJson = "",// new ExtraInfo { Reciever = model.Reciever, RecieverMobileNumber = model.RecieverMobileNumber }.SerializeToJson(),
+                AddressId = model.Address.Id ?? 0,
+                DrugStoreId = drugStore.Result.DrugStoreId,
+                OrderDrugStores = new List<OrderDrugStore> {
+                    new OrderDrugStore{
+                        DrugStoreId = drugStore.Result.DrugStoreId,
+                        Status = OrderPharmacyStatus.Proccessing,
+                        DeliveryPrice = getPrice.Result.Price
+                    }
+                },
+                Address = model.Address.Id == null ? new UserAddress
+                {
+                    UserId = userId,
+                    Latitude = model.Address.Lat,
+                    Longitude = model.Address.Lng,
+                    Details = model.Address.Details
+                } : null,
+                OrderDetails = orderItems
+            };
+            await _orderRepo.AddAsync(order);
+            var addOrder = await _appUow.ElkSaveChangesAsync();
+            if (!addOrder.IsSuccessful)
+                return new Response<(Order, bool)> { Message = addOrder.Message };
+            return new Response<(Order, bool)>
+            {
+                IsSuccessful = true,
+                Result = (order, chkItems.Changed)
+            };
+        }
 
         //public async Task<IResponse<Order>> AddTempBasket(TempOrderDTO model)
         //{

@@ -25,6 +25,7 @@ namespace Pharmacy.InfraStructure
 
         public static class CacheSettings
         {
+            public static string DeluveryProviders = "Delivery_Provider";
             public static string MenuModelCacheKey(Guid userId) => $"MenuModel_{userId.ToString().Replace("-", "_")}";
         }
     }

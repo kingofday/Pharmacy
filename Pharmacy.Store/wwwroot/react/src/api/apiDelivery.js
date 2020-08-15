@@ -21,7 +21,8 @@ export default class apiDelivery {
                 'method': 'GET',
                 'mode': 'cors',
                 'headers': {
-                    'Content-Type': 'application/json; charset=utf-8;'
+                    'Content-Type': 'application/json; charset=utf-8;',
+                    'Authorization':`Bearer ${token}`
                 }
             });
             return await handleResponse(response);

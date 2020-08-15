@@ -78,6 +78,7 @@ namespace Pharmacy.DependencyResolver
             services.AddScoped<IDrugService, DrugService>();
             services.AddScoped<IDrugAssetService, DrugAssetService>();
             services.AddScoped<IDrugCategoryService, DrugCategoryService>();
+            services.AddScoped<IDeliveryProviderService, DeliveryProviderService>();
             //services.AddScoped<IDiscountRepo, DiscountRepo>();
             #endregion
 
@@ -87,6 +88,7 @@ namespace Pharmacy.DependencyResolver
         public static IServiceCollection AddSingleton(this IServiceCollection services, IConfiguration _configuration)
         {
             services.AddSingleton<IMemoryCacheProvider, MemoryCacheProvider>();
+            services.AddSingleton<IDeliveryAgentFactory, DeliveryAgentFactory>();
             services.AddSingleton<IEmailService>(s => new EmailService(
                 _configuration["CustomSettings:Email:EmailHost"],
                 _configuration["CustomSettings:Email:EmailUserName"],

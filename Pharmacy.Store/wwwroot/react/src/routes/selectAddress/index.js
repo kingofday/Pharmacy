@@ -85,7 +85,7 @@ class SelectAddress extends React.Component {
                 isValid = false;
             }
             if (!this.state.details.value) {
-                this.setState(p => ({ ...p, address: { ...p.address, error: true, message: validationStrings.required } }))
+                this.setState(p => ({ ...p, details: { ...p.details, error: true, message: validationStrings.required } }))
                 isValid = false;
             }
         }
@@ -219,7 +219,7 @@ class SelectAddress extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col xs={12} sm={12} className='d-flex justify-content-end'>
-                                        <Button onClick={this._submit.bind(this)} disabled={this.state.loading}>
+                                        <Button onClick={this._submit.bind(this)} loading={this.state.loading}>
                                             {strings.continuePurchase}
                                         </Button>
                                     </Col>

@@ -37,10 +37,10 @@
     recieverFullname: 'نام تحویل گیرنده',
     addressDetails:'جزییات آدرس',
     recieverMobileNumber:'شماره موبایل تحویل گیرنده',
-    selectDeliveryType:'نحوه ارسال',
+    deliveryType:'نحوه ارسال',
     review: 'بازبینی',
     map: 'نقشه',
-    deliveryPriceGuid:'هزینه ارسال پس از تعیین شدن دازوخانه مشخض خواهد شد',
+    deliveryPriceGuid:'توجه: هزینه ارسال پس از تعیین شدن داروخانه مشخص خواهد شد',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',
@@ -49,6 +49,7 @@
     byPriceDesc: 'مرتب سازی بر اساس قیمت نزولی',
     byPriceAsc: 'مرتب سازی بر اساس قیمت افزایشی',
     byScore: 'مرتب سازی بر اساس امتیاز',
+    connectionFailed: 'اتصال برقرار نشد',
     //-----------------------------------------
 
     wrongUsernameOrPassword: 'نام کاربری یا رمز عبور اشتباه است',
@@ -82,7 +83,6 @@
     initialOrderSubmit: 'ثبت اولیه سفارش',
     pleasWait: 'لطفا منتظر بمانید',
     retryPlease: 'لطفا دوباره تلاش کنید',
-    connectionFailed: 'اتصال برقرار نشد',
     basket: 'سبد خرید',
     all: 'همه',
     newests: 'تازه ترین ها',

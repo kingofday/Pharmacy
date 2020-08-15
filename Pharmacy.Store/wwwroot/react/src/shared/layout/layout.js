@@ -44,12 +44,8 @@ class Layout extends React.Component {
                     <Route exact path="/auth" component={Auth} />
                     <AuthRouter path="/selectAddress" component={SelectAddress}/>
                     <AuthRouter path="/selectLocation" component={SelectLocation}/>
-                    {/* <AuthRouter path="/selectLocation">
-                        <SelectLocation />
-                    </AuthRouter>
-                    <AuthRouter path="/selectDelivery">
-                        <SelectDelivery />
-                    </AuthRouter> */}
+                    <AuthRouter path="/selectDelivery" component={SelectDelivery}/>
+
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />

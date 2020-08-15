@@ -20,7 +20,7 @@ class SelectDelivery extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loading: false,
+            loading: true,
             btnDisabled: false,
             redirect: null,
             deliveryId: '',
@@ -43,12 +43,13 @@ class SelectDelivery extends React.Component {
     async _fetchData() {
         this.setState(p => ({ ...p, loading: true }));
         let delivery = await srvDelivery.get();
+        console.log(delivery);
         this.setState(p => ({ ...p, loading: false }));
         if (!delivery.success) {
-            this.props.showInitError(this._fetchData(), delivery.message);
+            this.props.showInitError(this._fetchData.bind(this), delivery.message);
             return;
         }
-        this.setState(p => ({ ...p, deliveryTypes: delivery.result }));
+        this.setState(p => ({ ...p, deliveryId: delivery.result[0].id.toString(), deliveryTypes: delivery.result }));
     }
 
     async _selectDeliveryType(e) {
@@ -59,9 +60,14 @@ class SelectDelivery extends React.Component {
 
     async componentDidMount() {
         this.props.hideInitError();
+        await this._fetchData();
     }
 
     async _submit() {
+        let delivery = this.state.deliveryTypes.find(x => x.id === parseInt(this.state.deliveryId));
+        console.log(delivery);
+        this.props.setDeliveryType(delivery, this.state.comment.value);
+        this.setState(p => ({ ...p, redirect: '/review' }));
 
     }
 
@@ -80,19 +86,19 @@ class SelectDelivery extends React.Component {
                                 </Row>
                                 <Row>
                                     <Col>
-                                        <Alert className='w-100' variant='info'>
+                                        <Alert className='w-100 text-center' variant='warning'>
                                             {strings.deliveryPriceGuid}
                                         </Alert>
                                     </Col>
                                 </Row>
                                 <Row>
-                                    <Col>
-                                        <Heading title={strings.deliveryTypes} />
+                                    <Col xs={12} sm={12}>
+                                        <Heading title={strings.deliveryType} />
                                     </Col>
-                                    <Col>
-                                        {this.state.loading ? [0, 1].map((x) => <Skeleton className='m-b' key={x} variant='rect' height={25} />) :
+                                    <Col xs={12} sm={12} className='d-flex flex-column'>
+                                        {this.state.loading ? [0, 1].map((x) => <Skeleton className='mb-15' width={150} key={x} variant='rect' height={25} />) :
                                             <RadioGroup aria-label="address" name="old-address" value={this.state.deliveryId} onChange={this._selectDeliveryType.bind(this)}>
-                                                {this.state.deliveryTypes.map((d) => <FormControlLabel key={d.id} value={d.id.toString()} control={<Radio color="primary" />} label={`${d.name} (${d.cost} ${strings.currency})`} />)}
+                                                {this.state.deliveryTypes.map((d) => <FormControlLabel key={d.id} value={d.id.toString()} control={<Radio color="primary" />} label={d.name} />)}
                                             </RadioGroup>}
                                     </Col>
                                     <Col xs={12}>
@@ -102,7 +108,7 @@ class SelectDelivery extends React.Component {
                                                 error={this.state.comment.error}
                                                 label={strings.comment}
                                                 multiline
-                                                rows={1}
+                                                rows={3}
                                                 value={this.state.comment.value}
                                                 onChange={this._inputChanged.bind(this)}
                                                 helperText={this.state.comment.message}
@@ -113,7 +119,7 @@ class SelectDelivery extends React.Component {
 
                                 <Row>
                                     <Col xs={12} sm={12} className='d-flex justify-content-end'>
-                                        <Button onClick={this._submit.bind(this)} disabled={this.state.btnDisabled}>
+                                        <Button onClick={this._submit.bind(this)} disabled={this.state.loading} loading={this.state.btnDisabled}>
                                             {strings.continuePurchase}
                                         </Button>
                                     </Col>

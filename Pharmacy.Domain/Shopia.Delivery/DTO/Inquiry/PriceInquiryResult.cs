@@ -4,7 +4,6 @@ namespace Pharmacy.Domain
 {
     public class PriceInquiryResult
     {
-        public int DeliveryProviderId { get; set; }
         public string DeliveryType { get; set; }
         public string DeliveryType_Fa { get; set; }
 
