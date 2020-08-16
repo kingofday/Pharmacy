@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController, EnableCors("AllowedOrigins"), Route("[controller]")]
+    [ApiController, CustomAuth, EnableCors("AllowedOrigins"), Route("[controller]")]
     public class OrderController : ControllerBase
     {
         readonly IUserService _userService;
@@ -42,8 +42,8 @@ namespace Pharmacy.API.Controllers
                     Url = "Http://kingofday.ir/",
                     Drugs = model.Items.Select(x => new DrugDTO
                     {
-                        DrugId = x.Id,
-                        DiscountPrice = x.DiscountPrice,
+                        DrugId = x.DrugId,
+                        DiscountPrice = x.Discount,
                         Price = x.Price,
                         Count = x.Count
                     }).ToList()

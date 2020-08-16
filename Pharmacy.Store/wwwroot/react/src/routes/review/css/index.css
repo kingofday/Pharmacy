@@ -1,8 +1,8 @@
-.review-page .basket-wrapper {
+#page-review .basket-wrapper {
   margin-bottom: 55px;
 }
 
-.review-page .basket-wrapper .item {
+#page-review .basket-wrapper .item {
   margin-top: 15px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -17,17 +17,17 @@
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
 
-.review-page .basket-wrapper .item .img-wrapper {
+#page-review .basket-wrapper .item .img-wrapper {
   margin-left: 15px;
   width: 100px;
 }
 
-.review-page .basket-wrapper .item .img-wrapper img {
+#page-review .basket-wrapper .item .img-wrapper img {
   width: 100%;
   border-radius: 8px;
 }
 
-.review-page .basket-wrapper .item .info {
+#page-review .basket-wrapper .item .info {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -42,7 +42,7 @@
       justify-content: space-around;
 }
 
-.review-page .basket-wrapper .item .info .name {
+#page-review .basket-wrapper .item .info .name {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -59,39 +59,32 @@
   width: 100%;
 }
 
-.review-page .basket-wrapper .item .info .name .hx {
+#page-review .basket-wrapper .item .info .name .hx {
   font-size: 1.2rem;
 }
 
-.review-page .basket-wrapper .item .info .price .val {
+#page-review .basket-wrapper .item .info .price .val {
   font-size: 1.5rem;
   font-weight: 900;
 }
 
-.review-page .basket-wrapper .total-wrapper {
+#page-review .basket-wrapper .total-wrapper {
   margin-top: 30px;
 }
 
-.review-page .basket-wrapper .total-wrapper .price {
+#page-review .basket-wrapper .total-wrapper .price {
   padding-top: 15px;
   border-top: dashed 1px green;
   display: inline-block;
   color: green;
 }
 
-.review-page .basket-wrapper .total-wrapper .price .val {
+#page-review .basket-wrapper .total-wrapper .price .val {
   font-size: 1.5rem;
   font-weight: 700;
 }
 
-.review-page .btn-next {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.review-page .btn-next .spinner-border {
+#page-review .btn-next .spinner-border {
   vertical-align: middle;
   margin: 0 10px;
 }

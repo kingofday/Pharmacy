@@ -42,4 +42,12 @@ export default class srvAuth {
     static async resendSMS(mobileNumber) {
         return await userApi.resendSMS(mobileNumber);
     }
+
+    static checkResponse(rep) {
+        if (!rep.success && rep.status === 401) {
+            window.location.href = '/auth';
+            return { ...rep, message: strings.loginAgain }
+        }
+        else return rep;
+    }
 }

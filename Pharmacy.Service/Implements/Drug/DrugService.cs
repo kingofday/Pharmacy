@@ -50,12 +50,12 @@ namespace Pharmacy.Service
 
         public async Task<(bool Changed, IEnumerable<OrderItemDTO> Items)> CheckChanges(IEnumerable<OrderItemDTO> items)
         {
-            var drugs = _drugRepo.Get(conditions: x => items.Select(x => x.Id).Contains(x.DrugId),
+            var drugs = _drugRepo.Get(conditions: x => items.Select(x => x.DrugId).Contains(x.DrugId),
             orderBy: o => o.OrderByDescending(x => x.DrugId));
             bool changed = false;
             foreach (var item in items)
             {
-                var drug = drugs.FirstOrDefault(x => x.DrugId == item.Id);
+                var drug = drugs.FirstOrDefault(x => x.DrugId == item.DrugId);
                 if (drug == null || !drug.IsActive)
                 {
                     changed = true;

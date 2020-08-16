@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharmacy.API", "Pharmacy.St
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pharmacy.Dashboard", "Pharmacy.Dashboard\Pharmacy.Dashboard.csproj", "{84097312-8F9F-4CD9-B850-7872529C1E96}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pharmacy.Document", "Pharmacy.Document\Pharmacy.Document.csproj", "{E65642F1-67FB-4E14-9B9D-5871902FE124}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +67,10 @@ Global
 		{84097312-8F9F-4CD9-B850-7872529C1E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{84097312-8F9F-4CD9-B850-7872529C1E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{84097312-8F9F-4CD9-B850-7872529C1E96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E65642F1-67FB-4E14-9B9D-5871902FE124}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E65642F1-67FB-4E14-9B9D-5871902FE124}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E65642F1-67FB-4E14-9B9D-5871902FE124}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E65642F1-67FB-4E14-9B9D-5871902FE124}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +88,7 @@ Global
 		{0358DA17-13C0-4106-BBA1-79475F328310} = {D63B245E-44F4-4EB8-8E1E-CEF978023B86}
 		{9B863B00-F39D-4F14-9BF0-BC8E1B645AA6} = {55134684-BD76-44B9-B934-74912CD29CDC}
 		{84097312-8F9F-4CD9-B850-7872529C1E96} = {55134684-BD76-44B9-B934-74912CD29CDC}
+		{E65642F1-67FB-4E14-9B9D-5871902FE124} = {8A42C343-8B4E-4BE1-BCC6-05EE1468B57B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {DAC9AD0E-6385-4BB3-9EC8-86B29B93AA55}

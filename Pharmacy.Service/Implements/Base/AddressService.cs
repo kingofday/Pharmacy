@@ -72,6 +72,23 @@ namespace Pharmacy.Service
             };
         }
 
+        public async Task<Response<int>> UpdateAsync(Guid userId, AddressDTO model)
+        {
+            var addr = await _addressRepo.FindAsync(model.Id);
+            if (addr.UserId != userId)
+                return new Response<int> { Message = ServiceMessage.NotAllowedOperation };
+            addr.Fullname = model.Fullname;
+            addr.MobileNumber = long.Parse(model.MobileNumber);
+            _addressRepo.Update(addr);
+            var update = await _appUow.ElkSaveChangesAsync();
+            return new Response<int>
+            {
+                Result = addr.UserAddressId,
+                Message = update.IsSuccessful ? null : ServiceMessage.Error,
+                IsSuccessful = update.IsSuccessful
+            };
+        }
+
         public async Task<Response<bool>> DeleteAsync(Guid userId, int id)
         {
             var addr = await _addressRepo.FirstOrDefaultAsync(conditions: x => x.UserId == userId && x.UserAddressId == id);

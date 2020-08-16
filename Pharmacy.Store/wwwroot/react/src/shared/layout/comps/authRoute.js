@@ -1,8 +1,13 @@
 import React from 'react';
-import { Route, Redirect, withRouter } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { SetNexPage } from './../../../redux/actions/authAction';
 
 class AuthRoute extends React.Component {
+  componentDidMount() {
+    this.props.setAuthNextPage(this.props.path);
+  }
+
   render() {
     let Children = this.props.component;
     return (
@@ -32,8 +37,8 @@ const mapStateToProps = (state, ownProps) => {
   return { ...ownProps, ...state.authReducer };
 }
 
-// const mapDispatchToProps = dispatch => ({
-//     logOut: () => dispatch(LogOutAction())
-// });
+const mapDispatchToProps = dispatch => ({
+  setAuthNextPage: (nextPage) => dispatch(SetNexPage(nextPage))
+});
 
-export default connect(mapStateToProps, null)(AuthRoute);
+export default connect(mapStateToProps, mapDispatchToProps)(AuthRoute);

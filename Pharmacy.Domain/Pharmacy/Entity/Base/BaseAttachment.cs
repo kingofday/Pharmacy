@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    public abstract class BaseAttachment
+    public class BaseAttachment
     {
         [Display(Name = nameof(Strings.FileType), ResourceType = typeof(Strings))]
         public FileType FileType { get; set; }
@@ -15,7 +15,7 @@ namespace Pharmacy.Domain
         public AttachmentType AttachmentType { get; set; }
 
         [Display(Name = nameof(Strings.Size), ResourceType = typeof(Strings))]
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]
         public DateTime InsertDateMi { get; set; }

@@ -34,6 +34,7 @@ namespace Pharmacy.DataAccess.Ef
         #region Order
         public IGenericRepo<Order> OrderRepo => _serviceProvider.GetService<IGenericRepo<Order>>();
         public IGenericRepo<OrderItem> OrderDetailRepo => _serviceProvider.GetService<IGenericRepo<OrderItem>>();
+        public IGenericRepo<Prescription> PrescriptionRepo => _serviceProvider.GetService<IGenericRepo<Prescription>>();
         public IPaymentRepo PaymentRepo => _serviceProvider.GetService<IPaymentRepo>();
         public ITempBasketItemRepo TempBasketItemRepo => _serviceProvider.GetService<ITempBasketItemRepo>();
         #endregion

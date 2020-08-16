@@ -65,7 +65,7 @@ class Basket extends React.Component {
                                                 <div className='main-info'>
                                                     {x.thumbnailImageUrl ?
                                                         (<div className='img-wrapper'>
-                                                            <Link to={`product/${x.id}`}><img src={x.thumbnailImageUrl} alt='img item' /></Link>
+                                                            <Link to={`product/${x.drugId}`}><img src={x.thumbnailImageUrl} alt='img item' /></Link>
                                                         </div>) : null}
 
                                                     <div className='info'>

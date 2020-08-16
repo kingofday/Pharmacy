@@ -52,6 +52,7 @@ const authReducer = (state = getInitilState(), action) => {
                 email: action.payload.email,
             };
         case actionTypes.LOG_OUT:
+            srvAuth.removeUserInfo();
             return {
                 ...state,
                 authenticated: false,

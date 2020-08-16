@@ -7,9 +7,9 @@ namespace Pharmacy.Domain
     {
         public int? OrderId { get; set; }
         public int GatewayId { get; set; }
-        public DeliveryType DeliveryType { get; set; }       
         public AddressDTO Address { get; set; }
-        public string Description { get; set; }
+        public DeliveryType DeliveryType { get; set; }       
+        public string Comment { get; set; }
         public List<OrderItemDTO> Items { get; set; }
     }
 }

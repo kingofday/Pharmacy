@@ -979,6 +979,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to نسخه.
+        /// </summary>
+        public static string Prescription {
+            get {
+                return ResourceManager.GetString("Prescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to مبلغ.
         /// </summary>
         public static string Price {

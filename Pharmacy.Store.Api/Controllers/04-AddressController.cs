@@ -5,12 +5,10 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Authorization;
-using System;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController, EnableCors("AllowedOrigins"),  Route("[controller]")]
+    [ApiController, EnableCors("AllowedOrigins"),  Route("[controller]"), CustomAuth]
     public class AddressController : ControllerBase
     {
         readonly IAddressService _addressService;
@@ -55,6 +53,11 @@ namespace Pharmacy.API.Controllers
         public async Task<ActionResult<IResponse<int>>> Add(AddressDTO model)
             //=> await _addressService.AddAsync(User.GetUserId(),model);
             => new Response<int> { IsSuccessful = true, Result = 1 };
+
+        [HttpPut]
+        public async Task<ActionResult<IResponse<int>>> Update(AddressDTO model)
+    //=> await _addressService.UpdateAsync(User.GetUserId(),model);
+    => new Response<int> { IsSuccessful = true, Result = 1 };
 
         [HttpDelete]
         public async Task<ActionResult<IResponse<bool>>> Delete(int id)

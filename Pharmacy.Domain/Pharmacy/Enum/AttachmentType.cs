@@ -12,5 +12,8 @@ namespace Pharmacy.Domain
 
         [Description("عکس پرسنلی")]
         PersoneliPicture = 3,
+
+        [Description("تصویر نسخه")]
+        PrescriptionImage = 3,
     }
 }

@@ -8,8 +8,8 @@ export default class Steps extends React.Component {
         return (
             <div className='steps-comp'>
                 <Stepper activeStep={this.props.activeStep} alternativeLabel>
-                    {steps.map((label) => (
-                        <Step key={label}>
+                    {steps.map((label,idx) => (
+                        <Step key={idx}>
                             <StepLabel>{label}</StepLabel>
                         </Step>
                     ))}

@@ -53,11 +53,11 @@ namespace Pharmacy.Service
                 };
             var orderItems = chkItems.Items.Where(x => x.Count != 0).Select(i => new OrderItem
             {
-                DrugId = i.Id,
+                DrugId = i.DrugId,
                 Count = i.Count,
                 Price = i.Price,
                 TotalPrice = i.GetTotalPrice(),
-                DiscountPrice = i.DiscountPrice
+                DiscountPrice = i.Discount
             }).ToList();
             var order = new Order
             {
@@ -69,10 +69,11 @@ namespace Pharmacy.Service
                 OrderStatus = OrderStatus.WaitForPayment,
                 DeliveryType = model.DeliveryType,
                 DeliveryAgentName = delAgent.Name,
-                Description = model.Description,
+                Comment = model.Comment,
                 ExtraInfoJson = "",// new ExtraInfo { Reciever = model.Reciever, RecieverMobileNumber = model.RecieverMobileNumber }.SerializeToJson(),
                 AddressId = model.Address.Id ?? 0,
                 DrugStoreId = drugStore.Result.DrugStoreId,
+                
                 OrderDrugStores = new List<OrderDrugStore> {
                     new OrderDrugStore{
                         DrugStoreId = drugStore.Result.DrugStoreId,

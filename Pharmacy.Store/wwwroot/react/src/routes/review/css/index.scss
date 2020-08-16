@@ -1,4 +1,4 @@
-.review-page {
+#page-review {
     .basket-wrapper {
         margin-bottom: 55px;
         .item {
@@ -62,11 +62,6 @@
     }
 
     .btn-next {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-
         .spinner-border {
             vertical-align: middle;
             margin: 0 10px;

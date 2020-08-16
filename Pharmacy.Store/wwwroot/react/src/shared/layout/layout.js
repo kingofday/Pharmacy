@@ -25,8 +25,8 @@ import Home from '../../routes/home';
 import SelectAddress from '../../routes/selectAddress';
 import SelectLocation from '../../routes/selectLocation';
 import SelectDelivery from '../../routes/selectDelivery';
+import Review from './../../routes/review';
 // import CompleteInfo from '../../routes/completeInformation';
-// import Review from './../../routes/review';
 
 
 class Layout extends React.Component {
@@ -45,7 +45,7 @@ class Layout extends React.Component {
                     <AuthRouter path="/selectAddress" component={SelectAddress}/>
                     <AuthRouter path="/selectLocation" component={SelectLocation}/>
                     <AuthRouter path="/selectDelivery" component={SelectDelivery}/>
-
+                    <AuthRouter path="/review" component={Review}/>
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />

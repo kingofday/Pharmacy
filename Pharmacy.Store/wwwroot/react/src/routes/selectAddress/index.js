@@ -97,7 +97,8 @@ class SelectAddress extends React.Component {
             return
         let addr = null;
         this.setState(p => ({ ...p, loading: true }));
-        if (!this.state.prevAddress) {
+        let pAddr = this.state.prevAddress;
+        if (!pAddr) {
             addr = {
                 fullname: this.state.fullname.value,
                 mobileNumber: this.state.mobileNumber.value,
@@ -106,7 +107,6 @@ class SelectAddress extends React.Component {
                 lng: this.state.location.lng
             };
             let add = await addressSrv.add(addr);
-            console.log(add);
             if (!add.success) {
                 toast(add.message, { type: toast.TYPE.ERROR });
                 this.setState(p => ({ ...p, loading: false }));
@@ -114,14 +114,24 @@ class SelectAddress extends React.Component {
             }
             addr.id = add.result;
         }
-        else addr = {
-            ...this.state.prevAddress,
-            fullname: this.state.fullname.value,
-            mobileNumber: this.state.mobileNumber.value,
-        };
+        else {
+            addr = {
+                ...this.state.prevAddress,
+                fullname: this.state.fullname.value,
+                mobileNumber: this.state.mobileNumber.value,
+            };
+            if (pAddr.fullname !== this.state.fullname.value || pAddr.mobileNumber !== this.state.mobileNumber.value) {
+                let update = await addressSrv.update(addr);
+                if (!update.success) {
+                    toast(update.message, { type: toast.TYPE.ERROR });
+                    this.setState(p => ({ ...p, loading: false }));
+                    return;
+                }
+            }
+        }
 
         this.props.setAddress(addr);
-        this.setState(p => ({ ...p,loading:false, redirect: '/selectDelivery' }));
+        this.setState(p => ({ ...p, loading: false, redirect: '/selectDelivery' }));
 
     }
 
@@ -236,7 +246,7 @@ class SelectAddress extends React.Component {
 
 }
 const mapStateToProps = state => {
-    return { ...state.authReducer,...state.mapReducer, ...state.basketReducer };
+    return { ...state.authReducer, ...state.mapReducer, ...state.basketReducer };
 }
 
 const mapDispatchToProps = dispatch => ({

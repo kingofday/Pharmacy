@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Paper, Tabs, Tab, Box } from '@material-ui/core';
+import { Paper, Tabs, Tab } from '@material-ui/core';
 import strings from '../../shared/constant';
 import Login from './comps/SignIn';
 import SignUp from './comps/signUp';
+import { LogOutAction } from './../../redux/actions/authAction';
 
 class Auth extends React.Component {
     state = {
@@ -14,6 +15,9 @@ class Auth extends React.Component {
     _handleChange = (event, panel) => {
         this.setState(p => ({ ...p, panel: panel }));
     };
+    componentDidMount(){
+        this.props.logOut();
+    }
     render() {
         if (this.props.goToNextPage)
             return <Redirect to={this.props.nextPage} />
@@ -59,9 +63,8 @@ const mapStateToProps = (state, ownProps) => {
     return { ...ownProps,...state.authReducer };
 }
 
-// const mapDispatchToProps = dispatch => ({
-//     logIn: (token, userId, username) => { dispatch(LogInAction(token, userId, username)); },
-//     showToast: (title, body) => dispatch(ShowToastAction(title, body))
-// });
+const mapDispatchToProps = dispatch => ({
+    logOut: () => { dispatch(LogOutAction()); }
+});
 
-export default connect(mapStateToProps, null)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

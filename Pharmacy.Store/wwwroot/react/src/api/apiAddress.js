@@ -7,13 +7,14 @@ export default class apiAddress {
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)
-                return { success: false, message: rep.Message };
+                return { success: false, message: rep.Message, status: rep.Status };
             else return {
+                status: 200,
                 success: true,
                 result: rep.Result.map((a) => ({
                     id: a.Id,
-                    fullname:a.Fullname,
-                    mobileNumber:a.MobileNumber,
+                    fullname: a.Fullname,
+                    mobileNumber: a.MobileNumber,
                     details: a.Details,
                     lat: a.Lat,
                     lng: a.Lng
@@ -28,7 +29,7 @@ export default class apiAddress {
                 'headers': {
                     'Content-Type': 'application/json; charset=utf-8;',
                     //'Content-Type':'application/x-www-form-urlencoded',
-                    'Authorization':`Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
             return await handleResponse(response);
@@ -44,8 +45,9 @@ export default class apiAddress {
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)
-                return { success: false, message: rep.Message };
+                return { success: false, message: rep.Message, status: rep.Status };
             else return {
+                status: 200,
                 success: true,
                 result: rep.Result
             }
@@ -56,9 +58,38 @@ export default class apiAddress {
                 'mode': 'cors',
                 'headers': {
                     'Content-Type': 'application/json; charset=utf-8;',
-                    'Authorization':`Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
-                'body':JSON.stringify(address)
+                'body': JSON.stringify(address)
+            });
+            return await handleResponse(response);
+        } catch (error) {
+            console.log(error);
+            return ({ success: false, message: strings.connectionFailed });
+        }
+    }
+
+    static async update(token, address) {
+        let url = addr.addAddress;
+        var handleResponse = async (response) => {
+            const rep = await response.json();
+            if (!rep.IsSuccessful)
+                return { success: false, message: rep.Message, status: rep.Status };
+            else return {
+                status: 200,
+                success: true,
+                result: rep.Result
+            }
+        }
+        try {
+            const response = await fetch(url, {
+                'method': 'PUT',
+                'mode': 'cors',
+                'headers': {
+                    'Content-Type': 'application/json; charset=utf-8;',
+                    'Authorization': `Bearer ${token}`
+                },
+                'body': JSON.stringify(address)
             });
             return await handleResponse(response);
         } catch (error) {

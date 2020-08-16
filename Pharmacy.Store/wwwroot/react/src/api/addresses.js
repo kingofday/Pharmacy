@@ -13,6 +13,8 @@ const addr = {
     resendSMS: (mobileNumber) => `${baseUrl}Auth/${mobileNumber}`,
     getAddresses: `${baseUrl}Address`,
     addAddress: `${baseUrl}Address`,
-    getDeliveries: `${baseUrl}DeliveryProvider`
+    updateAddress: `${baseUrl}Address`,
+    getDeliveries: `${baseUrl}DeliveryProvider`,
+    addOrder: `${baseUrl}Order`
 }
 export default addr;

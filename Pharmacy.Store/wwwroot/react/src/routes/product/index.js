@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
+import Button from './../../shared/Button';
 import { ShowInitErrorAction, HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import strings from './../../shared/constant';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -104,7 +106,7 @@ class Product extends React.Component {
                                     </Col>
                                     <Col col={12} sm={12} className='direction-column' id='btn-add-wrapper'>
                                         <Counter id={p.id} count={this.state.count} onChange={this._changeCount.bind(this)} />
-                                        <Button disabled={this.state.loading} className={"btn-purchase btn-next " + (window.innerWidth > 576 ? "fab" : "")} onClick={this._addToBasket.bind(this)}>
+                                        <Button disabled={this.state.loading} className="btn-purchase" onClick={this._addToBasket.bind(this)}>
                                             {`${strings.add} ${strings.to} ${strings.basket}`}
                                             &nbsp;
                                             <img src={addToBasketImage} alt='add to basket' />

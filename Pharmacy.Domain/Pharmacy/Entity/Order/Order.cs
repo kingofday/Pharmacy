@@ -80,21 +80,21 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.Description), ResourceType = typeof(Strings))]
         [MaxLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string Description { get; set; }
+        public string Comment { get; set; }
 
         [Display(Name = nameof(Strings.OrderComment), ResourceType = typeof(Strings))]
         [MaxLength(300, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(300, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ExtraInfoJson { get; set; }
 
-        [Column(TypeName = "varchar(500)")]
-        [Display(Name = nameof(Strings.DeliveryDetail), ResourceType = typeof(Strings))]
-        [MaxLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        [StringLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string DeliveryDetailJson { get; set; }
+        //[Column(TypeName = "varchar(500)")]
+        //[Display(Name = nameof(Strings.DeliveryDetail), ResourceType = typeof(Strings))]
+        //[MaxLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        //[StringLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        //public string DeliveryDetailJson { get; set; }
 
-        [NotMapped]
-        public DeliveryDetail Delivery => DeliveryDetailJson.DeSerializeJson<DeliveryDetail>();
+        //[NotMapped]
+        //public DeliveryDetail Delivery => DeliveryDetailJson.DeSerializeJson<DeliveryDetail>();
 
         [Display(Name = nameof(Strings.OrderDetails), ResourceType = typeof(Strings))]
         public List<OrderItem> OrderDetails { get; set; }

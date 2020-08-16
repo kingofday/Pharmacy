@@ -7,8 +7,9 @@ export default class apiDelivery {
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)
-                return { success: false, message: rep.Message };
+                return { success: false, message: rep.Message, status: rep.Status };
             else return {
+                status: 200,
                 success: true,
                 result: rep.Result.map((d) => ({
                     id: d.Id,
@@ -22,7 +23,7 @@ export default class apiDelivery {
                 'mode': 'cors',
                 'headers': {
                     'Content-Type': 'application/json; charset=utf-8;',
-                    'Authorization':`Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
             return await handleResponse(response);
