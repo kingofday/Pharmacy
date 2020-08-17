@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    [Table(nameof(DrugStoreAddress), Schema = "Base")]
+    [Table(nameof(DrugStoreAddress), Schema = "Drug")]
     public class DrugStoreAddress : BaseAddress, IInsertDateProperties, IEntity
     {
         [Key]

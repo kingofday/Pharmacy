@@ -79,7 +79,7 @@ namespace Pharmacy.Dashboard.Controllers
                 return Json(rep.Items.Select(x => new SelectListItem
                 {
                     Value = x.TagId.ToString(),
-                    Text = x.Title
+                    Text = x.Name
                 }));
             else return Json(new List<SelectListItem>());
         }

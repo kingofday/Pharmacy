@@ -73,7 +73,6 @@ export default class apiDrug {
             const rep = await response.json();
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message };
-            console.log(rep.Result);
             let user = rep.Result;
             return {
                 success: true,

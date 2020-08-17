@@ -8,7 +8,7 @@ import logoImage from './../../../assets/images/layout/logo.png';
 class TopHeader extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { redirect: null, animate: false }
+        this.state = { animate: false }
     }
     componentDidUpdate(prevProps) {
         if (this.props.items.length !== prevProps.items.length) {
@@ -21,11 +21,10 @@ class TopHeader extends React.Component {
     }
     _handleLogOut() {
         this.props.logOut();
-        this.setState(p => ({ ...p, redirect: '/' }));
+        window.location.href = '/';
     }
     render() {
-        if (this.state.redirect)
-            return <Redirect to={this.state.redirect} />;
+        console.log(this.props.authenticated);
         return (
             <section id='comp-top-header'>
                 <Container>

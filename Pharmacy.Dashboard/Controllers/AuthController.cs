@@ -39,7 +39,7 @@ namespace Pharmacy.Dashboard.Controllers
 
 
         [HttpGet]
-        public virtual ActionResult SignIn()
+        public virtual async Task<ActionResult> SignIn()
         {
             //var t = new AclSeed(_db);
             //var rep = t.Init();
@@ -47,7 +47,7 @@ namespace Pharmacy.Dashboard.Controllers
             if (User.Identity.IsAuthenticated)
             {
                 var urlPrefix = _config.GetValue<string>(UrlPrefixKey);
-                var defaultUA = _userSrv.GetAvailableActions(User.GetUserId(), null, urlPrefix).DefaultUserAction;
+                var defaultUA = (await (_userSrv.GetAvailableActions(User.GetUserId(), null, urlPrefix))).DefaultUserAction;
                 return Redirect($"{urlPrefix}/{defaultUA.Controller}/{defaultUA.Action}");
             }
             return View(new SignInModel { RememberMe = true });
@@ -57,12 +57,12 @@ namespace Pharmacy.Dashboard.Controllers
         public virtual async Task<JsonResult> SignIn(SignInModel model)
         {
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
-            if (!long.TryParse(model.MobileNumber, out long mobNum)) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
+            if (!long.TryParse(model.Username, out long mobNum)) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
 
             var chkRep = await _userSrv.Authenticate(mobNum, model.Password);
             if (!chkRep.IsSuccessful) return Json(new Response<string> { IsSuccessful = false, Message = chkRep.Message });
 
-            var menuRep = _userSrv.GetAvailableActions(chkRep.Result.UserId, null, _config["CustomSettings:UrlPrefixKey"]);
+            var menuRep = await _userSrv.GetAvailableActions(chkRep.Result.UserId, null, _config["CustomSettings:UrlPrefixKey"]);
             if (menuRep == null) return Json(new Response<string> { IsSuccessful = false, Message = Strings.ThereIsNoViewForUser });
 
             await CreateCookie(chkRep.Result, model.RememberMe);

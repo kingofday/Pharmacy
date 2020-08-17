@@ -88,7 +88,7 @@ namespace Pharmacy.Service
                     Longitude = model.Address.Lng,
                     Details = model.Address.Details
                 } : null,
-                OrderDetails = orderItems
+                OrderItems = orderItems
             };
             await _orderRepo.AddAsync(order);
             var addOrder = await _appUow.ElkSaveChangesAsync();
@@ -150,39 +150,39 @@ namespace Pharmacy.Service
         //    };
         //}
 
-        //public async Task<bool> CheckOwner(Guid userId, int orderId) => await _orderRepo.AnyAsync(x => x.OrderId == orderId && x.Pharmacy.UserId == userId);
+       // public async Task<bool> CheckOwner(Guid userId, int orderId) => await _orderRepo.AnyAsync(x => x.OrderId == orderId && x.OrderDrugStores.Any(o=>o.User == UserId == userId);
 
-        //public async Task<IResponse<Order>> FindAsync(int OrderId)
-        //{
-        //    var order = await _appUow.OrderRepo.FirstOrDefaultAsync(x => x.OrderId == OrderId, new System.Collections.Generic.List<Expression<Func<Order, object>>>
-        //    {
-        //        x=>x.Pharmacy,
-        //        x=>x.User,
-        //        x=>x.FromAddress
-        //    });
-        //    if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
-        //    return new Response<Order> { Result = order, IsSuccessful = true };
-        //}
+        public async Task<IResponse<Order>> FindAsync(int OrderId)
+        {
+            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(x => x.OrderId == OrderId, new System.Collections.Generic.List<Expression<Func<Order, object>>>
+            {
+                x=>x.DrugStoreId,
+                x=>x.User,
+                x=>x.Address
+            });
+            if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
+            return new Response<Order> { Result = order, IsSuccessful = true };
+        }
 
-        //public async Task<IResponse<Order>> GetDetails(int OrderId)
-        //{
-        //    var order = await _appUow.OrderRepo.FirstOrDefaultAsync(x => x.OrderId == OrderId, new System.Collections.Generic.List<Expression<Func<Order, object>>>
-        //    {
-        //        x=>x.Pharmacy,
-        //        x=>x.User,
-        //        x=>x.ToAddress
-        //    });
-        //    if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
-        //    order.OrderDetails = _appUow.OrderDetailRepo.Get(x => x.OrderId == OrderId, o => o.OrderByDescending(x => x.OrderDetailId), new System.Collections.Generic.List<Expression<Func<OrderDetail, object>>>
-        //    {
-        //        x=>x.Drug
-        //    });
-        //    order.Payments = _appUow.PaymentRepo.Get(x => x.OrderId == OrderId, o => o.OrderByDescending(x => x.PaymentId), new System.Collections.Generic.List<Expression<Func<Payment, object>>>
-        //    {
-        //        x=>x.PaymentGateway
-        //    });
-        //    return new Response<Order> { Result = order, IsSuccessful = true };
-        //}
+        public async Task<IResponse<Order>> GetDetails(int OrderId)
+        {
+            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(x => x.OrderId == OrderId, new System.Collections.Generic.List<Expression<Func<Order, object>>>
+            {
+                x=>x.DrugStoreId,
+                x=>x.User,
+                x=>x.Address
+            });
+            if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
+            order.OrderItems = _appUow.OrderDetailRepo.Get(x => x.OrderId == OrderId, o => o.OrderByDescending(x => x.OrderItemId), new List<Expression<Func<OrderItem, object>>>
+            {
+                x=>x.Drug
+            });
+            order.Payments = _appUow.PaymentRepo.Get(x => x.OrderId == OrderId, o => o.OrderByDescending(x => x.PaymentId), new List<Expression<Func<Payment, object>>>
+            {
+                x=>x.PaymentGateway
+            });
+            return new Response<Order> { Result = order, IsSuccessful = true };
+        }
 
         public async Task<IResponse<string>> Verify(Payment payment, object[] args)
         {

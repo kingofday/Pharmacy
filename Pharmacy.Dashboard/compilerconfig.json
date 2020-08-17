@@ -44,7 +44,7 @@
     "inputFile": "wwwroot/Styles/Libs/jquery.nested-view.scss"
   },
   {
-    "outputFile": "wwwroot/Styles/App/01-Admin/ProductCategory/manage.css",
-    "inputFile": "wwwroot/Styles/App/01-Admin/ProductCategory/manage.scss"
+    "outputFile": "wwwroot/Styles/App/01-Admin/DrugCategory/manage.css",
+    "inputFile": "wwwroot/Styles/App/01-Admin/DrugCategory/manage.scss"
   }
 ]

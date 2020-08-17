@@ -10,13 +10,14 @@ export default class apiPrescription {
             if (token) headers['Authorization'] = `Bearer ${token}`;
             else data.append('mobileNumber', mobileNumber);
             files.forEach((file) => data.append('files', file, file.name));
-            const response = await fetch(addr.addOrder, {
+            const response = await fetch(addr.addPrescription, {
                 method: 'POST',
                 mode: 'cors',
                 headers: headers,
                 body: data
             });
             const rep = await response.json();
+            console.log(rep);
             if (rep.IsSuccessful)
                 return {
                     status: 200,
@@ -27,7 +28,7 @@ export default class apiPrescription {
         }
         catch (error) {
             console.log(error);
-            return { success: false, message: strings.connecttionFailed };
+            return { success: false, message: strings.connecttionFailed, status: 500 };
         }
     }
 

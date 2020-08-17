@@ -4,19 +4,19 @@ namespace Pharmacy.Dashboard
 {
     public class SingleUploaderModel
     {
-        public SingleUploaderModel(string id ,string name, ProductAsset productAsset)
+        public SingleUploaderModel(string id ,string name, BaseAttachment attch)
         {
             Id = id;
             Name = name;
-            if (productAsset != null)
+            if (attch != null)
             {
                 HaveAsset = true;
-                AssetId = productAsset.ProductAssetId;
-                Url = productAsset.FileUrl;
+                AttachmentId = attch.AttachmentId;
+                Url = attch.Url;
             }
         }
         public string Id { get; set; }
-        public int AssetId { get; set; } = 0;
+        public object AttachmentId { get; set; } = 0;
         public string Name { get; set; }
         public bool HaveAsset { get; set; } = false;
         public string Url { get; set; }

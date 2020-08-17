@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
+using Pharmacy.API.Resources;
 
 namespace Pharmacy.API.Controllers
 {
@@ -19,14 +20,16 @@ namespace Pharmacy.API.Controllers
             _prescriptionSrv = prescriptionSrv;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IResponse<int>>> Add([FromServices] IWebHostEnvironment env, AddPrescriptionModel model)
-        //{
-        //    model.AppDir = env.WebRootPath;
-        //    if(User.Identity.IsAuthenticated)
-        //        model.UserId = User.GetUserId();
-        //    return await _prescriptionSrv.Add(model);
-        //}
-         => new Response<int> { IsSuccessful = true, Result = 1 };
+        [HttpPost]
+        public async Task<ActionResult> Add([FromServices] IWebHostEnvironment env, [FromForm]AddPrescriptionModel model)
+        {
+            model.AppDir = env.WebRootPath;
+            if (User.Identity.IsAuthenticated)
+                model.UserId = User.GetUserId();
+            else if(string.IsNullOrEmpty(model.MobileNumber) || !ModelState.IsValid)
+                return Ok(new { Status = 401, Message = Domain.Resource.ErrorMessage.InvalidMobileNumber });
+            return Ok(await _prescriptionSrv.Add(model));
+        }
+        //=> new Response<int> { IsSuccessful = true, Result = 1 };
     }
 }

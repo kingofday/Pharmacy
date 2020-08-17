@@ -1,10 +1,10 @@
-﻿@model Product
+﻿@model Drug
 @{
     Layout = null;
-    var assets = (Model.ProductAssets ?? new List<ProductAsset>()).OrderBy(x => x.ProductAssetId).ToList();
+    var assets = (Model.DrugAssets ?? new List<DrugAsset>()).OrderBy(x => x.DrugAssetId).ToList();
 }
-<form asp-controller="Product" asp-action="@(Model.ProductId==0?"Add":"Update")" id="frm-product">
-    @Html.HiddenFor(x => x.ProductId)
+<form asp-controller="Drug" asp-action="@(Model.DrugId==0?"Add":"Update")" id="frm-Drug">
+    @Html.HiddenFor(x => x.DrugId)
     <div class="row m-b">
         <div class="col-12 col-sm-4">
             <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("image1","تصویر یک",assets.FirstOrDefault())' />
@@ -18,7 +18,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-sm-6">
+        @*<div class="col-12 col-sm-6">
             <custom-select-for for="StoreId"
                                select-data-url='@Url.Action("Search", "Store")'
                                class="form-control select2 w-100 with-ajax"
@@ -29,9 +29,9 @@
                                                       Text = Model.Store.FullName
                                                 }
                                               }" />
-        </div>
+        </div>*@
         <div class="col-12 col-sm-6">
-            <custom-select-for for="ProductCategoryId"
+            <custom-select-for for="DrugCategoryId"
                                class="form-control"
                                items="(List<SelectListItem>)ViewBag.Categories" />
         </div>
@@ -46,7 +46,7 @@
             <custom-input-for for="Price" class="form-control ltr-elm" />
         </div>
         <div class="col-12 col-sm-4">
-            <custom-input-for for="DiscountPercent" class="form-control ltr-elm" />
+            <custom-input-for for="DiscountPrice" class="form-control ltr-elm" />
         </div>
         <div class="col-12 col-sm-4">
             <custom-checkbox-for for="IsActive" wrapper-class="chb-group" />
@@ -56,14 +56,14 @@
     <div class="row">
         <div class="col-12">
             <div class="form-group">
-                @Html.LabelFor(x => x.ProductTags)
+                @Html.LabelFor(x => x.DrugTags)
                 @{
                     var tags = "[]";
-                    if (Model.ProductTags != null)
+                    if (Model.DrugTags != null)
                     {
-                        tags = (Model.ProductTags.Select(x => new SelectListItem
+                        tags = (Model.DrugTags.Select(x => new SelectListItem
                         {
-                            Text = x.Tag.Title,
+                            Text = x.Tag.Name,
                             Value = x.TagId.ToString()
                         }).ToList()).SerializeToJson();
                     }
@@ -80,7 +80,7 @@
 
     <div class="custom-modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">@Strings.Close</button>
-        <custom-button type="button" text="@Strings.Submit" icon="zmdi zmdi-floppy" class="btn-primary btn-submit-product float-left"></custom-button>
+        <custom-button type="button" text="@Strings.Submit" icon="zmdi zmdi-floppy" class="btn-primary btn-submit-Drug float-left"></custom-button>
     </div>
 </form>
 

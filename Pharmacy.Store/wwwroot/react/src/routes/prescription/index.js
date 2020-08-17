@@ -2,11 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import { TextField } from '@material-ui/core';
-import { Container, Row, Col } from 'react-bootstrap';
-import Skeleton from '@material-ui/lab/Skeleton';
-import CustomMap from '../../shared/map';
-import { Radio, FormControlLabel, RadioGroup } from '@material-ui/core';
-
+import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { validate } from './../../shared/utils';
 import Button from './../../shared/Button';
 import strings, { validationStrings } from './../../shared/constant';
 import AddressListModal from './comps/addressListModal';
@@ -22,6 +19,7 @@ class Prescription extends React.Component {
         this.state = {
             loading: false,
             redirect: false,
+            files: [],
             images: [],
             mobileNumber: {
                 value: '',
@@ -45,17 +43,73 @@ class Prescription extends React.Component {
     }
 
     async _submit() {
-        let addr = null;
+        if (this.state.files.length === 0) {
+            toast(validationStrings.atleastOneFileRequired, { type: toast.TYPE.ERROR });
+            return;
+        }
+        if (!this.props.authenticated) {
+            if (!this.state.mobileNumber.value) {
+                this.setState(p => ({ ...p, mobileNumber: { ...p.mobileNumber, error: true, errorMessage: validationStrings.required } }));
+                return;
+            }
+            if (!validate.mobileNumber(this.state.mobileNumber.value)) {
+                this.setState(p => ({ ...p, mobileNumber: { ...p.mobileNumber, error: true, errorMessage: validationStrings.invalidMobileNumber } }));
+                return;
+            }
+        }
         this.setState(p => ({ ...p, loading: true }));
-
+        let add = await srvPrescription.add(this.state.mobileNumber.value, this.state.files);
+        this.setState(p => ({ ...p, loading: false }));
+        if (!add.success) {
+            toast(add.message, { type: toast.TYPE.ERROR });
+            return;
+        }
+        toast(strings.submitPrescriptionSuccessfully, { type: toast.TYPE.success });
         this.setState(p => ({ ...p, loading: false, redirect: '/selectDelivery' }));
 
     }
     _select() {
-        this.
+        this.uploader.click();
     }
-    _uploaderChanged() {
+    _uploaderChanged(event) {
+        let files = event.target.files;
 
+        if (files) {
+            if (this.state.files.length + files.length > 5) {
+                toast(validationStrings.maxFileCountExceeded(5), { type: toast.TYPE.ERROR });
+                return;
+            }
+            for (var i = 0; i < files.length; i++) {
+                let chk = this._checkFile(files[i]);
+                if (!chk.success) {
+                    toast(chk.message, { type: toast.TYPE.ERROR });
+                    break;
+                }
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    this.setState(p => ({ images: [...p.images, e.target.result] }));
+                }.bind(this);
+                reader.readAsDataURL(files[i]);
+            }
+            this.setState(p => ({ ...p, files: [...p.files, ...files] }));
+
+        }
+
+    }
+
+    _checkFile(file) {
+        console.log(file);
+        if (file.size > 1024 * 1024 * 5) return { success: false, message: validationStrings.maxFileSizeExceeded(5) };
+        else return { success: true };
+
+    }
+
+    _removeFile(idx) {
+        let images = this.state.images;
+        images.splice(idx, 1);
+        let files = this.state.files;
+        files.splice(idx, 1);
+        this.setState(p => ({ ...p, images: [...images], files: [...files] }));
     }
 
     render() {
@@ -65,69 +119,75 @@ class Prescription extends React.Component {
                 <Container>
                     <Row>
                         <Col xs={12}>
-                            <div className='card padding w-100'>
-                                <Row>
-                                    <Col xs={12}>
-                                        <input type='file' multiple
-                                            className='d-none' id='file'
-                                            ref={c => this.uploader = c}
-                                            onChange={this._uploaderChanged}
-                                            accept="image/*" />
-                                        <div className="form-group">
-                                            <button id='uplaoder' onClick={this._select.bind(this)}>
-                                                <i className='zmdi zmdi-cloud-upload'></i>
-                                                <span>{strings.prescription}</span>
-                                            </button>
-                                        </div>
-                                    </Col>
-                                    <Col xs={12}>
-                                        {this.state.images.map((image, idx) => (<div key={idx} className="uploaded-box">
-                                            <img src={image} />
-                                            <button onClick={() => this.removeFile(idx)}><i className="zmdi zmdi-close"></i></button>
-                                        </div>))}
-                                    </Col>
-                                    <Col xs={12}>
-                                        <div className="form-group">
-                                            <TextField
-                                                error={this.state.mobileNumber.error}
-                                                id="username"
-                                                label={strings.mobileNumber}
-                                                placeholder='9xxxxxxxxx'
-                                                value={this.state.mobileNumber.value}
-                                                onChange={this._inputChanged.bind(this)}
-                                                helperText={this.state.mobileNumber.errorMessage}
-                                                style={{ fontFamily: 'iransans' }}
-                                                variant="outlined"
-                                            />
-                                        </div>
+                            <div className='card w-100'>
+                                <Row className="ltr-elm">
+                                    <Col className='d-flex flex-column' xs={12} sm={12} md={{ span: 6, offset: 3 }} lg={{ span: 4, offset: 4 }}>
+                                        <Row>
+                                            <Col xs={12}>
+                                                <Alert className='text-center' variant='info'>{strings.prescriptionGuid}</Alert>
+                                            </Col>
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12} className="mb-15">
+                                                <input type='file' multiple
+                                                    className='d-none' id='file'
+                                                    ref={c => { this.uploader = c; }}
+                                                    onChange={this._uploaderChanged.bind(this)}
+                                                    accept="image/*" />
+                                                <button id='uploader' onClick={this._select.bind(this)}>
+                                                    <i className='zmdi zmdi-cloud-upload'></i>
+                                                    <span>{strings.prescriptionImage}</span>
+                                                </button>
+                                            </Col>
+                                            <Col xs={12} className="d-flex mb-15">
+                                                {this.state.images.map((image, idx) => (<div key={idx} className="uploaded-box">
+                                                    <img src={image} />
+                                                    <button onClick={() => this._removeFile(idx)}><i className="zmdi zmdi-close"></i></button>
+                                                </div>))}
+                                            </Col>
+                                            {this.props.authenticated ? null : <Col xs={12}>
+                                                <div className="form-group">
+                                                    <TextField
+                                                        error={this.state.mobileNumber.error}
+                                                        id="mobileNumber"
+                                                        label={strings.mobileNumber}
+                                                        placeholder='9xxxxxxxxx'
+                                                        value={this.state.mobileNumber.value}
+                                                        onChange={this._inputChanged.bind(this)}
+                                                        helperText={this.state.mobileNumber.errorMessage}
+                                                        style={{ fontFamily: 'iransans' }}
+                                                        variant="outlined"
+                                                    />
+                                                </div>
+                                            </Col>}
+
+                                        </Row>
+                                        <Row>
+                                            <Col xs={12} sm={12} className='d-flex justify-content-center'>
+                                                <Button className='btn-next' onClick={this._submit.bind(this)} loading={this.state.loading}>
+                                                    {strings.send}
+                                                </Button>
+                                            </Col>
+                                        </Row>
                                     </Col>
                                 </Row>
-                                <Row>
-                                    <Col xs={12} sm={12} className='d-flex justify-content-end'>
-                                        <Button onClick={this._submit.bind(this)} loading={this.state.loading}>
-                                            {strings.continuePurchase}
-                                        </Button>
-                                    </Col>
-                                </Row>
+
                             </div>
                         </Col>
                     </Row>
 
                 </Container>
-                <AddressListModal ref={(comp) => this.modal = comp} onChange={this._selectAddress.bind(this)} />
             </div >
         );
     }
 
 }
-const mapStateToProps = state => {
-    return { ...state.authReducer, ...state.mapReducer, ...state.basketReducer };
+const mapStateToProps = (state, ownProps) => {
+    return { ...ownProps, ...state.authReducer };
 }
 
 const mapDispatchToProps = dispatch => ({
-    hideInitError: () => dispatch(HideInitErrorAction()),
-    showInitError: (fetchData, message) => dispatch(ShowInitErrorAction(fetchData, message)),
-    setAddress: (addr) => dispatch(SetAddrssAction(addr))
+    hideInitError: () => dispatch(HideInitErrorAction())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectAddress);
+export default connect(mapStateToProps, mapDispatchToProps)(Prescription);

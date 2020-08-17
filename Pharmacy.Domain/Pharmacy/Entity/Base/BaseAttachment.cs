@@ -8,6 +8,9 @@ namespace Pharmacy.Domain
 {
     public class BaseAttachment
     {
+        [NotMapped]
+        public object AttachmentId { get; set; }
+
         [Display(Name = nameof(Strings.FileType), ResourceType = typeof(Strings))]
         public FileType FileType { get; set; }
 

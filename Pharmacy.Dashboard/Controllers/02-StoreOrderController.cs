@@ -17,9 +17,9 @@ namespace Pharmacy.Dashboard.Controllers
     public partial class StoreOrderController : Controller
     {
         private readonly IOrderService _OrderSrv;
-        private readonly IStoreService _storeSrv;
+        private readonly IDrugStoreService _storeSrv;
 
-        public StoreOrderController(IOrderService OrderSrv, IStoreService storeSrv)
+        public StoreOrderController(IOrderService OrderSrv, IDrugStoreService storeSrv)
         {
             _OrderSrv = OrderSrv;
             _storeSrv = storeSrv;
@@ -28,15 +28,13 @@ namespace Pharmacy.Dashboard.Controllers
         [NonAction]
         private IEnumerable<SelectListItem> GetStores() => _storeSrv.GetAll(User.GetUserId()).Select(x => new SelectListItem
         {
-            Text = x.FullName,
-            Value = x.StoreId.ToString()
+            Text = x.User.FullName,
+            Value = x.DrugStoreId.ToString()
         }).ToList();
 
         [HttpGet]
         public virtual async Task<JsonResult> Update(int id)
         {
-            var chk = await _OrderSrv.CheckOwner(User.GetUserId(), id);
-            if (!chk) return Json(new Modal { IsSuccessful = false, Message = Strings.RecordNotFound });
             var findRep = await _OrderSrv.FindAsync(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Order) });
             return Json(new Modal
@@ -52,8 +50,6 @@ namespace Pharmacy.Dashboard.Controllers
         [HttpPost]
         public virtual async Task<JsonResult> Update(Order model)
         {
-            var chk = await _OrderSrv.CheckOwner(User.GetUserId(), model.OrderId);
-            if (!chk) return Json(new { IsSuccessful = false, Message = Strings.RecordNotFound });
             return Json(await _OrderSrv.UpdateStatusAsync(model.OrderId, model.OrderStatus));
         }
 

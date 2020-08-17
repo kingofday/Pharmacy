@@ -23,6 +23,7 @@ export default class srvAuth {
 
     static removeUserInfo() {
         localStorage.removeItem('user');
+        console.log('removed');
     }
     static async signIn(model) {
         let rep = await userApi.signIn(model);

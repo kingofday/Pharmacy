@@ -15,8 +15,6 @@ const getInitilState = () => {
             fullname: '', 
         };
     }
-
-
     let rep = srvAuth.getUserInfo();
     if (rep.success)
         return {
@@ -74,7 +72,7 @@ const authReducer = (state = getInitilState(), action) => {
             };
         default:
             state.goToNextPage = false;
-            return state;
+            return {...state};
     }
 };
 

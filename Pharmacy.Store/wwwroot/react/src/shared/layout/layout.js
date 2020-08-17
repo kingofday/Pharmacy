@@ -26,6 +26,7 @@ import SelectAddress from '../../routes/selectAddress';
 import SelectLocation from '../../routes/selectLocation';
 import SelectDelivery from '../../routes/selectDelivery';
 import Review from './../../routes/review';
+import Prescription from './../../routes/prescription';
 // import CompleteInfo from '../../routes/completeInformation';
 
 
@@ -46,6 +47,7 @@ class Layout extends React.Component {
                     <AuthRouter path="/selectLocation" component={SelectLocation}/>
                     <AuthRouter path="/selectDelivery" component={SelectDelivery}/>
                     <AuthRouter path="/review" component={Review}/>
+                    <Route exact path="/prescription" component={Prescription} />
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />

@@ -1,13 +1,12 @@
-﻿@model Store
+﻿@model DrugStore
 @{
     Layout = null;
-    var haveLogo = !string.IsNullOrWhiteSpace(Model.ProfilePictureUrl);
 }
-<form asp-action="@(Model.StoreId==0?"Add":"Update")" asp-controller="Store" id="frm-product">
-    @Html.HiddenFor(x => x.StoreId)
+<form asp-action="@(Model.DrugStoreId==0?"Add":"Update")" asp-controller="Store" id="frm-product">
+    @Html.HiddenFor(x => x.DrugStoreId)
     @Html.HiddenFor(x => x.Address.Longitude)
     @Html.HiddenFor(x => x.Address.Latitude)
-    <div class="row m-b">
+    @*<div class="row m-b">
         <div class="col-12 d-flex justify-content-center align-items-center">
             <div class="single-uploader @(haveLogo?"uploaded":"")">
                 <div class="uploader">
@@ -23,50 +22,17 @@
                 <label>لوگو</label>
             </div>
         </div>
+    </div>*@
+    <div class="row">
+
     </div>
     <div class="row">
 
-        <div class="col-12 col-sm-6">
-            <custom-select-for for="StoreType" items="EnumExtension.GetEnumElements<StoreType>().Select(x=>new SelectListItem {
-                 Text = x.Description,
-                 Value = x.Name
-                 }).ToList()" />
-        </div>
-        <div class="col-12 col-sm-6">
-            <custom-select-for for="StoreType" items="EnumExtension.GetEnumElements<StoreType>().Select(x=>new SelectListItem {
-                 Text = x.Description,
-                 Value = x.Name
-                 }).ToList()" />
-        </div>
-    </div>
-    <div class="row">
-
-        <div class="col-12 col-sm-4">
-            <custom-input-for for="FullName" />
-        </div>
-        <div class="col-12 col-sm-4">
-            <custom-input-for for="Username" class="form-control ltr-elm" />
-        </div>
         <div class="col-12 col-sm-4">
             <custom-checkbox-for for="IsActive" wrapper-class="chb-group"></custom-checkbox-for>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12 col-sm-4">
-            <custom-input-for for="FolowerCount" class="form-control ltr-elm" />
-        </div>
-        <div class="col-12 col-sm-4">
-            <custom-input-for for="FolowingCount" class="form-control ltr-elm" />
-        </div>
-        <div class="col-12 col-sm-4">
-            <custom-input-for for="ProductCount" class="form-control ltr-elm" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <custom-input-for for="PharmacyUrl" class="form-control ltr-elm" />
-        </div>
-    </div>
+
     <label>@Strings.Location:</label>
     <div class="row m-b">
         <div class="col-12">
@@ -75,7 +41,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <custom-textarea-for for="Address.AddressDetails" />
+            <custom-textarea-for for="Address.Details" />
         </div>
     </div>
     <div class="custom-modal-footer">

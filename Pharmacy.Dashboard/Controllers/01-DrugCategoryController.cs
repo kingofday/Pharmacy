@@ -12,30 +12,30 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Pharmacy.Dashboard.Controllers
 {
-    public class ProductCategoryController : Controller
+    public class DrugCategoryController : Controller
     {
         private readonly IDrugCategoryService _productCatSrv;
 
-        public ProductCategoryController(IDrugCategoryService productCategorySrv)
+        public DrugCategoryController(IDrugCategoryService DrugCategorySrv)
         {
-            _productCatSrv = productCategorySrv;
+            _productCatSrv = DrugCategorySrv;
         }
 
         [NonAction]
-        private void GetAddPartial() => ViewBag.EntityPartial = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new ProductCategory());
+        private void GetAddPartial() => ViewBag.EntityPartial = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new DrugCategory());
 
         [HttpGet]
-        public virtual ActionResult Manage(ProductCategorySearchFilter filter)
+        public virtual ActionResult Manage(DrugCategorySearchFilter filter)
         {
             GetAddPartial();
-            ViewBag.EntityPartial = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new ProductCategory());
+            ViewBag.EntityPartial = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new DrugCategory());
             return View(_productCatSrv.GetAll(filter));
         }
 
 
 
         [HttpPost]
-        public virtual async Task<JsonResult> Add(ProductCategory model)
+        public virtual async Task<JsonResult> Add(DrugCategory model)
         {
             GetAddPartial();
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
@@ -44,7 +44,7 @@ namespace Pharmacy.Dashboard.Controllers
             return Json(new Response<string>
             {
                 IsSuccessful = true,
-                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_List", _productCatSrv.GetAll(new ProductCategorySearchFilter()))
+                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_List", _productCatSrv.GetAll(new DrugCategorySearchFilter()))
             });
         }
 
@@ -52,7 +52,7 @@ namespace Pharmacy.Dashboard.Controllers
         public virtual async Task<JsonResult> Update(int id)
         {
             var findProduct = await _productCatSrv.FindAsync(id);
-            if (!findProduct.IsSuccessful) return Json(new Response<string> { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Product) });
+            if (!findProduct.IsSuccessful) return Json(new Response<string> { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Drug) });
             return Json(new Response<string>
             {
                 IsSuccessful = true,
@@ -61,7 +61,7 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Update(ProductCategory model)
+        public virtual async Task<JsonResult> Update(DrugCategory model)
         {
             GetAddPartial();
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
@@ -71,7 +71,7 @@ namespace Pharmacy.Dashboard.Controllers
             return Json(new
             {
                 IsSuccessful = true,
-                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_List", _productCatSrv.GetAll(new ProductCategorySearchFilter()))
+                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_List", _productCatSrv.GetAll(new DrugCategorySearchFilter()))
             });
         }
 
@@ -84,7 +84,7 @@ namespace Pharmacy.Dashboard.Controllers
             return Json(new
             {
                 IsSuccessful = true,
-                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_List", _productCatSrv.GetAll(new ProductCategorySearchFilter()))
+                Result = await ControllerExtension.RenderViewToStringAsync(this, "Partials/_List", _productCatSrv.GetAll(new DrugCategorySearchFilter()))
             });
         }
 

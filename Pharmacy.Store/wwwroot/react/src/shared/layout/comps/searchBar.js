@@ -20,7 +20,7 @@ class SearchBar extends React.Component {
                 <Container>
                     <Row>
                         <Col sm={6} className='prescript-wrapper d-none d-sm-flex'>
-                            <Link to='/prescript'>
+                            <Link to='/prescription'>
                                 <img src={prescriptImage} alt='pharmacy logo' />
                             </Link>
                         </Col>

@@ -1,10 +1,10 @@
-@model ProductCategory
+@model DrugCategory
 @{
     Layout = null;
 }
-<form class="frm-category" asp-action='@(Model.ProductCategoryId==0?"Add":"Update")' asp-controller="ProductCategory">
-    @Html.HiddenFor(x => x.ProductCategoryId)
-    @if (Model.ProductCategoryId == 0)
+<form class="frm-category" asp-action='@(Model.DrugCategoryId==0?"Add":"Update")' asp-controller="DrugCategory">
+    @Html.HiddenFor(x => x.DrugCategoryId)
+    @if (Model.DrugCategoryId == 0)
     {
         <input type="hidden" id="@nameof(Model.ParentId)" name="@nameof(Model.ParentId)" value="##ParentId##" />
     }

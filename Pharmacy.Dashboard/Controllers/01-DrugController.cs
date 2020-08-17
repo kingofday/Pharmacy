@@ -17,26 +17,26 @@ using System.Linq;
 namespace Pharmacy.Dashboard.Controllers
 {
     //[AuthorizationFilter]
-    public class ProductController : Controller
+    public class DrugController : Controller
     {
-        private readonly IDrugService _productSrv;
+        private readonly IDrugService _DrugSrv;
         private readonly IConfiguration _configuration;
-        private readonly IDrugCategoryService _productCategorySrv;
-        public ProductController(IDrugService productSrv, IConfiguration configuration, IDrugCategoryService productCategorySrv)
+        private readonly IDrugCategoryService _DrugCategorySrv;
+        public DrugController(IDrugService DrugSrv, IConfiguration configuration, IDrugCategoryService DrugCategorySrv)
         {
-            _productSrv = productSrv;
+            _DrugSrv = DrugSrv;
             _configuration = configuration;
-            _productCategorySrv = productCategorySrv;
+            _DrugCategorySrv = DrugCategorySrv;
         }
 
         [NonAction]
         private List<SelectListItem> GetCategories()
         {
-            var categories = _productCategorySrv.Get(new ProductCategorySearchFilter());
+            var categories = _DrugCategorySrv.Get(new DrugCategorySearchFilter());
             if (categories.Items == null) return new List<SelectListItem>();
             return categories.Items.Select(x => new SelectListItem
             {
-                Value = x.ProductCategoryId.ToString(),
+                Value = x.DrugCategoryId.ToString(),
                 Text = x.Name
             }).ToList();
         }
@@ -48,61 +48,61 @@ namespace Pharmacy.Dashboard.Controllers
 
             return Json(new Modal
             {
-                Title = $"{Strings.Add} {DomainString.Product}",
-                Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new Product()),
+                Title = $"{Strings.Add} {DomainString.Drug}",
+                Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new Drug()),
                 AutoSubmit = false
             });
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Add([FromServices]IWebHostEnvironment env, ProductAddModel model)
+        public virtual async Task<JsonResult> Add([FromServices]IWebHostEnvironment env, DrugAddModel model)
         {
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
             model.BaseDomain = _configuration["CustomSettings:BaseUrl"];
             model.Root = env.WebRootPath;
-            var add = await _productSrv.AddAsync(model);
+            var add = await _DrugSrv.AddAsync(model);
             return Json(new { add.IsSuccessful, add.Message });
         }
 
         [HttpGet]
         public virtual async Task<JsonResult> Update(int id)
         {
-            var findRep = await _productSrv.FindAsync(id);
+            var findRep = await _DrugSrv.FindAsync(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.NotFound });
             ViewBag.Categories = GetCategories();
             return Json(new Modal
             {
-                Title = $"{Strings.Update} {DomainString.Product}",
+                Title = $"{Strings.Update} {DomainString.Drug}",
                 AutoSubmitBtnText = Strings.Edit,
                 Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", findRep.Result),
                 AutoSubmit = false
             });
         }
         [HttpPost]
-        public virtual async Task<JsonResult> Update([FromServices]IWebHostEnvironment env, ProductAddModel model)
+        public virtual async Task<JsonResult> Update([FromServices]IWebHostEnvironment env, DrugAddModel model)
         {
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
             model.BaseDomain = _configuration["CustomSettings:BaseUrl"];
             model.Root = env.WebRootPath;
-            var update = await _productSrv.UpdateAsync(model);
+            var update = await _DrugSrv.UpdateAsync(model);
             return Json(new { update.IsSuccessful, update.Message });
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Delete([FromServices]IWebHostEnvironment env, int id) => Json(await _productSrv.DeleteAsync(_configuration["CustomSettings:BaseUrl"], env.WebRootPath, id));
+        public virtual async Task<JsonResult> Delete([FromServices]IWebHostEnvironment env, int id) => Json(await _DrugSrv.DeleteAsync(_configuration["CustomSettings:BaseUrl"], env.WebRootPath, id));
 
 
         [HttpGet]
-        public virtual ActionResult Manage(ProductSearchFilter filter)
+        public virtual ActionResult Manage(DrugSearchFilter filter)
         {
-            if (!Request.IsAjaxRequest()) return View(_productSrv.Get(filter));
-            else return PartialView("Partials/_List", _productSrv.Get(filter));
+            if (!Request.IsAjaxRequest()) return View(_DrugSrv.Get(filter));
+            else return PartialView("Partials/_List", _DrugSrv.Get(filter));
         }
 
-        [HttpPost, AuthEqualTo("Product", "Delete")]
-        public virtual async Task<JsonResult> DeleteAsset([FromServices]IProductAssetService productAssetSerive, int assetId) => Json(await productAssetSerive.DeleteAsync(assetId));
-        //[HttpGet, AuthEqualTo("ProductInRole", "Add")]
+        [HttpPost, AuthEqualTo("Drug", "Delete")]
+        public virtual async Task<JsonResult> DeleteAsset([FromServices]IDrugAssetService DrugAssetSerive, int assetId) => Json(await DrugAssetSerive.DeleteAsync(assetId));
+        //[HttpGet, AuthEqualTo("DrugInRole", "Add")]
         //public virtual JsonResult Search(string q)
-        //    => Json(_productSrv.Search(q).ToSelectListItems());
+        //    => Json(_DrugSrv.Search(q).ToSelectListItems());
     }
 }

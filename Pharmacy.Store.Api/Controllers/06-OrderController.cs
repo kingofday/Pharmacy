@@ -74,7 +74,7 @@ namespace Pharmacy.API.Controllers
                     OrderId = addOrder.Result.Order.OrderId,
                     Url = createTrans.Result.GatewayUrl,
                     BasketChanged = addOrder.Result.IsChanged,
-                    Drugs = addOrder.Result.Order.OrderDetails.Select(x => new DrugDTO
+                    Drugs = addOrder.Result.Order.OrderItems.Select(x => new DrugDTO
                     {
                         DrugId = x.DrugId,
                         DiscountPrice = x.DiscountPrice,

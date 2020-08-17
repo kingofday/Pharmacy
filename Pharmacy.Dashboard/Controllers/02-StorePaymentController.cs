@@ -17,9 +17,9 @@ namespace Pharmacy.Dashboard.Controllers
     public partial class StorePaymentController : Controller
     {
         private readonly IPaymentService _paymentSrv;
-        private readonly IStoreService _storeSrv;
+        private readonly IDrugStoreService _storeSrv;
 
-        public StorePaymentController(IPaymentService paymentSrv, IStoreService storeSrv)
+        public StorePaymentController(IPaymentService paymentSrv, IDrugStoreService storeSrv)
         {
             _paymentSrv = paymentSrv;
             _storeSrv = storeSrv;
@@ -28,8 +28,8 @@ namespace Pharmacy.Dashboard.Controllers
         [NonAction]
         private IEnumerable<SelectListItem> GetStores() => _storeSrv.GetAll(User.GetUserId()).Select(x => new SelectListItem
         {
-            Text = x.FullName,
-            Value = x.StoreId.ToString()
+            Text = x.User.FullName,
+            Value = x.DrugStoreId.ToString()
         }).ToList();
 
         [HttpGet, AuthEqualTo("StorePayment", "Manage")]

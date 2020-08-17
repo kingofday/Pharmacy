@@ -5,15 +5,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    public class StoreUpdateModel
+    public class DrugStoreUpdateModel
     {
-        public int StoreId { get; set; }
+        public int DrugStoreId { get; set; }
 
         [Display(Name = nameof(Strings.IsActive), ResourceType = typeof(Strings))]
         public bool IsActive { get; set; }
         public string Root { get; set; }
         public IFormFile Logo { get; set; }
-        public string BaseDomain { get; set; }
+        public string AppDir { get; set; }
 
         [NotMapped]
         public DrugStoreAddress Address { get; set; }

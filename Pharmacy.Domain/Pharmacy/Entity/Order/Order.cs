@@ -97,7 +97,7 @@ namespace Pharmacy.Domain
         //public DeliveryDetail Delivery => DeliveryDetailJson.DeSerializeJson<DeliveryDetail>();
 
         [Display(Name = nameof(Strings.OrderDetails), ResourceType = typeof(Strings))]
-        public List<OrderItem> OrderDetails { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
 
         [Display(Name = nameof(Strings.Payments), ResourceType = typeof(Strings))]
         public List<Payment> Payments { get; set; }

@@ -15,6 +15,7 @@ const addr = {
     addAddress: `${baseUrl}Address`,
     updateAddress: `${baseUrl}Address`,
     getDeliveries: `${baseUrl}DeliveryProvider`,
-    addOrder: `${baseUrl}Order`
+    addOrder: `${baseUrl}Order`,
+    addPrescription: `${baseUrl}Prescription`
 }
 export default addr;

@@ -1,4 +1,4 @@
-﻿@model List<ProductCategory>
+﻿@model List<DrugCategory>
 @using Microsoft.AspNetCore.Http
 @using Elk.Http
 @inject IHttpContextAccessor _httpContextAccessor
@@ -8,11 +8,11 @@
              add-text="@Strings.Add"
              edit-text="@Strings.Edit"
              search-text="@Strings.Search"
-             edit-url="@Url.Action("Update","ProductCategory")"
+             edit-url="@Url.Action("Update","DrugCategory")"
              delete-text="@Strings.Delete"
-             delete-url="@Url.Action("delete","ProductCategory")"
+             delete-url="@Url.Action("delete","DrugCategory")"
              items="Model.Select(x=>new NestedItem {
-                        Id = x.ProductCategoryId,
+                        Id = x.DrugCategoryId,
                         Name = x.Name,
                         OrderPrority = x.OrderPriority,
                         ParentId =x.ParentId

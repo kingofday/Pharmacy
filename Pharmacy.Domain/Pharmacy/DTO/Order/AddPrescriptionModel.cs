@@ -16,7 +16,6 @@ namespace Pharmacy.Domain
 
         [RegularExpression(@"^0?9\d{9}$", ErrorMessageResourceName = nameof(ErrorMessage.InvalidMobileNumber), ErrorMessageResourceType = typeof(ErrorMessage))]
         [Display(Name = nameof(Strings.MobileNumber), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage), AllowEmptyStrings = false)]
         public string MobileNumber { get; set; }
     }
 }

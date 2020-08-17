@@ -1,21 +1,13 @@
-﻿@model StoreUpdateModel
+﻿@model DrugStoreUpdateModel
 @{
     Layout = null;
-    var haveLogo = !string.IsNullOrWhiteSpace(Model.ProfilePictureUrl);
 }
-<form asp-action="@(Model.StoreId==0?"Add":"Update")" asp-controller="StoreStore" id="frm-product">
-    @Html.HiddenFor(x => x.StoreId)
+<form asp-action="@(Model.DrugStoreId==0?"Add":"Update")" asp-controller="StoreStore" id="frm-product">
+    @Html.HiddenFor(x => x.DrugStoreId)
     @Html.HiddenFor(x => x.Address.Longitude)
     @Html.HiddenFor(x => x.Address.Latitude)
-    @if (Model.IsActive && !string.IsNullOrEmpty(Model.PharmacyUrl))
-    {
-        <div class="row">
-            <div class="col-12">
-                <p class="alert alert-success">@Html.DisplayNameFor(x => x.PharmacyUrl):@Model.PharmacyUrl <i data-value="@Model.PharmacyUrl" class="copy-value default-i zmdi zmdi-copy"></i></p>
-            </div>
-        </div>
-    }
-    <div class="row m-b">
+
+    @*<div class="row m-b">
         <div class="col-12 d-flex justify-content-center align-items-center">
             <div class="single-uploader @(haveLogo?"uploaded":"")">
                 <div class="uploader">
@@ -31,16 +23,8 @@
                 <label>لوگو</label>
             </div>
         </div>
-    </div>
-    <div class="row">
+    </div>*@
 
-        <div class="col-12 col-sm-6">
-            <custom-input-for for="FullName" />
-        </div>
-        <div class="col-12 col-sm-6">
-            <custom-input-for for="Username" class="form-control ltr-elm" />
-        </div>
-    </div>
     <label>@Strings.Location:</label>
     <div class="row m-b">
         <div class="col-12">
@@ -49,7 +33,7 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <custom-textarea-for for="Address.AddressDetails" />
+            <custom-textarea-for for="Address.Details" />
         </div>
     </div>
     <div class="custom-modal-footer">

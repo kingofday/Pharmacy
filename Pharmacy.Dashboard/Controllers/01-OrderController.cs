@@ -14,9 +14,9 @@ namespace Pharmacy.Dashboard.Controllers
     public partial class OrderController : Controller
     {
         private readonly IOrderService _OrderSrv;
-        private readonly IStoreService _storeSrv;
+        private readonly IDrugStoreService _storeSrv;
 
-        public OrderController(IOrderService OrderSrv, IStoreService storeSrv)
+        public OrderController(IOrderService OrderSrv, IDrugStoreService storeSrv)
         {
             _OrderSrv = OrderSrv;
             _storeSrv = storeSrv;

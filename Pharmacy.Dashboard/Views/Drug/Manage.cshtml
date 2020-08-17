@@ -1,6 +1,6 @@
-@model PagingListDetails<Product>
+@model PagingListDetails<Drug>
 @{
-    ViewBag.Title = $"{Strings.Management} {DomainStrings.Product}";
+    ViewBag.Title = $"{Strings.Management} {DomainStrings.Drug}";
     Layout = "_LayoutManage";
 }
 @section styles{
@@ -9,7 +9,7 @@
 }
 
 @section filter{
-    <partial name="Partials/_Filters" model="new ProductSearchFilter()" />
+    <partial name="Partials/_Filters" model="new DrugSearchFilter()" />
 }
 <partial name="Partials/_List" model="@Model" />
 @section scripts{

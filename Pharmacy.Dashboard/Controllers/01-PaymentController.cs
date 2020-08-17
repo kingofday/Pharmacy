@@ -17,9 +17,9 @@ namespace Pharmacy.Dashboard.Controllers
     public partial class PaymentController : Controller
     {
         private readonly IPaymentService _paymentSrv;
-        private readonly IStoreService _storeSrv;
+        private readonly IDrugStoreService _storeSrv;
 
-        public PaymentController(IPaymentService paymentSrv, IStoreService storeSrv)
+        public PaymentController(IPaymentService paymentSrv, IDrugStoreService storeSrv)
         {
             _paymentSrv = paymentSrv;
             _storeSrv = storeSrv;
