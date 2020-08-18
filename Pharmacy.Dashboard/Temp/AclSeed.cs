@@ -97,7 +97,7 @@ namespace Pharmacy.Dashboard
                 FullName = "مدیر سیستم",
                 Email = "admin@hillavas.com",
                 Password = HashGenerator.Hash("@dmin"),
-                MobileNumber = 91212345678,
+                MobileNumber = 9121234567,
                 LastLoginDateSh = "1397/06/04",
                 LastLoginDateMi = new DateTime(2018, 8, 26),
                 InsertDateSh = "1397/06/04",

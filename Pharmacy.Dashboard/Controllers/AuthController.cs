@@ -1,21 +1,16 @@
-using System;
 using Elk.Core;
-using Pharmacy.Domain;
-using Pharmacy.Service;
-using Elk.AspNetCore.Mvc;
-using System.Threading.Tasks;
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
-using Pharmacy.Dashboard.Resources;
-using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Pharmacy.DataAccess.Ef;
 using Elk.AspNetCore;
 using Elk.Cache;
+using Pharmacy.Domain;
+using Pharmacy.Service;
+using Pharmacy.DataAccess.Ef;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Pharmacy.InfraStructure;
+using Microsoft.AspNetCore.Http;
+using Pharmacy.Dashboard.Resources;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.Extensions.Configuration;
 
 namespace Pharmacy.Dashboard.Controllers
 {
@@ -27,21 +22,23 @@ namespace Pharmacy.Dashboard.Controllers
         private const string UrlPrefixKey = "CustomSettings:UrlPrefix";
 
         private readonly AuthDbContext _db;
+        private readonly AppDbContext _appDb;
 
         public AuthController(IHttpContextAccessor httpAccessor, IConfiguration configuration,
-            IUserService userSrv, AuthDbContext db) : base(httpAccessor)
+            IUserService userSrv, AuthDbContext db, AppDbContext appDb) : base(httpAccessor)
         {
             _userSrv = userSrv;
             _config = configuration;
             _httpAccessor = httpAccessor;
             _db = db;
+            _appDb = appDb;
         }
 
 
         [HttpGet]
         public virtual async Task<ActionResult> SignIn()
         {
-            //var t = new AclSeed(_db);
+            //var t = new AclSeed(_db, _appDb);
             //var rep = t.Init();
 
             if (User.Identity.IsAuthenticated)

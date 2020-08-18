@@ -24,8 +24,8 @@ namespace Pharmacy.Service
         {
             await _authUow.RoleRepo.AddAsync(model);
 
-            var saveResult = _authUow.ElkSaveChangesAsync();
-            return new Response<Role> { Result = model, IsSuccessful = saveResult.Result.IsSuccessful, Message = saveResult.Result.Message };
+            var saveResult = await _authUow.ElkSaveChangesAsync();
+            return new Response<Role> { Result = model, IsSuccessful = saveResult.IsSuccessful, Message = saveResult.Message };
         }
 
         public async Task<IResponse<Role>> UpdateAsync(Role model)
@@ -37,8 +37,8 @@ namespace Pharmacy.Service
             findedRole.RoleNameFa = model.RoleNameFa;
             findedRole.RoleNameEn = model.RoleNameEn;
 
-            var saveResult = _authUow.ElkSaveChangesAsync();
-            return new Response<Role> { Result = findedRole, IsSuccessful = saveResult.Result.IsSuccessful, Message = saveResult.Result.Message };
+            var saveResult = await _authUow.ElkSaveChangesAsync();
+            return new Response<Role> { Result = findedRole, IsSuccessful = saveResult.IsSuccessful, Message = saveResult.Message };
         }
 
         public async Task<IResponse<bool>> DeleteAsync(int roleId)
@@ -72,7 +72,12 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.RoleNameEn.Contains(filter.RoleNameEnF));
             }
 
-            return _authUow.RoleRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.RoleId));
+            return _authUow.RoleRepo.Get(new BasePagedListFilterModel<Role>
+            {
+                Conditions = conditions,
+                PagingParameter = filter,
+                OrderBy = x => x.OrderByDescending(i => i.RoleId)
+            });
         }
     }
 }

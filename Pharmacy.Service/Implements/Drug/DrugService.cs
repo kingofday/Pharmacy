@@ -14,16 +14,16 @@ namespace Pharmacy.Service
     public class DrugService : IDrugService
     {
         readonly AppUnitOfWork _appUow;
-        readonly IDrugAssetService _DrugAssetService;
+        readonly IAttachmentService _attchService;
         readonly IConfiguration _configuration;
         readonly IDrugRepo _drugRepo;
         public DrugService(AppUnitOfWork appUOW,
-            IDrugAssetService DrugAssetService,
+            IAttachmentService DrugAssetService,
             IConfiguration configuration)
         {
             _appUow = appUOW;
             _drugRepo = appUOW.DrugRepo;
-            _DrugAssetService = DrugAssetService;
+            _attchService = DrugAssetService;
             _configuration = configuration;
         }
 
@@ -33,12 +33,18 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Drug>> FindAsync(int id)
         {
-            var drug = await _drugRepo.FirstOrDefaultAsync(conditions: x => x.DrugId == id);
+            var drug = await _drugRepo.FirstOrDefaultAsync(new BaseFilterModel<Drug>
+            {
+                Conditions = x => x.DrugId == id,
+                IncludeProperties = new List<Expression<Func<Drug, object>>> { x => x.DrugAssets }
+            });
             if (drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
-            drug.DrugTags = _appUow.DrugTagRepo.Get(conditions: x => x.DrugId == id,
-                o => o.OrderByDescending(x => x.DrugTagId)
-            , includeProperties: new List<Expression<Func<DrugTag, object>>> {
-                x=>x.Tag
+            drug.DrugTags = _appUow.DrugTagRepo.Get(new BaseListFilterModel<DrugTag>
+                {
+                    Conditions = x => x.DrugId == id,
+                    OrderBy = o => o.OrderByDescending(x => x.DrugTagId)
+                ,
+                IncludeProperties = new List<Expression<Func<DrugTag, object>>> { x => x.Tag }
             });
             return new Response<Drug>
             {
@@ -69,24 +75,23 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Drug>> AddAsync(DrugAddModel model)
         {
-            var Drug = new Drug().CopyFrom(model);
+            var drug = new Drug().CopyFrom(model);
             if (model.TagIds != null && model.TagIds.Any())
-                Drug.DrugTags = new List<DrugTag>(model.TagIds.Select(x => new DrugTag { TagId = x }));
+                drug.DrugTags = new List<DrugTag>(model.TagIds.Select(x => new DrugTag { TagId = x }));
             if (model.Files != null && model.Files.Count != 0)
             {
-                var getAssets = await _DrugAssetService.SaveRange(model);
-                if (!getAssets.IsSuccessful) return new Response<Drug> { Message = getAssets.Message };
-                Drug.DrugAssets = getAssets.Result;
-                await _drugRepo.AddAsync(Drug);
+                var save = await _attchService.Save(AttachmentType.DrugThumbnailImage, model.Files, model.AppDir);
+                if (!save.IsSuccessful) return new Response<Drug> { Message = save.Message };
+                drug.DrugAssets = save.Result.Select(x => new DrugAsset().CopyFrom(x)).ToList();
+                await _drugRepo.AddAsync(drug);
                 var add = await _appUow.ElkSaveChangesAsync();
-                if (!add.IsSuccessful) _DrugAssetService.DeleteRange(getAssets.Result);
-                return new Response<Drug> { Result = Drug, IsSuccessful = add.IsSuccessful, Message = add.Message };
+                return new Response<Drug> { Result = drug, IsSuccessful = add.IsSuccessful, Message = add.Message };
             }
             else
             {
-                await _drugRepo.AddAsync(Drug);
+                await _drugRepo.AddAsync(drug);
                 var add = await _appUow.ElkSaveChangesAsync();
-                return new Response<Drug> { Result = Drug, IsSuccessful = add.IsSuccessful, Message = add.Message };
+                return new Response<Drug> { Result = drug, IsSuccessful = add.IsSuccessful, Message = add.Message };
             }
         }
 
@@ -100,47 +105,48 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Drug>> UpdateAsync(DrugAddModel model)
         {
-            var Drug = await _drugRepo.FindAsync(model.DrugId);
-            if (Drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
-            Drug.NameFa = model.NameFa;
-            Drug.NameEn = model.NameEn;
-            Drug.IsActive = model.IsActive;
-            Drug.Description = model.Description;
-            Drug.DrugCategoryId = model.DrugCategoryId;
+            var drug = await _drugRepo.FindAsync(model.DrugId);
+            if (drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
+            drug.NameFa = model.NameFa;
+            drug.NameEn = model.NameEn;
+            drug.IsActive = model.IsActive;
+            drug.Description = model.Description;
+            drug.DrugCategoryId = model.DrugCategoryId;
             #region Tags
             if (model.TagIds == null) model.TagIds = new List<int>();
             var tags = _appUow.DrugTagRepo.Get(conditions: x => x.DrugId == model.DrugId, orderBy: o => o.OrderByDescending(x => x.DrugTagId));
             _appUow.DrugTagRepo.DeleteRange(tags.Where(x => !model.TagIds.Contains(x.TagId)).ToList());
             var ttt = model.TagIds.Where(x => !tags.Select(t => t.TagId).Contains(x)).ToList();
             if (model.TagIds != null && model.TagIds.Any())
-                Drug.DrugTags = new List<DrugTag>(model.TagIds.Where(x => !tags.Select(t => t.TagId).Contains(x)).Select(x => new DrugTag { TagId = x }));
+                drug.DrugTags = new List<DrugTag>(model.TagIds.Where(x => !tags.Select(t => t.TagId).Contains(x)).Select(x => new DrugTag { TagId = x }));
             #endregion
-            
-            _drugRepo.Update(Drug);
+
+            _drugRepo.Update(drug);
             if (model.Files != null && model.Files.Count != 0)
             {
-                var getAssets = await _DrugAssetService.SaveRange(model);
-                if (!getAssets.IsSuccessful) return new Response<Drug> { Message = getAssets.Message };
-                foreach (var asset in getAssets.Result) asset.DrugId = model.DrugId;
-                await _appUow.DrugAssetRepo.AddRangeAsync(getAssets.Result);
+                var save = await _attchService.Save(AttachmentType.DrugThumbnailImage, model.Files, model.AppDir);
+                if (!save.IsSuccessful) return new Response<Drug> { Message = save.Message };
+                //foreach (var asset in getAssets.Result) asset.DrugId = model.DrugId;
+                //await _appUow.DrugAssetRepo.AddRangeAsync(getAssets.Result);
+                drug.DrugAssets = save.Result.Select(x => new DrugAsset().CopyFrom(x)).ToList();
                 var update = await _appUow.ElkSaveChangesAsync();
-                if (!update.IsSuccessful) _DrugAssetService.DeleteRange(getAssets.Result);
-                return new Response<Drug> { Result = Drug, IsSuccessful = update.IsSuccessful, Message = update.Message };
+                if (!update.IsSuccessful) _attchService.DeleteRange(model.AppDir, save.Result);
+                return new Response<Drug> { Result = drug, IsSuccessful = update.IsSuccessful, Message = update.Message };
             }
             else
             {
                 var update = await _appUow.ElkSaveChangesAsync();
-                return new Response<Drug> { Result = Drug, IsSuccessful = update.IsSuccessful, Message = update.Message };
+                return new Response<Drug> { Result = drug, IsSuccessful = update.IsSuccessful, Message = update.Message };
             }
         }
 
-        public async Task<IResponse<bool>> DeleteAsync(string baseDomain, string root, int id)
+        public async Task<IResponse<bool>> DeleteAsync(string appDir, int id)
         {
             var Drug = await _drugRepo.FindAsync(id);
-            var urls = _appUow.DrugAssetRepo.Get(x => new { x.Url, x.PhysicalPath }, x => x.DrugId == id, o => o.OrderBy(x => x.DrugId)).Select(x => (x.Url, x.PhysicalPath));
+            var urls = _appUow.DrugAssetRepo.Get(selector: x => x.Url);
             _drugRepo.Delete(Drug);
             var delete = await _appUow.ElkSaveChangesAsync();
-            if (delete.IsSuccessful) _DrugAssetService.DeleteFiles(baseDomain, urls);
+            if (delete.IsSuccessful) _attchService.DeleteRange(appDir, urls);
             return new Response<bool>
             {
                 Message = delete.Message,
@@ -156,6 +162,10 @@ namespace Pharmacy.Service
             {
                 if (!string.IsNullOrWhiteSpace(filter.Name))
                     conditions = conditions.And(x => x.NameFa.Contains(filter.Name) || x.NameEn.Contains(filter.Name));
+                if (filter.CategoryId != null)
+                    conditions = conditions.And(x => x.DrugCategoryId == filter.CategoryId);
+                if (filter.UniqueId != null)
+                    conditions = conditions.And(x => x.UniqueId.Contains(filter.UniqueId));
             }
 
             return _drugRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.DrugId));
@@ -190,5 +200,22 @@ namespace Pharmacy.Service
 
         //----------------------------------------------new
 
+        public async Task<IResponse<string>> DeleteAsset(string appDir, int assetId)
+        {
+            var asset = await _appUow.DrugAssetRepo.FindAsync(assetId);
+            if (asset != null)
+                return new Response<string> { Message = ServiceMessage.RecordNotExist };
+            var url = asset.Url;
+            _appUow.DrugAssetRepo.Delete(asset);
+            var delete = await _appUow.ElkSaveChangesAsync();
+            if (delete.IsSuccessful)
+                _attchService.Delete(appDir, url);
+            return new Response<string>
+            {
+                IsSuccessful = delete.IsSuccessful,
+                Message = delete.IsSuccessful ? null : ServiceMessage.Error
+            };
+
+        }
     }
 }

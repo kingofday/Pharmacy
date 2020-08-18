@@ -14,7 +14,7 @@ namespace Pharmacy.Service
     {
         private readonly AuthUnitOfWork _authUow;
         IGenericRepo<UserInRole> _userInRoleRepo;
-        public UserInRoleService(AuthUnitOfWork uow,IGenericRepo<UserInRole> userInRoleRepo)
+        public UserInRoleService(AuthUnitOfWork uow, IGenericRepo<UserInRole> userInRoleRepo)
         {
             _authUow = uow;
             _userInRoleRepo = userInRoleRepo;
@@ -23,8 +23,8 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<UserInRole>> Add(UserInRole model)
         {
-            
-            if (await _userInRoleRepo.AnyAsync(x => x.UserId == model.UserId && x.RoleId == model.RoleId))
+
+            if (await _userInRoleRepo.AnyAsync(new BaseFilterModel<UserInRole> { Conditions = x => x.UserId == model.UserId && x.RoleId == model.RoleId }))
                 return new Response<UserInRole> { Message = ServiceMessage.DuplicateRecord, IsSuccessful = false };
 
             await _userInRoleRepo.AddAsync(model);
@@ -50,8 +50,11 @@ namespace Pharmacy.Service
         }
 
         public IEnumerable<UserInRole> Get(Guid userId)
-            => _userInRoleRepo.Get(x => x.UserId == userId,
-            x => x.OrderByDescending(uir => uir.UserId),
-            new List<Expression<Func<UserInRole, object>>> { x => x.Role }).ToList();
+            => _userInRoleRepo.Get(new BaseListFilterModel<UserInRole>
+            {
+                Conditions = x => x.UserId == userId,
+                OrderBy = x => x.OrderByDescending(uir => uir.UserId),
+                IncludeProperties = new List<Expression<Func<UserInRole, object>>> { x => x.Role }
+            }).ToList();
     }
 }

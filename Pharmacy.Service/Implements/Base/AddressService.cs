@@ -6,6 +6,7 @@ using Pharmacy.DataAccess.Ef;
 using System.Threading.Tasks;
 using Pharmacy.Service.Resource;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace Pharmacy.Service
 {
@@ -22,20 +23,23 @@ namespace Pharmacy.Service
         public Response<List<AddressDTO>> Get(Guid userId)
         {
             var currentDT = DateTime.Now;
-            var addresses = _addressRepo.Get(selector: a => new AddressDTO
+            var addresses = _addressRepo.Get(new PagedListFilterModel<UserAddress, AddressDTO>
             {
-                Id = a.UserAddressId,
-                Lat = a.Latitude,
-                Lng = a.Longitude,
-                Details = a.Details
-            },
-            conditions: x => x.UserId == userId,
-            pagingParameter: new PagingParameter
-            {
-                PageNumber = 1,
-                PageSize = 3
-            },
-            orderBy: o => o.OrderByDescending(x => x.UserAddressId));
+                Selector = x => new AddressDTO
+                {
+                    Id = x.UserAddressId,
+                    Lat = x.Latitude,
+                    Lng = x.Longitude,
+                    Details = x.Details
+                },
+                Conditions = x => x.UserId == userId,
+                PagingParameter = new PagingParameter
+                {
+                    PageNumber = 1,
+                    PageSize = 3
+                },
+                OrderBy = o => o.OrderByDescending(x => x.UserAddressId)
+            });
             return new Response<List<AddressDTO>>
             {
                 Result = addresses.Items,
@@ -91,7 +95,10 @@ namespace Pharmacy.Service
 
         public async Task<Response<bool>> DeleteAsync(Guid userId, int id)
         {
-            var addr = await _addressRepo.FirstOrDefaultAsync(conditions: x => x.UserId == userId && x.UserAddressId == id);
+            var addr = await _addressRepo.FirstOrDefaultAsync(new BaseFilterModel<UserAddress>
+            {
+                Conditions = x => x.UserId == userId && x.UserAddressId == id
+            });
             if (addr == null) return new Response<bool> { Message = ServiceMessage.RecordNotExist };
             _addressRepo.Delete(addr);
             var delete = await _appUow.ElkSaveChangesAsync();

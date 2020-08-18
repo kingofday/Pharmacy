@@ -95,7 +95,7 @@ namespace Pharmacy.Dashboard
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=StorePublic}/{action=SignUp}");
+                    pattern: "{controller=Auth}/{action=SignIn}");
             });
         }
     }

@@ -1,0 +1,10 @@
+@model Unit
+@{
+    Layout = null;
+}
+<div class="row">
+    @Html.HiddenFor(x => x.UnitId)
+    <div class="col-12 col-sm-6">
+        <custom-input-for for="Name" />
+    </div>
+</div>

@@ -20,12 +20,14 @@ namespace Pharmacy.Service
 
         Task<IResponse<Drug>> UpdateAsync(DrugAddModel model);
 
-        Task<IResponse<bool>> DeleteAsync(string baseDomain, string root, int id);
+        Task<IResponse<bool>> DeleteAsync(string appDir, int id);
 
         PagingListDetails<Drug> Get(DrugSearchFilter filter);
 
         Response<List<DrugDTO>> Get(string q);
 
         IList<DrugSearchResult> Search(string searchParameter, int take = 10);
+
+        Task<IResponse<string>> DeleteAsset(string appDir, int assetId);
     }
 }

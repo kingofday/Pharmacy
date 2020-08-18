@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pharmacy.Dashboard.Resources;
 using DomainString = Pharmacy.Domain.Resource.Strings;
-using Elk.Http;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Pharmacy.Dashboard.Controllers
 {
+    [AuthorizationFilter]
     public class DrugCategoryController : Controller
     {
         private readonly IDrugCategoryService _productCatSrv;
@@ -88,13 +88,6 @@ namespace Pharmacy.Dashboard.Controllers
             });
         }
 
-
-        //[HttpGet]
-        //public virtual ActionResult Manage(ProductSearchFilter filter)
-        //{
-        //    if (!Request.IsAjaxRequest()) return View(_productSrv.Get(filter));
-        //    else return PartialView("Partials/_List", _productSrv.Get(filter));
-        //}
 
         [HttpGet, AllowAnonymous]
         public virtual JsonResult Search(string q)

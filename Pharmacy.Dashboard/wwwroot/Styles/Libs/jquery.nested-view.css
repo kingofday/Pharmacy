@@ -3,7 +3,7 @@
   flex-direction: row; }
   .nested-view .root-actions .root-btns {
     margin: 0 10px; }
-  .nested-view .root-actions input {
+  .nested-view .root-actions #input-search {
     width: 150px; }
   .nested-view .root-actions button {
     margin-bottom: 10px; }

@@ -3,7 +3,7 @@
     Layout = null;
     var assets = (Model.DrugAssets ?? new List<DrugAsset>()).OrderBy(x => x.DrugAssetId).ToList();
 }
-<form asp-controller="Drug" asp-action="@(Model.DrugId==0?"Add":"Update")" id="frm-Drug">
+<form asp-controller="Drug" asp-action="@(Model.DrugId==0?"Add":"Update")" id="frm-drug">
     @Html.HiddenFor(x => x.DrugId)
     <div class="row m-b">
         <div class="col-12 col-sm-4">
@@ -18,18 +18,11 @@
         </div>
     </div>
     <div class="row">
-        @*<div class="col-12 col-sm-6">
-            <custom-select-for for="StoreId"
-                               select-data-url='@Url.Action("Search", "Store")'
-                               class="form-control select2 w-100 with-ajax"
-                               items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem> {
-                                              new SelectListItem {
-                                                      Selected = true,
-                                                      Value = Model.StoreId.ToString(),
-                                                      Text = Model.Store.FullName
-                                                }
-                                              }" />
-        </div>*@
+        <div class="col-12 col-sm-6">
+            <custom-select-for for="UnitId"
+                               class="form-control"
+                               items="(List<SelectListItem>)ViewBag.Units" />
+        </div>
         <div class="col-12 col-sm-6">
             <custom-select-for for="DrugCategoryId"
                                class="form-control"
@@ -37,8 +30,11 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-sm-12">
-            <custom-input-for for="Name" />
+        <div class="col-12 col-sm-6">
+            <custom-input-for for="NameFa" />
+        </div>
+        <div class="col-12 col-sm-6">
+            <custom-input-for for="NameEn" class="form-control ltr-elm" />
         </div>
     </div>
     <div class="row">
@@ -74,13 +70,18 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <custom-textarea-for for="Description"></custom-textarea-for>
+            <custom-input-for for="ShortDescription"></custom-input-for>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <custom-textarea-for rows="3" for="Description"></custom-textarea-for>
         </div>
     </div>
 
     <div class="custom-modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">@Strings.Close</button>
-        <custom-button type="button" text="@Strings.Submit" icon="zmdi zmdi-floppy" class="btn-primary btn-submit-Drug float-left"></custom-button>
+        <custom-button type="button" text="@Strings.Submit" icon="zmdi zmdi-floppy" class="btn-primary btn-submit-drug float-left"></custom-button>
     </div>
 </form>
 

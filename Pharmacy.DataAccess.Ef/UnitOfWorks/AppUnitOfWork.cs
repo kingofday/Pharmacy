@@ -43,10 +43,11 @@ namespace Pharmacy.DataAccess.Ef
         public IDrugRepo DrugRepo => _serviceProvider.GetService<IDrugRepo>();
         public IGenericRepo<DrugTag> DrugTagRepo => _serviceProvider.GetService<IGenericRepo<DrugTag>>();
         public IGenericRepo<DrugAsset> DrugAssetRepo => _serviceProvider.GetService<IGenericRepo<DrugAsset>>();
+        public IGenericRepo<Unit> UnitRepo => _serviceProvider.GetService<IGenericRepo<Unit>>();
         #endregion
 
 
-        
+
         public ChangeTracker ChangeTracker { get => _appDbContext.ChangeTracker; }
         public DatabaseFacade Database { get => _appDbContext.Database; }
 

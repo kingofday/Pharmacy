@@ -39,7 +39,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<User>> AddAsync(User model)
         {
-            var user = await _userRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == model.MobileNumber);
+            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == model.MobileNumber });
             if (user != null) return new Response<User>
             {
                 IsSuccessful = true,
@@ -57,8 +57,11 @@ namespace Pharmacy.Service
         {
             var user = await _userRepo.FindAsync(model.UserId);
             if (user == null) return new Response<User> { Message = ServiceMessage.RecordNotExist.Fill(DomainStrings.User) };
-            if (await _userRepo.AnyAsync(x => x.MobileNumber == model.MobileNumber && x.UserId != model.UserId))
-                return new Response<User> { Message = ServiceMessage.DuplicateRecord };
+            if (await _userRepo.AnyAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == model.MobileNumber && x.UserId != model.UserId }))
+                return new Response<User>
+                {
+                    Message = ServiceMessage.DuplicateRecord
+                };
             if (!string.IsNullOrWhiteSpace(model.NewPassword))
                 user.Password = HashGenerator.Hash(model.NewPassword);
             user.FullName = model.FullName;
@@ -67,7 +70,12 @@ namespace Pharmacy.Service
             user.NewPassword = null;
             _userRepo.Update(user);
             var saveResult = _appUow.ElkSaveChangesAsync();
-            return new Response<User> { Result = user, IsSuccessful = saveResult.Result.IsSuccessful, Message = saveResult.Result.Message };
+            return new Response<User>
+            {
+                Result = user,
+                IsSuccessful = saveResult.Result.IsSuccessful,
+                Message = saveResult.Result.Message
+            };
         }
 
         public async Task<IResponse<User>> UpdateAsync(User model)

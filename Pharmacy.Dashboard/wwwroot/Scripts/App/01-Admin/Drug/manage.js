@@ -67,17 +67,17 @@ $(document).ready(function () {
     //====================================================================== Submit
     //======================================================================
 
-    $(document).on('click', '.btn-submit-product', function (e) {
+    $(document).on('click', '.btn-submit-drug', function (e) {
         e.stopPropagation();
         let $btn = $(this);
         let $frm = $btn.closest('form');
-        let model = customSerialize($('#frm-product'));
+        if(!$frm.valid()) return
+        let model = customSerialize($('#frm-drug'));
         let tags = JSON.parse($('#tags_wrapper').val());
         model.TagIds = [];
         for (let i = 0; i < tags.length; i++)
             model.TagIds.push(tags[i].Value);
         let frmData = objectToFormData(model);
-        console.log('fired');
         //return;
         //for (var k in model) {
         //    frmData.append(k, model[k]);

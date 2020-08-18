@@ -1,38 +1,41 @@
-﻿using System;
-using Elk.Core;
+﻿using Elk.Core;
 using Elk.Http;
+using System.Linq;
 using Pharmacy.Domain;
 using Pharmacy.Service;
 using Elk.AspNetCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using Pharmacy.Dashboard.Resources;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using DomainString = Pharmacy.Domain.Resource.Strings;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Collections.Generic;
-using System.Linq;
+using DomainString = Pharmacy.Domain.Resource.Strings;
 
 namespace Pharmacy.Dashboard.Controllers
 {
-    //[AuthorizationFilter]
+    [AuthorizationFilter]
     public class DrugController : Controller
     {
         private readonly IDrugService _DrugSrv;
         private readonly IConfiguration _configuration;
         private readonly IDrugCategoryService _DrugCategorySrv;
-        public DrugController(IDrugService DrugSrv, IConfiguration configuration, IDrugCategoryService DrugCategorySrv)
+        private readonly IUnitService _unitSrv;
+        public DrugController(IDrugService DrugSrv, IConfiguration configuration,
+            IDrugCategoryService DrugCategorySrv,
+            IUnitService unitSrv)
         {
             _DrugSrv = DrugSrv;
             _configuration = configuration;
             _DrugCategorySrv = DrugCategorySrv;
+            _unitSrv = unitSrv;
         }
 
         [NonAction]
         private List<SelectListItem> GetCategories()
         {
-            var categories = _DrugCategorySrv.Get(new DrugCategorySearchFilter());
+            var categories = _DrugCategorySrv.Get(new DrugCategorySearchFilter { PageSize = 100 });
             if (categories.Items == null) return new List<SelectListItem>();
             return categories.Items.Select(x => new SelectListItem
             {
@@ -41,11 +44,23 @@ namespace Pharmacy.Dashboard.Controllers
             }).ToList();
         }
 
+        [NonAction]
+        private List<SelectListItem> GetUnits()
+        {
+            var units = _unitSrv.Get(new UnitSearchFilter { PageSize = 100 });
+            if (units.Items == null) return new List<SelectListItem>();
+            return units.Items.Select(x => new SelectListItem
+            {
+                Value = x.UnitId.ToString(),
+                Text = x.Name
+            }).ToList();
+
+        }
         [HttpGet]
         public virtual JsonResult Add()
         {
             ViewBag.Categories = GetCategories();
-
+            ViewBag.Units = GetUnits();
             return Json(new Modal
             {
                 Title = $"{Strings.Add} {DomainString.Drug}",
@@ -55,10 +70,10 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Add([FromServices]IWebHostEnvironment env, DrugAddModel model)
+        public virtual async Task<JsonResult> Add([FromServices] IWebHostEnvironment env, DrugAddModel model)
         {
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
-            model.BaseDomain = _configuration["CustomSettings:BaseUrl"];
+            model.AppDir = _configuration["CustomSettings:BaseUrl"];
             model.Root = env.WebRootPath;
             var add = await _DrugSrv.AddAsync(model);
             return Json(new { add.IsSuccessful, add.Message });
@@ -70,6 +85,7 @@ namespace Pharmacy.Dashboard.Controllers
             var findRep = await _DrugSrv.FindAsync(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.NotFound });
             ViewBag.Categories = GetCategories();
+            ViewBag.Units = GetUnits();
             return Json(new Modal
             {
                 Title = $"{Strings.Update} {DomainString.Drug}",
@@ -79,28 +95,29 @@ namespace Pharmacy.Dashboard.Controllers
             });
         }
         [HttpPost]
-        public virtual async Task<JsonResult> Update([FromServices]IWebHostEnvironment env, DrugAddModel model)
+        public virtual async Task<JsonResult> Update([FromServices] IWebHostEnvironment env, DrugAddModel model)
         {
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
-            model.BaseDomain = _configuration["CustomSettings:BaseUrl"];
+            model.AppDir = _configuration["CustomSettings:BaseUrl"];
             model.Root = env.WebRootPath;
             var update = await _DrugSrv.UpdateAsync(model);
             return Json(new { update.IsSuccessful, update.Message });
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Delete([FromServices]IWebHostEnvironment env, int id) => Json(await _DrugSrv.DeleteAsync(_configuration["CustomSettings:BaseUrl"], env.WebRootPath, id));
+        public virtual async Task<JsonResult> Delete([FromServices] IWebHostEnvironment env, int id) => Json(await _DrugSrv.DeleteAsync(env.WebRootPath, id));
 
 
         [HttpGet]
         public virtual ActionResult Manage(DrugSearchFilter filter)
         {
+            ViewBag.Categories = GetCategories();
             if (!Request.IsAjaxRequest()) return View(_DrugSrv.Get(filter));
             else return PartialView("Partials/_List", _DrugSrv.Get(filter));
         }
 
         [HttpPost, AuthEqualTo("Drug", "Delete")]
-        public virtual async Task<JsonResult> DeleteAsset([FromServices]IDrugAssetService DrugAssetSerive, int assetId) => Json(await DrugAssetSerive.DeleteAsync(assetId));
+        public virtual async Task<JsonResult> DeleteAsset([FromServices] IWebHostEnvironment env, int id) => Json(await _DrugSrv.DeleteAsync(env.WebRootPath, id));
         //[HttpGet, AuthEqualTo("DrugInRole", "Add")]
         //public virtual JsonResult Search(string q)
         //    => Json(_DrugSrv.Search(q).ToSelectListItems());

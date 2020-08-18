@@ -19,21 +19,21 @@ namespace Pharmacy.API.Controllers
 
         [HttpGet]
         public ActionResult<IResponse<List<DrugCategoryDTO>>> GetAll()
-        //=> _drugCategorySrv.Get();
-        => new Response<List<DrugCategoryDTO>>
-        {
-            IsSuccessful = true,
-            Result = new List<DrugCategoryDTO>
-                        {
-                            new DrugCategoryDTO{
-                                CategoryId = 1,
-                                Name = "آرایشی و بهداشتی"
-                            },
-                            new DrugCategoryDTO{
-                                CategoryId = 2,
-                                Name = "تغذیه و سبک زندگی"
-                            }
-                        }
-        };
+        => _drugCategorySrv.Get();
+        //=> new Response<List<DrugCategoryDTO>>
+        //{
+        //    IsSuccessful = true,
+        //    Result = new List<DrugCategoryDTO>
+        //                {
+        //                    new DrugCategoryDTO{
+        //                        CategoryId = 1,
+        //                        Name = "آرایشی و بهداشتی"
+        //                    },
+        //                    new DrugCategoryDTO{
+        //                        CategoryId = 2,
+        //                        Name = "تغذیه و سبک زندگی"
+        //                    }
+        //                }
+        //};
     }
 }

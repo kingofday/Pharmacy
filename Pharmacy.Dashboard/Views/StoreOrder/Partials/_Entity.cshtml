@@ -19,7 +19,7 @@
             Disabled = (x.Name ==  OrderStatus.WaitForPayment.ToString() || (x.Name ==  OrderStatus.Successed.ToString())?true:false)
         }).ToList()" />
     </div>
-    <div class="col-12 col-sm-6">
+    @*<div class="col-12 col-sm-6">
         <custom-select-for for="StoreId" class="form-control"
                            items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
                         {
@@ -31,7 +31,7 @@
                         }"
                            select-data-url="@Url.Action("Search","StoreStore")"
                            select-disabled="disabled" />
-    </div>
+    </div>*@
 </div>
 
 <div class="row">
@@ -42,11 +42,11 @@
         <custom-input-for for="TotalPrice" readonly="true" class="form-control ltr-elm"/>
     </div>
     <div class="col-12 col-sm-4">
-        <custom-input-for for="TotalPriceAfterDiscount" readonly="true" class="form-control ltr-elm" />
+        <custom-input-for for="TotalPriceWithoutDiscount" readonly="true" class="form-control ltr-elm" />
     </div>
 </div>
 <div class="row">
     <div class="col-12">
-        <custom-textarea-for for="OrderComment" readonly="true" />
+        <custom-textarea-for for="Comment" readonly="true" />
     </div>
 </div>

@@ -1,22 +1,19 @@
 @model DrugSearchFilter
 @{
     Layout = null;
+    var id = Model.CategoryId;
 }
 
 <div class="row">
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-4">
         <custom-input-for for="Name" />
     </div>
-    @*<div class="col-12 col-sm-6">
-        <custom-select-for for="StoreId" class="form-control select2 with-ajax"
+    <div class="col-12 col-sm-4">
+        <custom-select-for for="CategoryId" class="form-control select2"
                            optional-label="@Strings.SelectPlease"
-                           select-data-url="@Url.Action("Search","Store")" />*@
+                           items="ViewBag.Categories" />
     </div>
-</div>
-<div class="row">
-    <div class="col-12 col-sm-6">
-        @*<custom-select-for for="UserId" class="form-control select2 with-ajax"
-                           optional-label="@Strings.SelectPlease"
-                           select-data-url="@Url.Action("Search","User")" />*@
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="UniqueId" />
     </div>
 </div>

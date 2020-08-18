@@ -27,14 +27,19 @@ namespace Pharmacy.Domain
         public bool IsActive { get; set; }
 
         [Display(Name = nameof(Strings.Name), ResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(35, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(35, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string NameFa { get; set; }
 
         [Display(Name = nameof(Strings.Name), ResourceType = typeof(Strings))]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(35, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(35, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string NameEn { get; set; }
+
+        [Display(Name = nameof(Strings.ShortDescription), ResourceType = typeof(Strings))]
+        public string ShortDescription { get; set; }
 
         [Display(Name = nameof(Strings.Description), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -49,7 +54,7 @@ namespace Pharmacy.Domain
         public string Root { get; set; }
 
         [NotMapped]
-        public string BaseDomain { get; set; }
+        public string AppDir { get; set; }
 
         public List<int> TagIds { get; set; }
 

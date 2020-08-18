@@ -21,13 +21,13 @@
 		//===================================================================
 		//-- Commands
 		//===================================================================
-		let openItem = function ($item, ignoreOtthers) {
+		let openItem = function ($item, ignoreOthers) {
 
 			let $li = $item.parent();
 			if ($li.hasClass('open')) return;
 			let $subMenu = $item.next();
 			let $wrapperLi = $li.parent().closest('li');
-			if (!ignoreOtthers) {
+			if (!ignoreOthers) {
 				$elm.find('li').not($wrapperLi).removeClass('open');
 				$elm.find('.box').remove();
 			}
@@ -88,6 +88,7 @@
 			let $root = $btn.parent();
 			var html = options.addFormHtml.replace('##ParentId##', '');
 			$root.append(html);
+			$root.find('form input[type="text"]').val('');
 			$.validator.unobtrusive.parse($root);
 		});
 		//show all

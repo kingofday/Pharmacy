@@ -28,16 +28,19 @@ namespace Pharmacy.Service
 
         public IResponse<DrugStoreModel> GetNearest(LocationDTO model)
         {
-            var items = _drugStoreRepo.Get(selector: x => new DrugStoreModel
+            var items = _drugStoreRepo.Get(new ListFilterModel<DrugStore, DrugStoreModel>
             {
-                DrugStoreId = x.DrugStoreId,
-                Name = x.Name,
-                Lat = x.Address.Latitude,
-                Lng = x.Address.Longitude
-            },
-                conditions: null,
-                orderBy: o => o.OrderBy(x => x.DrugStoreId),
-                includeProperties: new List<Expression<Func<DrugStore, object>>> { x => x.Address });
+                Selector = x => new DrugStoreModel
+                {
+                    DrugStoreId = x.DrugStoreId,
+                    Name = x.Name,
+                    Lat = x.Address.Latitude,
+                    Lng = x.Address.Longitude
+                },
+                Conditions = null,
+                OrderBy = o => o.OrderBy(x => x.DrugStoreId),
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
+            });
             if (items == null || !items.Any())
                 return new Response<DrugStoreModel> { Message = ServiceMessage.RecordNotExist };
             Parallel.ForEach(items, (item) =>
@@ -115,8 +118,12 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.Name.Contains(filter.Name));
             }
 
-            return _drugStoreRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.DrugStoreId), new List<Expression<Func<DrugStore, object>>> {
-                x=>x.User
+            return _drugStoreRepo.Get(new BasePagedListFilterModel<DrugStore>
+            {
+                Conditions = conditions,
+                PagingParameter = filter,
+                OrderBy = x => x.OrderByDescending(i => i.DrugStoreId),
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.User }
             });
         }
 
@@ -138,7 +145,10 @@ namespace Pharmacy.Service
         {
             using var tb = _appUow.Database.BeginTransaction();
             var mobileNumber = long.Parse(model.MobileNumber);
-            var user = await _appUow.UserRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobileNumber, null);
+            var user = await _appUow.UserRepo.FirstOrDefaultAsync(new BaseFilterModel<User>
+            {
+                Conditions = x => x.MobileNumber == mobileNumber
+            });
 
             var cdt = DateTime.Now;
             var drugStore = new DrugStore
@@ -194,17 +204,23 @@ namespace Pharmacy.Service
         }
 
         public IEnumerable<DrugStore> GetAll(Guid userId)
-        => _drugStoreRepo.Get(x => !x.IsDeleted && x.UserId == userId, o => o.OrderByDescending(x => x.DrugStoreId), null);
+        => _drugStoreRepo.Get(new BaseListFilterModel<DrugStore>
+        {
+            Conditions = x => !x.IsDeleted && x.UserId == userId,
+            OrderBy = o => o.OrderByDescending(x => x.DrugStoreId)
+        });
 
         public IDictionary<object, object> Search(string searchParameter, Guid? userId, int take = 10)
-            => _drugStoreRepo.Get(conditions: x => !x.IsDeleted && x.Name.Contains(searchParameter) && userId == null ? true : x.UserId == userId,
-                new PagingParameter
+            => _drugStoreRepo.Get(new BasePagedListFilterModel<DrugStore>
+            {
+                Conditions = x => !x.IsDeleted && x.Name.Contains(searchParameter) && userId == null ? true : x.UserId == userId,
+                PagingParameter = new PagingParameter
                 {
                     PageNumber = 1,
                     PageSize = 6
                 },
-                o => o.OrderByDescending(x => x.DrugStoreId))
-            .Items
+                OrderBy = o => o.OrderByDescending(x => x.DrugStoreId)
+            }).Items
             .ToDictionary(k => (object)k.DrugStoreId, v => (object)v.Name);
 
         public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model)
@@ -245,8 +261,11 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreAdminUpdateModel model)
         {
-            var drugStore = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(conditions: x => x.DrugStoreId == model.DrugStoreId,
-                includeProperties: new List<Expression<Func<DrugStore, object>>> { x => x.Address });
+            var drugStore = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            {
+                Conditions = x => x.DrugStoreId == model.DrugStoreId,
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
+            });
             if (drugStore == null) return new Response<DrugStore> { Message = ServiceMessage.RecordNotExist };
             if (drugStore.Address == null)
             {
@@ -306,21 +325,27 @@ namespace Pharmacy.Service
             }
         }
 
-        public async Task<bool> CheckOwner(int PharmacyId, Guid userId) => await _drugStoreRepo.AnyAsync(x => x.DrugStoreId == PharmacyId && x.UserId == userId);
+        public async Task<bool> CheckOwner(int PharmacyId, Guid userId) => await _drugStoreRepo.AnyAsync(new BaseFilterModel<DrugStore>
+        {
+            Conditions = x => x.DrugStoreId == PharmacyId && x.UserId == userId
+        });
 
         public List<DrugStoreDTO> GetAsDTO()
-            => _drugStoreRepo.Get(selector: x => new DrugStoreDTO
+            => _drugStoreRepo.Get(new PagedListFilterModel<DrugStore, DrugStoreDTO>
             {
-                DrugStoreId = x.DrugStoreId,
-                Name = x.Name,
-                ImageUrl = x.DrugStoreAssets.First().Url
-            },
-                conditions: x => x.DrugStoreAssets.Any(),
-                pagingParameter: new PagingParameter
+                Selector = x => new DrugStoreDTO
+                {
+                    DrugStoreId = x.DrugStoreId,
+                    Name = x.Name,
+                    ImageUrl = x.DrugStoreAssets.First().Url
+                },
+                Conditions = x => x.DrugStoreAssets.Any(),
+                PagingParameter = new PagingParameter
                 {
                     PageNumber = 1,
                     PageSize = 15
                 },
-                orderBy: o => o.OrderByDescending(x => x.DrugStoreId)).Items;
+                OrderBy = o => o.OrderByDescending(x => x.DrugStoreId)
+            }).Items;
     }
 }

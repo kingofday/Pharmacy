@@ -20,6 +20,7 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.DiscountPrice), ResourceType = typeof(Strings))]
         public int DiscountPrice { get; set; }
 
+        [Display(Name = nameof(Strings.UniqueId), ResourceType = typeof(Strings))]
         public int UnitId { get; set; }
 
         [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
@@ -73,9 +74,8 @@ namespace Pharmacy.Domain
         [StringLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string NameEn { get; set; }
 
-        [Column(TypeName = "nvarchar(1000)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Display(Name = nameof(Strings.ShortDescription), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ShortDescription { get; set; }

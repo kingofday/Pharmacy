@@ -40,11 +40,18 @@ namespace Pharmacy.Service
                 if (!string.IsNullOrWhiteSpace(filter.Name))
                     conditions = x => x.Name.Contains(filter.Name);
             }
-            return _drugCategoryRepo.Get(conditions: conditions, orderBy: x => x.OrderByDescending(u => u.DrugCategoryId));
+            return _drugCategoryRepo.Get(new BaseListFilterModel<DrugCategory>
+            {
+                Conditions = conditions,
+                OrderBy = x => x.OrderBy(u => u.OrderPriority)
+            });
         }
 
         public IDictionary<object, object> Search(string searchParameter, int take = 10)
-                => _drugCategoryRepo.Get(conditions: x => x.Name.Contains(searchParameter))
+                => _drugCategoryRepo.Get(new BaseListFilterModel<DrugCategory>
+                {
+                    Conditions = x => x.Name.Contains(searchParameter)
+                })
                 .OrderByDescending(x => x.Name)
                 .Take(take)
                 .ToDictionary(k => (object)k.DrugCategoryId, v => (object)v.Name);
@@ -94,14 +101,17 @@ namespace Pharmacy.Service
             => new Response<List<DrugCategoryDTO>>
             {
                 IsSuccessful = true,
-                Result = _drugCategoryRepo.Get(selector: x => new DrugCategoryDTO
+                Result = _drugCategoryRepo.Get(new ListFilterModel<DrugCategory, DrugCategoryDTO>
                 {
-                    CategoryId = x.DrugCategoryId,
-                    Name = x.Name
+                    Selector = x => new DrugCategoryDTO
+                    {
+                        CategoryId = x.DrugCategoryId,
+                        Name = x.Name
 
-                },
-                conditions: x => x.ParentId == null,
-                orderBy: o => o.OrderBy(x => x.OrderPriority))
+                    },
+                    Conditions = x => x.ParentId == null,
+                    OrderBy = o => o.OrderBy(x => x.OrderPriority)
+                })
             };
     }
 }

@@ -72,12 +72,12 @@ namespace Pharmacy.DependencyResolver
             services.AddScoped<IPaymentRepo, PaymentRepo>();
             services.AddScoped<IPaymentService, PaymentService>();
             #endregion
-            #region Store
+            #region Drug
             //services.AddScoped<IStoreRepo, StoreRepo>();
             services.AddScoped<IDrugStoreService, DrugStoreService>();
+            services.AddScoped<IUnitService, UnitService>();
             services.AddScoped<IDrugRepo, DrugRepo>();
             services.AddScoped<IDrugService, DrugService>();
-            services.AddScoped<IDrugAssetService, DrugAssetService>();
             services.AddScoped<IDrugCategoryService, DrugCategoryService>();
             services.AddScoped<IDeliveryProviderService, DeliveryProviderService>();
             //services.AddScoped<IDiscountRepo, DiscountRepo>();

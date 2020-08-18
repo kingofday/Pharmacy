@@ -205,8 +205,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<string>("ShortDescription")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnType("nvarchar(250)")
                         .HasMaxLength(250);
 
                     b.Property<string>("UniqueId")
@@ -399,9 +398,6 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AddressId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("InsertDateMi")
                         .HasColumnType("datetime2");
 
@@ -477,7 +473,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasIndex("DrugStoreId")
                         .IsUnique();
 
-                    b.ToTable("DrugStoreAddress","Base");
+                    b.ToTable("DrugStoreAddress","Drug");
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.DrugStoreAsset", b =>
@@ -1388,7 +1384,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                         .IsRequired();
 
                     b.HasOne("Pharmacy.Domain.Order", "Order")
-                        .WithMany("OrderDetails")
+                        .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();

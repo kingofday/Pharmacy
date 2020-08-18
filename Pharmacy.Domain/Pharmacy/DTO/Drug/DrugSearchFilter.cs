@@ -12,6 +12,9 @@ namespace Pharmacy.Domain
         public DrugFilterType Type { get; set; }
         public int? MinPrice { get; set; }
         public int? MaxPrice { get; set; }
+        [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
         public int? CategoryId { get; set; }
+        [Display(Name = nameof(Strings.UniqueId), ResourceType = typeof(Strings))]
+        public string UniqueId { get; set; }
     }
 }
