@@ -69,6 +69,7 @@ namespace Pharmacy.Service
                 };
                 using var fileStream = new FileStream(attch.PhysicalPath, FileMode.Create);
                 await file.CopyToAsync(fileStream);
+                result.Add(attch);
             }
             return new Response<List<BaseAttachment>>
             {

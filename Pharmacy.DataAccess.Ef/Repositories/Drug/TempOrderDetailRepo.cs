@@ -67,7 +67,7 @@ namespace Pharmacy.DataAccess.Ef
         {
             var items = _appContext.Set<TempBasketItem>()
                 .Include(x => x.Drug)
-                .ThenInclude(x => x.DrugAssets)
+                .ThenInclude(x => x.DrugAttachments)
                 .Where(x => x.TempBasketId == basketId)
                 .AsNoTracking().Select(x => new TempBasketItemDTO
                 {
@@ -78,7 +78,7 @@ namespace Pharmacy.DataAccess.Ef
                     DiscountPrice = 0,
                     NameFa = x.Drug.NameFa,
                     NameEn = x.Drug.NameEn,
-                    ThumbnailImageUrl = x.Drug.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? x.Drug.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null
+                    ThumbnailImageUrl = x.Drug.DrugAttachments.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage) ? x.Drug.DrugAttachments.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url : null
                 }).ToList();
             return new Response<IList<TempBasketItemDTO>>
             {

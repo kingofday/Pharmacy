@@ -29,7 +29,7 @@ namespace Pharmacy.Service
                     conditions = x => x.Name.Contains(filter.Name);
             }
 
-            return _drugCategoryRepo.Get(conditions, filter, x => x.OrderByDescending(u => u.DrugCategoryId));
+            return _drugCategoryRepo.Get(new BasePagedListFilterModel<DrugCategory> { Conditions = conditions, PagingParameter = filter, OrderBy = x => x.OrderByDescending(u => u.DrugCategoryId) });
         }
 
         public IList<DrugCategory> GetAll(DrugCategorySearchFilter filter)

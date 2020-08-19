@@ -16,7 +16,7 @@ namespace Pharmacy.Dashboard
             }
         }
         public string Id { get; set; }
-        public object AttachmentId { get; set; } = 0;
+        public string AttachmentId { get; set; }
         public string Name { get; set; }
         public bool HaveAsset { get; set; } = false;
         public string Url { get; set; }

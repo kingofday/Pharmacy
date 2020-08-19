@@ -66,7 +66,7 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.Name.Contains(filter.Name));
             }
 
-            return _unitRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.UnitId));
+            return _unitRepo.Get(new BasePagedListFilterModel<Unit> { Conditions = conditions, PagingParameter = filter, OrderBy = x => x.OrderByDescending(i => i.UnitId) });
         }
     }
 }

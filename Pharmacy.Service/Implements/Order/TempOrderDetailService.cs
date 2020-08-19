@@ -31,7 +31,11 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<bool>> DeleteAsync(Guid basketId)
         {
-            var items = _TempBasketItemRepo.Get(x => x.TempBasketId == basketId, o => o.OrderByDescending(x => x.TempBasketId));
+            var items = _TempBasketItemRepo.Get(new BaseListFilterModel<TempBasketItem>
+            {
+                Conditions = x => x.TempBasketId == basketId,
+                OrderBy = o => o.OrderByDescending(x => x.TempBasketId)
+            });
             if (items == null || !items.Any()) return new Response<bool> { IsSuccessful = true };
             _TempBasketItemRepo.DeleteRange(items);
             var saveResult = await _appUOW.ElkSaveChangesAsync();
@@ -46,8 +50,13 @@ namespace Pharmacy.Service
         public PagingListDetails<TempBasketItemModel> Get(TempBasketItemSearchFilter filter) => _TempBasketItemRepo.GetBaskets(filter);
 
         public List<TempBasketItem> GetDetails(Guid basketId)
-                        => _TempBasketItemRepo.Get(x => x.TempBasketId == basketId, o => o.OrderBy(x => x.TempBasketItemId), new List<Expression<Func<TempBasketItem, object>>> {
+                        => _TempBasketItemRepo.Get(new BaseListFilterModel<TempBasketItem>
+                        {
+                            Conditions = x => x.TempBasketId == basketId,
+                            OrderBy = o => o.OrderBy(x => x.TempBasketItemId),
+                            IncludeProperties = new List<Expression<Func<TempBasketItem, object>>> {
                             i=>i.Drug
+                        }
                         });
 
         public IResponse<IList<TempBasketItemDTO>> Get(Guid basketId) => _TempBasketItemRepo.GetItems(basketId);

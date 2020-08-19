@@ -5,12 +5,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Pharmacy.Domain
 {
-    [Table(nameof(DrugStoreAsset), Schema = "Drug")]
-    public class DrugStoreAsset :BaseAttachment, IInsertDateProperties, IEntity
+    [Table(nameof(DrugStoreAttachment), Schema = "Drug")]
+    public class DrugStoreAttachment : BaseAttachment, IInsertDateProperties, IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int DrugStoreAssetId { get; set; }
+        public int DrugStoreAttachmentId { get; set; }
 
         [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]

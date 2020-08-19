@@ -42,7 +42,7 @@ namespace Pharmacy.DataAccess.Ef
         #region Drug
         public IDrugRepo DrugRepo => _serviceProvider.GetService<IDrugRepo>();
         public IGenericRepo<DrugTag> DrugTagRepo => _serviceProvider.GetService<IGenericRepo<DrugTag>>();
-        public IGenericRepo<DrugAsset> DrugAssetRepo => _serviceProvider.GetService<IGenericRepo<DrugAsset>>();
+        public IGenericRepo<DrugAttachment> DrugAttachmentRepo => _serviceProvider.GetService<IGenericRepo<DrugAttachment>>();
         public IGenericRepo<Unit> UnitRepo => _serviceProvider.GetService<IGenericRepo<Unit>>();
         #endregion
 

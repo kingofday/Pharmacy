@@ -50,8 +50,6 @@ namespace Pharmacy.Domain
         [NotMapped]
         public IList<IFormFile> Files { get; set; }
 
-        [NotMapped]
-        public string Root { get; set; }
 
         [NotMapped]
         public string AppDir { get; set; }

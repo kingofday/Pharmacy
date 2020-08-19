@@ -45,7 +45,10 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Payment>> FindAsync(string transactionId)
         {
-            var payment = await _paymentRepo.FirstOrDefaultAsync(conditions: x => x.TransactionId == transactionId);
+            var payment = await _paymentRepo.FirstOrDefaultAsync(new BaseFilterModel<Payment>
+            {
+                Conditions = x => x.TransactionId == transactionId
+            });
             return new Response<Payment>
             {
                 IsSuccessful = payment != null,
@@ -56,10 +59,14 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Payment>> GetDetails(int paymentId)
         {
-            var payment = await _paymentRepo.FirstOrDefaultAsync(conditions: x => x.PaymentId == paymentId, new System.Collections.Generic.List<System.Linq.Expressions.Expression<System.Func<Payment, object>>> {
+            var payment = await _paymentRepo.FirstOrDefaultAsync(new BaseFilterModel<Payment>
+            {
+                Conditions = x => x.PaymentId == paymentId,
+                IncludeProperties = new System.Collections.Generic.List<System.Linq.Expressions.Expression<System.Func<Payment, object>>> {
                 x=>x.Order,
                 x=>x.Order.User,
                 x=>x.PaymentGateway
+            }
             });
             return new Response<Payment>
             {
@@ -71,7 +78,10 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Payment>> Update(string transactionId, PaymentStatus status)
         {
-            var payment = await _paymentRepo.FirstOrDefaultAsync(conditions: x => x.TransactionId == transactionId);
+            var payment = await _paymentRepo.FirstOrDefaultAsync(new BaseFilterModel<Payment>
+            {
+                Conditions = x => x.TransactionId == transactionId
+            });
             if (payment == null) return new Response<Payment> { Message = ServiceMessage.RecordNotExist };
             payment.PaymentStatus = status;
             var updateResult = await _appUow.ElkSaveChangesAsync();

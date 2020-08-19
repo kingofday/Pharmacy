@@ -1,7 +1,7 @@
 ﻿@model Drug
 @{
     Layout = null;
-    var assets = (Model.DrugAssets ?? new List<DrugAsset>()).OrderBy(x => x.DrugAssetId).ToList();
+    var assets = (Model.DrugAttachments ?? new List<DrugAttachment>()).OrderBy(x => x.AttachmentId).ToList();
 }
 <form asp-controller="Drug" asp-action="@(Model.DrugId==0?"Add":"Update")" id="frm-drug">
     @Html.HiddenFor(x => x.DrugId)
@@ -39,7 +39,7 @@
     </div>
     <div class="row">
         <div class="col-12 col-sm-4">
-            <custom-input-for for="Price" class="form-control ltr-elm" />
+            <custom-input-for for="Price" class="form-control ltr-elm rial"/>
         </div>
         <div class="col-12 col-sm-4">
             <custom-input-for for="DiscountPrice" class="form-control ltr-elm" />

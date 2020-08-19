@@ -15,7 +15,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<(IGatewayService Service, PaymentGateway Gateway)>> GetInsance(int gatewayId)
         {
-            var paymentGateway = await _paymentGatewayRepo.FirstOrDefaultAsync(conditions: x => x.PaymentGatewayId == gatewayId, includeProperties: null);
+            var paymentGateway = await _paymentGatewayRepo.FirstOrDefaultAsync(new BaseFilterModel<PaymentGateway> { Conditions = x => x.PaymentGatewayId == gatewayId });
             if (paymentGateway.Name == null) return new Response<(IGatewayService Service, PaymentGateway Gateway)> { Message = ServiceMessage.RecordNotExist };
             switch (paymentGateway.Name)
             {

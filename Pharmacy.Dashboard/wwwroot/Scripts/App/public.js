@@ -298,7 +298,10 @@ var mapToken = 'pk.eyJ1Ijoia2luZ29mZGF5IiwiYSI6ImNrYWNweWQxaTFpbXcydnF3bDJiZ3QyO
 var $threeDotLoader = '<span class="three-dot-loader"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
 var $circularLoader = '<div class="spinner"><svg viewBox="25 25 50 50"><circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle></svg></div>';
 
-function commaThousondSeperator(str) { return str.replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+function commaThousondSeperator(input) {
+    let str = isNaN(input) ? input : input.toString();
+    return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 $(document).ready(function () {
 
@@ -450,6 +453,17 @@ $(document).ready(function () {
         if (e.keyCode === 13) $(this).closest('form').find('button.search').trigger('click');
     });
 
+    $(document).on('input', '.rial', function () {
+        let v = $(this).val();
+        v = v.substr(0, v.length - 1);
+        let $target = $(this).data('target');
+        if ($target) $($target).text(commaThousondSeperator(v) + 'ريال');
+        else {
+            let $lbl = $(this).prev();
+            let txt = $lbl.clone().children().remove().end().text();
+            $lbl.html(txt + ' <small>(' + commaThousondSeperator(v) + 'تومان ' + ')</small>');
+        }
+    });
 
 });
 

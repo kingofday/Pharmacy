@@ -23,7 +23,7 @@ namespace Pharmacy.DataAccess.Ef
             var drug = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
             && x.DrugId == id)
-                .Include(x => x.DrugAssets)
+                .Include(x => x.DrugAttachments)
                 .Include(x => x.Comments)
                 .ThenInclude(x => x.User)
                 .Include(x => x.Properties)
@@ -44,7 +44,7 @@ namespace Pharmacy.DataAccess.Ef
                     Price = drug.Price,
                     DiscountPrice = drug.DiscountPrice,
                     Description = drug.Description,
-                    Slides = drug.DrugAssets?.Select(x => x.Url).ToList(),
+                    Slides = drug.DrugAttachments?.Select(x => x.Url).ToList(),
                     Comments = drug.Comments.Select(x => new DrugCommentDTO { Fullname = x.User.FullName, Comment = x.Comment }).ToList(),
                     Properties = drug.Properties,
                     Tags = drug.DrugTags?.Select(t => new DrugTagDTO
@@ -60,8 +60,8 @@ namespace Pharmacy.DataAccess.Ef
         {
             var q = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
-            && x.DrugAssets.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage))
-                .Include(x => x.DrugAssets)
+            && x.DrugAttachments.Any(x => x.AttachmentType == AttachmentType.DrugThumbnailImage))
+                .Include(x => x.DrugAttachments)
                 .Include(x => x.Unit)
                 .AsQueryable().AsNoTracking();
             var currentDT = DateTime.Now;
@@ -87,7 +87,7 @@ namespace Pharmacy.DataAccess.Ef
                 NameFa = p.NameFa,
                 NameEn = p.NameEn,
                 UniqueId = p.UniqueId,
-                ThumbnailImageUrl = p.DrugAssets.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
+                ThumbnailImageUrl = p.DrugAttachments.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
                 Price = p.Price,
                 DiscountPrice = p.DiscountPrice
             });

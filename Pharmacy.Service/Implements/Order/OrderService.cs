@@ -32,7 +32,7 @@ namespace Pharmacy.Service
             _gatewayFactory = gatewayFactory;
             _TempBasketItemSrv = TempBasketItemSrv;
             _drugStoreSrv = drugStoreSrv;
-            _delAgent= delAgent;
+            _delAgent = delAgent;
         }
 
         public async Task<IResponse<(Order Order, bool IsChanged)>> AddByUserAsync(Guid userId, OrderDTO model)
@@ -73,7 +73,7 @@ namespace Pharmacy.Service
                 ExtraInfoJson = "",// new ExtraInfo { Reciever = model.Reciever, RecieverMobileNumber = model.RecieverMobileNumber }.SerializeToJson(),
                 AddressId = model.Address.Id ?? 0,
                 DrugStoreId = drugStore.Result.DrugStoreId,
-                
+
                 OrderDrugStores = new List<OrderDrugStore> {
                     new OrderDrugStore{
                         DrugStoreId = drugStore.Result.DrugStoreId,
@@ -150,15 +150,19 @@ namespace Pharmacy.Service
         //    };
         //}
 
-       // public async Task<bool> CheckOwner(Guid userId, int orderId) => await _orderRepo.AnyAsync(x => x.OrderId == orderId && x.OrderDrugStores.Any(o=>o.User == UserId == userId);
+        // public async Task<bool> CheckOwner(Guid userId, int orderId) => await _orderRepo.AnyAsync(x => x.OrderId == orderId && x.OrderDrugStores.Any(o=>o.User == UserId == userId);
 
         public async Task<IResponse<Order>> FindAsync(int OrderId)
         {
-            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(x => x.OrderId == OrderId, new System.Collections.Generic.List<Expression<Func<Order, object>>>
+            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
             {
-                x=>x.DrugStoreId,
-                x=>x.User,
-                x=>x.Address
+                Conditions = x => x.OrderId == OrderId,
+                IncludeProperties = new System.Collections.Generic.List<Expression<Func<Order, object>>>
+                {
+                    x=>x.DrugStoreId,
+                    x=>x.User,
+                    x=>x.Address
+                }
             });
             if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
             return new Response<Order> { Result = order, IsSuccessful = true };
@@ -166,20 +170,34 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Order>> GetDetails(int OrderId)
         {
-            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(x => x.OrderId == OrderId, new System.Collections.Generic.List<Expression<Func<Order, object>>>
+            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
+            {
+                Conditions = x => x.OrderId == OrderId,
+                IncludeProperties = new System.Collections.Generic.List<Expression<Func<Order, object>>>
             {
                 x=>x.DrugStoreId,
                 x=>x.User,
                 x=>x.Address
+            }
             });
             if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
-            order.OrderItems = _appUow.OrderDetailRepo.Get(x => x.OrderId == OrderId, o => o.OrderByDescending(x => x.OrderItemId), new List<Expression<Func<OrderItem, object>>>
+            order.OrderItems = _appUow.OrderDetailRepo.Get(new BaseListFilterModel<OrderItem>
+            {
+                Conditions = x => x.OrderId == OrderId,
+                OrderBy = o => o.OrderByDescending(x => x.OrderItemId),
+                IncludeProperties = new List<Expression<Func<OrderItem, object>>>
             {
                 x=>x.Drug
+            }
             });
-            order.Payments = _appUow.PaymentRepo.Get(x => x.OrderId == OrderId, o => o.OrderByDescending(x => x.PaymentId), new List<Expression<Func<Payment, object>>>
+            order.Payments = _appUow.PaymentRepo.Get(new BaseListFilterModel<Payment>
             {
-                x=>x.PaymentGateway
+                Conditions = x => x.OrderId == OrderId,
+                OrderBy = o => o.OrderByDescending(x => x.PaymentId),
+                IncludeProperties = new List<Expression<Func<Payment, object>>>
+                {
+                    x=>x.PaymentGateway
+                }
             });
             return new Response<Order> { Result = order, IsSuccessful = true };
         }
@@ -279,11 +297,17 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.OrderStatus == filter.OrderStatus);
             }
 
-            return _orderRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.OrderId), new System.Collections.Generic.List<Expression<Func<Order, object>>>
+            return _orderRepo.Get(new BasePagedListFilterModel<Order>
+            {
+                Conditions = conditions,
+                PagingParameter = filter,
+                OrderBy = x => x.OrderByDescending(i => i.OrderId),
+                IncludeProperties = new List<Expression<Func<Order, object>>>
             {
                 x=>x.OrderDrugStores,
                 x=>x.Address,
                 x=>x.User
+            }
             });
         }
     }

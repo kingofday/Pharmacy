@@ -64,7 +64,7 @@ namespace Pharmacy.Dashboard.Controllers
             return Json(new Modal
             {
                 Title = $"{Strings.Add} {DomainString.Drug}",
-                Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new Drug()),
+                Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", new Drug { IsActive = true }),
                 AutoSubmit = false
             });
         }
@@ -73,8 +73,7 @@ namespace Pharmacy.Dashboard.Controllers
         public virtual async Task<JsonResult> Add([FromServices] IWebHostEnvironment env, DrugAddModel model)
         {
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
-            model.AppDir = _configuration["CustomSettings:BaseUrl"];
-            model.Root = env.WebRootPath;
+            model.AppDir = env.WebRootPath;
             var add = await _DrugSrv.AddAsync(model);
             return Json(new { add.IsSuccessful, add.Message });
         }
@@ -98,8 +97,7 @@ namespace Pharmacy.Dashboard.Controllers
         public virtual async Task<JsonResult> Update([FromServices] IWebHostEnvironment env, DrugAddModel model)
         {
             if (!ModelState.IsValid) return Json(new Response<string> { IsSuccessful = false, Message = ModelState.GetModelError() });
-            model.AppDir = _configuration["CustomSettings:BaseUrl"];
-            model.Root = env.WebRootPath;
+            model.AppDir = env.WebRootPath;
             var update = await _DrugSrv.UpdateAsync(model);
             return Json(new { update.IsSuccessful, update.Message });
         }
@@ -117,7 +115,7 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost, AuthEqualTo("Drug", "Delete")]
-        public virtual async Task<JsonResult> DeleteAsset([FromServices] IWebHostEnvironment env, int id) => Json(await _DrugSrv.DeleteAsync(env.WebRootPath, id));
+        public virtual async Task<JsonResult> DeleteAsset([FromServices] IWebHostEnvironment env, int assetId) => Json(await _DrugSrv.DeleteAttachment(env.WebRootPath, assetId));
         //[HttpGet, AuthEqualTo("DrugInRole", "Add")]
         //public virtual JsonResult Search(string q)
         //    => Json(_DrugSrv.Search(q).ToSelectListItems());

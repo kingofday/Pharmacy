@@ -3,13 +3,21 @@ using System;
 using Pharmacy.Domain.Resource;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Pharmacy.Domain
 {
     public class BaseAttachment
     {
         [NotMapped]
-        public object AttachmentId { get; set; }
+        public string AttachmentId
+        {
+            get
+            {
+                var id = this.GetType().GetProperties().First(x => x.Name.EndsWith("AttachmentId"));
+                return id.GetValue(this, null).ToString();
+            }
+        }
 
         [Display(Name = nameof(Strings.FileType), ResourceType = typeof(Strings))]
         public FileType FileType { get; set; }

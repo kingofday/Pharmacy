@@ -25,7 +25,7 @@ namespace Pharmacy.Service
             if (!save.IsSuccessful)
                 return new Response<int> { Message = save.Message };
             var mobNum = long.Parse(model.MobileNumber);
-            var user = await _appUow.UserRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobNum);
+            var user = await _appUow.UserRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobNum });
             if (user != null)
                 model.UserId = user.UserId;
             var prescription = new Prescription

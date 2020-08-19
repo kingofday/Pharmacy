@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\AppDb\20200819055627_change DrugAsset &amp; DrugStoreAsset AttachmentId Name.cs" />
+    <Compile Remove="Migrations\AppDb\20200819055627_change DrugAsset &amp; DrugStoreAsset AttachmentId Name.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Repositories\Order\" />
   </ItemGroup>
 

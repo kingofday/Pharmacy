@@ -94,7 +94,7 @@ namespace Pharmacy.Domain
 
         [ForeignKey(nameof(UnitId))]
         public Unit Unit { get; set; }
-        public IList<DrugAsset> DrugAssets { get; set; }
+        public IList<DrugAttachment> DrugAttachments { get; set; }
         public IList<OrderItem> OrderDetails { get; set; }
 
         [Display(Name = nameof(Strings.Tag), ResourceType = typeof(Strings))]

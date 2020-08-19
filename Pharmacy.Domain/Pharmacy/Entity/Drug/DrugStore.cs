@@ -1,7 +1,6 @@
 ﻿using System;
 using Elk.Core;
 using Pharmacy.Domain.Resource;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -54,6 +53,6 @@ namespace Pharmacy.Domain
         public User User { get; set; }
 
         public DrugStoreAddress Address { get; set; }
-        public List<DrugStoreAsset> DrugStoreAssets { get; set; }
+        //public List<DrugStoreAttachment> DrugStoreAssets { get; set; }
     }
 }

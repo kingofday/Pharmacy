@@ -28,6 +28,6 @@ namespace Pharmacy.Service
 
         IList<DrugSearchResult> Search(string searchParameter, int take = 10);
 
-        Task<IResponse<string>> DeleteAsset(string appDir, int assetId);
+        Task<IResponse<string>> DeleteAttachment(string appDir, int assetId);
     }
 }

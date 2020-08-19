@@ -100,8 +100,11 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<DrugStore>> FindAsync(int id)
         {
-            var Pharmacy = await _drugStoreRepo.FirstOrDefaultAsync(conditions: x => x.DrugStoreId == id,
-                           includeProperties: new List<Expression<Func<DrugStore, object>>> { x => x.Address });
+            var Pharmacy = await _drugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            {
+                Conditions = x => x.DrugStoreId == id,
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
+            });
             if (Pharmacy == null) return new Response<DrugStore> { Message = ServiceMessage.RecordNotExist };
 
             return new Response<DrugStore> { Result = Pharmacy, IsSuccessful = true };
@@ -225,8 +228,11 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model)
         {
-            var Pharmacy = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(conditions: x => x.DrugStoreId == model.DrugStoreId,
-                includeProperties: new List<Expression<Func<DrugStore, object>>> { x => x.Address });
+            var Pharmacy = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            {
+                Conditions = x => x.DrugStoreId == model.DrugStoreId,
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
+            });
             if (Pharmacy == null) return new Response<DrugStore> { Message = ServiceMessage.RecordNotExist };
             if (Pharmacy.Address == null)
             {
@@ -337,9 +343,9 @@ namespace Pharmacy.Service
                 {
                     DrugStoreId = x.DrugStoreId,
                     Name = x.Name,
-                    ImageUrl = x.DrugStoreAssets.First().Url
+                    //ImageUrl = x.DrugStoreAssets.First().Url
                 },
-                Conditions = x => x.DrugStoreAssets.Any(),
+                //Conditions = x => x.DrugStoreAssets.Any(),
                 PagingParameter = new PagingParameter
                 {
                     PageNumber = 1,
