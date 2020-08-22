@@ -30,6 +30,7 @@ namespace Pharmacy.DataAccess.Ef
                 .Include(x => x.DrugTags)
                 .ThenInclude(x => x.Tag)
                 .Include(x => x.Unit)
+                .Include(x => x.DrugCategory)
                 .AsNoTracking()
                 .FirstOrDefault();
             if (drug == null) new Response<SingleDrugDTO> { Message = Strings.ItemNotFound };
@@ -41,7 +42,10 @@ namespace Pharmacy.DataAccess.Ef
                     DrugId = drug.DrugId,
                     NameEn = drug.NameEn,
                     NameFa = drug.NameFa,
+                    UniqueId = drug.UniqueId,
+                    UnitName = drug.Unit.Name,
                     Price = drug.Price,
+                    CategoryName = drug.DrugCategory.Name,
                     DiscountPrice = drug.DiscountPrice,
                     Description = drug.Description,
                     Slides = drug.DrugAttachments?.Select(x => x.Url).ToList(),

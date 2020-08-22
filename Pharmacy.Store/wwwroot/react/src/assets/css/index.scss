@@ -232,6 +232,24 @@ input:-webkit-autofill:active {
   justify-content: center;
   align-items: center;
 }
+.price-discount {
+  padding: 0 5px;
+  position: relative;
+
+  &::after {
+      content: "";
+      background: red;
+      height: 2px;
+      position: absolute;
+      top: 50%;
+      margin-top: -1px;
+      left: 5px;
+      right: 5px;
+  }
+}
+.ws-pre{
+  white-space: pre-wrap;
+}
 /*==================================
 -- Material UI
 ====================================*/

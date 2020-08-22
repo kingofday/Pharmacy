@@ -33,7 +33,7 @@ class Home extends React.Component {
                     </Row>
                     <Row id='second-row' className='mb-15'>
                         <Col xs={12} lg={9}>
-                            <div className='card  mb-15' style={{ direction: 'ltr' }}>
+                            <div className='card mb-15 w-100' style={{ direction: 'ltr' }}>
                                 <DrugSlideShow speed={700} title={strings.bestSellers} type={enums.drugFilterType.bestSellers.value} />
                             </div>
                         </Col>
@@ -45,7 +45,7 @@ class Home extends React.Component {
                     <DrugStores />
                     <Row>
                         <Col xs={12} sm={12}>
-                            <div className='card mb-15'>
+                            <div className='card mb-15 w-100'>
                                 <DrugSlideShow title={strings.newests} type={enums.drugFilterType.newest.value} />
                             </div>
                         </Col>

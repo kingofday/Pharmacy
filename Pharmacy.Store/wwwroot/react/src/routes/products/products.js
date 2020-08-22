@@ -39,11 +39,15 @@ class Products extends React.Component {
             maxPrice: this.props.maxPrice,
             categoryId: query.get('categoryId')
         });
-        console.log(get);
         if (!get.success) {
             this.props.showInitError(this._fetchData.bind(this), get.message);
             return;
         }
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+        console.log(get.result);
         this.props.setMaxAvailablePrice(get.result.maxPrice);
         this.setState(p => ({
             ...p,
@@ -72,12 +76,11 @@ class Products extends React.Component {
 
     async _handleType(e) {
         let type = e.target.value
-        this.setState(p => ({ ...p, type }));
-        await this._fetchDrugs();
+        this.setState(p => ({ ...p, type: type }), async () => { await this._fetchDrugs(); });
+
     }
 
     _handlePaging(number) {
-        console.log(number);
         this.props.setPageNumber(number);
 
     }
@@ -91,7 +94,7 @@ class Products extends React.Component {
             <div id='page-products'>
                 <Container>
                     <Row id='first-row' className="mb-15">
-                        <Col xs={12} sm={8}>
+                        <Col xs={12} sm={8} className='d-flex flex-column'>
                             <Row>
                                 <Col xs={12} className="mb-15">
                                     <FormControl variant="outlined" className='card'>

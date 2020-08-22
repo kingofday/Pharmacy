@@ -104,53 +104,10 @@ namespace Pharmacy.API.Controllers
 
         [HttpGet, Route("[controller]")]
         public ActionResult<IResponse<GetDrugsModel>> Get([FromQuery] DrugSearchFilter filter)
-                       //=> _drugService.GetAsDto(filter);
-                       => new Response<GetDrugsModel>
-                       {
-                           IsSuccessful = true,
-                           Result = new GetDrugsModel
-                           {
-                               MaxPrice = 3200000,
-                               TotalCount = 20,
-                               Items = items
-                           }
-                       };
+                       => _drugService.GetAsDto(filter);
 
         [HttpGet, Route("drug/{id:int}")]
         public ActionResult<IResponse<SingleDrugDTO>> GetSingle(int id)
-            //=> _drugService.GetSingle(id);
-            => new Response<SingleDrugDTO>
-            {
-                IsSuccessful = true,
-                Result = new SingleDrugDTO
-                {
-                    DrugId = 1,
-                    UnitName = "شیشه",
-                    Price = 25000,
-                    DiscountPrice = 1000,
-                    Tags = new List<DrugTagDTO> { new DrugTagDTO { Name = "آرایشی", TagId = 1 } },
-                    NameFa = "پماد ضد حساسیت",
-                    NameEn = "Mouster Againt Alergic",
-                    CategoryName = "آرایشی بهداشتی",
-                    UniqueId = "ABc12F",
-                    Properties = new List<DrugProperty> {
-                        new DrugProperty{ Name = "وزن",Value = "100 گرم" }
-                    },
-                    Comments = new List<DrugCommentDTO> {
-                        new DrugCommentDTO{
-                            Fullname = "مرتضی اجمدی",
-                            Comment = "محصول عالی هست، پیشنهاد میکنم بخرید"
-                        },
-                        new DrugCommentDTO{
-                            Fullname = "شاهین رجایی",
-                            Comment ="من راضیم، بخرید"
-                        }},
-                    Description = "ژل محافظت کننده مخصوص پوست‌های حساس",
-                    Slides = new List<string>{
-                        "https://pharma.gocodeit.me/wp-content/uploads/2019/09/Capture.png",
-                        "https://pharma.gocodeit.me/wp-content/uploads/2019/09/0034385_0.png"
-                    }
-                }
-            };
+            => _drugService.GetSingle(id);
     }
 }

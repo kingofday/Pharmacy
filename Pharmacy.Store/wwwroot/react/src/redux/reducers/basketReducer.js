@@ -18,7 +18,8 @@ const calculate = (items) => {
 export default function basketReducer(state = initState, action) {
     switch (action.type) {
         case actionTypes.ADD_TO_BASKET:
-            var items =  [...state.items.filter(x => x.drugId)];
+            var items = state.items;
+            console.log(items);
             let idx = items.findIndex(x => x.drugId === action.payload.drugId);
             if (idx === -1)
                 items.push(action.payload);
@@ -30,7 +31,7 @@ export default function basketReducer(state = initState, action) {
             if (item) item.count = action.payload.count;
             return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.REMOVE_FROM_BASKET:
-            state.items.splice(state.items.findIndex(x => x.id == action.payload.id), 1);
+            state.items.splice(state.items.findIndex(x => x.drugId == action.payload.id), 1);
             return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.CLEAR_BASKET:
             return { ...state, items: [], totalPrice: 0, totalDiscount: 0 };
@@ -43,7 +44,7 @@ export default function basketReducer(state = initState, action) {
             return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.CHANGED_BASKET_ITEMS:
             action.payload.products.forEach(p => {
-                let idx = state.items.findIndex(x => x.id === p.id);
+                let idx = state.items.findIndex(x => x.drugId === p.drugId);
                 if (idx > -1) {
                     if (p.count === 0) state.items.splice(idx, 1);
                     else {

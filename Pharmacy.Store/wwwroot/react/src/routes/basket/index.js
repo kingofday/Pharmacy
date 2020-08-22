@@ -70,7 +70,7 @@ class Basket extends React.Component {
 
                                                     <div className='info'>
                                                         <h2 className='hx'>{x.nameFa}</h2>
-                                                        <Counter id={x.id} className='m-b' count={x.count} onChange={this._changeCount.bind(this)} />
+                                                        <Counter id={x.drugId} className='m-b' count={x.count} onChange={this._changeCount.bind(this)} />
                                                         <span className='price'>{commaThousondSeperator((x.realPrice * x.count).toString())}<small className='currency'> {strings.currency}</small></span>
                                                     </div>
                                                 </div>
@@ -86,7 +86,7 @@ class Basket extends React.Component {
                                             </Col>
                                             <Col xs={3} className='d-flex end-col' lg={3}>
                                                 <div><DiscountBadg discount={x.discount} /></div>
-                                                <div><button onClick={this._delete.bind(this, x.id, x.nameFa)} className='btn-delete'><i className='zmdi zmdi-delete'></i></button></div>
+                                                <div><button onClick={this._delete.bind(this, x.drugId, x.nameFa)} className='btn-delete'><i className='zmdi zmdi-delete'></i></button></div>
                                             </Col>
                                         </Row>
                                     </div>

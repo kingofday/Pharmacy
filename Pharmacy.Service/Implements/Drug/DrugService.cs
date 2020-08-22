@@ -36,7 +36,7 @@ namespace Pharmacy.Service
             var drug = await _drugRepo.FirstOrDefaultAsync(new BaseFilterModel<Drug>
             {
                 Conditions = x => x.DrugId == id,
-                IncludeProperties = new List<Expression<Func<Drug, object>>> { x => x.DrugAttachments }
+                IncludeProperties = new List<Expression<Func<Drug, object>>> { x=>x.Properties, x => x.DrugAttachments }
             });
             if (drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
             drug.DrugTags = _appUow.DrugTagRepo.Get(new BaseListFilterModel<DrugTag>
@@ -80,6 +80,8 @@ namespace Pharmacy.Service
             var drug = new Drug().CopyFrom(model);
             if (model.TagIds != null && model.TagIds.Any())
                 drug.DrugTags = new List<DrugTag>(model.TagIds.Select(x => new DrugTag { TagId = x }));
+            if (model.Properties != null)
+                drug.Properties = model.Properties;
             if (model.Files != null && model.Files.Count != 0)
             {
                 var save = await _attchService.Save(AttachmentType.DrugThumbnailImage, model.Files, model.AppDir);
@@ -109,11 +111,16 @@ namespace Pharmacy.Service
         {
             var drug = await _drugRepo.FindAsync(model.DrugId);
             if (drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
+            drug.Price = model.Price;
+            drug.DiscountPrice = model.DiscountPrice;
             drug.NameFa = model.NameFa;
             drug.NameEn = model.NameEn;
             drug.IsActive = model.IsActive;
+            drug.ShortDescription = model.ShortDescription;
             drug.Description = model.Description;
             drug.DrugCategoryId = model.DrugCategoryId;
+            if (model.Properties != null)
+                drug.Properties = model.Properties;
             #region Tags
             if (model.TagIds == null) model.TagIds = new List<int>();
             var tags = _appUow.DrugTagRepo.Get(new BaseListFilterModel<DrugTag> { Conditions = x => x.DrugId == model.DrugId, OrderBy = o => o.OrderByDescending(x => x.DrugTagId) });
@@ -222,6 +229,18 @@ namespace Pharmacy.Service
             var delete = await _appUow.ElkSaveChangesAsync();
             if (delete.IsSuccessful)
                 _attchService.Delete(appDir, url);
+            return new Response<string>
+            {
+                IsSuccessful = delete.IsSuccessful,
+                Message = delete.IsSuccessful ? null : ServiceMessage.Error
+            };
+
+        }
+
+        public async Task<IResponse<string>> DeleteProp(int propId)
+        {
+            _appUow.DrugPropertyRepo.Delete(new DrugProperty { DrugPropertyId = propId });
+            var delete = await _appUow.ElkSaveChangesAsync();
             return new Response<string>
             {
                 IsSuccessful = delete.IsSuccessful,

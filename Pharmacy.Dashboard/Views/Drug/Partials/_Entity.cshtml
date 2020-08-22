@@ -5,77 +5,112 @@
 }
 <form asp-controller="Drug" asp-action="@(Model.DrugId==0?"Add":"Update")" id="frm-drug">
     @Html.HiddenFor(x => x.DrugId)
-    <div class="row m-b">
-        <div class="col-12 col-sm-4">
-            <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("image1","تصویر یک",assets.FirstOrDefault())' />
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-one-tab" data-toggle="tab" href="#nav-one" role="tab" aria-controls="nav-one" aria-selected="true">
+                اطلاعات کلی
+            </a>
+            <a class="nav-item nav-link" id="nav-two-tab" data-toggle="tab" href="#nav-two" role="tab" aria-controls="nav-two" aria-selected="false">
+                مشخصات
+            </a>
+            <a class="nav-item nav-link" id="nav-three-tab" data-toggle="tab" href="#nav-three" role="tab" aria-controls="nav-three" aria-selected="false">
+                توضیحات
+            </a>
+            <a class="nav-item nav-link" id="nav-four-tab" data-toggle="tab" href="#nav-four" role="tab" aria-controls="nav-four" aria-selected="false">
+                بیشتر
+            </a>
         </div>
-        <div class="col-12 col-sm-4">
-            <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("image2","تصویر دو",assets.Skip(1).FirstOrDefault())' />
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active m-t" id="nav-one" role="tabpanel" aria-labelledby="nav-one-tab">
+            <div class="row m-b">
+                <div class="col-12 col-sm-4">
+                    <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("image1","تصویر یک",assets.FirstOrDefault())' />
+                </div>
+                <div class="col-12 col-sm-4">
+                    <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("image2","تصویر دو",assets.Skip(1).FirstOrDefault())' />
 
-        </div>
-        <div class="col-12 col-sm-4">
-            <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("image3","تصویر سه",assets.Skip(2).FirstOrDefault())' />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            <custom-select-for for="UnitId"
-                               class="form-control"
-                               items="(List<SelectListItem>)ViewBag.Units" />
-        </div>
-        <div class="col-12 col-sm-6">
-            <custom-select-for for="DrugCategoryId"
-                               class="form-control"
-                               items="(List<SelectListItem>)ViewBag.Categories" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-sm-6">
-            <custom-input-for for="NameFa" />
-        </div>
-        <div class="col-12 col-sm-6">
-            <custom-input-for for="NameEn" class="form-control ltr-elm" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12 col-sm-4">
-            <custom-input-for for="Price" class="form-control ltr-elm rial"/>
-        </div>
-        <div class="col-12 col-sm-4">
-            <custom-input-for for="DiscountPrice" class="form-control ltr-elm" />
-        </div>
-        <div class="col-12 col-sm-4">
-            <custom-checkbox-for for="IsActive" wrapper-class="chb-group" />
-        </div>
-
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="form-group">
-                @Html.LabelFor(x => x.DrugTags)
-                @{
-                    var tags = "[]";
-                    if (Model.DrugTags != null)
-                    {
-                        tags = (Model.DrugTags.Select(x => new SelectListItem
-                        {
-                            Text = x.Tag.Name,
-                            Value = x.TagId.ToString()
-                        }).ToList()).SerializeToJson();
-                    }
-                    <input type="hidden" value='@tags' id="tags_wrapper" placeholder="@Strings.SearchHere" />
-                }
+                </div>
+                <div class="col-12 col-sm-4">
+                    <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("image3","تصویر سه",assets.Skip(2).FirstOrDefault())' />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <custom-select-for for="UnitId"
+                                       class="form-control"
+                                       items="(List<SelectListItem>)ViewBag.Units" />
+                </div>
+                <div class="col-12 col-sm-6">
+                    <custom-select-for for="DrugCategoryId"
+                                       class="form-control"
+                                       items="(List<SelectListItem>)ViewBag.Categories" />
+                </div>
             </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <custom-input-for for="ShortDescription"></custom-input-for>
+        <div class="tab-pane fade m-t" id="nav-two" role="tabpanel" aria-labelledby="nav-two-tab">
+
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <custom-input-for for="NameFa" />
+                </div>
+                <div class="col-12 col-sm-6">
+                    <custom-input-for for="NameEn" class="form-control ltr-elm" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <custom-input-for for="Price" class="form-control ltr-elm rial" />
+                </div>
+                <div class="col-12 col-sm-6">
+                    <custom-input-for for="DiscountPrice" class="form-control ltr-elm rial" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <custom-input-for for="UniqueId" class="form-control ltr-elm" />
+                </div>
+                <div class="col-12 col-sm-4">
+                    <custom-checkbox-for for="IsActive" wrapper-class="chb-group" />
+                </div>
+
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <custom-textarea-for rows="3" for="Description"></custom-textarea-for>
+        <div class="tab-pane fade m-t" id="nav-three" role="tabpanel" aria-labelledby="nav-three-tab">
+            <div class="row">
+                <div class="col-12">
+                    <custom-input-for for="ShortDescription"></custom-input-for>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <custom-textarea-for rows="8" for="Description"></custom-textarea-for>
+                </div>
+            </div>
+
+        </div>
+        <div class="tab-pane fade m-t" id="nav-four" role="tabpanel" aria-labelledby="nav-four-tab">
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.DrugTags)
+                        @{
+                            var tags = "[]";
+                            if (Model.DrugTags != null)
+                            {
+                                tags = (Model.DrugTags.Select(x => new SelectListItem
+                                {
+                                    Text = x.Tag.Name,
+                                    Value = x.TagId.ToString()
+                                }).ToList()).SerializeToJson();
+                            }
+                            <input type="hidden" value='@tags' id="tags_wrapper" placeholder="@Strings.SearchHere" />
+                        }
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <partial name="_Props.cshtml" model="Model.Properties" />
         </div>
     </div>
 
@@ -89,5 +124,6 @@
     assets = [];
         $('#tags_wrapper').hummingbird({
         url:'@Url.Action("search","tag")'
-    });
+        });
+    $.validator.setDefaults({ ignore: '' });
 </script>

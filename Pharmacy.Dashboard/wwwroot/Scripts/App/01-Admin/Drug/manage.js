@@ -3,6 +3,7 @@ var postsPageNumber = 1;
 var posts = [];
 var selectedPosts = [];
 var assets = [];
+var props = [];
 $(document).ready(function () {
 
     //====================================================================== Assets
@@ -64,6 +65,56 @@ $(document).ready(function () {
         };
         reader.readAsDataURL(file);
     });
+    //====================================================================== props
+    //======================================================================
+
+    $(document).on('click', '#btn-prop', function (e) {
+        e.stopPropagation();
+        let $btn = $(this);
+        if (!$('#prop_name').val() || !$('#prop_value').val()) {
+            showNotif(notifyType.danger, validationMessages.validationFailed);;
+            return;
+        }
+        let prop = {
+            name: $('#prop_name').val(),
+            value: $('#prop_value').val()
+        };
+        props.push(prop);
+        let $row = `<tr><td>${prop.name}</td><td>${prop.value}</td><td><a class="new-prop prop-delete"><i class="zmdi zmdi-close"> </i></a></td></tr>`;
+        $('#props').append($row);
+        $('#prop_name').val('');
+        $('#prop_value').val('');
+    });
+
+    $('#modal').on('click', '.prop-delete', function (e) {
+        e.stopPropagation();
+        let $btn = $(this);
+        let removeUrl = $btn.data('url');
+        if (removeUrl) {
+            ajaxBtn.inProgress($btn);
+            $.post(removeUrl)
+                .done(function (rep) {
+                    ajaxBtn.normal();
+                    if (!rep.IsSuccessful) showNotif(notifyType.danger, rep.Message);
+                    else $btn.closest('tr').remove();
+
+                })
+                .fail(function (e) {
+                    ajaxBtn.normal();
+                });
+        }
+        else {
+            
+            let idx = $('.prop-delete.new-prop').index($btn);
+            console.log($('.prop-delete.new-prop').length);
+            console.log(idx);
+            if (idx > -1) {
+                props.splice(idx, 1);
+                $btn.closest('tr').remove();
+            }
+        }
+        console.log(props);
+    });
     //====================================================================== Submit
     //======================================================================
 
@@ -71,17 +122,19 @@ $(document).ready(function () {
         e.stopPropagation();
         let $btn = $(this);
         let $frm = $btn.closest('form');
-        if(!$frm.valid()) return
+        if (!$frm.valid()) {
+            showNotif(notifyType.danger, validationMessages.validationFailed);
+            return;
+        }
         let model = customSerialize($('#frm-drug'));
         let tags = JSON.parse($('#tags_wrapper').val());
         model.TagIds = [];
         for (let i = 0; i < tags.length; i++)
             model.TagIds.push(tags[i].Value);
+        model.Properties = props;
+        console.log(model);
         let frmData = objectToFormData(model);
         //return;
-        //for (var k in model) {
-        //    frmData.append(k, model[k]);
-        //}
         for (var i = 0; i < assets.length; i++)  frmData.append('Files', assets[i].file);
 
         ajaxBtn.inProgress($btn);
@@ -125,4 +178,3 @@ function getPosts($btn) {
             ajaxBtn.normal();
         });
 }
-

@@ -170,7 +170,7 @@ $(document).ready(function () {
         else {
             let $lbl = $(this).prev();
             let txt = $lbl.clone().children().remove().end().text();
-            $lbl.html(txt + ' <small>(' + commaThousondSeperator(v) + 'تومان ' + ')</small>');
+            $lbl.html(txt + ' <small>(' + commaThousondSeperator(v) + ' تومان' + ')</small>');
         }
     });
 
@@ -488,11 +488,20 @@ var objectToFormData = function (obj, form, namespace) {
             } else {
                 formKey = property;
             }
-            if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+            if (Array.isArray(obj[property])) {
+                for (var i = 0; i < obj[property].length; i++) {
+                    if (typeof obj[property][i] === 'object' && !(obj[property][i] instanceof File))
+                        objectToFormData(obj[property][i], fd, property + '[' + i + ']');
+                    else fd.append(formKey, obj[property][i]);
+                }
+            }
+            else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
 
                 objectToFormData(obj[property], fd, property);
 
-            } else {
+            }
+
+            else {
 
                 // if it's a string or a File object
                 fd.append(formKey, obj[property]);

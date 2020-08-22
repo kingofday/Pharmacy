@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Pharmacy.Domain
 {
     [NotMapped]
-    public class DrugAddModel//: Drug
+    public class DrugAddModel
     {
         public int DrugId { get; set; }
 
@@ -16,6 +16,11 @@ namespace Pharmacy.Domain
         public int DiscountPrice { get; set; }
 
         public int UnitId { get; set; }
+
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [Display(Name = nameof(Strings.UniqueId), ResourceType = typeof(Strings))]
+        public string UniqueId { get; set; }
+
 
         [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
         public int? DrugCategoryId { get; set; }
@@ -47,14 +52,13 @@ namespace Pharmacy.Domain
         [StringLength(1000, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Description { get; set; }
 
-        [NotMapped]
         public IList<IFormFile> Files { get; set; }
 
+        public List<int> TagIds { get; set; }
 
-        [NotMapped]
         public string AppDir { get; set; }
 
-        public List<int> TagIds { get; set; }
+        public List<DrugProperty> Properties { get; set; }
 
     }
 }

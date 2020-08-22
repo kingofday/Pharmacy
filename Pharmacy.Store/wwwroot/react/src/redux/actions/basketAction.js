@@ -24,7 +24,7 @@ export function ChangedBasketItemsAction(products) {
 export function RemoveFromBasketAction(id) {
     return {
         type: actionTypes.REMOVE_FROM_BASKET,
-        payload: { id }
+        payload: { id:id }
     };
 };
 

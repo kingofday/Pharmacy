@@ -1035,7 +1035,7 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to به داشبورد مدیریت شاپیا خوش آمدید.
+        ///   Looks up a localized string similar to به داشبورد مدیریت فارما خوش آمدید.
         /// </summary>
         public static string WelcomeMessage {
             get {

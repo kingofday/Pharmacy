@@ -1,9 +1,10 @@
-import addr from './addresses';
+import addr, { imagePrefixUrl } from './addresses';
 import strings from './../shared/constant';
 
 export default class apiDrug {
     static async get(filter) {
         let url = addr.searchDrug(filter);
+        console.log(url);
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)
@@ -12,7 +13,7 @@ export default class apiDrug {
                 success: true,
                 result: {
                     maxPrice: rep.Result.MaxPrice,
-                    lastPageNumber: Math.floor((rep.Result.TotalCount / 9) + (rep.Result.TotalCount % filter.pageSize === 0 ? 0 : 1)),
+                    lastPageNumber: Math.floor(rep.Result.TotalCount / 9) + ((rep.Result.TotalCount % (filter.pageSize || 9)) > 0 ? 1 : 0),
                     items: rep.Result.Items.map((d) => ({
                         drugId: d.DrugId,
                         nameFa: d.NameFa,
@@ -24,7 +25,7 @@ export default class apiDrug {
                         price: d.Price,
                         realPrice: d.Price - d.DiscountPrice,
                         unitName: d.UnitName,
-                        thumbnailImageUrl: d.ThumbnailImageUrl
+                        thumbnailImageUrl: imagePrefixUrl + d.ThumbnailImageUrl
                     }))
                 }
             }
@@ -72,7 +73,7 @@ export default class apiDrug {
                     unitName: p.UnitName,
                     uniqueId: p.UniqueId,
                     description: p.Description,
-                    slides: p.Slides,
+                    slides: p.Slides.map(s => imagePrefixUrl + s),
                     properties: p.Properties ? p.Properties.map(prop => ({
                         name: prop.Name,
                         value: prop.Value

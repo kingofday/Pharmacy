@@ -444,7 +444,7 @@
     <value>لطفا همان مقدار را دوباره وارد نمایید</value>
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
-    <value>به داشبورد مدیریت شاپیا خوش آمدید</value>
+    <value>به داشبورد مدیریت فارما خوش آمدید</value>
   </data>
   <data name="WithoutAccountText" xml:space="preserve">
     <value>هیچ حسابی نداید؟</value>

@@ -6,7 +6,6 @@ export default class apiDrugStore {
         let url = addr.getDrugStores;
         var handleResponse = async (response) => {
             const rep = await response.json();
-            console.log(rep);
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message }
             else return {
