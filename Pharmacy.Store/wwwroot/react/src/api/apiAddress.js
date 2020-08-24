@@ -41,7 +41,6 @@ export default class apiAddress {
 
     static async add(token, address) {
         let url = addr.addAddress;
-        console.log(address);
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)

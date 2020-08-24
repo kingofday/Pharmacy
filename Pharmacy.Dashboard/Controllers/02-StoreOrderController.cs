@@ -10,6 +10,7 @@ using DomainString = Pharmacy.Domain.Resource.Strings;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Linq;
+using System;
 
 namespace Pharmacy.Dashboard.Controllers
 {
@@ -33,7 +34,7 @@ namespace Pharmacy.Dashboard.Controllers
         }).ToList();
 
         [HttpGet]
-        public virtual async Task<JsonResult> Update(int id)
+        public virtual async Task<JsonResult> Update(Guid id)
         {
             var findRep = await _OrderSrv.FindAsync(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Order) });
@@ -54,7 +55,7 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpGet, AuthEqualTo("StoreOrder", "Update")]
-        public virtual async Task<JsonResult> Details(int id)
+        public virtual async Task<JsonResult> Details(Guid id)
         {
             var findRep = await _OrderSrv.GetDetails(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Order) });
@@ -69,7 +70,7 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Delete(int id) => Json(await _OrderSrv.DeleteAsync(id));
+        public virtual async Task<JsonResult> Delete(Guid id) => Json(await _OrderSrv.DeleteAsync(id));
 
         [HttpGet]
         public virtual ActionResult Manage(OrderSearchFilter filter)

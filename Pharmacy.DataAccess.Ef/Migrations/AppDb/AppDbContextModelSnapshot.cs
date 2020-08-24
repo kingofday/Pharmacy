@@ -425,6 +425,9 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                         .HasColumnType("varchar(40)")
                         .HasMaxLength(40);
 
+                    b.Property<int>("Score")
+                        .HasColumnType("int");
+
                     b.Property<byte>("Status")
                         .HasColumnType("tinyint");
 
@@ -564,10 +567,9 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
 
             modelBuilder.Entity("Pharmacy.Domain.Order", b =>
                 {
-                    b.Property<int>("OrderId")
+                    b.Property<Guid>("OrderId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("AddressId")
                         .HasColumnType("int");
@@ -606,6 +608,9 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFixed")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime>("ModifyDateMi")
                         .HasColumnType("datetime2");
 
@@ -618,6 +623,9 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
 
                     b.Property<DateTime?>("PreparationDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int?>("PrescriptionId")
+                        .HasColumnType("int");
 
                     b.Property<Guid?>("TempBasketId")
                         .HasColumnType("uniqueidentifier");
@@ -641,9 +649,9 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
 
                     b.HasIndex("AddressId");
 
-                    b.HasIndex("TempBasketId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("PrescriptionId")
+                        .IsUnique()
+                        .HasFilter("[PrescriptionId] IS NOT NULL");
 
                     b.ToTable("Order","Order");
                 });
@@ -665,8 +673,8 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.Property<int>("DrugStoreId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -676,10 +684,6 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasIndex("DrugStoreId");
 
                     b.HasIndex("OrderId");
-
-                    b.HasIndex("OrderDrugStoreId", "DrugStoreId")
-                        .IsUnique()
-                        .HasName("IX_OrderDrugStore");
 
                     b.ToTable("OrderDrugStore","Order");
                 });
@@ -700,8 +704,8 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.Property<int>("DrugId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Price")
                         .HasColumnType("int");
@@ -742,8 +746,8 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                         .HasColumnType("char(10)")
                         .HasMaxLength(10);
 
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("OrderId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("PaymentGatewayId")
                         .HasColumnType("int");
@@ -968,67 +972,6 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.ToTable("Tag","Base");
                 });
 
-            modelBuilder.Entity("Pharmacy.Domain.TempBasket", b =>
-                {
-                    b.Property<Guid>("TempBasketId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("InsertDateMi")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InsertDateSh")
-                        .HasColumnType("char(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<int?>("PrescriptionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("TempBasketId");
-
-                    b.HasIndex("PrescriptionId");
-
-                    b.ToTable("TempBasket","Order");
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.TempBasketItem", b =>
-                {
-                    b.Property<int>("TempBasketItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DrugId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("InsertDateMi")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("InsertDateSh")
-                        .HasColumnType("char(10)")
-                        .HasMaxLength(10);
-
-                    b.Property<int>("Price")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("TempBasketId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("TotalPrice")
-                        .HasColumnType("int");
-
-                    b.HasKey("TempBasketItemId");
-
-                    b.HasIndex("DrugId");
-
-                    b.HasIndex("TempBasketId");
-
-                    b.ToTable("TempBasketItem","Order");
-                });
-
             modelBuilder.Entity("Pharmacy.Domain.Unit", b =>
                 {
                     b.Property<int>("UnitId")
@@ -1219,7 +1162,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.User", "User")
                         .WithMany("bankAccounts")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1228,7 +1171,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Province", "Province")
                         .WithMany()
                         .HasForeignKey("ProvinceId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1237,7 +1180,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.City", "City")
                         .WithMany()
                         .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1246,12 +1189,12 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.DrugCategory", "DrugCategory")
                         .WithMany()
                         .HasForeignKey("DrugCategoryId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pharmacy.Domain.Unit", "Unit")
                         .WithMany("Drugs")
                         .HasForeignKey("UnitId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1260,14 +1203,14 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Drug", "Drug")
                         .WithMany("DrugAttachments")
                         .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.DrugCategory", b =>
                 {
                     b.HasOne("Pharmacy.Domain.DrugCategory", "Parent")
-                        .WithMany()
+                        .WithMany("Childs")
                         .HasForeignKey("ParentId")
                         .OnDelete(DeleteBehavior.Restrict);
                 });
@@ -1277,13 +1220,13 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Drug", "Drug")
                         .WithMany("Comments")
                         .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Pharmacy.Domain.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1292,7 +1235,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Drug", "Drug")
                         .WithMany("Properties")
                         .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1301,7 +1244,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.User", "User")
                         .WithMany("DrugStores")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1310,19 +1253,19 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.District", "District")
                         .WithMany()
                         .HasForeignKey("DistrictId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pharmacy.Domain.DrugStore", "DrugStore")
                         .WithOne("Address")
                         .HasForeignKey("Pharmacy.Domain.DrugStoreAddress", "DrugStoreId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.DrugStoreAttachment", b =>
                 {
                     b.HasOne("Pharmacy.Domain.DrugStore", "DrugStore")
-                        .WithMany()
+                        .WithMany("Attachments")
                         .HasForeignKey("DrugStoreId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1333,13 +1276,13 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Drug", "Drug")
                         .WithMany("DrugTags")
                         .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Pharmacy.Domain.Tag", "Tag")
                         .WithMany()
                         .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1348,27 +1291,21 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.UserAddress", "Address")
                         .WithMany()
                         .HasForeignKey("AddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pharmacy.Domain.TempBasket", "TempBasket")
-                        .WithMany()
-                        .HasForeignKey("TempBasketId")
+                    b.HasOne("Pharmacy.Domain.Prescription", "Prescription")
+                        .WithOne("Order")
+                        .HasForeignKey("Pharmacy.Domain.Order", "PrescriptionId")
                         .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Pharmacy.Domain.User", "User")
-                        .WithMany("Orders")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.OrderDrugStore", b =>
                 {
                     b.HasOne("Pharmacy.Domain.DrugStore", "DrugStore")
-                        .WithMany()
+                        .WithMany("OrderDrugStores")
                         .HasForeignKey("DrugStoreId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Pharmacy.Domain.Order", "Order")
@@ -1383,13 +1320,13 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Drug", "Drug")
                         .WithMany("OrderDetails")
                         .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Pharmacy.Domain.Order", "Order")
                         .WithMany("OrderItems")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1398,13 +1335,13 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Order", "Order")
                         .WithMany("Payments")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Pharmacy.Domain.PaymentGateway", "PaymentGateway")
                         .WithMany("Payments")
                         .HasForeignKey("PaymentGatewayId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1413,7 +1350,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1422,29 +1359,6 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.Prescription", "Prescription")
                         .WithMany("Attachments")
                         .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.TempBasket", b =>
-                {
-                    b.HasOne("Pharmacy.Domain.Prescription", "Prescription")
-                        .WithMany()
-                        .HasForeignKey("PrescriptionId")
-                        .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Pharmacy.Domain.TempBasketItem", b =>
-                {
-                    b.HasOne("Pharmacy.Domain.Drug", "Drug")
-                        .WithMany()
-                        .HasForeignKey("DrugId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Pharmacy.Domain.TempBasket", "TempBasket")
-                        .WithMany()
-                        .HasForeignKey("TempBasketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1454,12 +1368,12 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.District", "District")
                         .WithMany()
                         .HasForeignKey("DistrictId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Pharmacy.Domain.User", "User")
                         .WithMany("Addresses")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -1468,7 +1382,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasOne("Pharmacy.Domain.User", "User")
                         .WithMany("UserAttachments")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

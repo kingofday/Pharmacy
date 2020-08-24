@@ -28,6 +28,8 @@ namespace Pharmacy.Service
                 Selector = x => new AddressDTO
                 {
                     Id = x.UserAddressId,
+                    Fullname = x.Fullname,
+                    MobileNumber = x.MobileNumber.ToString(),
                     Lat = x.Latitude,
                     Lng = x.Longitude,
                     Details = x.Details
@@ -63,7 +65,7 @@ namespace Pharmacy.Service
                 Longitude = model.Lng,
                 IsDefault = true,
                 Fullname = model.Fullname,
-                MobileNumber = long.Parse(model.MobileNumber),
+                MobileNumber = string.IsNullOrWhiteSpace(model.MobileNumber)?0:long.Parse(model.MobileNumber),
                 Details = model.Details
             };
             await _addressRepo.AddAsync(addr);

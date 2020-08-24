@@ -21,7 +21,6 @@ class TopHeader extends React.Component {
     }
     _handleLogOut() {
         this.props.logOut();
-        window.location.href = '/';
     }
     render() {
         console.log(this.props.authenticated);

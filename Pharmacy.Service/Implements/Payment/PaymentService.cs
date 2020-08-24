@@ -64,7 +64,7 @@ namespace Pharmacy.Service
                 Conditions = x => x.PaymentId == paymentId,
                 IncludeProperties = new System.Collections.Generic.List<System.Linq.Expressions.Expression<System.Func<Payment, object>>> {
                 x=>x.Order,
-                x=>x.Order.User,
+                x=>x.Order.Address.User,
                 x=>x.PaymentGateway
             }
             });

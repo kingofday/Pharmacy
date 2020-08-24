@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Pharmacy.Domain
 {
     [Table(nameof(Payment), Schema = "Payment")]
-    public class Payment : IInsertDateProperties, IModifyDateProperties, ISoftDeleteProperty, IEntity
+    public class Payment : IInsertDateProperties, IModifyDateProperties, ISoftDeleteProperty//, IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,7 +25,7 @@ namespace Pharmacy.Domain
         public Order Order { get; set; }
         [Display(Name = nameof(Strings.Order), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
         [Display(Name = nameof(Strings.Price), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]

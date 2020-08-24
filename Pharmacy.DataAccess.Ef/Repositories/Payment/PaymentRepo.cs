@@ -18,9 +18,10 @@ namespace Pharmacy.DataAccess.Ef
         {
             var q = _appContext.Set<Payment>()
                 .AsNoTracking()
-                .Include(x=>x.PaymentGateway)
-                .Include(x=>x.Order)
-                .Include(x=>x.Order.User)
+                .Include(x => x.PaymentGateway)
+                .Include(x => x.Order)
+                .Include(x => x.Order.Address)
+                .ThenInclude(x => x.User)
                 .AsQueryable();
             if (filter != null)
             {

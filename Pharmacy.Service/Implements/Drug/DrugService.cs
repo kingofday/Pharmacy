@@ -53,7 +53,7 @@ namespace Pharmacy.Service
 
         }
 
-        public async Task<(bool Changed, IEnumerable<OrderItemDTO> Items)> CheckChanges(IEnumerable<OrderItemDTO> items)
+        public (bool Changed, IEnumerable<OrderItemDTO> Items) CheckChanges(IEnumerable<OrderItemDTO> items)
         {
             var drugs = _drugRepo.Get(new BaseListFilterModel<Drug>
             {

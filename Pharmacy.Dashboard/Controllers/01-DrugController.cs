@@ -115,7 +115,7 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost, AuthEqualTo("Drug", "Delete")]
-        public virtual async Task<JsonResult> DeleteAsset([FromServices] IWebHostEnvironment env, int assetId) => Json(await _DrugSrv.DeleteAttachment(env.WebRootPath, assetId));
+        public virtual async Task<JsonResult> DeleteAttachment([FromServices] IWebHostEnvironment env, int attchId) => Json(await _DrugSrv.DeleteAttachment(env.WebRootPath, attchId));
 
         [HttpPost, AuthEqualTo("Drug", "Delete")]
         public virtual async Task<JsonResult> DeleteProp(int propId) => Json(await _DrugSrv.DeleteProp(propId));

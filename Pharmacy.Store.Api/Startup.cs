@@ -13,6 +13,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Pharmacy.Domain;
 using Pharmacy.API.JWT;
 using Microsoft.AspNetCore.Cors;
+using Elk.Core;
+using Pharmacy.API.Resources;
 
 namespace Pharmacy.API
 {
@@ -78,22 +80,19 @@ namespace Pharmacy.API
                 {
                     OnPrepareResponse = ctx => { ctx.Context.Response.Headers.Append("Cache-Control", $"public, max-age={cachePeriod}"); }
                 });
-                app.UseExceptionHandler("/Home/Error");
             }
-            //app.UseHttpsRedirection();
-            if (!env.IsDevelopment())
-                app.Use(async (context, next) =>
+            app.UseExceptionHandler(errorApp =>
+            {
+                errorApp.Run(async context =>
                 {
-                    await next.Invoke();
-                    if (!context.Request.IsAjaxRequest())
-                    {
-                        var handled = context.Features.Get<IStatusCodeReExecuteFeature>();
-                        var statusCode = context.Response.StatusCode;
-                        if (handled == null && statusCode >= 400)
-                            context.Response.Redirect($"/Error/Details?code={statusCode}");
-                    }
-
+                    var errorhandler = context.Features.Get<IExceptionHandlerPathFeature>();
+                    FileLoger.Error(errorhandler.Error);
+                    context.Response.StatusCode = 500;
+                    context.Response.ContentType = "application/Json";
+                    var bytes = System.Text.Encoding.ASCII.GetBytes(new { IsSuccessful = false, Message=Strings.Error }.ToString());
+                    await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
                 });
+            });
 
             app.UseRouting();
 

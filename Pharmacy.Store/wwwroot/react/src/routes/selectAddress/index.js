@@ -59,8 +59,8 @@ class SelectAddress extends React.Component {
             loading: false,
             prevAddress: item,
             location: { ...p.location, message: '' },
-            fullname: { ...p.fullname, value: item.fullname },
-            mobileNumber: { ...p.mobileNumber, value: item.mobileNumber },
+            fullname: { ...p.fullname, value: item.fullname||'' },
+            mobileNumber: { ...p.mobileNumber, value: item.mobileNumber||'' },
             placeName: null
         }));
     }

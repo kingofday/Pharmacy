@@ -32,4 +32,8 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pharmacy\Repositories\Order\" />
+  </ItemGroup>
+
 </Project>

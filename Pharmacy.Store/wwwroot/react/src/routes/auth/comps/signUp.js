@@ -175,7 +175,7 @@ class SignUp extends React.Component {
                     </Col>
                     <Col xs={12} sm={12} md={{ span: 4, offset: 4 }} className='flex-column'>
                         <div className="btn-group">
-                            <Button disabled={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.signUp}</Button>
+                            <Button disabled={this.state.disableBtn} loading={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.signUp}</Button>
                         </div>
                     </Col>
 

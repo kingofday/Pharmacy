@@ -7,6 +7,7 @@ using Pharmacy.Domain;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
+using Microsoft.Extensions.Options;
 
 namespace Pharmacy.API.Controllers
 {
@@ -29,29 +30,11 @@ namespace Pharmacy.API.Controllers
 
         [HttpPost]
 
-        public async Task<ActionResult<IResponse<AddOrderReponse>>> Add(OrderDTO model)
+        public async Task<ActionResult<IResponse<AddOrderReponse>>> Add([FromServices] IOptions<CustomSetting> settings, OrderDTO model)
         {
-            return new Response<AddOrderReponse>
-            {
-                IsSuccessful = true,
-                Message = null,
-                Result = new AddOrderReponse
-                {
-                    BasketChanged = false,
-                    OrderId = 1,
-                    Url = "Http://kingofday.ir/",
-                    Drugs = model.Items.Select(x => new DrugDTO
-                    {
-                        DrugId = x.DrugId,
-                        DiscountPrice = x.Discount,
-                        Price = x.Price,
-                        Count = x.Count
-                    }).ToList()
-                }
-            };
-            var addOrder = await _orderService.AddByUserAsync(User.GetUserId(), model);
+            var addOrder = await _orderService.AddByEndUserAsync(User.GetUserId(), model);
             if (!addOrder.IsSuccessful) return new Response<AddOrderReponse> { Message = addOrder.Message };
-            var fatcory = await _gatewayFectory.GetInsance(int.Parse(_configuration["DefaultGatewayId"]));
+            var fatcory = await _gatewayFectory.GetInsance(settings.Value.DefaultGatewayId);
             var transModel = new CreateTransactionRequest
             {
                 OrderId = addOrder.Result.Order.OrderId,

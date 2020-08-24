@@ -20,23 +20,6 @@ namespace Pharmacy.API.Controllers
 
         [HttpGet]
         public ActionResult<IResponse<List<DeliveryDTO>>> Get()
-                //=> _deliveryProviderSrv.GetAllAsDTO();
-                => new Response<List<DeliveryDTO>>
-                {
-                    IsSuccessful = true,
-                    Result = new List<DeliveryDTO>
-                    {
-                        new DeliveryDTO
-                        {
-                            Id = 1,
-                            Name = "پیک"
-                        },
-                        new DeliveryDTO
-                        {
-                            Id = 2,
-                            Name = "پست"
-                        },
-                    }
-                };
+                => _deliveryProviderSrv.GetAllAsDTO();
     }
 }

@@ -635,15 +635,19 @@ $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
            custom serialize
 ---------------------------------------*/
 var customSerialize = function ($wrapper, checkNumbers) {
-    var model = {};
+    let model = {};
     let checkNumberValue = function (v) {
         if (checkNumbers && !isNaN(v) && v !== '') return parseInt(v);
         else return v;
     };
     function valueSetter(obj, name, v) {
         let arr = name.split('.');
-        if (arr.length > 1)
-            valueSetter(obj[arr[0]], arr.splice(1, arr.length - 1).join('.'), v)
+        if (arr.length > 1) {
+            if (typeof obj[arr[0]] === 'undefined')
+                obj[arr[0]] = {};
+            valueSetter(obj[arr[0]], arr.splice(1, arr.length - 1).join('.'), v);
+            return;
+        }
         if (typeof obj[name] !== 'undefined') {
             if (Array.isArray(obj[name])) obj[name].push(v);
             else obj[name] = [obj[name], v];

@@ -135,7 +135,7 @@ class SignIn extends React.Component {
                             />
                         </div>
                         <div className="btn-group">
-                            <Button disabled={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.logIn}</Button>
+                            <Button disabled={this.state.disableBtn}  loading={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.logIn}</Button>
                         </div>
                         <div className="recover-password text-center">
                             <Link to="/recoverPassword"><small>{strings.forgotMyPassword}</small></Link>

@@ -60,11 +60,11 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Delete(int id)
+        public virtual async Task<JsonResult> Delete([FromServices] IWebHostEnvironment env, int id)
         {
             var chk = await _storeSrv.CheckOwner(id, User.GetUserId());
             if (!chk) return Json(new { IsSuccessful = false, Message = Strings.AccessDenied });
-            return Json(await _storeSrv.DeleteAsync(id));
+            return Json(await _storeSrv.DeleteAsync(id, env.WebRootPath ));
         }
 
         [HttpGet]
@@ -76,7 +76,7 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost, AuthEqualTo("StoreStore", "Update")]
-        public virtual async Task<IActionResult> DeleteLogo([FromServices]IWebHostEnvironment env, int id) => Json(await _storeSrv.DeleteFile(_configuration["CustomSettings:BaseUrl"], env.WebRootPath, id));
+        public virtual async Task<IActionResult> DeleteLogo([FromServices]IWebHostEnvironment env, int id) => Json(await _storeSrv.DeleteFile(env.WebRootPath, id));
 
         [HttpGet, AuthEqualTo("StoreStore", "Update")]
         public virtual JsonResult Search(string q)

@@ -65,8 +65,6 @@ namespace Pharmacy.DependencyResolver
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IPrescriptionService, PrescriptionService>();
             services.AddScoped<IDeliveryProviderService, DeliveryProviderService>();
-            services.AddScoped<ITempBasketItemService, TempBasketItemService>();
-            services.AddScoped<ITempBasketItemRepo, TempBasketItemRepo>();
             #endregion
             #region Payment
             services.AddScoped<IPaymentRepo, PaymentRepo>();

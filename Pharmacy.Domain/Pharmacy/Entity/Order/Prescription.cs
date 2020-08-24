@@ -31,5 +31,7 @@ namespace Pharmacy.Domain
         public string InsertDateSh { get; set; }
 
         public List<PrescriptionAttachment> Attachments { get; set; }
+
+        public Order Order { get; set; }
     }
 }

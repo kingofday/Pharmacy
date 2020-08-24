@@ -12,7 +12,7 @@ namespace Pharmacy.Service
         Task<IResponse<Drug>> FindAsync(int id);
         Response<SingleDrugDTO> GetSingle(int id);
 
-        Task<(bool Changed, IEnumerable<OrderItemDTO> Items)> CheckChanges(IEnumerable<OrderItemDTO> items);
+        (bool Changed, IEnumerable<OrderItemDTO> Items) CheckChanges(IEnumerable<OrderItemDTO> items);
 
         Task<IResponse<Drug>> AddAsync(DrugAddModel model);
 

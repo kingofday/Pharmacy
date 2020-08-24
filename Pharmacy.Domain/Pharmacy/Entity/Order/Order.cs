@@ -12,7 +12,9 @@ namespace Pharmacy.Domain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
+
+        public bool IsFixed { get; set; }
 
         public DeliveryType DeliveryType { get; set; }
 
@@ -24,6 +26,8 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         //[Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
+
+        public int? PrescriptionId { get; set; }
 
         public Guid? TempBasketId { get; set; }
 
@@ -87,15 +91,6 @@ namespace Pharmacy.Domain
         [StringLength(300, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ExtraInfoJson { get; set; }
 
-        //[Column(TypeName = "varchar(500)")]
-        //[Display(Name = nameof(Strings.DeliveryDetail), ResourceType = typeof(Strings))]
-        //[MaxLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        //[StringLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        //public string DeliveryDetailJson { get; set; }
-
-        //[NotMapped]
-        //public DeliveryDetail Delivery => DeliveryDetailJson.DeSerializeJson<DeliveryDetail>();
-
         [Display(Name = nameof(Strings.OrderDetails), ResourceType = typeof(Strings))]
         public List<OrderItem> OrderItems { get; set; }
 
@@ -105,15 +100,14 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.Payments), ResourceType = typeof(Strings))]
         public List<OrderDrugStore> OrderDrugStores { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
-        public User User { get; set; }
 
         [ForeignKey(nameof(AddressId))]
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
         public UserAddress Address { get; set; }
 
-        [ForeignKey(nameof(TempBasketId))]
-        public TempBasket TempBasket { get; set; }
+
+        [ForeignKey(nameof(PrescriptionId))]
+        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
+        public Prescription Prescription { get; set; }
     }
 }

@@ -3,15 +3,18 @@ using Elk.Core;
 using Pharmacy.Domain.Resource;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace Pharmacy.Domain
 {
     [Table(nameof(DrugStore), Schema = "Drug")]
-    public class DrugStore : BasePharmacyModel, IEntity
+    public class DrugStore : IEntity, IInsertDateProperties, IModifyDateProperties
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DrugStoreId { get; set; }
+
+        public int Score { get; set; }
 
         [Column(TypeName = "varchar(40)")]
         [Display(Name = nameof(Strings.Name), ResourceType = typeof(Strings))]
@@ -53,6 +56,9 @@ namespace Pharmacy.Domain
         public User User { get; set; }
 
         public DrugStoreAddress Address { get; set; }
-        //public List<DrugStoreAttachment> DrugStoreAssets { get; set; }
+
+        public List<DrugStoreAttachment> Attachments { get; set; }
+
+        public List<OrderDrugStore> OrderDrugStores { get; set; }
     }
 }

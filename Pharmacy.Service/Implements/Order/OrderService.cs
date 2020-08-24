@@ -17,27 +17,24 @@ namespace Pharmacy.Service
         readonly IDrugService _drugSrv;
         readonly IDrugStoreService _drugStoreSrv;
         readonly IGatewayFactory _gatewayFactory;
-        readonly ITempBasketItemService _TempBasketItemSrv;
         readonly IDeliveryAgentFactory _delAgent;
         public OrderService(AppUnitOfWork appUOW,
             IGatewayFactory gatewayFactory,
             IDrugService drugSrv,
             IDrugStoreService drugStoreSrv,
-            ITempBasketItemService TempBasketItemSrv,
             IDeliveryAgentFactory delAgent)
         {
             _appUow = appUOW;
             _orderRepo = appUOW.OrderRepo;
             _drugSrv = drugSrv;
             _gatewayFactory = gatewayFactory;
-            _TempBasketItemSrv = TempBasketItemSrv;
             _drugStoreSrv = drugStoreSrv;
             _delAgent = delAgent;
         }
 
-        public async Task<IResponse<(Order Order, bool IsChanged)>> AddByUserAsync(Guid userId, OrderDTO model)
+        public async Task<IResponse<(Order Order, bool IsChanged)>> AddByEndUserAsync(Guid userId, OrderDTO model)
         {
-            var chkItems = await _drugSrv.CheckChanges(model.Items);
+            var chkItems = _drugSrv.CheckChanges(model.Items);
             var drugStore = _drugStoreSrv.GetNearest(model.Address);
             if (!drugStore.IsSuccessful)
                 return new Response<(Order Order, bool IsChanged)>
@@ -152,15 +149,15 @@ namespace Pharmacy.Service
 
         // public async Task<bool> CheckOwner(Guid userId, int orderId) => await _orderRepo.AnyAsync(x => x.OrderId == orderId && x.OrderDrugStores.Any(o=>o.User == UserId == userId);
 
-        public async Task<IResponse<Order>> FindAsync(int OrderId)
+        public async Task<IResponse<Order>> FindAsync(Guid OrderId)
         {
             var order = await _appUow.OrderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
             {
                 Conditions = x => x.OrderId == OrderId,
-                IncludeProperties = new System.Collections.Generic.List<Expression<Func<Order, object>>>
+                IncludeProperties = new List<Expression<Func<Order, object>>>
                 {
                     x=>x.DrugStoreId,
-                    x=>x.User,
+                    x=>x.Address.User,
                     x=>x.Address
                 }
             });
@@ -168,15 +165,15 @@ namespace Pharmacy.Service
             return new Response<Order> { Result = order, IsSuccessful = true };
         }
 
-        public async Task<IResponse<Order>> GetDetails(int OrderId)
+        public async Task<IResponse<Order>> GetDetails(Guid OrderId)
         {
             var order = await _appUow.OrderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
             {
                 Conditions = x => x.OrderId == OrderId,
-                IncludeProperties = new System.Collections.Generic.List<Expression<Func<Order, object>>>
+                IncludeProperties = new List<Expression<Func<Order, object>>>
             {
                 x=>x.DrugStoreId,
-                x=>x.User,
+                x=>x.Address.User,
                 x=>x.Address
             }
             });
@@ -249,7 +246,7 @@ namespace Pharmacy.Service
             return new Response<Order> { Result = findedOrder, IsSuccessful = saveResult.Result.IsSuccessful, Message = saveResult.Result.Message };
         }
 
-        public async Task<IResponse<Order>> UpdateStatusAsync(int id, OrderStatus status, bool check = true)
+        public async Task<IResponse<Order>> UpdateStatusAsync(Guid id, OrderStatus status, bool check = true)
         {
             var order = await _orderRepo.FindAsync(id);
             if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
@@ -262,7 +259,7 @@ namespace Pharmacy.Service
 
         }
 
-        public async Task<IResponse<bool>> DeleteAsync(int OrderId)
+        public async Task<IResponse<bool>> DeleteAsync(Guid OrderId)
         {
             _appUow.OrderRepo.Delete(new Order { OrderId = OrderId });
             var saveResult = await _appUow.ElkSaveChangesAsync();
@@ -306,7 +303,7 @@ namespace Pharmacy.Service
             {
                 x=>x.OrderDrugStores,
                 x=>x.Address,
-                x=>x.User
+                x=>x.Address.User
             }
             });
         }

@@ -39,6 +39,7 @@ const getInitilState = () => {
 
 }
 const authReducer = (state = getInitilState(), action) => {
+    
     switch (action.type) {
         case actionTypes.LOG_IN:
             return {
@@ -51,6 +52,7 @@ const authReducer = (state = getInitilState(), action) => {
             };
         case actionTypes.LOG_OUT:
             srvAuth.removeUserInfo();
+
             return {
                 ...state,
                 authenticated: false,
@@ -72,7 +74,7 @@ const authReducer = (state = getInitilState(), action) => {
             };
         default:
             state.goToNextPage = false;
-            return {...state};
+            return state;
     }
 };
 

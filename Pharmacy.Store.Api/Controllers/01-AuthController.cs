@@ -51,11 +51,6 @@ namespace Pharmacy.API.Controllers
         [HttpPost, Route("SignUp")]
         public async Task<ActionResult<IResponse<string>>> SignUp(SignUpModel model)
         {
-            return new Response<string>
-            {
-                IsSuccessful = true,
-                Result = model.MobileNumber
-            };
             if (!ModelState.IsValid) return new Response<string> { Message = ModelState.GetModelError() };
             var add = await _userSrv.SignUp(model, _settings.Value.EndUserRoleId);
             if (!add.IsSuccessful) return new Response<string> { Message = add.Message };
@@ -67,74 +62,47 @@ namespace Pharmacy.API.Controllers
         }
 
         [HttpPost, Route("Signin")]
-        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn(SignInModel model)
+        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn([FromServices] IOptions<CustomSetting> settings, SignInModel model)
         {
+            if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
+            var auth = await _userSrv.SignIn(long.Parse(model.Username), model.Password);
+            if (!auth.IsSuccessful) return new Response<AuthResponse> { Message = auth.Message };
+            if (auth.Result.IsConfirmed) auth.Result.Token = CreateToken(new User
+            {
+                UserId = auth.Result.UserId,
+                MobileNumber = long.Parse(model.Username),
+                Email = auth.Result.Email,
+                FullName = auth.Result.Fullname
+            }, settings.Value.Jwt.TimoutInMinutes);
             return new Response<AuthResponse>
             {
                 IsSuccessful = true,
-                Result = new AuthResponse
-                {
-                    Email = "kingofday.b@gmail.com",
-                    Fullname = "شهروز بذرافشان",
-                    IsConfirmed = true,
-                    MobileNumber = model.Username,
-                    Token = CreateToken(new User
-                    {
-                        MobileNumber = long.Parse(model.Username),
-                        Email = "kingofday.b@gmail.com",
-                        FullName = "شهروز بذرافشان"
-                    }, _settings.Value.Jwt.TimoutInMinutes)
-                }
+                Result = auth.Result
             };
-            //if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
-            //var add = await _userSrv.SignIn(long.Parse(model.Username), model.Password);
-            //if (!add.IsSuccessful) return new Response<AuthResponse> { Message = add.Message };
-            //return new Response<AuthResponse>
-            //{
-            //    IsSuccessful = true,
-            //    Result = add.Result
-            //};
         }
 
 
         [HttpPost, Route("Confirm")]
-        public async Task<ActionResult<IResponse<AuthResponse>>> Confirm([FromServices] IOptions<CustomSetting> settings,ConfirmModel model)
-        //{
-        //    if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
-        //    var conf = await _userSrv.Confirm(long.Parse(model.MobileNumber), int.Parse(code));
-        //    if (conf.IsSuccessful)
-        //    {
-        //        conf.Result.IsConfirmed = true;
-        //        conf.Result.Token = CreateToken(new User
-        //        {
-        //            MobileNumber = long.Parse(model.MobileNumber),
-        //            Email = conf.Result.Email,
-        //            FullName = conf.Result.Fullname
-        //        }, settings.Value.Jwt.TimoutInMinutes);
-        //    }
-        //    return conf;
-        //}
-        => new Response<AuthResponse>
+        public async Task<ActionResult<IResponse<AuthResponse>>> Confirm([FromServices] IOptions<CustomSetting> settings, ConfirmModel model)
         {
-            IsSuccessful = true,
-            Result = new AuthResponse
+            if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
+            var conf = await _userSrv.Confirm(long.Parse(model.MobileNumber), int.Parse(model.Code));
+            if (conf.IsSuccessful)
             {
-                Email = "kingofday.b@gmail.com",
-                Fullname = "شهروز بذرافشان",
-                IsConfirmed = true,
-                MobileNumber = model.MobileNumber.ToString(),
-                Token = CreateToken(new User
+                conf.Result.IsConfirmed = true;
+                conf.Result.Token = CreateToken(new User
                 {
+                    UserId = conf.Result.UserId,
                     MobileNumber = long.Parse(model.MobileNumber),
-                    Email = "kingofday.b@gmail.com",
-                    FullName = "شهروز بذرافشان"
-                }, settings.Value.Jwt.TimoutInMinutes)
+                    Email = conf.Result.Email,
+                    FullName = conf.Result.Fullname
+                }, settings.Value.Jwt.TimoutInMinutes);
             }
-        };
+            return conf;
+        }
 
         [HttpPost, Route("auth/{mobileNumber:long}")]
         public async Task<ActionResult<IResponse<bool>>> Resend(long mobileNumber)
-            => new Response<bool> { IsSuccessful = true };
-        //=> await _userSrv.Resend(mobileNumber);
+            => await _userSrv.Resend(mobileNumber);
     }
 }

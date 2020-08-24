@@ -14,7 +14,6 @@ namespace Pharmacy.Domain
         public int UserAttachmentId { get; set; }
 
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
 
         [ForeignKey(nameof(UserId))]

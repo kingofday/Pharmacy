@@ -46,7 +46,7 @@ namespace Pharmacy.Service
                 Result = user
             };
             model.UserId = Guid.NewGuid();
-            model.Password = HashGenerator.Hash(model.NewPassword);
+            model.Password = HashGenerator.Hash(model.Password);
             await _userRepo.AddAsync(model);
 
             var saveResult = await _appUow.ElkSaveChangesAsync();
@@ -379,8 +379,10 @@ namespace Pharmacy.Service
                 return new Response<AuthResponse> { Message = update.Message };
             return new Response<AuthResponse>
             {
+                IsSuccessful = true,
                 Result = new AuthResponse
                 {
+                    UserId = user.UserId,
                     Email = user.Email,
                     Fullname = user.Email,
                     MobileNumber = user.MobileNumber.ToString(),
@@ -415,6 +417,7 @@ namespace Pharmacy.Service
                 IsSuccessful = true,
                 Result = new AuthResponse
                 {
+                    UserId = user.UserId,
                     Email = user.Email,
                     Fullname = user.Email,
                     MobileNumber = user.MobileNumber.ToString(),

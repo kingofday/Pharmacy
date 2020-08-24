@@ -13,7 +13,6 @@ namespace Pharmacy.Domain
         public int DrugStoreAttachmentId { get; set; }
 
         [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int DrugStoreId { get; set; }
 
         [ForeignKey(nameof(DrugStoreId))]

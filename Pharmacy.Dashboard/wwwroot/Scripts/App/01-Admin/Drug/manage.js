@@ -2,11 +2,11 @@
 var postsPageNumber = 1;
 var posts = [];
 var selectedPosts = [];
-var assets = [];
+var attachments = [];
 var props = [];
 $(document).ready(function () {
 
-    //====================================================================== Assets
+    //====================================================================== Attachments
     //======================================================================
     $('#modal').on('click', '.btn-remove', function (e) {
         e.stopPropagation();
@@ -14,12 +14,11 @@ $(document).ready(function () {
         let $box = $btn.closest('.single-uploader');
 
         let removeUrl = $btn.data('url');
-        console.log(removeUrl);
         function removeAsset(id) {
-            let idx = assets.findIndex(function (x) {
+            let idx = attachments.findIndex(function (x) {
                 return x.id === id;
             });
-            assets.splice(idx, 1);
+            attachments.splice(idx, 1);
         }
         if (removeUrl) {
             ajaxBtn.inProgress($btn);
@@ -61,7 +60,7 @@ $(document).ready(function () {
 
             $box.addClass('uploaded').find('img').attr('src', url);
             $i.val('');
-            assets.push({ id: $box.data('id'), file: file });
+            attachments.push({ id: $box.data('id'), file: file });
         };
         reader.readAsDataURL(file);
     });
@@ -132,10 +131,9 @@ $(document).ready(function () {
         for (let i = 0; i < tags.length; i++)
             model.TagIds.push(tags[i].Value);
         model.Properties = props;
-        console.log(model);
         let frmData = objectToFormData(model);
         //return;
-        for (var i = 0; i < assets.length; i++)  frmData.append('Files', assets[i].file);
+        for (var i = 0; i < attachments.length; i++)  frmData.append('Files', attachments[i].file);
 
         ajaxBtn.inProgress($btn);
         $.ajax({

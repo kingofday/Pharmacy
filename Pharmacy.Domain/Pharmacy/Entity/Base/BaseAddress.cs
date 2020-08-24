@@ -10,10 +10,10 @@ namespace Pharmacy.Domain
         public int? DistrictId { get; set; }
 
         [Display(Name = nameof(Strings.Latitude), ResourceType = typeof(Strings))]
-        public double Latitude { get; set; }
+        public double Latitude { get; set; } = 35.699858;
 
         [Display(Name = nameof(Strings.Longitude), ResourceType = typeof(Strings))]
-        public double Longitude { get; set; }
+        public double Longitude { get; set; } = 51.337848;
 
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]
         public DateTime InsertDateMi { get; set; }

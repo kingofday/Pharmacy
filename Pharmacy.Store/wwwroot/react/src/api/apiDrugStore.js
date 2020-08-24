@@ -1,4 +1,4 @@
-import addr from './addresses';
+import addr, { imagePrefixUrl } from './addresses';
 import strings from './../shared/constant';
 
 export default class apiDrugStore {
@@ -12,8 +12,8 @@ export default class apiDrugStore {
                 success: true,
                 result: rep.Result.map((d) => ({
                     drugStoreId: d.DrugStoreId,
-                    name:d.Name,
-                    imageUrl: d.ImageUrl
+                    name: d.Name,
+                    imageUrl: imagePrefixUrl + d.ImageUrl
                 }))
             }
         }

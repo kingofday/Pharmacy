@@ -23,6 +23,7 @@ class AddressListModal extends React.Component {
     }
     async _fetchData() {
         let apiRep = await srvAddress.get();
+        console.log(apiRep);
         if (!this._isMounted) return;
         if (apiRep.success) this.setState(p => ({
             ...p,
@@ -41,9 +42,10 @@ class AddressListModal extends React.Component {
         this._isMounted = false;
     }
     async _toggle() {
-        if (this.state.show === false)
-            await this._fetchData();
+        let show = this.state.show;
         this.setState(p => ({ ...p, show: !p.show }));
+        if (show === false)
+            await this._fetchData();
 
     }
     _onChange(e) {

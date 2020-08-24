@@ -26,7 +26,7 @@ namespace Pharmacy.Service
                 result = EnumExtension.GetEnumElements<DeliveryType>()
                     .Select(x => new DeliveryDTO
                     {
-                        Id = (int)Enum.Parse(typeof(DeliveryType), x.Name),
+                        Id = (byte)((DeliveryType)Enum.Parse(typeof(DeliveryType), x.Name)),
                         Name = x.Description
                     }).ToList();
                 _cache.Add(GlobalVariables.CacheSettings.DeluveryProviders, result, DateTime.Now.AddHours(2));
