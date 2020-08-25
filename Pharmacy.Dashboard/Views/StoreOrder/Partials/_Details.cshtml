@@ -12,38 +12,27 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade show active m-t" id="nav-order" role="tabpanel" aria-labelledby="nav-order-tab">
-        @Html.HiddenFor(x => x.OrderId)
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <custom-input-for for="Address.User.Email" readonly="true" />
-            </div>
-            <div class="col-12 col-sm-6">
-                <custom-input-for for="Address.User.MobileNumber" readonly="true" class="form-control ltr-elm" />
-            </div>
-        </div>
+        @*<div class="row">
+                <div class="col-12 col-sm-6">
+                    <custom-input-for for="Address.User.Email" readonly="true" />
+                </div>
+                <div class="col-12 col-sm-6">
+                    <custom-input-for for="Address.User.MobileNumber" readonly="true" class="form-control ltr-elm" />
+                </div>
+            </div>*@
         <div class="row">
             <div class="col-12 col-sm-6">
                 <custom-select-for for="OrderStatus"
                                    class="form-control"
-                                   select-disabled="disabled"
+                                   readonly="true"
                                    items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
                                     Value = x.Name,
                                     Text = x.Description
                                 }).ToList()" />
             </div>
             @*<div class="col-12 col-sm-6">
-                <custom-select-for for="StoreId" class="form-control"
-                                   items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
-                        {
-                            new SelectListItem
-                            {
-                                Value = Model.StoreId.ToString(),
-                                Text = Model.Store.FullName
-                            }
-                        }"
-                                   select-data-url="@Url.Action("Search","StoreStore")"
-                                   select-disabled="disabled" />
-            </div>*@
+                    <custom-input label="@Html.DisplayNameFor(x=>x.DrugStore)" readonly="true" value="Model.DrugStore.Name" />
+                </div>*@
         </div>
 
         <div class="row">
@@ -54,7 +43,7 @@
                 <custom-input-for for="TotalPrice" class="form-control ltr-elm" readonly="true" />
             </div>
             <div class="col-12 col-sm-4">
-                <custom-input-for for="TotalPriceWithoutDiscount" class="form-control ltr-elm" readonly="true" />
+                <custom-input-for for="TotalDiscountPrice" class="form-control ltr-elm" readonly="true" />
             </div>
         </div>
         <div class="row">
@@ -75,7 +64,7 @@
                                 <td>#</td>
                                 <td>@Html.DisplayNameFor(x => x.OrderItems[0].Drug.NameFa)</td>
                                 <td>@Html.DisplayNameFor(x => x.OrderItems[0].Drug.UniqueId)</td>
-                                <td>@Html.DisplayNameFor(x => x.OrderItems[0].Count)</td>
+                                <td data-hide="phone">@Html.DisplayNameFor(x => x.OrderItems[0].Count)</td>
                                 <td data-hide="all">@Html.DisplayNameFor(x => x.OrderItems[0].DiscountPrice)</td>
                                 <td data-hide="all">@Html.DisplayNameFor(x => x.OrderItems[0].Price)</td>
                                 <td data-hide="all">@Html.DisplayNameFor(x => x.OrderItems[0].TotalPrice)</td>
@@ -115,7 +104,15 @@
                 <input type="text" class="form-control m-b" value="@Model.Address.Details" readonly />
             </div>
             <div class="col-12 m-b">
-                <div id="map_to" style="height:120px;"></div>
+                <div id="map_to" style="height:300px;"></div>
+            </div>
+            <div class="col-12">
+                <label class="copy-value" data-copy-value="@Model.Address.Latitude,@Model.Address.Longitude">
+                    @Strings.Coordinate:
+                    <br />
+                    @Model.Address.Latitude,@Model.Address.Longitude
+                    <i class="zmdi zmdi-copy icon"></i>
+                </label>
             </div>
         </div>
     </div>

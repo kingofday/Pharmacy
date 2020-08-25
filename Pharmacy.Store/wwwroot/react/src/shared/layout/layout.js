@@ -27,7 +27,7 @@ import SelectLocation from '../../routes/selectLocation';
 import SelectDelivery from '../../routes/selectDelivery';
 import Review from './../../routes/review';
 import Prescription from './../../routes/prescription';
-// import CompleteInfo from '../../routes/completeInformation';
+import AfterGateway from '../../routes/afterGateway';
 
 
 class Layout extends React.Component {
@@ -48,13 +48,13 @@ class Layout extends React.Component {
                     <AuthRouter path="/selectDelivery" component={SelectDelivery}/>
                     <AuthRouter path="/review" component={Review}/>
                     <Route exact path="/prescription" component={Prescription} />
+                    <Route exact path="/afterGateway/:status/:transId" component={AfterGateway} />
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />
                     <Route path="/completeInformation" component={CompleteInfo} />
                    
-                    <Route path="/review" component={Review} />
-                    <Route path="/afterGateway/:status/:transId" component={AfterGateway} /> */}
+                    <Route path="/review" component={Review} />*/}
                     <Route path="/:msg?" component={NotFound} />
                 </Switch>
                 <LinksWithInfo />

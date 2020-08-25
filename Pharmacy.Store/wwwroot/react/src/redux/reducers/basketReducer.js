@@ -23,9 +23,9 @@ export default function basketReducer(state = initState, action) {
             let idx = items.findIndex(x => x.drugId === action.payload.drugId);
             if (idx === -1)
                 items.push(action.payload);
-            else 
+            else
                 items[idx].count = action.payload.count;
-            return { ...state, items:items, ...calculate(items) };
+            return { ...state, items: items, ...calculate(items) };
         case actionTypes.UPDATE_BASKET:
             let item = state.items.find(x => x.drugId == action.payload.drugId);
             if (item) item.count = action.payload.count;
@@ -43,14 +43,14 @@ export default function basketReducer(state = initState, action) {
             state.items = state.items.filter(x => !x.itemId);
             return { ...state, items: [...state.items], ...calculate(state.items) };
         case actionTypes.CHANGED_BASKET_ITEMS:
-            action.payload.products.forEach(p => {
+            action.payload.items.forEach(p => {
                 let idx = state.items.findIndex(x => x.drugId === p.drugId);
                 if (idx > -1) {
                     if (p.count === 0) state.items.splice(idx, 1);
                     else {
                         state.items[idx].price = p.price;
                         state.items[idx].discount = p.discount;
-                        state.items[idx].realPrice = p.realPrice;
+                        state.items[idx].realPrice = (p.price - p.discount);
                     }
                 }
 

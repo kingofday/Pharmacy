@@ -117,7 +117,7 @@
     deliverCost: 'هزینه ارسال',
     priceToPay: 'مبلغ قابل پرداخت',
     attention: 'توجه',
-    basketProductsChanged: 'برخی از محصولات سبد خرید تغییر کرده اند',
+    basketProductsChanged: 'قیمت یا تعداد محصولات در زمان خرید شما تغییر یافته اند، لطفا دوباره سبد خرید خود را بررسی نمایید',
     continue: 'ادامه',
     selectLocation: 'انتخاب مکان',
 };

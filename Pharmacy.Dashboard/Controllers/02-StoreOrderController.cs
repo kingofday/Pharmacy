@@ -1,16 +1,16 @@
-﻿using Elk.Core;
+﻿using System;
+using Elk.Core;
+using Elk.Http;
+using System.Linq;
 using Pharmacy.Domain;
 using Pharmacy.Service;
-using Elk.Http;
 using Elk.AspNetCore;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Pharmacy.Dashboard.Resources;
-using DomainString = Pharmacy.Domain.Resource.Strings;
 using System.Collections.Generic;
+using Pharmacy.Dashboard.Resources;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Linq;
-using System;
+using DomainString = Pharmacy.Domain.Resource.Strings;
 
 namespace Pharmacy.Dashboard.Controllers
 {
@@ -29,7 +29,7 @@ namespace Pharmacy.Dashboard.Controllers
         [NonAction]
         private IEnumerable<SelectListItem> GetStores() => _storeSrv.GetAll(User.GetUserId()).Select(x => new SelectListItem
         {
-            Text = x.User.FullName,
+            Text = x.Name,
             Value = x.DrugStoreId.ToString()
         }).ToList();
 

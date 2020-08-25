@@ -29,7 +29,7 @@ namespace Pharmacy.Service
             {
                 OrderId = model.OrderId,
                 PaymentGatewayId = model.GatewayId,
-                PaymentStatus = PaymentStatus.Added,
+                PaymentStatus = PaymentStatus.Canceled,
                 Price = model.Amount,
                 TransactionId = model.TransactionId
             };
@@ -40,6 +40,18 @@ namespace Pharmacy.Service
                 IsSuccessful = saveResult.IsSuccessful,
                 Message = saveResult.IsSuccessful ? string.Empty : saveResult.Message,
                 Result = payment
+            };
+        }
+
+        public async Task<IResponse<Payment>> Add(Payment model)
+        {
+            await _paymentRepo.AddAsync(model);
+            var saveResult = await _appUow.ElkSaveChangesAsync();
+            return new Response<Payment>
+            {
+                IsSuccessful = saveResult.IsSuccessful,
+                Message = saveResult.IsSuccessful ? string.Empty : saveResult.Message,
+                Result = model
             };
         }
 

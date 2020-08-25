@@ -188,6 +188,15 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قیمت یا تعداد محصولات در زمان خرید شما تغییر یافته اند، لطفا دوباره سبد خرید خود را بررسی نمایید.
+        /// </summary>
+        public static string OrderChanged {
+            get {
+                return ResourceManager.GetString("OrderChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to آیتم مورد نظر یافت نشد.
         /// </summary>
         public static string RecordNotExist {

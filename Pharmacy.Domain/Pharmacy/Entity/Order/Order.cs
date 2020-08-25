@@ -4,6 +4,7 @@ using Pharmacy.Domain.Resource;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Pharmacy.Domain
 {
@@ -12,6 +13,7 @@ namespace Pharmacy.Domain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Display(Name = nameof(Strings.Identifier), ResourceType = typeof(Strings))]
         public Guid OrderId { get; set; }
 
         public bool IsFixed { get; set; }
@@ -109,5 +111,9 @@ namespace Pharmacy.Domain
         [ForeignKey(nameof(PrescriptionId))]
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         public Prescription Prescription { get; set; }
+
+        [NotMapped]
+        [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
+        public DrugStore DrugStore { get; set; }
     }
 }

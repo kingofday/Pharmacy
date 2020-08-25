@@ -36,7 +36,7 @@ namespace Pharmacy.Service
             var drug = await _drugRepo.FirstOrDefaultAsync(new BaseFilterModel<Drug>
             {
                 Conditions = x => x.DrugId == id,
-                IncludeProperties = new List<Expression<Func<Drug, object>>> { x=>x.Properties, x => x.DrugAttachments }
+                IncludeProperties = new List<Expression<Func<Drug, object>>> { x => x.Properties, x => x.DrugAttachments }
             });
             if (drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
             drug.DrugTags = _appUow.DrugTagRepo.Get(new BaseListFilterModel<DrugTag>
@@ -69,6 +69,12 @@ namespace Pharmacy.Service
                     changed = true;
                     item.Count = 0;
                     continue;
+                }
+                else if(drug.Price != item.Price || drug.DiscountPrice != item.Discount)
+                {
+                    changed = true;
+                    item.Price = drug.Price;
+                    item.Discount = drug.DiscountPrice;
                 }
 
             }

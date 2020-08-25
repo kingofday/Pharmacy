@@ -6,8 +6,8 @@ namespace Pharmacy.Domain
     {
         [Description("ناموفق")]
         Failed = -1,
-        [Description("ثبت شده")]
-        Added = 0,
+        [Description("انصراف")]
+        Canceled = 0,
         [Description("در انتظار پرداخت")]
         UnProccesed = 1,
         [Description("موفق")]

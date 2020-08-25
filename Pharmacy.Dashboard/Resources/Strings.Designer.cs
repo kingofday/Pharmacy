@@ -232,6 +232,15 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مختصات.
+        /// </summary>
+        public static string Coordinate {
+            get {
+                return ResourceManager.GetString("Coordinate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کپی آدرس.
         /// </summary>
         public static string CopyAddress {
@@ -588,6 +597,15 @@ namespace Pharmacy.Dashboard.Resources {
         public static string MobileNumber {
             get {
                 return ResourceManager.GetString("MobileNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ریال.
+        /// </summary>
+        public static string MoneyCurrency {
+            get {
+                return ResourceManager.GetString("MoneyCurrency", resourceCulture);
             }
         }
         

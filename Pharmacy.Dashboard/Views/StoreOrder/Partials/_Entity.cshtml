@@ -19,19 +19,9 @@
             Disabled = (x.Name ==  OrderStatus.WaitForPayment.ToString() || (x.Name ==  OrderStatus.Successed.ToString())?true:false)
         }).ToList()" />
     </div>
-    @*<div class="col-12 col-sm-6">
-        <custom-select-for for="StoreId" class="form-control"
-                           items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
-                        {
-                            new SelectListItem
-                            {
-                                Value = Model.StoreId.ToString(),
-                                Text = Model.Store.FullName
-                            }
-                        }"
-                           select-data-url="@Url.Action("Search","StoreStore")"
-                           select-disabled="disabled" />
-    </div>*@
+    <div class="col-12 col-sm-6">
+        <custom-input id="fake_id" readonly="true" name="fake_id" label="@Strings.Identifier" input-value="@Model.OrderId.ToString()"></custom-input>
+    </div>
 </div>
 
 <div class="row">

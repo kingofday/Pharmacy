@@ -1,0 +1,40 @@
+#page-after-gateway .content {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+#page-after-gateway .content .main-message {
+  margin: 15px 0 10px 0;
+  font-weight: 700;
+}
+
+#page-after-gateway .content .success {
+  color: green;
+}
+
+#page-after-gateway .content .error {
+  color: red;
+}
+
+#page-after-gateway .content .trace-id-text {
+  font-weight: 700;
+  margin: 50px 0 10px 0;
+}
+
+#page-after-gateway .content .trace-id {
+  padding: 8px 10px;
+  background-color: #ededed;
+}
+/*# sourceMappingURL=index.css.map */

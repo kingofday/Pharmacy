@@ -22,16 +22,23 @@ export default class apiOrder {
                     result: {
                         id: rep.Result.OrderId,
                         basketChanged: rep.Result.BasketChanged,
-                        url: rep.Result.Url,
-                        drugs: rep.Result.Drugs ? rep.Result.Drugs.map((p) => ({
-                            id: p.Id,
-                            price: p.Price,
-                            discount: p.Discount,
-                            count: p.Count
-                        })) : []
+                        url: rep.Result.Url
                     }
                 };
-            else return { success: false, message: rep.Message, status: rep.Status };
+            else return {
+                success: false,
+                message: rep.Message,
+                result: {
+                    basketChanged: rep.Result.BasketChanged,
+                    drugs: rep.Result.Drugs ? rep.Result.Drugs.map((p) => ({
+                        drugId: p.DrugId,
+                        price: p.Price,
+                        discount: p.DiscountPrice,
+                        count: p.Count
+                    })) : []
+                },
+                status: 500,
+            };
         }
         catch (error) {
             console.log(error);

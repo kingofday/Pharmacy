@@ -14,10 +14,10 @@ export function UpdateBasketAction(drugId, count) {
     };
 };
 
-export function ChangedBasketItemsAction(products) {
+export function ChangedBasketItemsAction(items) {
     return {
         type: actionTypes.CHANGED_BASKET_ITEMS,
-        payload: { products }
+        payload: { items }
     };
 };
 

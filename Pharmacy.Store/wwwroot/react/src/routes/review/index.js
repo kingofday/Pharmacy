@@ -26,10 +26,11 @@ class Review extends React.Component {
             btnInProgresss: false,
             gatewayUrl: ''
         };
+        console.log(this.props.totalPrice);
     }
 
     async componentDidMount() {
-        console.log(this.props.comment);
+
         this.props.hideInitError();
     }
 
@@ -51,16 +52,17 @@ class Review extends React.Component {
                 comment: this.props.comment
             });
             this.setState(p => ({ ...p, btnInProgresss: false }));
-            if (submit.success) {
-                // orderSrv.setOrderId(submit.result.id);
-                if (submit.result.basketChanged) {
+            if (submit.success)
+                window.open(submit.result.url, '_self');
+
+            else {
+                if (submit.result && submit.result.basketChanged) {
                     this.setState(p => ({ ...p, gatewayUrl: submit.result.url }));
                     this.changedProductModal._toggle();
-                    this.props.changeBasket(submit.result.changedProducts);
+                    this.props.changeBasket(submit.result.drugs);
                 }
-                else window.open(submit.result.url, '_self');
+                else toast(submit.message, { type: toast.TYPE.ERROR });
             }
-            else toast(submit.message, { type: toast.TYPE.ERROR });
         }
 
     }
@@ -70,13 +72,14 @@ class Review extends React.Component {
     }
 
     _continue() {
-        window.open(this.state.gatewayUrl, '_self');
+        this.changedProductModal._toggle();
+        this.setState(p => ({ ...p, show: false }));
     }
 
     render() {
         if (this.state.redirect) return <Redirect to={this.state.redirect} />
         return (
-            <div id='page-review' className=' with-header'>
+            <div id='page-review'>
                 <Container className='basket-wrapper'>
                     {this.props.items.map((x) => (
                         <Row key={x.drugId}>
