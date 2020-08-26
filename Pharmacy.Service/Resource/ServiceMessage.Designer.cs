@@ -197,6 +197,15 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to فارما.
+        /// </summary>
+        public static string ProjectName {
+            get {
+                return ResourceManager.GetString("ProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to آیتم مورد نظر یافت نشد.
         /// </summary>
         public static string RecordNotExist {

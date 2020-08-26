@@ -13,8 +13,7 @@ namespace Pharmacy.Service
         Task<IResponse<Order>> FindAsync(Guid OrderId);
         Task<IResponse<Order>> GetDetails(Guid OrderId);
         Task<IResponse<string>> Verify(Payment payment, object[] args);
-        Task<IResponse<Order>> AddAsync(Order model);
-        Task<IResponse<Order>> UpdateAsync(Order model);
+        Task<IResponse<Order>> Store_UpdateAsync(Store_OrderUpdateModel model);
         Task<IResponse<bool>> DeleteAsync(Guid OrderId);
         PagingListDetails<Order> Get(OrderSearchFilter filter);
         Task<IResponse<Order>> UpdateStatusAsync(Guid id, OrderStatus status, bool check = true);

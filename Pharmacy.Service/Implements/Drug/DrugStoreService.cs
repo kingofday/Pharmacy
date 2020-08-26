@@ -26,18 +26,19 @@ namespace Pharmacy.Service
             _attchSrv = attchSrv;
         }
 
-        public IResponse<DrugStoreModel> GetNearest(LocationDTO model)
+        public IResponse<DrugStoreModel> GetNearest(LocationDTO model, List<int> excludedStores = null)
         {
             var items = _drugStoreRepo.Get(new ListFilterModel<DrugStore, DrugStoreModel>
             {
                 Selector = x => new DrugStoreModel
                 {
+                    UserId = x.UserId,
                     DrugStoreId = x.DrugStoreId,
                     Name = x.Name,
-                    Lat = x.Address.Latitude,
-                    Lng = x.Address.Longitude
+                    Latitude = x.Address.Latitude,
+                    Longitude = x.Address.Longitude
                 },
-                Conditions = null,
+                Conditions = x => excludedStores == null ? true : !excludedStores.Contains(x.DrugStoreId),
                 OrderBy = o => o.OrderBy(x => x.DrugStoreId),
                 IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
             });
@@ -45,7 +46,7 @@ namespace Pharmacy.Service
                 return new Response<DrugStoreModel> { Message = ServiceMessage.RecordNotExist };
             foreach (var item in items)
             {
-                item.Distance = GeoLocation.GetDistanceBetweenPoints(item.Lat, item.Lng, model.Lat, model.Lng);
+                item.Distance = GeoLocation.GetDistanceBetweenPoints(item.Latitude, item.Longitude, model.Latitude, model.Longitude);
             }
             return new Response<DrugStoreModel>
             {

@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Pharmacy.Domain;
 
 namespace Pharmacy.Dashboard
 {
@@ -41,7 +42,7 @@ namespace Pharmacy.Dashboard
             });
 
             services.AddHttpContextAccessor();
-
+            services.Configure<DashboardCustomSetting>(_configuration.GetSection("CustomSettings"));
             services.AddTransient(_configuration);
             services.AddScoped(_configuration);
             services.AddSingleton(_configuration);

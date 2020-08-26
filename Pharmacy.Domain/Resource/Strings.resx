@@ -567,4 +567,7 @@
   <data name="Prescription" xml:space="preserve">
     <value>نسخه</value>
   </data>
+  <data name="EndUserDescription" xml:space="preserve">
+    <value>توضیحات مشترس</value>
+  </data>
 </root>

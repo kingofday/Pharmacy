@@ -22,8 +22,8 @@ namespace Pharmacy.API.Controllers
     {
         readonly IUserService _userSrv;
         readonly IConfiguration _config;
-        readonly IOptions<CustomSetting> _settings;
-        public AuthController(IUserService userSrv, IConfiguration config, IOptions<CustomSetting> settings)
+        readonly IOptions<APICustomSetting> _settings;
+        public AuthController(IUserService userSrv, IConfiguration config, IOptions<APICustomSetting> settings)
         {
             _userSrv = userSrv;
             _config = config;
@@ -62,7 +62,7 @@ namespace Pharmacy.API.Controllers
         }
 
         [HttpPost, Route("Signin")]
-        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn([FromServices] IOptions<CustomSetting> settings, SignInModel model)
+        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn([FromServices] IOptions<APICustomSetting> settings, SignInModel model)
         {
             if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
             var auth = await _userSrv.SignIn(long.Parse(model.Username), model.Password);
@@ -83,7 +83,7 @@ namespace Pharmacy.API.Controllers
 
 
         [HttpPost, Route("Confirm")]
-        public async Task<ActionResult<IResponse<AuthResponse>>> Confirm([FromServices] IOptions<CustomSetting> settings, ConfirmModel model)
+        public async Task<ActionResult<IResponse<AuthResponse>>> Confirm([FromServices] IOptions<APICustomSetting> settings, ConfirmModel model)
         {
             if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
             var conf = await _userSrv.Confirm(long.Parse(model.MobileNumber), int.Parse(model.Code));

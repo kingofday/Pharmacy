@@ -286,6 +286,15 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to توضیحات.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to جزییات.
         /// </summary>
         public static string Details {

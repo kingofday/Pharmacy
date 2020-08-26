@@ -11,6 +11,7 @@ using Pharmacy.InfraStructure;
 using Pharmacy.Service.Resource;
 using System.Collections.Generic;
 using DomainStrings = Pharmacy.Domain.Resource.Strings;
+using Pharmacy.Domain.Resource;
 
 namespace Pharmacy.Service
 {
@@ -331,6 +332,7 @@ namespace Pharmacy.Service
             var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobNum });
             if (user != null)
                 return new Response<User> { Message = ServiceMessage.AlreadySignedUp };
+            var code = Randomizer.GetRandomInteger(4);
             user = new User
             {
                 UserId = Guid.NewGuid(),
@@ -338,7 +340,7 @@ namespace Pharmacy.Service
                 Email = model.Email,
                 Password = HashGenerator.Hash(model.NewPassword),
                 FullName = model.Fullname,
-                MobileConfirmCode = Randomizer.GetRandomInteger(4),
+                MobileConfirmCode = code,
                 LastLoginDateMi = DateTime.Now,
                 LastLoginDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date),
                 UserStatus = UserStatus.Added
@@ -357,7 +359,7 @@ namespace Pharmacy.Service
             {
                 var notif = await _notifSrv.NotifyAsync(new NotificationDto
                 {
-                    Content = ServiceMessage.ConfirmCodeMessage,
+                    Content = string.Format(NotifierMessage.MobileConfirmMessage, code),
                     FullName = user.FullName,
                     MobileNumber = user.MobileNumber,
                     Type = EventType.Subscription

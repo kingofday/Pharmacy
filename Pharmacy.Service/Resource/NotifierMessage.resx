@@ -117,74 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AccountIsBlocked" xml:space="preserve">
-    <value>حساب کاربری شما مسدود شده است</value>
+  <data name="DrugStoreAcceptOrder" xml:space="preserve">
+    <value>کاربر گرامی، سفارش شما در {0} مورد پذیرش قرار گرفته است، لطفا جهت ادامه فرایند سفارش، از طریق لینک زیر هزینه ارسال را پرداهت نمایید:
+{1}</value>
   </data>
-  <data name="AlreadySignedUp" xml:space="preserve">
-    <value>کاربر مورد نظر هم اکنون عضو می باشد</value>
-  </data>
-  <data name="ConfirmCodeMessage" xml:space="preserve">
-    <value>کد تایید ثبت نام در سایت فارما
+  <data name="MobileConfirmMessage" xml:space="preserve">
+    <value>کد تایید ثبت نام در فارما:
 {0}</value>
   </data>
-  <data name="ConfirmedBefore" xml:space="preserve">
-    <value>قبلا تایید شده است</value>
+  <data name="OrderCanceled" xml:space="preserve">
+    <value>کاربر گرامی، سفارش به شماره {0} لغو گردید</value>
   </data>
-  <data name="CreateTransactionFailed" xml:space="preserve">
-    <value>خطا در ارتباط با درگاه پرداخت، دوباره تلاش نمایید</value>
+  <data name="OrderPayment" xml:space="preserve">
+    <value>کاربر گرامی، سفارش به شماره {0} ثبت شد و پس از بررسی از طریق پیامک به اطلاع شما خواهد رسید</value>
   </data>
-  <data name="DeliveryAPIFailed" xml:space="preserve">
-    <value>سرویس استعلام هزینه ارسال جوابگو نمی باشد، دوباره تلاش نمایید</value>
-  </data>
-  <data name="DuplicateRecord" xml:space="preserve">
-    <value>رکورد مورد نظر هم اکنون وجود دارد</value>
-  </data>
-  <data name="Error" xml:space="preserve">
-    <value>خطایی رخ داده است، دوباره تلاش نمایید</value>
-  </data>
-  <data name="GetPostsFailed" xml:space="preserve">
-    <value>خطا هنگام دریافت پست ها، لطفا دوباره تلاش نمایید</value>
-  </data>
-  <data name="InvalidDeliveryType" xml:space="preserve">
-    <value>روش ارسال معتبر نمی باشد</value>
-  </data>
-  <data name="InvalidUsernameOrPassword" xml:space="preserve">
-    <value>نام کاربری یا رمز عبور اشتباه است</value>
-  </data>
-  <data name="InvaliedTransaction" xml:space="preserve">
-    <value>تراکنش معتبر نیست</value>
-  </data>
-  <data name="MemberIsBlocked" xml:space="preserve">
-    <value>اکانت کاربر قفل شده است</value>
-  </data>
-  <data name="NotAllowedOperation" xml:space="preserve">
-    <value>عملیات مورد نظر مجاز نمی باشد</value>
-  </data>
-  <data name="OrderChanged" xml:space="preserve">
-    <value>قیمت یا تعداد محصولات در زمان خرید شما تغییر یافته اند، لطفا دوباره سبد خرید خود را بررسی نمایید</value>
-  </data>
-  <data name="ProjectName" xml:space="preserve">
-    <value>فارما</value>
-  </data>
-  <data name="RecordNotExist" xml:space="preserve">
-    <value>آیتم مورد نظر یافت نشد</value>
-  </data>
-  <data name="RecoverPassword" xml:space="preserve">
-    <value>بازیابی رمز عبور</value>
-  </data>
-  <data name="SaveFileFailed" xml:space="preserve">
-    <value>ذخیره فایل با مشکل مواجه شد</value>
-  </data>
-  <data name="UserInfoMissing" xml:space="preserve">
-    <value>اطلاعات کاربری شما ثبت نشده است، لطفا فرایند خرید را دوباره طی نمایید</value>
-  </data>
-  <data name="VerifyTransactionFailed" xml:space="preserve">
-    <value>تایید تراکنش ناموفق بود، دوباره تلاش نمایید</value>
-  </data>
-  <data name="WrongConfirmCode" xml:space="preserve">
-    <value>کد تایید اشتباه است</value>
-  </data>
-  <data name="WrongUsernameOrPassword" xml:space="preserve">
-    <value>نام کاربری یا رمز عبور اشتباه است</value>
+  <data name="SignUpMessage" xml:space="preserve">
+    <value>کاربر گرامی {0}، ثبت نام شما با موفقیت انجام شد،
+فارما</value>
   </data>
 </root>

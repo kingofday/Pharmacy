@@ -4,6 +4,36 @@
     Layout = "_LayoutManage";
 }
 @section styles{
+    <style>
+        .radio-status {
+            border: 1px solid #ccc;
+            display: flex;
+            justify-content:center;
+            align-items: center;
+            padding: 5px 10px;
+            border-radius: 25px;
+        }
+
+            .radio-status label {
+                margin: 0;
+            }
+
+            .radio-status input {
+                vertical-align: middle;
+            }
+
+            .radio-status.accept {
+                color: #155724;
+                background-color: #d4edda;
+                border-color: #c3e6cb;
+            }
+
+            .radio-status.denied {
+                color: #721c24;
+                background-color: #f8d7da;
+                border-color: #f5c6cb;
+            }
+    </style>
     @*<link href="@Url.Content("~/Styles/App/Order/manage.css")" rel="stylesheet" />*@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="

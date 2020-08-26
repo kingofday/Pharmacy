@@ -60,7 +60,7 @@ namespace Pharmacy.API
             services.AddHttpContextAccessor();
             //services.AddOptions();
             
-            services.Configure<CustomSetting>(_configuration.GetSection("CustomSettings"));
+            services.Configure<APICustomSetting>(_configuration.GetSection("CustomSettings"));
             services.AddTransient(_configuration);
             services.AddScoped(_configuration);
             services.AddSingleton(_configuration);

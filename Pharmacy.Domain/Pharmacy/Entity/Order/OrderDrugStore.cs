@@ -13,7 +13,7 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderDrugStoreId { get; set; }
 
-        public OrderPharmacyStatus Status { get; set; }
+        public OrderDrugStoreStatus Status { get; set; }
 
         public Guid OrderId { get; set; }
 

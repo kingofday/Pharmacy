@@ -2,8 +2,6 @@
 using Elk.Http;
 using Pharmacy.Domain;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System;
@@ -14,9 +12,9 @@ namespace Pharmacy.Service
 {
     public class NotificationService : INotificationService
     {
-        private IOptions<CustomSetting> _settings { get; }
+        private IOptions<BaseCustomSetting> _settings { get; }
 
-        public NotificationService(IOptions<CustomSetting> settings)
+        public NotificationService(IOptions<BaseCustomSetting> settings)
         {
             _settings = settings;
         }

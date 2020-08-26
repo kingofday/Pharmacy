@@ -11,7 +11,7 @@ using System;
 
 namespace Pharmacy.Dashboard.Controllers
 {
-    //[AuthorizationFilter]
+    [AuthorizationFilter]
     public partial class OrderController : Controller
     {
         private readonly IOrderService _OrderSrv;
@@ -41,7 +41,7 @@ namespace Pharmacy.Dashboard.Controllers
         [HttpPost]
         public virtual async Task<JsonResult> Update(Order model)
         {
-            return Json(await _OrderSrv.UpdateStatusAsync(model.OrderId, model.OrderStatus, false));
+            return Json(await _OrderSrv.UpdateStatusAsync(model.OrderId, model.Status, false));
         }
 
         [HttpGet, AuthEqualTo("Order", "Update")]

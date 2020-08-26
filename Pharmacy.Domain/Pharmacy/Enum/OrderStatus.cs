@@ -5,15 +5,25 @@ namespace Pharmacy.Domain
 {
     public enum OrderStatus : int
     {
-        [Description("ناموفق")]
-        Failed = -1,
+        [Description("لغو شده")]
+        Canceled = -1,
+
         [Description("در انتظار پرداخت")]
-        WaitForPayment = 3,
+        WaitForPayment = 0,
+
         [Description("در حال بررسی")]
-        InProcessing = 9,
+        InProcessing = 6,
+
+        [Description("پذیرش شده")]
+        Accepted= 9,
+
+        [Description("عدم پذیرش")]
+        NotAccepted = 10,
+
         [Description("در انتظار تحویل")]
         WaitForDelivery = 12,
+
         [Description("موفق")]
-        Successed = 15,
+        Done = 15,
     }
 }

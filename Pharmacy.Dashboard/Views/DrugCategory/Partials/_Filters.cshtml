@@ -11,10 +11,10 @@
 </div>
 <div class="row">
     <div class="col-12 col-sm-6">
-        <custom-select-for for="OrderStatus" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+        <custom-select-for for="Status" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
             Value = x.Name,
             Text = x.Description,
-            Selected = x.Name == Model.OrderStatus.ToString()
+            Selected = x.Name == Model.Status.ToString()
         }).ToList()" />
     </div>
     <div class="col-12 col-sm-6">

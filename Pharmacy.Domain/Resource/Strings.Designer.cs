@@ -412,6 +412,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to توضیحات مشترس.
+        /// </summary>
+        public static string EndUserDescription {
+            get {
+                return ResourceManager.GetString("EndUserDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to پسوند.
         /// </summary>
         public static string Extention {

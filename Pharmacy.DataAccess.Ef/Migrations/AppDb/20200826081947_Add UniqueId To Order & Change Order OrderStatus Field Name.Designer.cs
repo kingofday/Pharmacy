@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pharmacy.DataAccess.Ef;
 
 namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200826081947_Add UniqueId To Order & Change Order OrderStatus Field Name")]
+    partial class AddUniqueIdToOrderChangeOrderOrderStatusFieldName
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -626,9 +628,6 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("Store_UserId")
-                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TempBasketId")
                         .HasColumnType("uniqueidentifier");

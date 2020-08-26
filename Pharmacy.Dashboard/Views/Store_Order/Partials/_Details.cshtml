@@ -22,7 +22,7 @@
             </div>*@
         <div class="row">
             <div class="col-12 col-sm-6">
-                <custom-select-for for="OrderStatus"
+                <custom-select-for for="Status"
                                    class="form-control"
                                    readonly="true"
                                    items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
@@ -30,14 +30,14 @@
                                     Text = x.Description
                                 }).ToList()" />
             </div>
-            @*<div class="col-12 col-sm-6">
-                    <custom-input label="@Html.DisplayNameFor(x=>x.DrugStore)" readonly="true" value="Model.DrugStore.Name" />
-                </div>*@
+            <div class="col-12 col-sm-6">
+                <custom-input-for for="UniqueId" readonly="true"   class="form-control ltr-elm"/>
+            </div>
         </div>
 
         <div class="row">
             <div class="col-12 col-sm-4">
-                <custom-input-for for="InsertDateSh" readonly="true" />
+                <custom-input-for for="InsertDateSh" readonly="true" class="form-control ltr-elm" />
             </div>
             <div class="col-12 col-sm-4">
                 <custom-input-for for="TotalPrice" class="form-control ltr-elm" readonly="true" />

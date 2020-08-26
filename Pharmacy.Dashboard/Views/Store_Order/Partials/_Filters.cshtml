@@ -4,18 +4,21 @@
 }
 
 <div class="row">
-    <div class="col-12 col-sm-6">
-        <custom-select-for for="OrderStatus"
-                           items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
-                                    Text = x.Description,
-                                    Value = x.Name.ToString()
-                                }).ToList()"
+    <div class="col-12 col-sm-5">
+        <custom-select-for for="Status"
+                           items="new List<SelectListItem> {
+                                new SelectListItem{ Value = OrderStatus.InProcessing.ToString(), Text = OrderStatus.InProcessing.GetDescription() },
+                                new SelectListItem{ Value = OrderStatus.Accepted.ToString(), Text = OrderStatus.Accepted.GetDescription() },
+                            }"
                            optional-label="@Strings.SelectPlease" />
     </div>
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-5">
         <custom-select-for for="DrugStoreId" class="form-control select2"
                            optional-label="@Strings.SelectPlease"
                            items="(List<SelectListItem>)ViewBag.Stores" />
+    </div>
+    <div class="col-12 col-sm-2">
+        <custom-input-for for="UniqueId" class="form-control ltr-elm"></custom-input-for>
     </div>
 </div>
 <div class="row">

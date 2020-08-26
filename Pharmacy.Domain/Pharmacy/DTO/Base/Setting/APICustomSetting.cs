@@ -1,25 +1,20 @@
 ﻿namespace Pharmacy.Domain
 {
-    public class CustomSetting
+    public class APICustomSetting : BaseCustomSetting
     {
         public int EndUserRoleId { get; set; }
         public int DefaultGatewayId { get; set; }
-        public string NotifierUrl { get; set; }
-        public string NotifierToken { get; set; }
+
         public Jwt Jwt { get; set; }
-        public Delivery Delivery { get; set; }
+
         public ShowPaymentResult ShowPaymentResult { get; set; }
     }
 
-    public class Jwt {
+    public class Jwt
+    {
         public int TimoutInMinutes { get; set; }
         public string Key { get; set; }
         public string Issuer { get; set; }
-    }
-    public class Delivery
-    {
-        public string Price { get; set; }
-        public string Add { get; set; }
     }
 
     public class ShowPaymentResult

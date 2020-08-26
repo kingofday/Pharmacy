@@ -20,12 +20,12 @@ namespace Pharmacy.API.Controllers
         readonly IOrderService _orderService;
         readonly IPaymentService _paymentService;
         readonly IGatewayFactory _gatewayFectory;
-        readonly CustomSetting _setting;
+        readonly APICustomSetting _setting;
         public OrderController(IUserService userService,
             IOrderService orderService,
             IPaymentService paymentService,
             IGatewayFactory gatewayFactory,
-            IOptions<CustomSetting> settings)
+            IOptions<APICustomSetting> settings)
         {
             _userService = userService;
             _orderService = orderService;

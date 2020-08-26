@@ -11,7 +11,7 @@ namespace Pharmacy.Service
     {
         //Task<IResponse<LocationDTO>> GetLocationAsync(int id);
         //Task<IResponse<DrugStoreDTO>> FindAsDtoAsync(int id);
-        IResponse<DrugStoreModel> GetNearest(LocationDTO model);
+        IResponse<DrugStoreModel> GetNearest(LocationDTO model, List<int> excludedStores = null);
         PagingListDetails<DrugStore> Get(DrugStoreSearchFilter filter);
         Task<IResponse<DrugStore>> FindAsync(int id);
         Task<IResponse<bool>> DeleteAsync(int id, string appDir);

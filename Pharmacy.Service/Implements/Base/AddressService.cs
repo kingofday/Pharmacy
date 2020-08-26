@@ -30,8 +30,8 @@ namespace Pharmacy.Service
                     Id = x.UserAddressId,
                     Fullname = x.Fullname,
                     MobileNumber = x.MobileNumber.ToString(),
-                    Lat = x.Latitude,
-                    Lng = x.Longitude,
+                    Latitude = x.Latitude,
+                    Longitude = x.Longitude,
                     Details = x.Details
                 },
                 Conditions = x => x.UserId == userId,
@@ -61,8 +61,8 @@ namespace Pharmacy.Service
             var addr = new UserAddress
             {
                 UserId = userId,
-                Latitude = model.Lat,
-                Longitude = model.Lng,
+                Latitude = model.Latitude,
+                Longitude = model.Longitude,
                 IsDefault = true,
                 Fullname = model.Fullname,
                 MobileNumber = string.IsNullOrWhiteSpace(model.MobileNumber)?0:long.Parse(model.MobileNumber),

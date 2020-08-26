@@ -372,7 +372,7 @@ var customSerialize = function ($wrapper, checkNumbers) {
 
     });
 
-    $wrapper.find('input[type="checkbox"],input[type="radio"]').each(function () {
+    $wrapper.find('input[type="checkbox"]:checked,input[type="radio"]:checked').each(function () {
         let name = $(this).attr('name');
         if (typeof name !== 'undefined') {
             let val = $(this).attr('value').toLowerCase();

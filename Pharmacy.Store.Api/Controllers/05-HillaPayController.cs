@@ -12,10 +12,10 @@ namespace Pharmacy.API.Controllers
     {
         readonly IOrderService _orderSrv;
         readonly IPaymentService _paymentSrv;
-        readonly CustomSetting _settings;
+        readonly APICustomSetting _settings;
         public HillaPayController(IOrderService orderSrv,
             IPaymentService paymentSrv,
-            IOptions<CustomSetting> settings)
+            IOptions<APICustomSetting> settings)
         {
             _orderSrv = orderSrv;
             _paymentSrv = paymentSrv;

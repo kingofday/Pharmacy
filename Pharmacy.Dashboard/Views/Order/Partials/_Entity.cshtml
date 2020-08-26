@@ -13,7 +13,7 @@
 </div>
 <div class="row">
     <div class="col-12 col-sm-6">
-        <custom-select-for for="OrderStatus" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+        <custom-select-for for="Status" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
             Value = x.Name,
             Text = x.Description
         }).ToList()" />

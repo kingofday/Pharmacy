@@ -4,6 +4,7 @@ using Pharmacy.Domain.Resource;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Linq;
 
 namespace Pharmacy.Domain
@@ -12,11 +13,13 @@ namespace Pharmacy.Domain
     public class Order : IInsertDateProperties, IModifyDateProperties, ISoftDeleteProperty, IEntity
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Display(Name = nameof(Strings.Identifier), ResourceType = typeof(Strings))]
         public Guid OrderId { get; set; }
 
         public bool IsFixed { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Display(Name = nameof(Strings.Identifier), ResourceType = typeof(Strings))]
+        public long UniqueId { get; set; }
 
         public DeliveryType DeliveryType { get; set; }
 
@@ -28,6 +31,8 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         //[Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
+
+        public Guid Store_UserId { get; set; }
 
         public int? PrescriptionId { get; set; }
 
@@ -57,9 +62,9 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.TotalPrice), ResourceType = typeof(Strings))]
         public int TotalPrice { get; set; }
 
-        [Display(Name = nameof(Strings.OrderStatus), ResourceType = typeof(Strings))]
+        [Display(Name = nameof(Strings.Status), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
 
         [Display(Name = nameof(Strings.IsDeleted), ResourceType = typeof(Strings))]
         public bool IsDeleted { get; set; }
@@ -83,7 +88,7 @@ namespace Pharmacy.Domain
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ModifyDateSh { get; set; }
 
-        [Display(Name = nameof(Strings.Description), ResourceType = typeof(Strings))]
+        [Display(Name = nameof(Strings.EndUserDescription), ResourceType = typeof(Strings))]
         [MaxLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string Comment { get; set; }
@@ -111,6 +116,9 @@ namespace Pharmacy.Domain
         [ForeignKey(nameof(PrescriptionId))]
         [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         public Prescription Prescription { get; set; }
+
+        [NotMapped]
+        public OrderDrugStore CurrentOrderDrugStore => OrderDrugStores.OrderByDescending(x => x.OrderDrugStoreId).FirstOrDefault();
 
         [NotMapped]
         [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]

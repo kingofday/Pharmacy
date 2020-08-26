@@ -15,12 +15,12 @@ using DomainString = Pharmacy.Domain.Resource.Strings;
 namespace Pharmacy.Dashboard.Controllers
 {
     [AuthorizationFilter]
-    public partial class StoreOrderController : Controller
+    public partial class Store_OrderController : Controller
     {
         private readonly IOrderService _OrderSrv;
         private readonly IDrugStoreService _storeSrv;
 
-        public StoreOrderController(IOrderService OrderSrv, IDrugStoreService storeSrv)
+        public Store_OrderController(IOrderService OrderSrv, IDrugStoreService storeSrv)
         {
             _OrderSrv = OrderSrv;
             _storeSrv = storeSrv;
@@ -43,18 +43,20 @@ namespace Pharmacy.Dashboard.Controllers
                 Title = $"{Strings.Update} {DomainString.Order}",
                 AutoSubmitBtnText = Strings.Edit,
                 Body = ControllerExtension.RenderViewToString(this, "Partials/_Entity", findRep.Result),
-                AutoSubmitUrl = Url.Action("Update", "StoreOrder"),
+                AutoSubmitUrl = Url.Action("Update", "Store_Order"),
+                AutoClose = true,
                 ResetForm = false
             });
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Update(Order model)
+        public virtual async Task<JsonResult> Update(Store_OrderUpdateModel model)
         {
-            return Json(await _OrderSrv.UpdateStatusAsync(model.OrderId, model.OrderStatus));
+            var update = await _OrderSrv.Store_UpdateAsync(model);
+            return Json(new { update.IsSuccessful, update.Message });
         }
 
-        [HttpGet, AuthEqualTo("StoreOrder", "Update")]
+        [HttpGet, AuthEqualTo("Store_Order", "Update")]
         public virtual async Task<JsonResult> Details(Guid id)
         {
             var findRep = await _OrderSrv.GetDetails(id);

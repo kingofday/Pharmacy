@@ -37,8 +37,8 @@ namespace Pharmacy.Service
                 {
                     transport_type = AloPeikTransportType.motor_taxi.ToString(),
                     addresses = new List<dynamic> {
-                        new { type = AloPeikAddressType.origin.ToString(), lat =  origin.Lat, lng = origin.Lng},
-                        new { type = AloPeikAddressType.destination.ToString(), lat =  destination.Lat, lng = destination.Lng}
+                        new { type = AloPeikAddressType.origin.ToString(), lat =  origin.Latitude, lng = origin.Longitude},
+                        new { type = AloPeikAddressType.destination.ToString(), lat =  destination.Latitude, lng = destination.Longitude}
                         },
                     has_return = hasReturn,
                     cashed = cashed
@@ -99,7 +99,7 @@ namespace Pharmacy.Service
                 using (var webClient = new HttpClient())
                 {
                     webClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", GlobalVariables.DeliveryProviders.AloPeik.Token);
-                    responseBody = await webClient.GetStringAsync($"{GlobalVariables.DeliveryProviders.AloPeik.Url}/locations?latlng={location.Lat},{location.Lng}");
+                    responseBody = await webClient.GetStringAsync($"{GlobalVariables.DeliveryProviders.AloPeik.Url}/locations?latlng={location.Latitude},{location.Longitude}");
 
                     var response = responseBody.DeSerializeJson<AloPeikResult<AloPeikAddressInquiry>>();
                     if (response.Status == "success")
