@@ -6,7 +6,10 @@ namespace Pharmacy.Domain
     public enum OrderStatus : int
     {
         [Description("لغو شده")]
-        Canceled = -1,
+        Canceled = -2,
+
+        [Description("عدم پذیرش")]
+        NotAccepted = -1,
 
         [Description("در انتظار پرداخت")]
         WaitForPayment = 0,
@@ -17,10 +20,7 @@ namespace Pharmacy.Domain
         [Description("پذیرش شده")]
         Accepted= 9,
 
-        [Description("عدم پذیرش")]
-        NotAccepted = 10,
-
-        [Description("در انتظار تحویل")]
+        [Description("آماده تحویل")]
         WaitForDelivery = 12,
 
         [Description("موفق")]

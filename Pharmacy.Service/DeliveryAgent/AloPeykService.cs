@@ -137,8 +137,8 @@ namespace Pharmacy.Service
                 {
                     transport_type = AloPeikTransportType.motor_taxi.ToString(),
                     addresses = new List<dynamic> {
-                        new { type = AloPeikAddressType.origin.ToString(), lat =  origin.Lat, lng = origin.Lng, description = origin.Description, person_phone = origin.PersonPhone, person_fullname = origin.PersonFullName},
-                        new { type = AloPeikAddressType.destination.ToString(), lat =  destination.Lat, lng = destination.Lng, description = destination.Description, person_phone = destination.PersonPhone, person_fullname = destination.PersonFullName}
+                        new { type = AloPeikAddressType.origin.ToString(), lat =  origin.Latitude, lng = origin.Longitude, description = origin.Description, person_phone = origin.PersonPhone, person_fullname = origin.PersonFullName},
+                        new { type = AloPeikAddressType.destination.ToString(), lat =  destination.Latitude, lng = destination.Longitude, description = destination.Description, person_phone = destination.PersonPhone, person_fullname = destination.PersonFullName}
                         },
                     has_return = hasReturn,
                     cashed = cashed,

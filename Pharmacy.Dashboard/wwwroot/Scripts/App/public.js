@@ -66,7 +66,7 @@ var fireGlobalPlugins = function () {
                     },
                     processResults: function (data) {
                         return {
-                            results: data.map(x => ({ text: x.Text, id: x.Value }))
+                            results: data.map(x => ({ text: x.Text, id: x.Value,...x }))
                         };
                     }
                 }

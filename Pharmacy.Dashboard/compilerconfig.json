@@ -46,5 +46,9 @@
   {
     "outputFile": "wwwroot/Styles/App/01-Admin/DrugCategory/manage.css",
     "inputFile": "wwwroot/Styles/App/01-Admin/DrugCategory/manage.scss"
+  },
+  {
+    "outputFile": "wwwroot/Styles/App/01-Admin/Prescription/manage.css",
+    "inputFile": "wwwroot/Styles/App/01-Admin/Prescription/manage.scss"
   }
 ]

@@ -198,6 +198,9 @@
   <data name="Details" xml:space="preserve">
     <value>جزییات</value>
   </data>
+  <data name="Download" xml:space="preserve">
+    <value>دانلود</value>
+  </data>
   <data name="DropYourFileHere" xml:space="preserve">
     <value>فایل خود را اینجا رها کنید</value>
   </data>
@@ -206,6 +209,9 @@
   </data>
   <data name="DropzoneFileIsTooBig" xml:space="preserve">
     <value>"حجم فایل ({{filesize}}) بیش از حد مجاز است ({{maxFilesize}}MB)."</value>
+  </data>
+  <data name="Drug" xml:space="preserve">
+    <value>دارو</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>ویرایش</value>
@@ -377,6 +383,9 @@
   </data>
   <data name="Send" xml:space="preserve">
     <value>ارسال</value>
+  </data>
+  <data name="SendOrderLink" xml:space="preserve">
+    <value>ارسال لینک سفارش</value>
   </data>
   <data name="SendViaSms" xml:space="preserve">
     <value>ارسال از طریق پیامک</value>

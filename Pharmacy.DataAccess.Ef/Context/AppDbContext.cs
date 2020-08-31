@@ -16,6 +16,7 @@ namespace Pharmacy.DataAccess.Ef
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<Order>().Property(x=>x.UniqueId).Metadata.SetAfterSaveBehavior(PropertySaveBehavior.Ignore);
+            builder.Entity<Order>().HasIndex(x => x.PrescriptionId).HasName("PrescriptionId");
             builder.Entity<User>().HasIndex(x => x.MobileNumber).HasName("IX_MobileNumber").IsUnique();
             builder.Entity<Drug>().HasIndex(x => x.NameEn).HasName("IX_NameEn");
             builder.Entity<Drug>().HasIndex(x => x.NameFa).HasName("IX_NameFa");

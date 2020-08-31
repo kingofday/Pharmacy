@@ -214,6 +214,8 @@ namespace Pharmacy.Service
                         Id = x.DrugId,
                         NameFa = x.NameFa,
                         NameEn = x.NameEn,
+                        UniqueId = x.UniqueId,
+                        Price = x.Price - x.DiscountPrice
                     },
                     Conditions = x => !x.IsDeleted && (x.NameFa.Contains(searchParameter) || x.NameEn.Contains(searchParameter)),
                     PagingParameter = new PagingParameter

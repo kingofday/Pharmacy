@@ -21,27 +21,25 @@ namespace Pharmacy.API.Controllers
     public class AuthController : ControllerBase
     {
         readonly IUserService _userSrv;
-        readonly IConfiguration _config;
-        readonly IOptions<APICustomSetting> _settings;
-        public AuthController(IUserService userSrv, IConfiguration config, IOptions<APICustomSetting> settings)
+        readonly APICustomSetting _settings;
+        public AuthController(IUserService userSrv, IOptions<APICustomSetting> settings)
         {
             _userSrv = userSrv;
-            _config = config;
-            _settings = settings;
+            _settings = settings.Value;
         }
 
         [NonAction]
         private string CreateToken(User user, int timeout)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_settings.Value.Jwt.Key));
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_settings.Jwt.Key));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
             var claims = new[] {
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
                 new Claim(ClaimTypes.MobilePhone, user.MobileNumber.ToString()),
                 new Claim(ClaimTypes.Name, user.FullName.ToString()),
                 new Claim(ClaimTypes.Email, user.Email.ToString())};
-            var token = new JwtSecurityToken(_settings.Value.Jwt.Issuer,
-              _settings.Value.Jwt.Issuer,
+            var token = new JwtSecurityToken(_settings.Jwt.Issuer,
+              _settings.Jwt.Issuer,
               claims,
               expires: DateTime.Now.AddMinutes(timeout),
               signingCredentials: credentials);
@@ -52,7 +50,7 @@ namespace Pharmacy.API.Controllers
         public async Task<ActionResult<IResponse<string>>> SignUp(SignUpModel model)
         {
             if (!ModelState.IsValid) return new Response<string> { Message = ModelState.GetModelError() };
-            var add = await _userSrv.SignUp(model, _settings.Value.EndUserRoleId);
+            var add = await _userSrv.SignUp(model, _settings.EndUserRoleId);
             if (!add.IsSuccessful) return new Response<string> { Message = add.Message };
             return new Response<string>
             {
@@ -62,7 +60,7 @@ namespace Pharmacy.API.Controllers
         }
 
         [HttpPost, Route("Signin")]
-        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn([FromServices] IOptions<APICustomSetting> settings, SignInModel model)
+        public async Task<ActionResult<IResponse<AuthResponse>>> SignIn(SignInModel model)
         {
             if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
             var auth = await _userSrv.SignIn(long.Parse(model.Username), model.Password);
@@ -73,7 +71,7 @@ namespace Pharmacy.API.Controllers
                 MobileNumber = long.Parse(model.Username),
                 Email = auth.Result.Email,
                 FullName = auth.Result.Fullname
-            }, settings.Value.Jwt.TimoutInMinutes);
+            }, _settings.Jwt.TimoutInMinutes);
             return new Response<AuthResponse>
             {
                 IsSuccessful = true,
@@ -83,7 +81,7 @@ namespace Pharmacy.API.Controllers
 
 
         [HttpPost, Route("Confirm")]
-        public async Task<ActionResult<IResponse<AuthResponse>>> Confirm([FromServices] IOptions<APICustomSetting> settings, ConfirmModel model)
+        public async Task<ActionResult<IResponse<AuthResponse>>> Confirm(ConfirmModel model)
         {
             if (!ModelState.IsValid) return new Response<AuthResponse> { Message = ModelState.GetModelError() };
             var conf = await _userSrv.Confirm(long.Parse(model.MobileNumber), int.Parse(model.Code));
@@ -96,7 +94,7 @@ namespace Pharmacy.API.Controllers
                     MobileNumber = long.Parse(model.MobileNumber),
                     Email = conf.Result.Email,
                     FullName = conf.Result.Fullname
-                }, settings.Value.Jwt.TimoutInMinutes);
+                }, _settings.Jwt.TimoutInMinutes);
             }
             return conf;
         }

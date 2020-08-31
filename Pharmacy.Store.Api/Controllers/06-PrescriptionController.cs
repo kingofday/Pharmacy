@@ -6,6 +6,10 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Hosting;
 using System.Threading.Tasks;
 using Pharmacy.API.Resources;
+using System.Net.Http;
+using Microsoft.Extensions.Options;
+using System.Text;
+using System.IO;
 
 namespace Pharmacy.API.Controllers
 {
@@ -21,15 +25,31 @@ namespace Pharmacy.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([FromServices] IWebHostEnvironment env, [FromForm]AddPrescriptionModel model)
+        public async Task<ActionResult> Add([FromServices] IOptions<APICustomSetting> settings, [FromForm] AddPrescriptionModel model)
         {
-            model.AppDir = env.WebRootPath;
             if (User.Identity.IsAuthenticated)
                 model.UserId = User.GetUserId();
-            else if(string.IsNullOrEmpty(model.MobileNumber) || !ModelState.IsValid)
+            else if (string.IsNullOrEmpty(model.MobileNumber) || !ModelState.IsValid)
                 return Ok(new { Status = 401, Message = Domain.Resource.ErrorMessage.InvalidMobileNumber });
-            return Ok(await _prescriptionSrv.Add(model));
+            var content = new MultipartFormDataContent();
+            content.Add(new StringContent(model.MobileNumber, Encoding.UTF8, "text/plain"), nameof(model.MobileNumber));
+            foreach (var file in model.Files)
+            {
+                using var ms = new MemoryStream();
+                file.CopyTo(ms);
+                var byteArrayContent = new ByteArrayContent(ms.ToArray());
+                byteArrayContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data") { FileName = file.FileName, Name = "\"files\"" };
+                content.Add(byteArrayContent, "Files");
+            }
+            using var http = new HttpClient();
+            var call = await http.PostAsync(settings.Value.DashboardAddPrescriptionUrl, content);
+            if (call.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                var rep = await call.Content.ReadAsStringAsync();
+                return Ok(rep.DeSerializeJson<Response<int>>());
+            }
+            return Ok(new Response<int> { Message = Strings.Error });
         }
-        //=> new Response<int> { IsSuccessful = true, Result = 1 };
+
     }
 }

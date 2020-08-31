@@ -14,6 +14,6 @@ namespace Pharmacy.Domain
         PersonelPicture = 3,
 
         [Description("تصویر نسخه")]
-        PrescriptionImage = 3,
+        PrescriptionImage = 4,
     }
 }

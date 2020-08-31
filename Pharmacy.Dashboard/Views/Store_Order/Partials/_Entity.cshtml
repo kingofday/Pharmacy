@@ -1,37 +1,53 @@
-@model Order
+﻿@model Order
 @{
     Layout = null;
 }
 @Html.HiddenFor(x => x.OrderId)
-<div class="row">
-    <div class="col-12 col-sm-6">
-        <div class="form-group radio-status accept">
-            <label>
-                <input type="radio" name="OrderDrugStoreStatus" value="@OrderDrugStoreStatus.Accepted" />
-                @OrderDrugStoreStatus.Accepted.GetDescription()
-            </label>
+@if (Model.CurrentOrderDrugStore.Status != OrderDrugStoreStatus.Accepted)
+{
+    <div class="row">
+        <div class="col-12">
+            <p class="alert alert-warning">
+                لطفا پس از آماده شدن داروها، وضعیت سفارش را به "آماده تحویل" تغییر دهید
+            </p>
         </div>
     </div>
-    <div class="col-12 col-sm-6">
-        <div class="form-group  radio-status denied">
-            <label>
-                <input type="radio" name="OrderDrugStoreStatus" value="@OrderDrugStoreStatus.Denied" />
-                @OrderDrugStoreStatus.Denied.GetDescription()
-            </label>
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            <div class="form-group radio-status accept">
+                <label>
+                    <input type="radio" name="OrderDrugStoreStatus" value="@OrderDrugStoreStatus.Accepted" />
+                    @OrderDrugStoreStatus.Accepted.GetDescription()
+                </label>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6">
+            <div class="form-group  radio-status denied">
+                <label>
+                    <input type="radio" name="OrderDrugStoreStatus" value="@OrderDrugStoreStatus.Denied" />
+                    @OrderDrugStoreStatus.Denied.GetDescription()
+                </label>
 
+            </div>
         </div>
     </div>
-</div>
-<div class="row m-b">
-    <div class="col-12">
-        <div class="form-group">
-            <textarea class="form-control" name="OrderDrugStoreComment" placeholder="@Strings.Description" rows="3"></textarea>
+    <div class="row m-b">
+        <div class="col-12">
+            <div class="form-group">
+                <textarea class="form-control" name="OrderDrugStoreComment" placeholder="@Strings.Description" rows="3"></textarea>
+            </div>
         </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-12">
+        <custom-select-for for="Status" items="ViewBag.Status" />
     </div>
 </div>
 <div class="row">
     <div class="col-12 col-sm-6">
-        <custom-input-for for="Address.User.Email" readonly="true" />
+        <custom-input-for for="Address.User.Email" class="form-control ltr-elm" readonly="true" />
     </div>
     <div class="col-12 col-sm-6">
         <custom-input-for for="Address.User.MobileNumber" readonly="true" class="form-control ltr-elm" />
@@ -39,25 +55,18 @@
 </div>
 <div class="row">
     <div class="col-12 col-sm-6">
-        <custom-select-for for="Status" readonly="true" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
-                          Value = x.Name,
-                          Text = x.Description,
-                          Disabled = (x.Name ==  OrderStatus.WaitForPayment.ToString() || (x.Name ==  OrderStatus.Done.ToString())?true:false)
-                      }).ToList()" />
+        <custom-input-for for="UniqueId" readonly="true" />
     </div>
     <div class="col-12 col-sm-6">
-        <custom-input-for for="UniqueId" readonly="true" />
+        <custom-input-for for="InsertDateSh" readonly="true" />
     </div>
 </div>
 
 <div class="row">
-    <div class="col-12 col-sm-4">
-        <custom-input-for for="InsertDateSh" readonly="true" />
-    </div>
-    <div class="col-12 col-sm-4">
+    <div class="col-12 col-sm-6">
         <custom-input-for for="TotalPrice" readonly="true" class="form-control ltr-elm" />
     </div>
-    <div class="col-12 col-sm-4">
+    <div class="col-12 col-sm-6">
         <custom-input-for for="TotalPriceWithoutDiscount" readonly="true" class="form-control ltr-elm" />
     </div>
 </div>

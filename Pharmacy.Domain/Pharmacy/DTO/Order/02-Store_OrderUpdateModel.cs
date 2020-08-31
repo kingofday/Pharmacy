@@ -7,6 +7,7 @@ namespace Pharmacy.Domain
         public Guid OrderId { get; set; }
 
         public OrderDrugStoreStatus OrderDrugStoreStatus { get; set; }
+        public OrderStatus Status { get; set; }
 
         public string OrderDrugStoreComment { get; set; }
     }

@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Store\**" />
+    <Content Remove="Models\Store\**" />
+    <EmbeddedResource Remove="Models\Store\**" />
+    <None Remove="Models\Store\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <Content Remove="wwwroot\Scripts\App\public.js" />
   </ItemGroup>
@@ -34,10 +41,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Store\" />
   </ItemGroup>
 
   <ItemGroup>

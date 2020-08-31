@@ -4,7 +4,7 @@
     {
         public int EndUserRoleId { get; set; }
         public int DefaultGatewayId { get; set; }
-
+        public string DashboardAddPrescriptionUrl { get; set; }
         public Jwt Jwt { get; set; }
 
         public ShowPaymentResult ShowPaymentResult { get; set; }

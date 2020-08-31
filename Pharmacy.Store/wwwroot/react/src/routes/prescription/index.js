@@ -64,8 +64,8 @@ class Prescription extends React.Component {
             toast(add.message, { type: toast.TYPE.ERROR });
             return;
         }
-        toast(strings.submitPrescriptionSuccessfully, { type: toast.TYPE.success });
-        this.setState(p => ({ ...p, loading: false, redirect: '/selectDelivery' }));
+        toast(strings.submitPrescriptionSuccessfully, { type: toast.TYPE.SUCCESS });
+        this.setState(p => ({ ...p, images: [], files: [], mobileNumber: { value: '', error: false } }))
 
     }
     _select() {

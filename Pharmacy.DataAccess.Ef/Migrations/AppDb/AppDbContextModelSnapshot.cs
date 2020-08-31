@@ -608,9 +608,6 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsFixed")
-                        .HasColumnType("bit");
-
                     b.Property<DateTime>("ModifyDateMi")
                         .HasColumnType("datetime2");
 
@@ -628,9 +625,6 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                         .HasColumnType("int");
 
                     b.Property<Guid>("Store_UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid?>("TempBasketId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("TotalDiscountPrice")
@@ -659,6 +653,7 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
 
                     b.HasIndex("PrescriptionId")
                         .IsUnique()
+                        .HasName("PrescriptionId")
                         .HasFilter("[PrescriptionId] IS NOT NULL");
 
                     b.ToTable("Order","Order");
@@ -922,6 +917,40 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                     b.HasIndex("PrescriptionId");
 
                     b.ToTable("PrescriptionAttachment","Order");
+                });
+
+            modelBuilder.Entity("Pharmacy.Domain.PrescriptionItem", b =>
+                {
+                    b.Property<int>("PrescriptionItemId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Count")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DiscountPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DrugId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PrescriptionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.HasKey("PrescriptionItemId");
+
+                    b.HasIndex("DrugId");
+
+                    b.HasIndex("PrescriptionId");
+
+                    b.ToTable("PrescriptionItem","Order");
                 });
 
             modelBuilder.Entity("Pharmacy.Domain.Province", b =>
@@ -1366,6 +1395,21 @@ namespace Pharmacy.DataAccess.Ef.Migrations.AppDb
                 {
                     b.HasOne("Pharmacy.Domain.Prescription", "Prescription")
                         .WithMany("Attachments")
+                        .HasForeignKey("PrescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Pharmacy.Domain.PrescriptionItem", b =>
+                {
+                    b.HasOne("Pharmacy.Domain.Drug", "Drug")
+                        .WithMany()
+                        .HasForeignKey("DrugId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Pharmacy.Domain.Prescription", "Prescription")
+                        .WithMany("Items")
                         .HasForeignKey("PrescriptionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();

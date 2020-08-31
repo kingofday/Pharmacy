@@ -122,5 +122,12 @@ namespace Pharmacy.Dashboard.Controllers
         //[HttpGet, AuthEqualTo("DrugInRole", "Add")]
         //public virtual JsonResult Search(string q)
         //    => Json(_DrugSrv.Search(q).ToSelectListItems());
+
+        [HttpGet, AuthEqualTo("Drug", "Manage")]
+        public virtual JsonResult Search(string q) => Json(_DrugSrv.Search(q).Select(x=>new {
+            Text = $"{x.NameFa}({x.UniqueId})",
+            Value = x.Id.ToString(),
+            x.Price
+        }));
     }
 }

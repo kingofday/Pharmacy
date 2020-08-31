@@ -8,6 +8,7 @@ using System.Linq.Expressions;
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
+using Pharmacy.Domain.Resource;
 
 namespace Pharmacy.Service
 {
@@ -82,6 +83,7 @@ namespace Pharmacy.Service
                 Message = nearest.Message,
                 Result = (null, false)
             };
+            order.DrugStoreId = nearest.Result.DrugStoreId;
             order.Store_UserId = nearest.Result.UserId;
             var delAgent = _delAgent.Get(model.DeliveryType);
             var getPrice = await delAgent.PriceInquiry(nearest.Result, model.Address, false, false);
@@ -174,7 +176,8 @@ namespace Pharmacy.Service
                 IncludeProperties = new List<Expression<Func<Order, object>>>
                 {
                     x=>x.Address,
-                    x=>x.Address.User
+                    x=>x.Address.User,
+                    x=>x.OrderDrugStores
                 }
             });
             if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
@@ -233,32 +236,62 @@ namespace Pharmacy.Service
             });
             if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
             var orderDrugStore = order.OrderDrugStores.OrderByDescending(x => x.OrderDrugStoreId).FirstOrDefault();
-            orderDrugStore.Comment = model.OrderDrugStoreComment;
             var sendNotif = false;
-            if (model.OrderDrugStoreStatus == OrderDrugStoreStatus.Accepted)
+            if (orderDrugStore.Status != OrderDrugStoreStatus.Accepted)
             {
-                orderDrugStore.Status = OrderDrugStoreStatus.Accepted;
-                order.Status = OrderStatus.Accepted;
-                sendNotif = true;
-            }
-            else
-            {
-                orderDrugStore.Status = OrderDrugStoreStatus.Denied;
-                if (order.OrderDrugStores.Count < 3)
+                orderDrugStore.Comment = model.OrderDrugStoreComment;
+                if (model.OrderDrugStoreStatus == OrderDrugStoreStatus.Accepted)
                 {
-                    var nearest = _drugStoreSrv.GetNearest(order.Address, order.OrderDrugStores.Select(x => x.DrugStoreId).ToList());
-                    if (!nearest.IsSuccessful) return new Response<Order> { Message = nearest.Message };
-                    var delAgent = _delAgent.Get(order.DeliveryType);
-                    var getPrice = await delAgent.PriceInquiry(nearest.Result, order.Address, false, false);
-                    if (!getPrice.IsSuccessful) return new Response<Order> { Message = getPrice.Message };
-                    order.Store_UserId = nearest.Result.UserId;
-                    order.OrderDrugStores.Add(new OrderDrugStore
-                    {
-                        DrugStoreId = nearest.Result.DrugStoreId,
-                        Status = OrderDrugStoreStatus.InProccessing,
-                        DeliveryPrice = getPrice.Result.Price
-                    });
+                    orderDrugStore.Status = OrderDrugStoreStatus.Accepted;
+                    order.Status = OrderStatus.Accepted;
+                    sendNotif = true;
                 }
+                else
+                {
+                    orderDrugStore.Status = OrderDrugStoreStatus.Denied;
+                    if (order.OrderDrugStores.Count < 3)
+                    {
+                        var nearest = _drugStoreSrv.GetNearest(order.Address, order.OrderDrugStores.Select(x => x.DrugStoreId).ToList());
+                        if (!nearest.IsSuccessful) return new Response<Order> { Message = nearest.Message };
+                        var delAgent = _delAgent.Get(order.DeliveryType);
+                        var getPrice = await delAgent.PriceInquiry(nearest.Result, order.Address, false, false);
+                        if (!getPrice.IsSuccessful) return new Response<Order> { Message = getPrice.Message };
+                        order.Store_UserId = nearest.Result.UserId;
+                        order.DrugStoreId = nearest.Result.DrugStoreId;
+                        order.OrderDrugStores.Add(new OrderDrugStore
+                        {
+                            DrugStoreId = nearest.Result.DrugStoreId,
+                            Status = OrderDrugStoreStatus.InProccessing,
+                            DeliveryPrice = getPrice.Result.Price
+                        });
+                    }
+                }
+                _appUow.OrderDrugStoreRepo.Update(orderDrugStore);
+            }
+            else if (model.Status == OrderStatus.WaitForDelivery)
+            {
+                order.Status = OrderStatus.WaitForDelivery;
+                var delAgent = _delAgent.Get(order.DeliveryType);
+                var storeAddress = await _appUow.DrugStoreAddressRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStoreAddress>
+                {
+                    Conditions = x => x.DrugStoreId == orderDrugStore.DrugStoreId
+                });
+                if (storeAddress == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
+                var setOrder = await delAgent.RegisterOrder(new DeliveryOrderLocationDTO
+                {
+                    Latitude = storeAddress.Latitude,
+                    Longitude = storeAddress.Longitude,
+                    Description = storeAddress.Details
+                },
+                new DeliveryOrderLocationDTO
+                {
+                    Latitude = order.Address.Latitude,
+                    Longitude = order.Address.Longitude,
+                    PersonPhone = order.Address.MobileNumber.ToString(),
+                    Description = order.Address.Details
+                }, false, false, null);
+                if (!setOrder.IsSuccessful) return new Response<Order> { Message = setOrder.Message };
+
             }
             _orderRepo.Update(order);
             //TODO:Set Update Fileds
@@ -299,8 +332,8 @@ namespace Pharmacy.Service
             {
                 if (filter.UserId != null)
                     conditions = conditions.And(x => x.Store_UserId == filter.UserId &&
-                    (x.Status == OrderStatus.Accepted || x.Status == OrderStatus.InProcessing) &&
-                    x.OrderDrugStores.OrderByDescending(x=>x.OrderDrugStoreId).First().Status != OrderDrugStoreStatus.Denied);
+                    (x.Status == OrderStatus.Accepted || x.Status == OrderStatus.InProcessing || x.Status == OrderStatus.WaitForDelivery) &&
+                    x.OrderDrugStores.OrderByDescending(x => x.OrderDrugStoreId).First().Status != OrderDrugStoreStatus.Denied);
                 if (filter.DrugStoreId != null) conditions = conditions.And(x => x.OrderDrugStores.Any(ods => ods.DrugStoreId == filter.DrugStoreId && (ods.Status == OrderDrugStoreStatus.Accepted || ods.Status == OrderDrugStoreStatus.InProccessing)));
                 if (filter.UniqueId != null) conditions = conditions.And(x => x.UniqueId == filter.UniqueId);
                 if (!string.IsNullOrWhiteSpace(filter.FromDateSh))

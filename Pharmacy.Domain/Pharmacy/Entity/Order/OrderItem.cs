@@ -17,6 +17,7 @@ namespace Pharmacy.Domain
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid OrderId { get; set; }
 
+        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int DrugId { get; set; }
 

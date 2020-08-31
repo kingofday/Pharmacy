@@ -32,12 +32,33 @@ namespace Pharmacy.Dashboard.Controllers
             Text = x.Name,
             Value = x.DrugStoreId.ToString()
         }).ToList();
+        [NonAction]
+        private IEnumerable<SelectListItem> GetStatus()
+        =>  new List<SelectListItem> {
+                new SelectListItem
+                {
+                    Text = OrderStatus.InProcessing.GetDescription(),
+                    Value= OrderStatus.InProcessing.ToString()
+                },
+                new SelectListItem
+                {
+                    Text = OrderStatus.Accepted.GetDescription(),
+                    Value= OrderStatus.Accepted.ToString()
+                },
+                new SelectListItem
+                {
+                    Text = OrderStatus.WaitForDelivery.GetDescription(),
+                    Value= OrderStatus.WaitForDelivery.ToString()
+                }
+            };
+        
 
         [HttpGet]
         public virtual async Task<JsonResult> Update(Guid id)
         {
             var findRep = await _OrderSrv.FindAsync(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Order) });
+            ViewBag.Status = GetStatus();
             return Json(new Modal
             {
                 Title = $"{Strings.Update} {DomainString.Order}",

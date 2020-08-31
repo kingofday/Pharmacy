@@ -12,6 +12,7 @@ namespace Pharmacy.Domain
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Display(Name = nameof(Strings.Identifier), ResourceType = typeof(Strings))]
         public int PrescriptionId { get; set; }
 
         [Display(Name = nameof(Strings.Status), ResourceType = typeof(Strings))]
@@ -31,6 +32,8 @@ namespace Pharmacy.Domain
         public string InsertDateSh { get; set; }
 
         public List<PrescriptionAttachment> Attachments { get; set; }
+
+        public List<PrescriptionItem> Items { get; set; }
 
         public Order Order { get; set; }
     }

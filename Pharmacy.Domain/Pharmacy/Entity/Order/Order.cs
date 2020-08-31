@@ -15,7 +15,6 @@ namespace Pharmacy.Domain
         [Key]
         public Guid OrderId { get; set; }
 
-        public bool IsFixed { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Display(Name = nameof(Strings.Identifier), ResourceType = typeof(Strings))]
@@ -35,8 +34,6 @@ namespace Pharmacy.Domain
         public Guid Store_UserId { get; set; }
 
         public int? PrescriptionId { get; set; }
-
-        public Guid? TempBasketId { get; set; }
 
         public int DrugStoreId{ get; set; }
 
