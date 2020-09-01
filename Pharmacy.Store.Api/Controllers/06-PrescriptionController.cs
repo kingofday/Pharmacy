@@ -1,15 +1,15 @@
 ﻿using Elk.Core;
-using Pharmacy.Domain;
-using Pharmacy.Service;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Hosting;
-using System.Threading.Tasks;
-using Pharmacy.API.Resources;
-using System.Net.Http;
-using Microsoft.Extensions.Options;
 using System.Text;
 using System.IO;
+using System.Net.Http;
+using Pharmacy.Domain;
+using Pharmacy.Service;
+using System.Threading.Tasks;
+using Pharmacy.API.Resources;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Cors;
+using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
 namespace Pharmacy.API.Controllers
 {
@@ -51,5 +51,7 @@ namespace Pharmacy.API.Controllers
             return Ok(new Response<int> { Message = Strings.Error });
         }
 
+        [HttpGet]
+        public ActionResult<IResponse<List<DrugDTO>>> GetItems(int id) => _prescriptionSrv.GetItems(id);
     }
 }

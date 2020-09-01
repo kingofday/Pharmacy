@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Pharmacy.DataAccess.Ef;
 using System.Linq.Expressions;
 using Pharmacy.Service.Resource;
+using System.Collections.Generic;
 
 namespace Pharmacy.Service
 {
@@ -14,11 +15,13 @@ namespace Pharmacy.Service
         readonly AppUnitOfWork _appUow;
         public readonly IGenericRepo<Prescription> _presRepo;
         readonly IAttachmentService _attchSrv;
-        public PrescriptionService(AppUnitOfWork appUow, IAttachmentService attchSrv)
+        readonly INotificationService _notifSrv;
+        public PrescriptionService(AppUnitOfWork appUow, IAttachmentService attchSrv, INotificationService notifSrv)
         {
             _appUow = appUow;
             _presRepo = appUow.PrescriptionRepo;
             _attchSrv = attchSrv;
+            _notifSrv = notifSrv;
         }
 
         public virtual async Task<Response<int>> Add(AddPrescriptionModel model)
@@ -87,17 +90,22 @@ namespace Pharmacy.Service
             });
         }
 
-        public async Task<IResponse<Prescription>> FindAsync(int id)
+        public async Task<IResponse<Prescription>> FindDetailsAsync(int id)
         {
             var pres = await _presRepo.FirstOrDefaultAsync(new BaseFilterModel<Prescription>
             {
                 Conditions = x => x.PrescriptionId == id,
                 IncludeProperties = new System.Collections.Generic.List<Expression<Func<Prescription, object>>> {
                     x=>x.User,
-                    x=>x.Items,
                     x => x.Attachments }
             });
             if (pres == null) return new Response<Prescription> { Message = ServiceMessage.RecordNotExist };
+            pres.Items = _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+            {
+                Conditions = x => x.PrescriptionId == id,
+                IncludeProperties = new System.Collections.Generic.List<Expression<Func<PrescriptionItem, object>>> { x => x.Drug },
+                OrderBy = o => o.OrderByDescending(x => x.DrugId)
+            });
             return new Response<Prescription> { Result = pres, IsSuccessful = true };
         }
 
@@ -109,16 +117,89 @@ namespace Pharmacy.Service
                 foreach (var p in model.Items)
                 {
                     var drug = await _appUow.DrugRepo.FindAsync(p.DrugId);
-                    if(drug==null)
+                    if (drug == null)
                         return new Response<Prescription> { Message = ServiceMessage.RecordNotExist };
                     p.Price = drug.Price;
                     p.DiscountPrice = drug.DiscountPrice;
-                    p.TotalPrice = p.Price * p.Count;
+                    p.TotalPrice = (drug.Price - drug.DiscountPrice) * p.Count;
                 }
             pres.Items = model.Items;
             _presRepo.Update(pres);
             var update = await _appUow.ElkSaveChangesAsync();
             return new Response<Prescription> { IsSuccessful = update.IsSuccessful, Message = update.Message, Result = pres };
+        }
+
+        public async Task<IResponse<List<PrescriptionItem>>> DeleteItem(int itemId)
+        {
+            var item = await _appUow.PrescriptionItemRepo.FindAsync(itemId);
+            if (await _appUow.OrderRepo.AnyAsync(new BaseFilterModel<Order> { Conditions = x => x.PrescriptionId == item.PrescriptionId }))
+                return new Response<List<PrescriptionItem>> { Message = ServiceMessage.NotAllowedOperation };
+            _appUow.PrescriptionItemRepo.Delete(item);
+            var delete = await _appUow.ElkSaveChangesAsync();
+            return new Response<List<PrescriptionItem>>
+            {
+                IsSuccessful = delete.IsSuccessful,
+                Message = delete.Message,
+                Result = delete.IsSuccessful ? _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+                {
+                    Conditions = x => x.PrescriptionId == item.PrescriptionId,
+                    OrderBy = o => o.OrderByDescending(x => x.PrescriptionItemId),
+                    IncludeProperties = new List<Expression<Func<PrescriptionItem, object>>> {
+                        x=>x.Drug
+                    }
+                }) : new List<PrescriptionItem>()
+            };
+        }
+
+        public async Task<IResponse<string>> SendLink(int id, string url)
+        {
+            var pres = await _presRepo.FirstOrDefaultAsync(new BaseFilterModel<Prescription>
+            {
+                Conditions = x => x.PrescriptionId == id,
+                IncludeProperties = new List<Expression<Func<Prescription, object>>> { x => x.User }
+            });
+            if (pres == null) return new Response<string> { Message = ServiceMessage.RecordNotExist };
+            var send = await _notifSrv.NotifyAsync(new NotificationDto
+            {
+                Content = string.Format(NotifierMessage.TempBasketUrl, $"{url}/{id}"),
+                MobileNumber = pres.User.MobileNumber,
+                Type = EventType.Order,
+                UserId = pres.UserId
+            });
+            return new Response<string>
+            {
+                IsSuccessful = send.IsSuccessful,
+                Message = send.IsSuccessful ? ServiceMessage.SentSuccessfully : send.Message
+            };
+        }
+
+        public Response<List<DrugDTO>> GetItems(int id)
+        {
+            var items = _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+            {
+                Conditions = x => x.PrescriptionId == id,
+                OrderBy = o => o.OrderBy(x => x.PrescriptionItemId),
+                IncludeProperties = new List<Expression<Func<PrescriptionItem, object>>> { x => x.Drug, x => x.Drug.Unit, x => x.Drug.DrugAttachments }
+            });
+            return new Response<List<DrugDTO>>
+            {
+                IsSuccessful = items.Any(),
+                Result = items.Any() ? items.Select(x => new DrugDTO
+                {
+                    DrugId = x.DrugId,
+                    Count = x.Count,
+                    UniqueId = x.Drug.UniqueId,
+                    Price = x.Price,
+                    DiscountPrice = x.DiscountPrice,
+                    NameFa = x.Drug.NameFa,
+                    NameEn = x.Drug.NameEn,
+                    ShortDescription = x.Drug.ShortDescription,
+                    UnitName = x.Drug.Unit.Name,
+                    ThumbnailImageUrl = x.Drug.DrugAttachments.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url
+                }).ToList() : null,
+                Message = items.Any() ? null : ServiceMessage.RecordNotExist
+            };
+
         }
     }
 }

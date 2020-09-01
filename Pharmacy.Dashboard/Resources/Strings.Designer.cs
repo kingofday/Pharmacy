@@ -304,6 +304,15 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to تخفیف.
+        /// </summary>
+        public static string Discount {
+            get {
+                return ResourceManager.GetString("Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to دانلود.
         /// </summary>
         public static string Download {
@@ -682,6 +691,15 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to لینک سفارش.
+        /// </summary>
+        public static string OrderLink {
+            get {
+                return ResourceManager.GetString("OrderLink", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to صفحات.
         /// </summary>
         public static string Pages {
@@ -858,15 +876,6 @@ namespace Pharmacy.Dashboard.Resources {
         public static string Send {
             get {
                 return ResourceManager.GetString("Send", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to ارسال لینک سفارش.
-        /// </summary>
-        public static string SendOrderLink {
-            get {
-                return ResourceManager.GetString("SendOrderLink", resourceCulture);
             }
         }
         

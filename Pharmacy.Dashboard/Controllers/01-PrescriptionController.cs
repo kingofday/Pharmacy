@@ -1,4 +1,5 @@
-﻿using Elk.Http;
+﻿using Elk.Core;
+using Elk.Http;
 using Pharmacy.Domain;
 using Pharmacy.Service;
 using Elk.AspNetCore;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Authorization;
 using DomainString = Pharmacy.Domain.Resource.Strings;
-using Elk.Core;
+using Microsoft.Extensions.Options;
 
 namespace Pharmacy.Dashboard.Controllers
 {
@@ -50,11 +51,12 @@ namespace Pharmacy.Dashboard.Controllers
         //    return Json(new { add.IsSuccessful, add.Message });
         //}
 
-        [HttpGet,AuthorizationFilter]
+        [HttpGet, AuthorizationFilter]
         public virtual async Task<JsonResult> Update(int id)
         {
-            var findRep = await _prescriptionSrv.FindAsync(id);
+            var findRep = await _prescriptionSrv.FindDetailsAsync(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.NotFound });
+            ViewBag.PrescriptionId = id;
             return Json(new Modal
             {
                 Title = $"{Strings.Update} {DomainString.Prescription}",
@@ -82,12 +84,36 @@ namespace Pharmacy.Dashboard.Controllers
             else return PartialView("Partials/_List", _prescriptionSrv.Get(filter));
         }
 
+        [HttpPost, AuthEqualTo("Prescription", "Update")]
+        public virtual async Task<ActionResult> DeleteItem(int itemId)
+        {
+            var delete = await _prescriptionSrv.DeleteItem(itemId);
+            return Json(new Response<string>
+            {
+                IsSuccessful = delete.IsSuccessful,
+                Message = delete.Message,
+                Result = delete.IsSuccessful ? ControllerExtension.RenderViewToString(this, "Partials/_Items", delete.Result) : string.Empty
+            });
+        }
+
+        [HttpPost, AuthEqualTo("Prescription", "Update")]
+        public virtual async Task<ActionResult> SendLink([FromServices] IOptions<DashboardCustomSetting> settings, int id)
+        {
+            var delete = await _prescriptionSrv.SendLink(id, settings.Value.ReactTempBasketUrl);
+            return Json(new Response<string>
+            {
+                IsSuccessful = delete.IsSuccessful,
+                Message = delete.Message,
+                Result = delete.IsSuccessful ? ControllerExtension.RenderViewToString(this, "Partials/_Items", delete.Result) : string.Empty
+            });
+        }
+
         //[HttpPost, AuthEqualTo("Prescription", "Delete")]
         //public virtual async Task<JsonResult> DeleteAttachment([FromServices] IWebHostEnvironment env, int attchId) => Json(await _prescriptionSrv.DeleteAttachment(env.WebRootPath, attchId));
 
         //[HttpPost, AuthEqualTo("Prescription", "Delete")]
         //public virtual async Task<JsonResult> DeleteProp(int propId) => Json(await _prescriptionSrv.DeleteProp(propId));
-        [HttpPost,AllowAnonymous]
+        [HttpPost, AllowAnonymous]
         public virtual async Task<ActionResult> AddByApi([FromServices] IWebHostEnvironment env, [FromForm] AddPrescriptionModel model)
         {
             model.AppDir = env.WebRootPath;

@@ -107,5 +107,15 @@ namespace Pharmacy.Service.Resource {
                 return ResourceManager.GetString("SignUpMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to کاربر گرامی، نسخه شما بررسی گردید، جهت پرداخت هزینه آن از طریق لینک زیر اقدام نمایید:
+        ///{0}.
+        /// </summary>
+        public static string TempBasketUrl {
+            get {
+                return ResourceManager.GetString("TempBasketUrl", resourceCulture);
+            }
+        }
     }
 }

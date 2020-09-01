@@ -1,38 +1,50 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import Skeleton from '@material-ui/lab/Skeleton';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import strings from './../../shared/constant';
 import DiscountBadg from './../../shared/discountBadg';
 import Counter from './../../shared/counter';
-import { commaThousondSeperator } from './../../shared/utils';
-import { UpdateBasketAction, RemoveFromBasketAction, ClearPrescriptiontIdAction } from './../../redux/actions/basketAction';
 import ConfirmModal from './../../shared/confirm';
-import { HideInitErrorAction } from "../../redux/actions/InitErrorAction";
-import { SetNexPage } from "../../redux/actions/authAction";
+import { commaThousondSeperator } from './../../shared/utils';
+import { SetWholeBasketAction, SetPrescriptiontIdAction } from './../../redux/actions/basketAction';
+import { HideInitErrorAction, ShowInitErrorAction } from "../../redux/actions/InitErrorAction";
 import emptyBasketImage from './../../assets/images/empty-basket.png';
+import srvPrescription from './../../service/srvPrescription';
 
-class Basket extends React.Component {
-    state = {
-        redirect: null
+class TempBasket extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            loading: true,
+            items: []
+        };
+        this._isMounted = true;
+        this.prescriptionId = this.props.match.params.id;
     }
+
+    async _fetchData() {
+        let getItems = await srvPrescription.getItems(this.prescriptionId);
+        if (!this._isMounted) return;
+        if (getItems.success) {
+            this.props.setWholeBasket(getItems.result);
+            this.setState(p => ({ ...p, items: getItems.result, loading: false }));
+        }
+        else this.props.showInitError(this._fetchData.bind(this));
+    }
+
     async componentDidMount() {
         this.props.hideInitError();
-        this.props.clearPrescriptiontId();
+        this.props.setPrescriptiontId(this.prescriptionId);
+        await this._fetchData();
+    }
+    componentWillUnmount() {
+        this._isMounted = false;
     }
 
-    _changeCount(id, count) {
-        this.props.updateBasket(id, count);
-    }
-
-    _delete(id, name) {
-        this.modal._toggle(id, strings.areYouSureForDeleteingProduct.replace('##name##', name));
-
-    }
-    _confirmDelete(id) {
-        this.props.removeFromBasket(id);
-    }
     _goToNext() {
+        console.log(this.props.authenticated);
         if (this.props.authenticated)
             this.setState(p => ({ ...p, redirect: '/selectAddress' }));
         else {
@@ -40,11 +52,12 @@ class Basket extends React.Component {
             this.setState(p => ({ ...p, redirect: '/auth' }));
         }
     }
+
     render() {
         if (this.state.redirect)
             return <Redirect to={this.state.redirect} />
         else if (this.props.items.length == 0)
-            return (<div  id='page-basket' className='page-comp'>
+            return (<div className='page-comp' id='page-temp-basket'>
                 <div className='empty'>
                     {/* <i className='zmdi zmdi-mood-bad'></i> */}
                     <img className='m-b' src={emptyBasketImage} alt='basket' />
@@ -54,7 +67,7 @@ class Basket extends React.Component {
             </div>);
         else
             return (
-                <div id='page-basket' className='page-comp'>
+                <div className='page-comp' id='page-temp-basket'>
                     <Container className='basket-wrapper'>
                         {this.props.items.map((x, idx) => (
                             <Row key={idx}>
@@ -70,13 +83,14 @@ class Basket extends React.Component {
 
                                                     <div className='info'>
                                                         <h2 className='hx'>{x.nameFa}</h2>
-                                                        <Counter id={x.drugId} className='m-b' count={x.count} onChange={this._changeCount.bind(this)} />
+                                                        <div className='mb-15'>{strings.count}: {x.count}</div>
+                                                        {/* <Counter id={x.drugId} className='m-b' count={x.count} onChange={this._changeCount.bind(this)} /> */}
                                                         <span className='price'>{commaThousondSeperator((x.realPrice * x.count).toString())}<small className='currency'> {strings.currency}</small></span>
                                                     </div>
                                                 </div>
 
                                             </Col>
-                                            <Col className='d-none d-lg-flex' lg={3}>
+                                            <Col className='d-none d-lg-flex' lg={4}>
                                                 <div className='extra-info'>
                                                     <label className='mb-15'>{strings.identifier}: {x.uniqueId}</label>
                                                     <label className='mb-15'>{strings.unit}: {x.unitName}</label>
@@ -84,9 +98,8 @@ class Basket extends React.Component {
                                                 </div>
 
                                             </Col>
-                                            <Col xs={3} className='d-flex end-col' lg={3}>
+                                            <Col xs={3} className='d-flex end-col' lg={2}>
                                                 <div><DiscountBadg discount={x.discount} /></div>
-                                                <div><button onClick={this._delete.bind(this, x.drugId, x.nameFa)} className='btn-delete'><i className='zmdi zmdi-delete'></i></button></div>
                                             </Col>
                                         </Row>
                                     </div>
@@ -111,8 +124,6 @@ class Basket extends React.Component {
                             </Col>
                         </Row>
                     </Container>
-
-                    <ConfirmModal ref={(i) => this.modal = i} onDelete={this._confirmDelete.bind(this)} />
                 </div>
             );
     }
@@ -123,10 +134,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     hideInitError: () => dispatch(HideInitErrorAction()),
-    updateBasket: (id, count) => dispatch(UpdateBasketAction(id, count)),
-    removeFromBasket: (id) => dispatch(RemoveFromBasketAction(id)),
-    setAuthNextPage: (nextPage) => dispatch(SetNexPage(nextPage)),
-    clearPrescriptiontId:()=>dispatch(ClearPrescriptiontIdAction())
+    showInitError: (fetchData) => dispatch(ShowInitErrorAction(fetchData)),
+    setWholeBasket: (items) => dispatch(SetWholeBasketAction(items)),
+    setPrescriptiontId: (id) => dispatch(SetPrescriptiontIdAction(id))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Basket);
+export default connect(mapStateToProps, mapDispatchToProps)(TempBasket);

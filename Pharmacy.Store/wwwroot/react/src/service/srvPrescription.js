@@ -6,4 +6,8 @@ export default class srvAddress {
         let user = srvAuth.getUserInfo();
         return srvAuth.checkResponse(await apiPrescription.submit(user.success ? user.result.token : null, mobileNumber, files));
     }
+
+    static async getItems(id) {
+        return await apiPrescription.getItems(id);
+    }
 }

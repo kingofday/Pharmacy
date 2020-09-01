@@ -408,7 +408,7 @@ namespace Pharmacy.Service
             {
                 var nofity = await _notifSrv.NotifyAsync(new NotificationDto
                 {
-                    Content = ServiceMessage.ConfirmCodeMessage,
+                    Content = string.Format(NotifierMessage.MobileConfirmMessage, user.MobileConfirmCode),
                     FullName = user.FullName,
                     MobileNumber = user.MobileNumber,
                     Type = EventType.Subscription
@@ -434,15 +434,19 @@ namespace Pharmacy.Service
                 return new Response<bool> { Message = ServiceMessage.RecordNotExist };
             if (user.IsConfirmed)
                 return new Response<bool> { Message = ServiceMessage.ConfirmedBefore };
+            user.MobileConfirmCode = Randomizer.GetRandomInteger(4);
+            _userRepo.Update(user);
+            var update = await _appUow.ElkSaveChangesAsync();
+            if (!update.IsSuccessful) return new Response<bool> { Message = ServiceMessage.Error };
             var notify = await _notifSrv.NotifyAsync(new NotificationDto
             {
-                Content = ServiceMessage.ConfirmCodeMessage,
+                Content = string.Format(NotifierMessage.MobileConfirmMessage, user.MobileConfirmCode),
                 FullName = user.FullName,
                 Email = user.Email,
                 MobileNumber = user.MobileNumber,
                 Type = EventType.Subscription
             });
-            return new Response<bool> { IsSuccessful = notify.IsSuccessful };
+            return new Response<bool> { IsSuccessful = notify.IsSuccessful, Message = notify.IsSuccessful ? string.Empty : ServiceMessage.Error };
 
 
         }

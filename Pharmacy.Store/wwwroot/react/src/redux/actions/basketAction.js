@@ -42,3 +42,17 @@ export function SetWholeBasketAction(items) {
         payload: { items }
     };
 };
+
+export function SetPrescriptiontIdAction(id) {
+    return {
+        type: actionTypes.SET_PRESCRIPTION_ID,
+        payload: {
+            prescriptionId: id
+        }
+    };
+};
+export function ClearPrescriptiontIdAction() {
+    return {
+        type: actionTypes.CLEAR_PRESCRIPTION_ID
+    };
+};

@@ -4,7 +4,7 @@ const initState = {
     address: null,
     delivery: null,
     comment: '',
-    basketId: null
+    prescriptionId: null
 };
 
 export default function reviewReducer(state = initState, action) {
@@ -13,8 +13,10 @@ export default function reviewReducer(state = initState, action) {
             return { ...state, address: { ...action.payload } };
         case actionTypes.SET_DELIVERY_TYPE:
             return { ...state, delivery: { ...action.payload.delivery }, comment: action.payload.comment };
-        case actionTypes.SET_BASKET_ID:
-            return { ...state, basketId: action.payload.basketId }
+        case actionTypes.SET_PRESCRIPTION_ID:
+            return { ...state, ...action.payload }
+        case actionTypes.CLEAR_PRESCRIPTION_ID:
+            return { ...state, prescriptionId: null }
         default:
             return state;
     }

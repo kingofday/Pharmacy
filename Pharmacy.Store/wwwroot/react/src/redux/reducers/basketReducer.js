@@ -39,9 +39,9 @@ export default function basketReducer(state = initState, action) {
             return { ...state, items: action.payload.items, ...calculate(action.payload.items) };
         case actionTypes.SET_BASKET_ROUTE:
             return { ...state, route: action.payload.route };
-        case actionTypes.CLEAR_TEMP_BASKET:
-            state.items = state.items.filter(x => !x.itemId);
-            return { ...state, items: [...state.items], ...calculate(state.items) };
+        case actionTypes.CLEAR_PRESCRIPTION_ID:
+            state.items = [];
+            return { ...state, items: [], ...calculate(state.items) };
         case actionTypes.CHANGED_BASKET_ITEMS:
             action.payload.items.forEach(p => {
                 let idx = state.items.findIndex(x => x.drugId === p.drugId);

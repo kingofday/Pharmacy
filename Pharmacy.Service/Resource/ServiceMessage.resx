@@ -175,6 +175,9 @@
   <data name="SaveFileFailed" xml:space="preserve">
     <value>ذخیره فایل با مشکل مواجه شد</value>
   </data>
+  <data name="SentSuccessfully" xml:space="preserve">
+    <value>با موفقیت ارسال شد</value>
+  </data>
   <data name="UserInfoMissing" xml:space="preserve">
     <value>اطلاعات کاربری شما ثبت نشده است، لطفا فرایند خرید را دوباره طی نمایید</value>
   </data>

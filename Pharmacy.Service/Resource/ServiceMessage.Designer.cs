@@ -233,6 +233,15 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to با موفقیت ارسال شد.
+        /// </summary>
+        public static string SentSuccessfully {
+            get {
+                return ResourceManager.GetString("SentSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to اطلاعات کاربری شما ثبت نشده است، لطفا فرایند خرید را دوباره طی نمایید.
         /// </summary>
         public static string UserInfoMissing {

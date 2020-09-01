@@ -1,11 +1,9 @@
 ﻿using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
 using Pharmacy.Domain;
-using System.Collections.Generic;
 using Elk.Core;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
 using System;

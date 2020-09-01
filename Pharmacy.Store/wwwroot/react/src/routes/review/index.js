@@ -13,7 +13,6 @@ import deliveryCostImage from './../../assets/images/delivery-cost.svg';
 import discountImage from './../../assets/images/discount.svg';
 import { toast } from 'react-toastify';
 import ProductsChangedModal from './comps/ProductsChangedModal';
-import { SetTempBasketIdAction } from './../../redux/actions/tempBasketAction';
 
 class Review extends React.Component {
     constructor(props) {
@@ -36,7 +35,7 @@ class Review extends React.Component {
 
     async _pay() {
         this.setState(p => ({ ...p, btnInProgresss: true }));
-        if (this.props.basketId) {
+        if (this.props.prescriptionId) {
             // let submit = await srvOrder.submitTempBasket(this.props.basketId, this.props.address, this.props.reciever, this.props.recieverMobileNumber, this.props.deliveryId);
             // if (submit.success) {
             //     this.props.setBasketId(null);
@@ -143,8 +142,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     showInitError: (fetchData, message) => dispatch(ShowInitErrorAction(fetchData, message)),
     hideInitError: () => dispatch(HideInitErrorAction()),
-    changeBasket: (products) => dispatch(ChangedBasketItemsAction(products)),
-    setBasketId: (id) => dispatch(SetTempBasketIdAction(id))
+    changeBasket: (products) => dispatch(ChangedBasketItemsAction(products))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Review);

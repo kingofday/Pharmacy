@@ -127,7 +127,8 @@ namespace Pharmacy.Dashboard.Controllers
         public virtual JsonResult Search(string q) => Json(_DrugSrv.Search(q).Select(x=>new {
             Text = $"{x.NameFa}({x.UniqueId})",
             Value = x.Id.ToString(),
-            x.Price
+            x.Price,
+            x.DiscountPrice
         }));
     }
 }

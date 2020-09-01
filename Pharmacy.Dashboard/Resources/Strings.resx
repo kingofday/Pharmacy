@@ -198,6 +198,9 @@
   <data name="Details" xml:space="preserve">
     <value>جزییات</value>
   </data>
+  <data name="Discount" xml:space="preserve">
+    <value>تخفیف</value>
+  </data>
   <data name="Download" xml:space="preserve">
     <value>دانلود</value>
   </data>
@@ -324,6 +327,9 @@
   <data name="Order" xml:space="preserve">
     <value>سفارش</value>
   </data>
+  <data name="OrderLink" xml:space="preserve">
+    <value>لینک سفارش</value>
+  </data>
   <data name="Pages" xml:space="preserve">
     <value>صفحات</value>
   </data>
@@ -383,9 +389,6 @@
   </data>
   <data name="Send" xml:space="preserve">
     <value>ارسال</value>
-  </data>
-  <data name="SendOrderLink" xml:space="preserve">
-    <value>ارسال لینک سفارش</value>
   </data>
   <data name="SendViaSms" xml:space="preserve">
     <value>ارسال از طریق پیامک</value>

@@ -6,8 +6,8 @@
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="nav-one-tab" data-toggle="tab" href="#nav-one" role="tab" aria-controls="nav-order" aria-selected="true">@Strings.Details</a>
-        <a class="nav-item nav-link" id="nav-two-tab" data-toggle="tab" href="#nav-two" role="tab" aria-controls="nav-two" aria-selected="false">@Strings.Add @Strings.Order</a>
-        <a class="nav-item nav-link" id="nav-three-tab" data-toggle="tab" href="#nav-three" role="tab" aria-controls="nav-three" aria-selected="false">@Strings.SendOrderLink</a>
+        <a class="nav-item nav-link" id="nav-two-tab" data-toggle="tab" href="#nav-two" role="tab" aria-controls="nav-two" aria-selected="false">@Strings.Order</a>
+        <a class="nav-item nav-link" id="nav-three-tab" data-toggle="tab" href="#nav-three" role="tab" aria-controls="nav-three" aria-selected="false">@Strings.OrderLink</a>
     </div>
 </nav>
 <div class="tab-content" id="nav-tabContent">
@@ -40,7 +40,8 @@
         </div>
     </div>
     <div class="tab-pane fade  m-t" id="nav-two" role="tabpanel" aria-labelledby="nav-two-tab">
-        <partial name="~/Views/Prescription/Partials/_AddOrder.cshtml" model="Model.Items" />
+        <partial name="~/Views/Prescription/Partials/_AddOrder.cshtml" model="new OrderItem()" />
+        <partial name="~/Views/Prescription/Partials/_Items.cshtml" model="Model.Items" />
     </div>
     <div class="tab-pane fade  m-t" id="nav-three" role="tabpanel" aria-labelledby="nav-three-tab">
         <br />
@@ -54,7 +55,7 @@
                 </p>
             </div>
             <div class="col-12 col-sm-4">
-                <custom-button class="btn btn-info" icon="zmdi zmdi-mail-reply" text="@Strings.Send"></custom-button>
+                <custom-button class="btn btn-info" data-url="@Url.Action("SendLink","Prescription",new { id = @Model.PrescriptionId })" id="btn-send-link" icon="zmdi zmdi-mail-reply" text="@Strings.Send"></custom-button>
             </div>
         </div>
 

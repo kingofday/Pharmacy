@@ -56,6 +56,8 @@ const authReducer = (state = getInitilState(), action) => {
             return {
                 ...state,
                 authenticated: false,
+                goToNextPage:false,
+                nextPage: '/',
                 token: null,
                 fullname: '',
                 mobileNumber: '',

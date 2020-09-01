@@ -4,10 +4,6 @@ import { connect } from 'react-redux';
 import { SetNexPage } from './../../../redux/actions/authAction';
 
 class AuthRoute extends React.Component {
-  componentDidMount() {
-    this.props.setAuthNextPage(this.props.path);
-  }
-
   render() {
     let Children = this.props.component;
     return (
