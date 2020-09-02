@@ -393,7 +393,7 @@ footer #copyright {
   z-index: 10;
   display: block;
   position: absolute;
-  z-index: 10;
+  z-index: 999;
   top: 80px;
   right: 0;
   width: 100%;

@@ -83,6 +83,9 @@ button {
 .mb-15 {
   margin-bottom: 15px;
 }
+.mb-0{
+  margin-bottom: 0;
+}
 .icon {
   vertical-align: middle;
   font-size: 20px !important;
@@ -165,23 +168,20 @@ input:-webkit-autofill:active {
 .form-group {
   margin-bottom: $marginBottom - 5px;
   text-align: center;
+  width: 100%;
 }
 .btn-group {
   margin-bottom: $marginBottom;
   width: 100%;
 }
-.btn-next {
-  min-width: 150px;
-  padding: 10px;
-  border: 1px solid transparent;
-  color: #fff;
-  background-color: $btnBgColor;
-  text-align: center;
-  text-decoration: none;
+.btn-link {
+  border: none;
+  background-color: transparent;
+  color: $primaryColor;
   &:hover {
-    background-color: $btnHoverColor;
-    color: #fff;
-    text-decoration: none;
+    border: none;
+    background-color: transparent;
+    color: $primaryColor;
   }
 }
 .comp-heading {
@@ -203,6 +203,9 @@ input:-webkit-autofill:active {
     }
   }
 }
+.color-green{
+  color: green;
+}
 .slick-list {
   direction: ltr;
 }
@@ -222,6 +225,31 @@ input:-webkit-autofill:active {
   margin-top: 30px;
   margin-bottom: 30px;
 }
+.btn-next{
+  min-width: 130px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.price-discount {
+  padding: 0 5px;
+  position: relative;
+
+  &::after {
+      content: "";
+      background: red;
+      height: 2px;
+      position: absolute;
+      top: 50%;
+      margin-top: -1px;
+      left: 5px;
+      right: 5px;
+  }
+}
+.ws-pre{
+  white-space: pre-wrap;
+}
 /*==================================
 -- Material UI
 ====================================*/
@@ -231,6 +259,11 @@ input:-webkit-autofill:active {
 }
 .MuiFormControl-root {
   width: 100%;
+
+  .MuiOutlinedInput-multiline{
+    padding: 0;
+  }
+
 }
 .MuiFormHelperText-contained {
   margin-right: 0 !important;
@@ -242,7 +275,7 @@ input:-webkit-autofill:active {
     margin-bottom: 0;
   }
 }
-.MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error{
+.MuiFormHelperText-root.MuiFormHelperText-contained.Mui-error {
   height: 15px;
 }
 .MuiTextField-root {
@@ -268,3 +301,10 @@ input:-webkit-autofill:active {
 @import "./../../shared/categories/css/index.scss";
 @import "./../../routes/basket/css/index.scss";
 @import "./../../routes/auth/css/index.scss";
+@import "./../../routes/selectAddress/css/index.scss";
+@import "./../../routes/selectLocation/css/index.scss";
+@import "./../../routes/review/css/index.scss";
+@import "./../../routes/prescription/css/index.scss";
+@import "./../../routes/afterGateway/css/index.scss";
+@import "./../../routes/tempBasket/css/index.scss";
+@import "./../../shared/Error/css/index.scss";

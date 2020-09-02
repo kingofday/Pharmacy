@@ -15,9 +15,11 @@ $(document).ready(function () {
     //auto submit modal
     $(document).on('click', 'button[data-auto-submit="true"]', function () {
         let $btn = $(this);
+        let $modal = $('#modal');
         submitAjaxForm($btn, function (rep) {
             let $frm = $btn.closest('.modal-body').find('form');
-            $frm.inlineNotify('success', strings.success);
+            if ($('#modal').data('auto-close')) $('#modal').modal('hide');
+            else $frm.inlineNotify('success', strings.success);
             if ($btn.data('reset')) $frm[0].reset();
         },
             null,
@@ -61,7 +63,7 @@ var showModal = function ({ $elm, beforeFunc, afterFunc, errorFunc }) {
                 showNotif(notifyType.danger, rep.Message);
                 return;
             }
-            let $modal = $('#modal').data('refresh-list', rep.RefreshList);
+            let $modal = $('#modal').data('refresh-list', rep.RefreshList).data('auto-close', rep.AutoClose);
             $modal.find('.modal-title').text(rep.Title);
             let $body = $modal.find('.modal-body-content').empty();
             if (rep.AutoSubmit) {
@@ -82,7 +84,7 @@ var showModal = function ({ $elm, beforeFunc, afterFunc, errorFunc }) {
             $.validator.unobtrusive.parse($modal);
             $modal.modal('show');
             //fireGlobalPlugins();
-            
+
         })
         .fail(function (e) {
             if (elmIsActionBtn) ajaxBtn.normal();
@@ -567,7 +569,7 @@ var fireGlobalPlugins = function () {
                     },
                     processResults: function (data) {
                         return {
-                            results: data.map(x => ({ text: x.Text, id: x.Value }))
+                            results: data.map(x => ({ text: x.Text, id: x.Value,...x }))
                         };
                     }
                 }
@@ -799,7 +801,10 @@ var mapToken = 'pk.eyJ1Ijoia2luZ29mZGF5IiwiYSI6ImNrYWNweWQxaTFpbXcydnF3bDJiZ3QyO
 var $threeDotLoader = '<span class="three-dot-loader"><span class="dot"></span><span class="dot"></span><span class="dot"></span></span>';
 var $circularLoader = '<div class="spinner"><svg viewBox="25 25 50 50"><circle cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"></circle></svg></div>';
 
-function commaThousondSeperator(str) { return str.replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
+function commaThousondSeperator(input) {
+    let str = isNaN(input) ? input : input.toString();
+    return str.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 $(document).ready(function () {
 
@@ -951,6 +956,17 @@ $(document).ready(function () {
         if (e.keyCode === 13) $(this).closest('form').find('button.search').trigger('click');
     });
 
+    $(document).on('input', '.rial', function () {
+        let v = $(this).val();
+        v = v.substr(0, v.length - 1);
+        let $target = $(this).data('target');
+        if ($target) $($target).text(commaThousondSeperator(v) + 'ريال');
+        else {
+            let $lbl = $(this).prev();
+            let txt = $lbl.clone().children().remove().end().text();
+            $lbl.html(txt + ' <small>(' + commaThousondSeperator(v) + ' تومان' + ')</small>');
+        }
+    });
 
 });
 
@@ -1122,15 +1138,19 @@ $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
            custom serialize
 ---------------------------------------*/
 var customSerialize = function ($wrapper, checkNumbers) {
-    var model = {};
+    let model = {};
     let checkNumberValue = function (v) {
         if (checkNumbers && !isNaN(v) && v !== '') return parseInt(v);
         else return v;
     };
     function valueSetter(obj, name, v) {
         let arr = name.split('.');
-        if (arr.length > 1)
-            valueSetter(obj[arr[0]], arr.splice(1, arr.length - 1).join('.'), v)
+        if (arr.length > 1) {
+            if (typeof obj[arr[0]] === 'undefined')
+                obj[arr[0]] = {};
+            valueSetter(obj[arr[0]], arr.splice(1, arr.length - 1).join('.'), v);
+            return;
+        }
         if (typeof obj[name] !== 'undefined') {
             if (Array.isArray(obj[name])) obj[name].push(v);
             else obj[name] = [obj[name], v];
@@ -1146,7 +1166,7 @@ var customSerialize = function ($wrapper, checkNumbers) {
 
     });
 
-    $wrapper.find('input[type="checkbox"],input[type="radio"]').each(function () {
+    $wrapper.find('input[type="checkbox"]:checked,input[type="radio"]:checked').each(function () {
         let name = $(this).attr('name');
         if (typeof name !== 'undefined') {
             let val = $(this).attr('value').toLowerCase();
@@ -1266,11 +1286,20 @@ var objectToFormData = function (obj, form, namespace) {
             } else {
                 formKey = property;
             }
-            if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
+            if (Array.isArray(obj[property])) {
+                for (var i = 0; i < obj[property].length; i++) {
+                    if (typeof obj[property][i] === 'object' && !(obj[property][i] instanceof File))
+                        objectToFormData(obj[property][i], fd, property + '[' + i + ']');
+                    else fd.append(formKey, obj[property][i]);
+                }
+            }
+            else if (typeof obj[property] === 'object' && !(obj[property] instanceof File)) {
 
                 objectToFormData(obj[property], fd, property);
 
-            } else {
+            }
+
+            else {
 
                 // if it's a string or a File object
                 fd.append(formKey, obj[property]);

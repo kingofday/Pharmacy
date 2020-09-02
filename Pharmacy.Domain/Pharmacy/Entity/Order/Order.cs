@@ -4,6 +4,8 @@ using Pharmacy.Domain.Resource;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq;
 
 namespace Pharmacy.Domain
 {
@@ -11,22 +13,32 @@ namespace Pharmacy.Domain
     public class Order : IInsertDateProperties, IModifyDateProperties, ISoftDeleteProperty, IEntity
     {
         [Key]
+        public Guid OrderId { get; set; }
+
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int OrderId { get; set; }
+        [Display(Name = nameof(Strings.Identifier), ResourceType = typeof(Strings))]
+        public long UniqueId { get; set; }
+
+        public DeliveryType DeliveryType { get; set; }
+
+        [Column(TypeName = "varchar(20)")]
+        [MaxLength(20, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        [StringLength(20, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
+        public string DeliveryAgentName { get; set; }
 
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         //[Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
 
-        public Guid? TempBasketId { get; set; }
+        public Guid Store_UserId { get; set; }
+
+        public int? PrescriptionId { get; set; }
 
         public int DrugStoreId{ get; set; }
 
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
         public int AddressId { get; set; }
-
-        [Display(Name = nameof(Strings.DeliveryProvider), ResourceType = typeof(Strings))]
-        public int DeliveryProviderId { get; set; }
 
         [Display(Name = nameof(Strings.DeliveryTime), ResourceType = typeof(Strings))]
         public int DeliveryTime { get; set; }
@@ -47,9 +59,9 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.TotalPrice), ResourceType = typeof(Strings))]
         public int TotalPrice { get; set; }
 
-        [Display(Name = nameof(Strings.OrderStatus), ResourceType = typeof(Strings))]
+        [Display(Name = nameof(Strings.Status), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public OrderStatus OrderStatus { get; set; }
+        public OrderStatus Status { get; set; }
 
         [Display(Name = nameof(Strings.IsDeleted), ResourceType = typeof(Strings))]
         public bool IsDeleted { get; set; }
@@ -73,27 +85,18 @@ namespace Pharmacy.Domain
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ModifyDateSh { get; set; }
 
-        [Display(Name = nameof(Strings.Description), ResourceType = typeof(Strings))]
+        [Display(Name = nameof(Strings.EndUserDescription), ResourceType = typeof(Strings))]
         [MaxLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(150, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string Description { get; set; }
+        public string Comment { get; set; }
 
         [Display(Name = nameof(Strings.OrderComment), ResourceType = typeof(Strings))]
         [MaxLength(300, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(300, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ExtraInfoJson { get; set; }
 
-        [Column(TypeName = "varchar(500)")]
-        [Display(Name = nameof(Strings.DeliveryDetail), ResourceType = typeof(Strings))]
-        [MaxLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        [StringLength(500, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public string DeliveryDetailJson { get; set; }
-
-        [NotMapped]
-        public DeliveryDetail Delivery => DeliveryDetailJson.DeSerializeJson<DeliveryDetail>();
-
         [Display(Name = nameof(Strings.OrderDetails), ResourceType = typeof(Strings))]
-        public List<OrderItem> OrderDetails { get; set; }
+        public List<OrderItem> OrderItems { get; set; }
 
         [Display(Name = nameof(Strings.Payments), ResourceType = typeof(Strings))]
         public List<Payment> Payments { get; set; }
@@ -101,15 +104,21 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.Payments), ResourceType = typeof(Strings))]
         public List<OrderDrugStore> OrderDrugStores { get; set; }
 
-        [ForeignKey(nameof(UserId))]
-        [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
-        public User User { get; set; }
 
         [ForeignKey(nameof(AddressId))]
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
         public UserAddress Address { get; set; }
 
-        [ForeignKey(nameof(TempBasketId))]
-        public TempBasket TempBasket { get; set; }
+
+        [ForeignKey(nameof(PrescriptionId))]
+        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
+        public Prescription Prescription { get; set; }
+
+        [NotMapped]
+        public OrderDrugStore CurrentOrderDrugStore => OrderDrugStores.OrderByDescending(x => x.OrderDrugStoreId).FirstOrDefault();
+
+        [NotMapped]
+        [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
+        public DrugStore DrugStore { get; set; }
     }
 }

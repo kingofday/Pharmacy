@@ -4,6 +4,6 @@ export default function modalReducer(state = { lat: null, lng: null }, action) {
         case actionTypes.SET_LOCATION:
             return { ...state, ...action.payload };
         default:
-            return state;
+            return {...state};
     }
 };

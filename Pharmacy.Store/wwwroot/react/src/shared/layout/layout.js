@@ -10,21 +10,21 @@ import LinksWithInfo from './comps/linksWithInfo';
 import UsefulLinks from './comps/usefulLinks';
 import Footer from './comps/footer';
 
+import AuthRouter from './comps/authRoute';
 import Products from '../../routes/products/products';
 import Product from '../../routes/product';
 import Basket from './../../routes/basket';
+import tempBasket from '../../routes/tempBasket';
 import Auth from './../../routes/auth/auth';
-// import Store from '../../routes/store';
-// import ContactUs from '../../routes/contactUs';
-// import TempBasket from './../../routes/tempBasket';
-// import AfterGateway from '../../routes/afterGateway';
 import NotFound from '../../routes/notFound';
 import InitError from '../initError';
 import Home from '../../routes/home';
-// import CompleteInfo from '../../routes/completeInformation';
-// import SelectAddress from '../../routes/selectAddress';
-// import SelectLocation from '../../routes/selectLocation';
-// import Review from './../../routes/review';
+import SelectAddress from '../../routes/selectAddress';
+import SelectLocation from '../../routes/selectLocation';
+import SelectDelivery from '../../routes/selectDelivery';
+import Review from './../../routes/review';
+import Prescription from './../../routes/prescription';
+import AfterGateway from '../../routes/afterGateway';
 
 
 class Layout extends React.Component {
@@ -40,14 +40,19 @@ class Layout extends React.Component {
                     <Route exact path="/product/:id" component={Product} />
                     <Route exact path="/basket" component={Basket} />
                     <Route exact path="/auth" component={Auth} />
+                    <AuthRouter path="/selectAddress" component={SelectAddress}/>
+                    <AuthRouter path="/selectLocation" component={SelectLocation}/>
+                    <AuthRouter path="/selectDelivery" component={SelectDelivery}/>
+                    <AuthRouter path="/review" component={Review}/>
+                    <Route exact path="/prescription" component={Prescription} />
+                    <Route exact path="/afterGateway/:status/:transId" component={AfterGateway} />
+                    <Route exact path="/tempBasket/:id?" component={tempBasket} />
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />
                     <Route path="/completeInformation" component={CompleteInfo} />
-                    <Route path="/selectAddress" component={SelectAddress} />
-                    <Route path="/selectLocation" component={SelectLocation} />
-                    <Route path="/review" component={Review} />
-                    <Route path="/afterGateway/:status/:transId" component={AfterGateway} /> */}
+                   
+                    <Route path="/review" component={Review} />*/}
                     <Route path="/:msg?" component={NotFound} />
                 </Switch>
                 <LinksWithInfo />

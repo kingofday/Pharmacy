@@ -160,6 +160,12 @@
   <data name="NotAllowedOperation" xml:space="preserve">
     <value>عملیات مورد نظر مجاز نمی باشد</value>
   </data>
+  <data name="OrderChanged" xml:space="preserve">
+    <value>قیمت یا تعداد محصولات در زمان خرید شما تغییر یافته اند، لطفا دوباره سبد خرید خود را بررسی نمایید</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>فارما</value>
+  </data>
   <data name="RecordNotExist" xml:space="preserve">
     <value>آیتم مورد نظر یافت نشد</value>
   </data>
@@ -168,6 +174,9 @@
   </data>
   <data name="SaveFileFailed" xml:space="preserve">
     <value>ذخیره فایل با مشکل مواجه شد</value>
+  </data>
+  <data name="SentSuccessfully" xml:space="preserve">
+    <value>با موفقیت ارسال شد</value>
   </data>
   <data name="UserInfoMissing" xml:space="preserve">
     <value>اطلاعات کاربری شما ثبت نشده است، لطفا فرایند خرید را دوباره طی نمایید</value>

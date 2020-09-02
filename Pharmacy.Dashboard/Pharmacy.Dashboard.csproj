@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\Store\**" />
+    <Content Remove="Models\Store\**" />
+    <EmbeddedResource Remove="Models\Store\**" />
+    <None Remove="Models\Store\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
     <Content Remove="wwwroot\Scripts\App\public.js" />
   </ItemGroup>
@@ -16,8 +23,8 @@
 
   <ItemGroup>
     <PackageReference Include="BuildBundlerMinifier" Version="3.2.447" />
-    <PackageReference Include="Elk.AspNetCore" Version="1.1.3" />
-    <PackageReference Include="Elk.Core" Version="1.1.0" />
+    <PackageReference Include="Elk.AspNetCore" Version="1.1.4" />
+    <PackageReference Include="Elk.Core" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.3" />
   </ItemGroup>
 
@@ -34,10 +41,6 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Models\Store\" />
   </ItemGroup>
 
   <ItemGroup>

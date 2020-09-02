@@ -3,6 +3,7 @@ using Elk.Core;
 using Pharmacy.Domain.Resource;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace Pharmacy.Domain
 {
@@ -50,5 +51,7 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.Parent), ResourceType = typeof(Strings))]
         [ForeignKey(nameof(ParentId))]
         public DrugCategory Parent { get; set; }
+
+        public List<DrugCategory> Childs { get; set; }
     }
 }

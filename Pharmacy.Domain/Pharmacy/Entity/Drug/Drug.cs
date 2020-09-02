@@ -20,6 +20,7 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.DiscountPrice), ResourceType = typeof(Strings))]
         public int DiscountPrice { get; set; }
 
+        [Display(Name = nameof(Strings.Unit), ResourceType = typeof(Strings))]
         public int UnitId { get; set; }
 
         [Display(Name = nameof(Strings.DrugCategory), ResourceType = typeof(Strings))]
@@ -57,25 +58,27 @@ namespace Pharmacy.Domain
         public string ModifyDateSh { get; set; }
 
         [Column(TypeName = "varchar(20)")]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [Display(Name = nameof(Strings.UniqueId), ResourceType = typeof(Strings))]
         [MaxLength(20, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string UniqueId { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [Display(Name = nameof(Strings.Name), ResourceType = typeof(Strings))]
         [MaxLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string NameFa { get; set; }
 
         [Column(TypeName = "nvarchar(100)")]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [Display(Name = nameof(Strings.NameEn), ResourceType = typeof(Strings))]
         [MaxLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(100, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string NameEn { get; set; }
 
-        [Column(TypeName = "nvarchar(1000)")]
+        [Column(TypeName = "nvarchar(250)")]
         [Display(Name = nameof(Strings.ShortDescription), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         [MaxLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(250, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string ShortDescription { get; set; }
@@ -94,7 +97,7 @@ namespace Pharmacy.Domain
 
         [ForeignKey(nameof(UnitId))]
         public Unit Unit { get; set; }
-        public IList<DrugAsset> DrugAssets { get; set; }
+        public IList<DrugAttachment> DrugAttachments { get; set; }
         public IList<OrderItem> OrderDetails { get; set; }
 
         [Display(Name = nameof(Strings.Tag), ResourceType = typeof(Strings))]

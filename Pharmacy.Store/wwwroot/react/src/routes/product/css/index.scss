@@ -48,47 +48,12 @@
         font-weight: 900;
         padding: 15px 0;
     }
-    .price-wrapper {
-        display: flex;
-        flex-direction: column;
-
-        > :first-child {
-            display: flex;
-            justify-content: flex-start;
-        }
-        > :last-child {
-            display: flex;
-        }
-        .price {
-            padding: 0 5px;
-            position: relative;
-
-            &::after {
-                content: "";
-                background: #ccc;
-                height: 2px;
-                position: absolute;
-                top: 50%;
-                margin-top: -1px;
-                left: 5px;
-                right: 5px;
-            }
-        }
-        .real-price-wrapper {
-            align-items: center;
-            justify-content: flex-start;
-
-            .real-price {
-                display: flex;
-                justify-content: flex-end;
-                font-size: 1.5rem;
-                font-weight: 900;
-            }
-        }
-
-        .currency {
-            padding: 0 5px;
-        }
+    .real-price {
+        font-size: 1.5rem;
+        font-weight: 900;
+    }
+    .currency {
+        padding: 0 5px;
     }
     #btn-add-wrapper {
         .btn-purchase {

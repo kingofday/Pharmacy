@@ -27,9 +27,9 @@ export default class Categories extends React.Component {
                 <ul>
                     {this.state.categories.length === 0 ? ([0, 1, 2, 3].map(idx => (<li key={idx}><Skeleton height={30} variant='rect' /></li>))) :
                         this.state.categories.map((item, idx) => (<li key={idx}>
-                            <Link to={`/products?categoryId=${item.categoryId}`}>
+                            <a href={`/products?categoryId=${item.categoryId}`}>
                                 {item.name}
-                            </Link>
+                            </a>
                         </li>))
                     }
                 </ul>

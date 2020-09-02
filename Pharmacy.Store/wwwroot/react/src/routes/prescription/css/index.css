@@ -1,0 +1,93 @@
+#page-prescription {
+  margin-bottom: 40px;
+}
+
+#page-prescription .card {
+  padding: 30px 15px;
+}
+
+#page-prescription #mobileNumber {
+  text-align: left;
+  direction: ltr;
+}
+
+#page-prescription #uploader {
+  background-color: transparent;
+  color: #666;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100px;
+  border: dashed 2px #ccc;
+  width: 100%;
+}
+
+#page-prescription #uploader i {
+  font-size: 40px;
+}
+
+#page-prescription .uploaded-box {
+  border: solid 1px #ccc;
+  height: 50px;
+  width: 50px;
+  display: -webkit-inline-box;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 7.5px;
+  position: relative;
+  padding: 3px;
+}
+
+#page-prescription .uploaded-box:first-child {
+  margin-right: 0;
+}
+
+#page-prescription .uploaded-box img {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+#page-prescription .uploaded-box button {
+  display: none;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.35);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  color: red;
+}
+
+#page-prescription .uploaded-box button i {
+  font-size: 25px;
+}
+
+#page-prescription .uploaded-box:hover button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+/*# sourceMappingURL=index.css.map */

@@ -1,0 +1,82 @@
+﻿@model DrugStoreAdminModel
+@{
+    Layout = null;
+    var assets = (Model.Attachments ?? new List<DrugStoreAttachment>()).OrderBy(x => x.AttachmentId).ToList();
+}
+<form asp-action="@(Model.DrugStoreId==0?"Add":"Update")" asp-controller="DrugStore" id="frm-drug-store">
+    @Html.HiddenFor(x => x.DrugStoreId)
+    @Html.HiddenFor(x => x.Address.Longitude)
+    @Html.HiddenFor(x => x.Address.Latitude)
+
+    <div class="row">
+        <div class="col-12 col-sm-4 d-flex justify-content-center">
+            <partial name="~/Views/Shared/Partials/_SingleUploader.cshtml" model='new SingleUploaderModel("logo","لوگو",assets.FirstOrDefault())' />
+        </div>
+        <div class="col-12 col-sm-8">
+            <div class="row">
+                <div class="col-12">
+                    <custom-input-for for="Name"></custom-input-for>
+                </div>
+                <div class="col-12">
+                    <custom-checkbox-for for="IsActive"></custom-checkbox-for>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-12">
+            <custom-select-for for="UserId"
+                               class="form-control select2 w-100 with-ajax" select-data-url='@Url.Action("Search", "User")'
+                               items="Model.User==null?new List<SelectListItem>():new List<SelectListItem> {
+                                new SelectListItem{
+                                        Text = Model.User.FullName,
+                                        Value = Model.UserId.ToString()
+                                    }
+                                }" />
+        </div>
+    </div>
+
+    <label>@Strings.Location:</label>
+    <div class="row m-b">
+        <div class="col-12">
+            <div id="map" style="height:300px;"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <custom-textarea-for for="Address.Details" />
+        </div>
+    </div>
+    <div class="custom-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@Strings.Close</button>
+        <custom-button type="button" text="@Strings.Submit" icon="zmdi zmdi-floppy" class="btn-primary btn-submit-store float-left"></custom-button>
+    </div>
+</form>
+<script>
+    attachments = [];
+    coords = [@(Model.Address.Latitude),@(Model.Address.Longitude)];
+    logo = {};
+    map = L.map('map', {
+        fullscreenControl: {
+            pseudoFullscreen: false
+        }
+    }).setView(coords, 13);
+    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + mapToken, {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+        id: 'mapbox/streets-v11',
+        tileSize: 512,
+        zoomOffset: -1,
+        accessToken: mapToken
+    }).addTo(map);
+
+    marker = L.marker(coords).addTo(map).openPopup();
+    setTimeout(function () { map.invalidateSize() }, 800);
+    map.on('click',function (p) {
+        $('#Address_Latitude').val(p.latlng.lat);
+        $('#Address_Longitude').val(p.latlng.lng);
+        let newCoords = [p.latlng.lat, p.latlng.lng];
+        map.setView(newCoords, 13);
+        map.removeLayer(marker);
+        marker = L.marker(newCoords).addTo(map).openPopup();
+    });
+</script>

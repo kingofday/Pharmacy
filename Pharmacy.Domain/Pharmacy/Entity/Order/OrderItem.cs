@@ -1,4 +1,5 @@
 ﻿using Elk.Core;
+using System;
 using Pharmacy.Domain.Resource;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,8 +15,9 @@ namespace Pharmacy.Domain
 
         [Display(Name = nameof(Strings.Order), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
+        [Display(Name = nameof(Strings.Drug), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int DrugId { get; set; }
 

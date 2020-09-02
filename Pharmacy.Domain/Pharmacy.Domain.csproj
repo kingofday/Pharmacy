@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elk.EntityFrameworkCore.Tools" Version="1.1.7" />
+    <PackageReference Include="Elk.EntityFrameworkCore.Tools" Version="1.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="3.1.4" />
   </ItemGroup>
   <ItemGroup>
@@ -30,6 +30,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pharmacy\Repositories\Order\" />
   </ItemGroup>
 
 </Project>

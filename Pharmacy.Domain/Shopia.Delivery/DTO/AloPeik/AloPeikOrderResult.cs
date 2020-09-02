@@ -4,7 +4,6 @@ namespace Pharmacy.Domain
 {
     public class AloPeikOrderResult
     {
-        public int Id { get; set; }
         public int Price { get; set; }
         public int Delay { get; set; }
         public int Final_Price { get; set; }

@@ -61,15 +61,22 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Action>> FindAsync(int actionId)
         {
-            var findedAction = await _authUow.ActionRepo.FirstOrDefaultAsync(x => x.ActionId == actionId, new List<Expression<Func<Domain.Action, object>>> { i => i.Parent });
+            var findedAction = await _authUow.ActionRepo.FirstOrDefaultAsync(new BaseFilterModel<Domain.Action>
+            {
+                Conditions = x => x.ActionId == actionId,
+                IncludeProperties = new List<Expression<Func<Domain.Action, object>>> { i => i.Parent }
+            });
             if (findedAction == null) return new Response<Action> { Message = ServiceMessage.RecordNotExist.Fill(DomainStrings.Action) };
             return new Response<Action> { Result = findedAction, IsSuccessful = true };
         }
 
         public IDictionary<object, object> Get(bool justParents = false)
-            => _authUow.ActionRepo.Get(x => !justParents || (x.ControllerName == null && x.ActionName == null),
-                x => x.OrderByDescending(a => a.ActionId))
-                .ToDictionary(k => (object)k.ActionId, v => (object)$"{v.Name}({v.ControllerName}/{v.ActionName})");
+            => _authUow.ActionRepo.Get(new BaseListFilterModel<Domain.Action>
+            {
+                Conditions = x => !justParents || (x.ControllerName == null && x.ActionName == null),
+                OrderBy = x => x.OrderByDescending(a => a.ActionId)
+            })
+             .ToDictionary(k => (object)k.ActionId, v => (object)$"{v.Name}({v.ControllerName}/{v.ActionName})");
 
         public PagingListDetails<Action> Get(ActionSearchFilter filter)
         {
@@ -84,14 +91,22 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.ControllerName.Contains(filter.ControllerNameF.ToLower()));
             }
 
-            return _authUow.ActionRepo.Get(conditions, filter, x => x.OrderByDescending(u => u.ActionId), new List<Expression<Func<Domain.Action, object>>> {
-                i=>i.Parent
+            return _authUow.ActionRepo.Get(new BasePagedListFilterModel<Domain.Action>
+            {
+                Conditions = conditions,
+                PagingParameter = filter,
+                OrderBy = x => x.OrderByDescending(u => u.ActionId),
+                IncludeProperties = new List<Expression<Func<Domain.Action, object>>> { i => i.Parent }
             });
         }
 
         public IDictionary<object, object> Search(string searchParameter, int take = 10)
-            => _authUow.ActionRepo.Get(conditions: x => x.Name.Contains(searchParameter) || x.ControllerName.Contains(searchParameter) || x.ActionName.Contains(searchParameter), o => o.OrderByDescending(x => x.ActionId))
-            //.OrderByDescending(x => x.Name)
+            => _authUow.ActionRepo.Get(new BaseListFilterModel<Domain.Action>
+            {
+                Conditions = x => x.Name.Contains(searchParameter) || x.ControllerName.Contains(searchParameter) || x.ActionName.Contains(searchParameter),
+                OrderBy = o => o.OrderByDescending(x => x.ActionId)
+            }
+            )
             .Take(take)
             .ToDictionary(k => (object)k.ActionId, v => (object)$"{v.Name}({(string.IsNullOrWhiteSpace(v.ControllerName) ? "" : v.ControllerName + "/" + v.ActionName)})");
     }

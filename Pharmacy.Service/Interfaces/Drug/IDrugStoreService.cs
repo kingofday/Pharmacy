@@ -11,17 +11,19 @@ namespace Pharmacy.Service
     {
         //Task<IResponse<LocationDTO>> GetLocationAsync(int id);
         //Task<IResponse<DrugStoreDTO>> FindAsDtoAsync(int id);
-        IResponse<DrugStoreModel> GetNearest(LocationDTO model);
+        IResponse<DrugStoreModel> GetNearest(LocationDTO model, List<int> excludedStores = null);
         PagingListDetails<DrugStore> Get(DrugStoreSearchFilter filter);
         Task<IResponse<DrugStore>> FindAsync(int id);
-        Task<IResponse<bool>> DeleteAsync(int id);
-        Task<IResponse<DrugStore>> SignUp(DrugStoreSignUpModel model);
+        Task<IResponse<bool>> DeleteAsync(int id, string appDir);
+        //Task<IResponse<DrugStore>> SignUp(DrugStoreSignUpModel model);
         IEnumerable<DrugStore> GetAll(Guid userId);
-        IDictionary<object, object> Search(string searchParameter, Guid? userId, int take = 10);
-        //Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model);
-        Task<IResponse<DrugStore>> UpdateAsync(DrugStoreAdminUpdateModel model);
-        Task<IResponse<bool>> DeleteFile(string baseDomain, string root, int id);
-        Task<bool> CheckOwner(int PharmacyId, Guid userId);
         List<DrugStoreDTO> GetAsDTO();
+        IDictionary<object, object> Search(string searchParameter, Guid? userId, int take = 10);
+        Task<IResponse<DrugStore>> AddAsync(DrugStoreAdminModel model);
+        Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model);
+        Task<IResponse<DrugStore>> UpdateAsync(DrugStoreAdminModel model);
+        Task<IResponse<string>> DeleteFile(string appDir, int attchId);
+        Task<bool> CheckOwner(int PharmacyId, Guid userId);
+        //List<DrugStoreDTO> GetAsDTO();
     }
 }

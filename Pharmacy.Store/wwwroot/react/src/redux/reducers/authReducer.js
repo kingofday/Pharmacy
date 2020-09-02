@@ -7,20 +7,19 @@ const getInitilState = () => {
         alert(strings.browserIsOld);
         return {
             goToNextPage:false,
+            nextPage: '/',
             authenticated: false,
             token: null,
             mobileNumber: '',
             email: '',
-            fullname: '',
-            nextPage: '/'
+            fullname: '', 
         };
     }
-
-
     let rep = srvAuth.getUserInfo();
     if (rep.success)
         return {
             goToNextPage:false,
+            nextPage:'/',
             authenticated: true,
             token: rep.result.token,
             fullname: rep.result.fullname,
@@ -30,6 +29,7 @@ const getInitilState = () => {
     else
         return {
             goToNextPage:false,
+            nextPage:'/',
             authenticated: false,
             token: null,
             fullname: '',
@@ -39,6 +39,7 @@ const getInitilState = () => {
 
 }
 const authReducer = (state = getInitilState(), action) => {
+    
     switch (action.type) {
         case actionTypes.LOG_IN:
             return {
@@ -50,9 +51,13 @@ const authReducer = (state = getInitilState(), action) => {
                 email: action.payload.email,
             };
         case actionTypes.LOG_OUT:
+            srvAuth.removeUserInfo();
+
             return {
                 ...state,
                 authenticated: false,
+                goToNextPage:false,
+                nextPage: '/',
                 token: null,
                 fullname: '',
                 mobileNumber: '',
@@ -70,7 +75,8 @@ const authReducer = (state = getInitilState(), action) => {
                 goToNextPage: action.payload.goToNextPage
             };
         default:
-            return { ...state };
+            state.goToNextPage = false;
+            return state;
     }
 };
 

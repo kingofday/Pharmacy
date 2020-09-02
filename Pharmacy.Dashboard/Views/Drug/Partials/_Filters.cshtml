@@ -1,0 +1,19 @@
+@model DrugSearchFilter
+@{
+    Layout = null;
+    var id = Model.CategoryId;
+}
+
+<div class="row">
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="Name" />
+    </div>
+    <div class="col-12 col-sm-4">
+        <custom-select-for for="CategoryId" class="form-control select2"
+                           optional-label="@Strings.SelectPlease"
+                           items="ViewBag.Categories" />
+    </div>
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="UniqueId" />
+    </div>
+</div>

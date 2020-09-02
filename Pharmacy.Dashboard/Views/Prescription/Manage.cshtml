@@ -1,0 +1,16 @@
+@model PagingListDetails<Prescription>
+@{
+    ViewBag.Title = $"{Strings.Management} {DomainStrings.Prescription}";
+    Layout = "_LayoutManage";
+}
+@section styles{
+    <link href="@Url.Content("~/Styles/App/01-Admin/Prescription/manage.css")" rel="stylesheet" />
+}
+
+@section filter{
+    <partial name="Partials/_Filters" model="new PrescriptionSearchFilter()" />
+}
+<partial name="Partials/_List" model="@Model" />
+@section scripts{
+    <script src="@Url.Content("~/Scripts/App/01-Admin/Prescription/manage.js")"></script>
+}

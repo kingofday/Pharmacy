@@ -16,6 +16,8 @@ namespace Pharmacy.Dashboard
 
         public bool RefreshList { get; set; } = true;
 
+        public bool AutoClose { get; set; } = false;
+
         #region Auto Submit Props
         public bool AutoSubmit { get; set; } = true;
 

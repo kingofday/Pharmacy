@@ -188,6 +188,24 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to قیمت یا تعداد محصولات در زمان خرید شما تغییر یافته اند، لطفا دوباره سبد خرید خود را بررسی نمایید.
+        /// </summary>
+        public static string OrderChanged {
+            get {
+                return ResourceManager.GetString("OrderChanged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to فارما.
+        /// </summary>
+        public static string ProjectName {
+            get {
+                return ResourceManager.GetString("ProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to آیتم مورد نظر یافت نشد.
         /// </summary>
         public static string RecordNotExist {
@@ -211,6 +229,15 @@ namespace Pharmacy.Service.Resource {
         public static string SaveFileFailed {
             get {
                 return ResourceManager.GetString("SaveFileFailed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to با موفقیت ارسال شد.
+        /// </summary>
+        public static string SentSuccessfully {
+            get {
+                return ResourceManager.GetString("SentSuccessfully", resourceCulture);
             }
         }
         

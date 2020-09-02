@@ -12,7 +12,7 @@ namespace Pharmacy.Service
         Task<IResponse<Drug>> FindAsync(int id);
         Response<SingleDrugDTO> GetSingle(int id);
 
-        Task<(bool Changed, IEnumerable<OrderItemDTO> Items)> CheckChanges(IEnumerable<OrderItemDTO> items);
+        (bool Changed, IEnumerable<OrderItemDTO> Items) CheckChanges(IEnumerable<OrderItemDTO> items);
 
         Task<IResponse<Drug>> AddAsync(DrugAddModel model);
 
@@ -20,12 +20,16 @@ namespace Pharmacy.Service
 
         Task<IResponse<Drug>> UpdateAsync(DrugAddModel model);
 
-        Task<IResponse<bool>> DeleteAsync(string baseDomain, string root, int id);
+        Task<IResponse<bool>> DeleteAsync(string appDir, int id);
 
         PagingListDetails<Drug> Get(DrugSearchFilter filter);
 
         Response<List<DrugDTO>> Get(string q);
 
         IList<DrugSearchResult> Search(string searchParameter, int take = 10);
+
+        Task<IResponse<string>> DeleteAttachment(string appDir, int assetId);
+
+        Task<IResponse<string>> DeleteProp(int propId);
     }
 }

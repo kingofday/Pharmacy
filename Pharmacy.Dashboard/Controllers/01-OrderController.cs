@@ -7,23 +7,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Pharmacy.Dashboard.Resources;
 using DomainString = Pharmacy.Domain.Resource.Strings;
+using System;
 
 namespace Pharmacy.Dashboard.Controllers
 {
-    //[AuthorizationFilter]
+    [AuthorizationFilter]
     public partial class OrderController : Controller
     {
         private readonly IOrderService _OrderSrv;
-        private readonly IStoreService _storeSrv;
+        private readonly IDrugStoreService _storeSrv;
 
-        public OrderController(IOrderService OrderSrv, IStoreService storeSrv)
+        public OrderController(IOrderService OrderSrv, IDrugStoreService storeSrv)
         {
             _OrderSrv = OrderSrv;
             _storeSrv = storeSrv;
         }
 
         [HttpGet]
-        public virtual async Task<JsonResult> Update(int id)
+        public virtual async Task<JsonResult> Update(Guid id)
         {
             var findRep = await _OrderSrv.FindAsync(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Order) });
@@ -40,11 +41,11 @@ namespace Pharmacy.Dashboard.Controllers
         [HttpPost]
         public virtual async Task<JsonResult> Update(Order model)
         {
-            return Json(await _OrderSrv.UpdateStatusAsync(model.OrderId, model.OrderStatus, false));
+            return Json(await _OrderSrv.UpdateStatusAsync(model.OrderId, model.Status, false));
         }
 
         [HttpGet, AuthEqualTo("Order", "Update")]
-        public virtual async Task<JsonResult> Details(int id)
+        public virtual async Task<JsonResult> Details(Guid id)
         {
             var findRep = await _OrderSrv.GetDetails(id);
             if (!findRep.IsSuccessful) return Json(new { IsSuccessful = false, Message = Strings.RecordNotFound.Fill(DomainString.Order) });
@@ -59,7 +60,7 @@ namespace Pharmacy.Dashboard.Controllers
         }
 
         [HttpPost]
-        public virtual async Task<JsonResult> Delete(int id) => Json(await _OrderSrv.DeleteAsync(id));
+        public virtual async Task<JsonResult> Delete(Guid id) => Json(await _OrderSrv.DeleteAsync(id));
 
         [HttpGet]
         public virtual ActionResult Manage(OrderSearchFilter filter)

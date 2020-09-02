@@ -9,10 +9,18 @@ namespace Pharmacy.Domain
     {
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         public Guid? UserId { get; set; }
+
+        [Display(Name = nameof(Strings.Identifier), ResourceType = typeof(Strings))]
+        public long? UniqueId { get; set; }
+
         [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
         public int? DrugStoreId { get; set; }
+
         [Display(Name = nameof(Strings.OrderStatus), ResourceType = typeof(Strings))]
-        public OrderStatus? OrderStatus { get; set; }
+        public OrderDrugStoreStatus? OrderDrugStoreStatus { get; set; }
+
+        [Display(Name = nameof(Strings.OrderStatus), ResourceType = typeof(Strings))]
+        public OrderStatus? Status { get; set; }
         [Display(Name = nameof(Strings.TransactionId), ResourceType = typeof(Strings))]
         public string TransactionId { get; set; }
         [Display(Name = nameof(Strings.FromDate), ResourceType = typeof(Strings))]

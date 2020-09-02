@@ -15,9 +15,11 @@ $(document).ready(function () {
     //auto submit modal
     $(document).on('click', 'button[data-auto-submit="true"]', function () {
         let $btn = $(this);
+        let $modal = $('#modal');
         submitAjaxForm($btn, function (rep) {
             let $frm = $btn.closest('.modal-body').find('form');
-            $frm.inlineNotify('success', strings.success);
+            if ($('#modal').data('auto-close')) $('#modal').modal('hide');
+            else $frm.inlineNotify('success', strings.success);
             if ($btn.data('reset')) $frm[0].reset();
         },
             null,
@@ -61,7 +63,7 @@ var showModal = function ({ $elm, beforeFunc, afterFunc, errorFunc }) {
                 showNotif(notifyType.danger, rep.Message);
                 return;
             }
-            let $modal = $('#modal').data('refresh-list', rep.RefreshList);
+            let $modal = $('#modal').data('refresh-list', rep.RefreshList).data('auto-close', rep.AutoClose);
             $modal.find('.modal-title').text(rep.Title);
             let $body = $modal.find('.modal-body-content').empty();
             if (rep.AutoSubmit) {
@@ -82,7 +84,7 @@ var showModal = function ({ $elm, beforeFunc, afterFunc, errorFunc }) {
             $.validator.unobtrusive.parse($modal);
             $modal.modal('show');
             //fireGlobalPlugins();
-            
+
         })
         .fail(function (e) {
             if (elmIsActionBtn) ajaxBtn.normal();

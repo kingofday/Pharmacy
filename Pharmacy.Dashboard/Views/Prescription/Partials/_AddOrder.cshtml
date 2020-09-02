@@ -1,0 +1,38 @@
+@model OrderItem
+@{
+    Layout = null;
+}
+<form asp-controller="Prescription" asp-action="Update">
+    @Html.Hidden("PrescriptionId",(int)ViewBag.PrescriptionId)
+    <div class="row">
+        <div class="col-12 col-sm-6">
+            @*<div class="form-group">
+                    <label for="DrugId">@Strings.Drug</label>
+                    <select id="DrugId"
+                            name="DrugId"
+                            class="form-control select2 w-100 with-ajax"
+                            data-url="@Url.Action("Search","Drug")">
+                        <option value="">@Strings.SelectPlease</option>
+                    </select>
+                </div>*@
+            <custom-select name="DrugId"
+                           label="@Strings.Drug"
+                           optional-label="@Strings.SelectPlease"
+                           class="form-control select2 w-100 with-ajax"
+                           select-data-url="@Url.Action("Search","Drug")" />
+        </div>
+        <div class="col-8 col-sm-3">
+            <custom-input-for for="Count"  class="form-control ltr-elm"></custom-input-for>
+            @*<custom-input id="Count" name="Count" label="@Strings.Count" class="form-control ltr-elm" />*@
+        </div>
+        <div class="col-4 col-sm-3">
+            <button class="btn btn-info" type="button" id="btn-add-item"><i class="zmdi zmdi-plus"></i></button>
+        </div>
+    </div>
+
+    <div class="custom-modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">@Strings.Close</button>
+        <custom-button text="@Strings.Submit" icon="zmdi zmdi-floppy" class="btn-primary btn-submit float-left"></custom-button>
+    </div>
+</form>
+

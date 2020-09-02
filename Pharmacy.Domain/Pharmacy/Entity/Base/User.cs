@@ -80,7 +80,6 @@ namespace Pharmacy.Domain
         public List<UserAddress> Addresses { get; set; }
         public List<BankAccount> bankAccounts { get; set; }
         public List<UserAttachment> UserAttachments { get; set; }
-        public List<Order> Orders { get; set; }
         public List<DrugStore> DrugStores { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Slider from "react-slick";
-import slide1Image from './../../../assets/images/BannerSlides/slide-1.png';
+import slide1Image from './../../../assets/images/BannerSlides/slide-1.jpg';
 import slide2Image from './../../../assets/images/BannerSlides/slide-2.jpg';
 
 export default class BannerSlideShow extends React.Component {

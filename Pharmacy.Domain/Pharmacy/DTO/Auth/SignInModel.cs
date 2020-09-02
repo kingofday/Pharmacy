@@ -15,7 +15,7 @@ namespace Pharmacy.Domain
         [MinLength(5, ErrorMessageResourceName = nameof(ErrorMessage.MinLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         [StringLength(20, MinimumLength = 5, ErrorMessageResourceName = nameof(ErrorMessage.LengthRangeError), ErrorMessageResourceType = typeof(ErrorMessage))]
         [Display(Name = nameof(Password), ResourceType = typeof(Strings))]
-        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(Strings), AllowEmptyStrings = false)]
+        [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage), AllowEmptyStrings = false)]
         public string Password { get; set; }
 
         [Display(Name = nameof(Strings.RememberMe), ResourceType = typeof(Strings))]

@@ -5,7 +5,7 @@
 
 <div class="single-uploader @(Model.HaveAsset?"uploaded":"")" data-id="@Model.Id">
     <div class="uploader">
-        <button type="button" class="btn-remove" @(Model.HaveAsset ? $"data-url={Url.Action("DeleteAsset", new { assetId = Model.AssetId })}" : string.Empty)><i class="zmdi zmdi-close"></i></button>
+        <button type="button" class="btn-remove" @(Model.HaveAsset ? $"data-url={Url.Action("DeleteAttachment", new { attchId = Model.AttachmentId })}" : string.Empty)><i class="zmdi zmdi-close"></i></button>
         <img class="" src="@(Model.HaveAsset?(Model.Url.StartsWith("http")?Model.Url:Url.Content(Model.Url)):"")" />
         <i class="zmdi zmdi-plus"></i>
     </div>

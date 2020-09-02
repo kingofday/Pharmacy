@@ -3,11 +3,22 @@ using System;
 using Pharmacy.Domain.Resource;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace Pharmacy.Domain
 {
-    public abstract class BaseAttachment
+    public class BaseAttachment
     {
+        [NotMapped]
+        public string AttachmentId
+        {
+            get
+            {
+                var id = this.GetType().GetProperties().First(x => x.Name.EndsWith("AttachmentId"));
+                return id.GetValue(this, null).ToString();
+            }
+        }
+
         [Display(Name = nameof(Strings.FileType), ResourceType = typeof(Strings))]
         public FileType FileType { get; set; }
 
@@ -15,7 +26,7 @@ namespace Pharmacy.Domain
         public AttachmentType AttachmentType { get; set; }
 
         [Display(Name = nameof(Strings.Size), ResourceType = typeof(Strings))]
-        public int Size { get; set; }
+        public long Size { get; set; }
 
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]
         public DateTime InsertDateMi { get; set; }

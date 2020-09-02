@@ -8,7 +8,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Pharmacy.Domain
 {
     [Table(nameof(PaymentGateway), Schema = "Payment")]
-    public class PaymentGateway : IInsertDateProperties, ISoftDeleteProperty, IEntity
+    public class PaymentGateway : IInsertDateProperties, ISoftDeleteProperty//, IEntity
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

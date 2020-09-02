@@ -4,13 +4,16 @@ namespace Pharmacy.Domain
 {
     public enum AttachmentType : byte
     {
-        DrugStoreImage = 0,
+        DrugStoreLogo = 0,
 
         DrugThumbnailImage = 1,
 
         DrugImage = 2,
 
         [Description("عکس پرسنلی")]
-        PersoneliPicture = 3,
+        PersonelPicture = 3,
+
+        [Description("تصویر نسخه")]
+        PrescriptionImage = 4,
     }
 }

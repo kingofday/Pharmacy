@@ -45,7 +45,7 @@ class SignUp extends React.Component {
         let state = this.state;
         for (let i = 0; i < inputs.length; i++) {
             let k = inputs[i];
-            if (!state[k].value) {
+            if (k !== 'email' && !state[k].value) {
                 state[k].error = true;
                 state[k].errorMessage = validationStrings.required;
                 this.setState(p => ({ ...state }));
@@ -55,10 +55,10 @@ class SignUp extends React.Component {
             let msg = null;
             switch (k) {
                 case 'mobileNumber':
-                    if (validate.mobileNumber(state[k])) msg = validationStrings.invalidMobileNumber;
+                    if (!validate.mobileNumber(state[k].value)) msg = validationStrings.invalidMobileNumber;
                     break;
                 case 'email':
-                    if (validate.email(state[k])) msg = validationStrings.invalidEmail;
+                    if (!validate.email(state[k].value)) msg = validationStrings.invalidEmail;
                     break;
                 case 'newPassword':
                     if (state[k].length < 5 || state[k].length > 50) msg = validationStrings.passwordInvalidLength;
@@ -133,6 +133,7 @@ class SignUp extends React.Component {
                                 error={this.state.mobileNumber.error}
                                 id="mobileNumber"
                                 name="mobileNumber"
+                                placeholder="9xxxxxxxxx"
                                 label={strings.mobileNumber}
                                 value={this.state.mobileNumber.value}
                                 onChange={this._handleChange.bind(this)}
@@ -174,14 +175,14 @@ class SignUp extends React.Component {
                     </Col>
                     <Col xs={12} sm={12} md={{ span: 4, offset: 4 }} className='flex-column'>
                         <div className="btn-group">
-                            <Button disabled={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.signUp}</Button>
+                            <Button disabled={this.state.disableBtn} loading={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.signUp}</Button>
                         </div>
                     </Col>
 
 
                 </Row>
                 <Modal ref={c => this.modal = c} title={strings.confirmCode}>
-                    <Confirm  mobileNumber={this.state.mobileNumber.value} />
+                    <Confirm mobileNumber={this.state.mobileNumber.value} />
                 </Modal>
             </div>
         );

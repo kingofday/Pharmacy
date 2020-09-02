@@ -1,13 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
-import strings, { enums } from '../../../shared/constant';
 import Heading from './../../../shared/heading/heading';
 import { SetNameAction } from './../../../redux/actions/productsAction';
 class SearchName extends React.Component {
   state = {
-    name: ''
+    name: this.props.name||''
   };
   
   _handleChange(e){
@@ -32,9 +29,13 @@ class SearchName extends React.Component {
   }
 }
 
+const mapStateToProps = state => {
+  return { ...state.productsReducer };
+}
+
 const mapDispatchToProps = dispatch => ({
   setName: (name) => dispatch(SetNameAction(name)),
 });
 
 
-export default connect(null, mapDispatchToProps)(SearchName);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchName);

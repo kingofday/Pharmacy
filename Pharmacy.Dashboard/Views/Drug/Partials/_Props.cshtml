@@ -1,0 +1,50 @@
+﻿@model List<DrugProperty>
+<div class="row m-b">
+    <div class="col-4">
+        <label for="prop_name">نام مشخصه</label>
+        <input type="text" id="prop_name" class="form-control" />
+    </div>
+    <div class="col-4">
+        <label for="prop_value">مقدار مشخصه</label>
+        <input type="text" id="prop_value" class="form-control" />
+    </div>
+    <div class="col-4 d-flex justify-content-center align-items-end">
+        <button class="btn btn-info" id="btn-prop" type="button">
+            <i class="zmdi zmdi-plus icon"></i>
+        </button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>نام</td>
+                    <td>مقدار</td>
+                    <td>حذف</td>
+                </tr>
+            </thead>
+            <tbody id="props">
+                @if (Model != null)
+                {
+                    foreach (var prop in Model)
+                    {
+                        <tr>
+                            <td>
+                                @prop.Name
+                            </td>
+                            <td>
+                                @prop.Value
+                            </td>
+                            <td>
+                                <a class="prop-delete" data-url="@Url.Action("DeleteProp","Drug", new { propId = prop.DrugPropertyId })"><i class="zmdi zmdi-close"> </i></a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</div>

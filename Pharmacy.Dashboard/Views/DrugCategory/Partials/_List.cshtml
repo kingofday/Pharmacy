@@ -1,0 +1,33 @@
+﻿@model List<DrugCategory>
+@using Microsoft.AspNetCore.Http
+@using Elk.Http
+@inject IHttpContextAccessor _httpContextAccessor
+
+<nested-view tag-id="nested-view"
+             show-all-text="@Strings.ShowAll"
+             add-text="@Strings.Add"
+             edit-text="@Strings.Edit"
+             search-text="@Strings.Search"
+             edit-url="@Url.Action("Update","DrugCategory")"
+             delete-text="@Strings.Delete"
+             delete-url="@Url.Action("delete","DrugCategory")"
+             items="Model.Select(x=>new NestedItem {
+                        Id = x.DrugCategoryId,
+                        Name = x.Name,
+                        OrderPrority = x.OrderPriority,
+                        ParentId =x.ParentId
+                    }).ToList()"></nested-view>
+
+@if (_httpContextAccessor.HttpContext.Request.IsAjaxRequest())
+{
+    <script type="text/javascript">
+
+                $('#nested-view').off('nestedView').nestedView({
+                    addTex: 'افزودن',
+					addFormHtml:`@Html.Raw(ViewBag.EntityPartial)`,
+                    editText: 'ویرایش',
+					deleteText:'حذف'
+                });
+
+    </script>
+}

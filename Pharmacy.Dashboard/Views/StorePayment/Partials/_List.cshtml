@@ -13,7 +13,7 @@
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.PagedList.Items[0].PaymentGateway)</th>
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.PagedList.Items[0].Price)</th>
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.PagedList.Items[0].InsertDateSh)</th>
-                <th data-hide="all">@Html.DisplayNameFor(x => x.PagedList.Items[0].Order.User)</th>
+                <th data-hide="all">@Html.DisplayNameFor(x => x.PagedList.Items[0].Order.Address.User)</th>
                 <th class="text-center"> <i class="zmdi zmdi-wrench rotate-90"></i></th>
             </tr>
         </thead>
@@ -27,7 +27,7 @@
                     <td>@item.PaymentGateway.Name</td>
                     <td>@item.Price.ToString("N0")</td>
                     <td>@item.InsertDateSh</td>
-                    <td>@item.Order.User.FullName (@item.Order.User.MobileNumber)</td>
+                    <td>@item.Order.Address.User.FullName (@item.Order.Address.User.MobileNumber)</td>
                     <td class="actions">
                         <div class="dropdown b-a-c">
                             <span class="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

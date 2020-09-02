@@ -1,13 +1,14 @@
-﻿using Elk.Core;
+﻿using System;
+using Elk.Core;
+using System.Linq;
 using Pharmacy.Domain;
 using Pharmacy.DataAccess.Ef;
 using System.Threading.Tasks;
 using Pharmacy.Service.Resource;
-using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Pharmacy.InfraStructure;
+using Microsoft.AspNetCore.Http;
 
 namespace Pharmacy.Service
 {
@@ -16,32 +17,37 @@ namespace Pharmacy.Service
         readonly AppUnitOfWork _appUow;
         readonly AuthUnitOfWork _authUow;
         readonly IGenericRepo<DrugStore> _drugStoreRepo;
-
-        public DrugStoreService(AppUnitOfWork appUOW, AuthUnitOfWork authUow)
+        readonly IAttachmentService _attchSrv;
+        public DrugStoreService(AppUnitOfWork appUOW, AuthUnitOfWork authUow, IAttachmentService attchSrv)
         {
             _appUow = appUOW;
             _authUow = authUow;
             _drugStoreRepo = appUOW.DrugStoreRepo;
+            _attchSrv = attchSrv;
         }
 
-        public IResponse<DrugStoreModel> GetNearest(LocationDTO model)
+        public IResponse<DrugStoreModel> GetNearest(LocationDTO model, List<int> excludedStores = null)
         {
-            var items = _drugStoreRepo.Get(selector: x => new DrugStoreModel
+            var items = _drugStoreRepo.Get(new ListFilterModel<DrugStore, DrugStoreModel>
             {
-                DrugStoreId = x.DrugStoreId,
-                Name = x.Name,
-                Lat = x.Address.Latitude,
-                Lng = x.Address.Longitude
-            },
-                conditions: null,
-                orderBy: o => o.OrderBy(x => x.DrugStoreId),
-                includeProperties: new List<Expression<Func<DrugStore, object>>> { x => x.Address });
+                Selector = x => new DrugStoreModel
+                {
+                    UserId = x.UserId,
+                    DrugStoreId = x.DrugStoreId,
+                    Name = x.Name,
+                    Latitude = x.Address.Latitude,
+                    Longitude = x.Address.Longitude
+                },
+                Conditions = x => excludedStores == null ? true : !excludedStores.Contains(x.DrugStoreId),
+                OrderBy = o => o.OrderBy(x => x.DrugStoreId),
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
+            });
             if (items == null || !items.Any())
                 return new Response<DrugStoreModel> { Message = ServiceMessage.RecordNotExist };
-            Parallel.ForEach(items, (item) =>
+            foreach (var item in items)
             {
-                item.Distance = GeoLocation.GetDistanceBetweenPoints(item.Lat, item.Lng, model.Lat, model.Lng);
-            });
+                item.Distance = GeoLocation.GetDistanceBetweenPoints(item.Latitude, item.Longitude, model.Latitude, model.Longitude);
+            }
             return new Response<DrugStoreModel>
             {
                 IsSuccessful = true,
@@ -95,7 +101,11 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<DrugStore>> FindAsync(int id)
         {
-            var Pharmacy = await _drugStoreRepo.FindAsync(id);
+            var Pharmacy = await _drugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            {
+                Conditions = x => x.DrugStoreId == id,
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address, x => x.Attachments, x => x.User }
+            });
             if (Pharmacy == null) return new Response<DrugStore> { Message = ServiceMessage.RecordNotExist };
 
             return new Response<DrugStore> { Result = Pharmacy, IsSuccessful = true };
@@ -112,17 +122,40 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.Name.Contains(filter.Name));
             }
 
-            return _drugStoreRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.DrugStoreId), new List<Expression<Func<DrugStore, object>>> {
-                x=>x.User
+            return _drugStoreRepo.Get(new BasePagedListFilterModel<DrugStore>
+            {
+                Conditions = conditions,
+                PagingParameter = filter,
+                OrderBy = x => x.OrderByDescending(i => i.DrugStoreId),
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.User }
             });
         }
 
-        public async Task<IResponse<bool>> DeleteAsync(int id)
+        public List<DrugStoreDTO> GetAsDTO()
+            => _drugStoreRepo.Get(new PagedListFilterModel<DrugStore, DrugStoreDTO>
+            {
+                Selector = x => new DrugStoreDTO
+                {
+                    Name = x.Name,
+                    DrugStoreId = x.DrugStoreId,
+                    ImageUrl = x.Attachments.FirstOrDefault().Url
+                },
+                PagingParameter = new PagingParameter { PageNumber = 1, PageSize = 15 },
+                OrderBy = o => o.OrderByDescending(x => x.Score),
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Attachments }
+            }).Items;
+
+        public async Task<IResponse<bool>> DeleteAsync(int id, string appDir)
         {
-            var Pharmacy = await _drugStoreRepo.FindAsync(id);
-            if (Pharmacy == null) return new Response<bool> { Message = ServiceMessage.RecordNotExist };
-            _drugStoreRepo.Delete(Pharmacy);
+            var item = await _drugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            {
+                Conditions = x => x.DrugStoreId == id,
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address, x => x.Attachments }
+            });
+            if (item == null) return new Response<bool> { Message = ServiceMessage.RecordNotExist };
+            _drugStoreRepo.Delete(item);
             var saveResult = await _appUow.ElkSaveChangesAsync();
+            if (saveResult.IsSuccessful && item.Attachments != null) _attchSrv.DeleteRange(appDir, item.Attachments.Select(x => x.Url).ToList());
             return new Response<bool>
             {
                 Message = saveResult.Message,
@@ -131,130 +164,160 @@ namespace Pharmacy.Service
             };
         }
 
-        public async Task<IResponse<DrugStore>> SignUp(DrugStoreSignUpModel model)
-        {
-            using var tb = _appUow.Database.BeginTransaction();
-            var mobileNumber = long.Parse(model.MobileNumber);
-            var user = await _appUow.UserRepo.FirstOrDefaultAsync(conditions: x => x.MobileNumber == mobileNumber, null);
+        //public async Task<IResponse<DrugStore>> SignUp(DrugStoreSignUpModel model)
+        //{
+        //    using var tb = _appUow.Database.BeginTransaction();
+        //    var mobileNumber = long.Parse(model.MobileNumber);
+        //    var user = await _appUow.UserRepo.FirstOrDefaultAsync(new BaseFilterModel<User>
+        //    {
+        //        Conditions = x => x.MobileNumber == mobileNumber
+        //    });
 
-            var cdt = DateTime.Now;
-            var drugStore = new DrugStore
-            {
-                Status = DrugStoreStatus.Registered,
-                Name = model.Name,//crawl.FullName,
-                IsActive = true,
-                User = user ?? new User
-                {
-                    FullName = model.FullName,
-                    IsActive = true,
-                    MobileNumber = mobileNumber,
-                    LastLoginDateMi = cdt,
-                    LastLoginDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date),
-                    InsertDateMi = cdt,
-                    Password = HashGenerator.Hash(mobileNumber.ToString()),
-                    NewPassword = HashGenerator.Hash(mobileNumber.ToString()),
-                    MustChangePassword = false,
-                    UserStatus = UserStatus.Added
-                }
-            };
-            await _drugStoreRepo.AddAsync(drugStore);
-            var savePharmacy = await _appUow.ElkSaveChangesAsync();
-            if (!savePharmacy.IsSuccessful)
-            {
-                tb.Rollback();
-                return new Response<DrugStore> { Message = savePharmacy.Message };
-            }
-            if (user == null)
-            {
-                await _authUow.UserInRoleRepo.AddAsync(new UserInRole
-                {
-                    UserId = drugStore.UserId,
-                    RoleId = model.RoleId ?? 0
-                });
-                var saveUserInRole = await _authUow.ElkSaveChangesAsync();
-                if (!saveUserInRole.IsSuccessful) tb.Rollback();
-                else tb.Commit();
-                return new Response<DrugStore>
-                {
-                    IsSuccessful = saveUserInRole.IsSuccessful,
-                    Result = drugStore,
-                    Message = savePharmacy.Message
-                };
-            }
-            tb.Commit();
-            return new Response<DrugStore>
-            {
-                IsSuccessful = true,
-                Result = drugStore
-            };
+        //    var cdt = DateTime.Now;
+        //    var drugStore = new DrugStore
+        //    {
+        //        Status = DrugStoreStatus.Registered,
+        //        Name = model.Name,//crawl.FullName,
+        //        IsActive = true,
+        //        User = user ?? new User
+        //        {
+        //            FullName = model.FullName,
+        //            IsActive = true,
+        //            MobileNumber = mobileNumber,
+        //            LastLoginDateMi = cdt,
+        //            LastLoginDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date),
+        //            InsertDateMi = cdt,
+        //            Password = HashGenerator.Hash(mobileNumber.ToString()),
+        //            NewPassword = HashGenerator.Hash(mobileNumber.ToString()),
+        //            MustChangePassword = false,
+        //            UserStatus = UserStatus.Added
+        //        }
+        //    };
+        //    await _drugStoreRepo.AddAsync(drugStore);
+        //    var savePharmacy = await _appUow.ElkSaveChangesAsync();
+        //    if (!savePharmacy.IsSuccessful)
+        //    {
+        //        tb.Rollback();
+        //        return new Response<DrugStore> { Message = savePharmacy.Message };
+        //    }
+        //    if (user == null)
+        //    {
+        //        await _authUow.UserInRoleRepo.AddAsync(new UserInRole
+        //        {
+        //            UserId = drugStore.UserId,
+        //            RoleId = model.RoleId ?? 0
+        //        });
+        //        var saveUserInRole = await _authUow.ElkSaveChangesAsync();
+        //        if (!saveUserInRole.IsSuccessful) tb.Rollback();
+        //        else tb.Commit();
+        //        return new Response<DrugStore>
+        //        {
+        //            IsSuccessful = saveUserInRole.IsSuccessful,
+        //            Result = drugStore,
+        //            Message = savePharmacy.Message
+        //        };
+        //    }
+        //    tb.Commit();
+        //    return new Response<DrugStore>
+        //    {
+        //        IsSuccessful = true,
+        //        Result = drugStore
+        //    };
 
-        }
+        //}
 
         public IEnumerable<DrugStore> GetAll(Guid userId)
-        => _drugStoreRepo.Get(x => !x.IsDeleted && x.UserId == userId, o => o.OrderByDescending(x => x.DrugStoreId), null);
+        => _drugStoreRepo.Get(new BaseListFilterModel<DrugStore>
+        {
+            Conditions = x => !x.IsDeleted && x.UserId == userId,
+            OrderBy = o => o.OrderByDescending(x => x.DrugStoreId)
+        });
 
         public IDictionary<object, object> Search(string searchParameter, Guid? userId, int take = 10)
-            => _drugStoreRepo.Get(conditions: x => !x.IsDeleted && x.Name.Contains(searchParameter) && userId == null ? true : x.UserId == userId,
-                new PagingParameter
+            => _drugStoreRepo.Get(new BasePagedListFilterModel<DrugStore>
+            {
+                Conditions = x => !x.IsDeleted && x.Name.Contains(searchParameter) && userId == null ? true : x.UserId == userId,
+                PagingParameter = new PagingParameter
                 {
                     PageNumber = 1,
                     PageSize = 6
                 },
-                o => o.OrderByDescending(x => x.DrugStoreId))
-            .Items
+                OrderBy = o => o.OrderByDescending(x => x.DrugStoreId)
+            }).Items
             .ToDictionary(k => (object)k.DrugStoreId, v => (object)v.Name);
 
-        //public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model)
-        //{
-        //    var Pharmacy = await _appUow.PharmacyRepo.FindAsync(model.PharmacyId);
-        //    if (Pharmacy == null) return new Response<Pharmacy> { Message = ServiceMessage.RecordNotExist };
-        //    if (Pharmacy.AddressId != null)
-        //    {
-        //        var addr = await _appUow.AddressRepo.FindAsync(Pharmacy.AddressId);
-        //        if (addr == null)
-        //        {
-        //            await _appUow.AddressRepo.AddAsync(new Address
-        //            {
-        //                UserId = Pharmacy.UserId,
-        //                Latitude = model.Address.Latitude,
-        //                Longitude = model.Address.Longitude,
-        //                AddressDetails = model.Address.AddressDetails
-        //            });
-        //            var addAddress = await _appUow.ElkSaveChangesAsync();
-        //            if (addAddress.IsSuccessful) Pharmacy.AddressId = addr.AddressId;
-        //            else return new Response<Pharmacy> { Message = addAddress.Message };
-        //        }
-        //        else
-        //        {
-        //            addr.Latitude = model.Address.Latitude;
-        //            addr.Longitude = model.Address.Longitude;
-        //            addr.AddressDetails = model.Address.AddressDetails;
-        //            _appUow.AddressRepo.Update(addr);
-        //        }
-        //    }
-        //    Pharmacy.FullName = model.FullName;
-        //    Pharmacy.Username = model.Username;
-        //    if (model.Logo != null)
-        //    {
-        //        var dir = $"/Files/{model.PharmacyId}";
-        //        if (!FileOperation.CreateDirectory(model.Root + dir))
-        //            return new Response<Pharmacy> { Message = ServiceMessage.SaveFileFailed };
-        //        var relativePath = $"{dir}/logo_{Guid.NewGuid().ToString().Replace("-", "_")}{Path.GetExtension(model.Logo.FileName)}";
-        //        using (var stream = File.Create($"{model.Root}{relativePath.Replace("/", "\\")}"))
-        //            await model.Logo.CopyToAsync(stream);
-        //        Pharmacy.ProfilePictureUrl = $"{model.BaseDomain}{relativePath}";
-        //    }
-        //    _PharmacyRepo.Update(Pharmacy);
-        //    var saveResult = await _appUow.ElkSaveChangesAsync();
-        //    return new Response<Pharmacy> { Result = Pharmacy, IsSuccessful = saveResult.IsSuccessful, Message = saveResult.Message };
-        //}
-
-        public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreAdminUpdateModel model)
+        public async Task<IResponse<DrugStore>> AddAsync(DrugStoreAdminModel model)
         {
-            var drugStore = await _appUow.DrugStoreRepo.FindAsync(model.DrugStoreId);
+            var save = await _attchSrv.Save(AttachmentType.DrugStoreLogo, model.Logo, model.AppDir);
+            if (!save.IsSuccessful) return new Response<DrugStore> { Message = save.Message };
+            var logo = new DrugStoreAttachment().CopyFrom(save.Result);
+            var drugStore = new DrugStore
+            {
+                Name = model.Name,
+                IsActive = model.IsActive,
+                Status = model.Status,
+                UserId = model.UserId,
+                Address = model.Address,
+                Attachments = new List<DrugStoreAttachment>
+                {
+                    logo
+                }
+
+            };
+            await _drugStoreRepo.AddAsync(drugStore);
+
+            var saveResult = await _appUow.ElkSaveChangesAsync();
+            return new Response<DrugStore> { Result = drugStore, IsSuccessful = saveResult.IsSuccessful, Message = saveResult.Message };
+        }
+
+        public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model)
+        {
+            var Pharmacy = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            {
+                Conditions = x => x.DrugStoreId == model.DrugStoreId,
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
+            });
+            if (Pharmacy == null) return new Response<DrugStore> { Message = ServiceMessage.RecordNotExist };
+            if (Pharmacy.Address == null)
+            {
+                await _appUow.DrugStoreAddressRepo.AddAsync(new DrugStoreAddress
+                {
+                    DrugStoreId = Pharmacy.DrugStoreId,
+                    Latitude = model.Address.Latitude,
+                    Longitude = model.Address.Longitude,
+                    Details = model.Address.Details
+                });
+                var addAddress = await _appUow.ElkSaveChangesAsync();
+                if (!addAddress.IsSuccessful) return new Response<DrugStore> { Message = addAddress.Message };
+            }
+            else
+            {
+                Pharmacy.Address.Latitude = model.Address.Latitude;
+                Pharmacy.Address.Longitude = model.Address.Longitude;
+                Pharmacy.Address.Details = model.Address.Details;
+                _appUow.DrugStoreAddressRepo.Update(Pharmacy.Address);
+            }
+            if (model.Logo != null)
+            {
+                var save = await _attchSrv.Save(AttachmentType.DrugStoreLogo, new List<IFormFile> { model.Logo }, model.AppDir);
+                if (!save.IsSuccessful)
+                    return new Response<DrugStore> { Message = save.Message };
+                Pharmacy.Address = new DrugStoreAddress().CopyFrom(save.Result);
+            }
+            _drugStoreRepo.Update(Pharmacy);
+            var saveResult = await _appUow.ElkSaveChangesAsync();
+            return new Response<DrugStore> { Result = Pharmacy, IsSuccessful = saveResult.IsSuccessful, Message = saveResult.Message };
+        }
+
+        public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreAdminModel model)
+        {
+            var drugStore = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            {
+                Conditions = x => x.DrugStoreId == model.DrugStoreId,
+                IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
+            });
             if (drugStore == null) return new Response<DrugStore> { Message = ServiceMessage.RecordNotExist };
-            var addr = await _appUow.DrugStoreAddressRepo.FindAsync(drugStore.AddressId);
-            if (addr == null)
+            if (drugStore.Address == null)
             {
                 await _appUow.DrugStoreAddressRepo.AddAsync(new DrugStoreAddress
                 {
@@ -264,70 +327,69 @@ namespace Pharmacy.Service
                     Details = model.Address.Details
                 });
                 var addAddress = await _appUow.ElkSaveChangesAsync();
-                if (addAddress.IsSuccessful) drugStore.AddressId = addr.DrugStoreAddressId;
-                else return new Response<DrugStore> { Message = addAddress.Message };
+                if (!addAddress.IsSuccessful) return new Response<DrugStore> { Message = addAddress.Message };
             }
             else
             {
-                addr.Latitude = model.Address.Latitude;
-                addr.Longitude = model.Address.Longitude;
-                addr.Details = model.Address.Details;
-                _appUow.DrugStoreAddressRepo.Update(addr);
+                drugStore.Address.Latitude = model.Address.Latitude;
+                drugStore.Address.Longitude = model.Address.Longitude;
+                drugStore.Address.Details = model.Address.Details;
+                _appUow.DrugStoreAddressRepo.Update(drugStore.Address);
             }
             drugStore.Name = model.Name;
             drugStore.IsActive = model.IsActive;
             if (model.Logo != null)
             {
-                //var dir = $"/Files/{model.DrugStoreId}";
-                //if (!FileOperation.CreateDirectory(model.Root + dir))
-                //    return new Response<Drug> { Message = ServiceMessage.SaveFileFailed };
-                //var relativePath = $"{dir}/logo_{Guid.NewGuid().ToString().Replace("-", "_")}{Path.GetExtension(model.Logo.FileName)}";
-                //using (var stream = File.Create($"{model.Root}{relativePath.Replace("/", "\\")}"))
-                //    await model.Logo.CopyToAsync(stream);
-                //Pharmacy.ProfilePictureUrl = $"{model.BaseDomain}{relativePath}";
+                var save = await _attchSrv.Save(AttachmentType.DrugStoreLogo, model.Logo, model.AppDir);
+                if (!save.IsSuccessful) return new Response<DrugStore> { Message = save.Message };
+                var logo = new DrugStoreAttachment().CopyFrom(save.Result);
+                drugStore.Attachments = new List<DrugStoreAttachment>
+                {
+                    logo
+                };
             }
             _drugStoreRepo.Update(drugStore);
             var saveResult = await _appUow.ElkSaveChangesAsync();
             return new Response<DrugStore> { Result = drugStore, IsSuccessful = saveResult.IsSuccessful, Message = saveResult.Message };
         }
 
-        public async Task<IResponse<bool>> DeleteFile(string baseDomain, string root, int id)
+        public async Task<IResponse<string>> DeleteFile(string appDir, int assetId)
         {
-            var Pharmacy = await _drugStoreRepo.FindAsync(id);
-            if (Pharmacy == null) return new Response<bool> { Message = ServiceMessage.RecordNotExist };
-            //var url = Pharmacy.ProfilePictureUrl;
-            //Pharmacy.ProfilePictureUrl = null;
-            _drugStoreRepo.Update(Pharmacy);
-            var update = await _appUow.ElkSaveChangesAsync();
-            if (!update.IsSuccessful) return new Response<bool> { Message = update.Message };
-            try
+            var asset = await _appUow.DrugStoreAttachmentRepo.FindAsync(assetId);
+            if (asset == null) return new Response<string> { Message = ServiceMessage.RecordNotExist };
+            var url = asset.Url;
+            _appUow.DrugStoreAttachmentRepo.Delete(asset);
+            var delete = await _appUow.ElkSaveChangesAsync();
+            if (delete.IsSuccessful)
+                _attchSrv.Delete(appDir, url);
+            return new Response<string>
             {
-                //if (url.StartsWith(baseDomain) && File.Exists(root + url.Replace(baseDomain, "")))
-                //    File.Delete(root + url.Replace(baseDomain, ""));
-                return new Response<bool> { IsSuccessful = true };
-            }
-            catch (Exception e)
-            {
-                FileLoger.Error(e);
-                return new Response<bool> { Message = ServiceMessage.Error };
-            }
+                IsSuccessful = delete.IsSuccessful,
+                Message = delete.IsSuccessful ? null : ServiceMessage.Error
+            };
         }
 
-        public async Task<bool> CheckOwner(int PharmacyId, Guid userId) => await _drugStoreRepo.AnyAsync(x => x.DrugStoreId == PharmacyId && x.UserId == userId);
+        public async Task<bool> CheckOwner(int PharmacyId, Guid userId) => await _drugStoreRepo.AnyAsync(new BaseFilterModel<DrugStore>
+        {
+            Conditions = x => x.DrugStoreId == PharmacyId && x.UserId == userId
+        });
 
-        public List<DrugStoreDTO> GetAsDTO()
-            => _drugStoreRepo.Get(selector: x => new DrugStoreDTO
-                {
-                    DrugStoreId = x.DrugStoreId,
-                    Name = x.Name,
-                    ImageUrl = x.DrugStoreAssets.First().Url
-                },
-                conditions: x => x.DrugStoreAssets.Any(),
-                pagingParameter: new PagingParameter
-                {
-                    PageNumber = 1,
-                    PageSize = 15
-                },
-                orderBy: o => o.OrderByDescending(x => x.DrugStoreId)).Items;
+        //public List<DrugStoreDTO> GetAsDTO()
+        //    => _drugStoreRepo.Get(new PagedListFilterModel<DrugStore, DrugStoreDTO>
+        //    {
+        //        Selector = x => new DrugStoreDTO
+        //        {
+        //            DrugStoreId = x.DrugStoreId,
+        //            Name = x.Name,
+        //            //ImageUrl = x.DrugStoreAssets.First().Url
+        //        },
+        //        //Conditions = x => x.DrugStoreAssets.Any(),
+        //        PagingParameter = new PagingParameter
+        //        {
+        //            PageNumber = 1,
+        //            PageSize = 15
+        //        },
+        //        OrderBy = o => o.OrderByDescending(x => x.DrugStoreId)
+        //    }).Items;
     }
 }

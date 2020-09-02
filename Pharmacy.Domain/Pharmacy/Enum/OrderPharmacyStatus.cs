@@ -1,9 +1,14 @@
-﻿namespace Pharmacy.Domain
+﻿using System.ComponentModel;
+
+namespace Pharmacy.Domain
 {
-    public enum OrderPharmacyStatus
+    public enum OrderDrugStoreStatus
     {
-        Proccessing = 0,
+        [Description("در حال بررسی")]
+        InProccessing = 0,
+        [Description("قبول سفارش")]
         Accepted = 1,
+        [Description("رد سفارش")]
         Denied = 2
     }
 }

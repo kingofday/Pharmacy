@@ -21,6 +21,7 @@
     favorites: 'محبوب ترین ها',
     description: 'توضیحات',
     properties: 'مشخصات',
+    comment: 'توضیحات',
     comments: 'نظرات',
     username: 'نام کاربری',
     password: 'گذرواژه',
@@ -29,10 +30,24 @@
     signUp: 'ثبت نام',
     logIn: 'ورود',
     logOut: 'خروج',
-    confirmCode:'کد تایید',
-    confirm:'تایید',
-    mobileNumberConfirmDescription:'لطفا کد ارسالی به موبایلتان را وارد نمایید',
-    sendAgain:'ارسال مجدد',
+    loginAgain: 'لطفا دوباره وارد شوید',
+    confirmCode: 'کد تایید',
+    confirm: 'تایید',
+    mobileNumberConfirmDescription: 'لطفا کد ارسالی به موبایلتان را وارد نمایید',
+    sendAgain: 'ارسال مجدد',
+    recieverFullname: 'نام تحویل گیرنده',
+    addressDetails: 'جزییات آدرس',
+    recieverMobileNumber: 'شماره موبایل تحویل گیرنده',
+    deliveryType: 'نحوه ارسال',
+    review: 'بازبینی',
+    map: 'نقشه',
+    deliveryPriceGuid: 'توجه: هزینه ارسال پس از تعیین شدن داروخانه مشخص خواهد شد',
+    discount: 'تخفیف',
+    prescription: 'نسخه',
+    prescriptionImage:'تصویر نسخه',
+    send: 'ارسال',
+    submitPrescriptionSuccessfully:'درخواست شما با موفقیت ثبت شد، پس از بررسی با شما ارتباط برقرار خواهیم کرد',
+    prescriptionGuid:'لطفا تصویر نسخه پزشک خود را مشخص نمایید و سپس دکمه ارسال را بزنید ',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',
@@ -41,6 +56,7 @@
     byPriceDesc: 'مرتب سازی بر اساس قیمت نزولی',
     byPriceAsc: 'مرتب سازی بر اساس قیمت افزایشی',
     byScore: 'مرتب سازی بر اساس امتیاز',
+    connectionFailed: 'اتصال برقرار نشد',
     //-----------------------------------------
 
     wrongUsernameOrPassword: 'نام کاربری یا رمز عبور اشتباه است',
@@ -60,7 +76,6 @@
     plague: 'پلاک',
     unit: 'واحد',
     mobileNumber: 'شماره موبایل',
-    reciever: 'نام تحویل گیرنده',
     recieverMobileNumber: 'شماره موبایل تحویل گیرنده',
     submit: 'ثبت',
     name: 'نام',
@@ -75,7 +90,6 @@
     initialOrderSubmit: 'ثبت اولیه سفارش',
     pleasWait: 'لطفا منتظر بمانید',
     retryPlease: 'لطفا دوباره تلاش کنید',
-    connectionFailed: 'اتصال برقرار نشد',
     basket: 'سبد خرید',
     all: 'همه',
     newests: 'تازه ترین ها',
@@ -101,24 +115,23 @@
     doPurchaseProcessAgain: 'لطفا مراحل خرید را دوباره طی نمایید',
     payment: 'پرداخت',
     deliverCost: 'هزینه ارسال',
-    discount: 'نخفیف',
     priceToPay: 'مبلغ قابل پرداخت',
     attention: 'توجه',
-    basketProductsChanged: 'برخی از محصولات سبد خرید تغییر کرده اند',
-    review: 'بازبینی',
+    basketProductsChanged: 'قیمت یا تعداد محصولات در زمان خرید شما تغییر یافته اند، لطفا دوباره سبد خرید خود را بررسی نمایید',
     continue: 'ادامه',
     selectLocation: 'انتخاب مکان',
-    map: 'نقشه',
-    mostVisited: 'پر بازدیدترین ها'
 };
 export default strings;
 export const validationStrings = {
     required: 'این فیلد اجباری است',
     mustBeNumber: 'این فیلد باید عددی باشد',
     invalidMobileNumber: 'شماره موبایل ورودی صحیح نیست',
-    invalidEmail:'ایمیل اشتباه است',
-    passwordInvalidLength:'گذروازه باید حداقل 5 کاراکتر داشته باشد',
-    incorrectRepeatPassword:'تکرار گذروازه اشتباه است'
+    invalidEmail: 'ایمیل اشتباه است',
+    passwordInvalidLength: 'گذروازه باید حداقل 5 کاراکتر داشته باشد',
+    incorrectRepeatPassword: 'تکرار گذروازه اشتباه است',
+    maxFileSizeExceeded: (size) => `حداکثر حجم فایل ${size} مگابایت می باشد`,
+    maxFileCountExceeded:(count)=>`حداکثر تعداد فایل ها ${count} می باشد`,
+    atleastOneFileRequired:'حداقل یک فایل مورد نیاز است'
 }
 export const enums = {
     drugFilterType: {

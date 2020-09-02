@@ -232,6 +232,15 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to مختصات.
+        /// </summary>
+        public static string Coordinate {
+            get {
+                return ResourceManager.GetString("Coordinate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کپی آدرس.
         /// </summary>
         public static string CopyAddress {
@@ -277,11 +286,38 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to توضیحات.
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to جزییات.
         /// </summary>
         public static string Details {
             get {
                 return ResourceManager.GetString("Details", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to تخفیف.
+        /// </summary>
+        public static string Discount {
+            get {
+                return ResourceManager.GetString("Discount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to دانلود.
+        /// </summary>
+        public static string Download {
+            get {
+                return ResourceManager.GetString("Download", resourceCulture);
             }
         }
         
@@ -309,6 +345,15 @@ namespace Pharmacy.Dashboard.Resources {
         public static string DropzoneFileIsTooBig {
             get {
                 return ResourceManager.GetString("DropzoneFileIsTooBig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to دارو.
+        /// </summary>
+        public static string Drug {
+            get {
+                return ResourceManager.GetString("Drug", resourceCulture);
             }
         }
         
@@ -592,6 +637,15 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ریال.
+        /// </summary>
+        public static string MoneyCurrency {
+            get {
+                return ResourceManager.GetString("MoneyCurrency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to نام.
         /// </summary>
         public static string Name {
@@ -633,6 +687,15 @@ namespace Pharmacy.Dashboard.Resources {
         public static string Order {
             get {
                 return ResourceManager.GetString("Order", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to لینک سفارش.
+        /// </summary>
+        public static string OrderLink {
+            get {
+                return ResourceManager.GetString("OrderLink", resourceCulture);
             }
         }
         
@@ -1035,7 +1098,7 @@ namespace Pharmacy.Dashboard.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to به داشبورد مدیریت شاپیا خوش آمدید.
+        ///   Looks up a localized string similar to به داشبورد مدیریت فارما خوش آمدید.
         /// </summary>
         public static string WelcomeMessage {
             get {

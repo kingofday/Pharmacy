@@ -1,0 +1,69 @@
+@import "./../../../assets/css/constant.scss";
+
+#page-prescription {
+    margin-bottom: 40px;
+    .card {
+        padding: 30px 15px;
+    }
+    #mobileNumber {
+        text-align: left;
+        direction: ltr;
+    }
+    #uploader {
+        background-color: transparent;
+        color: #666;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100px;
+        border: dashed 2px #ccc;
+        width: 100%;
+
+        i {
+            font-size: 40px;
+        }
+    }
+
+    .uploaded-box {
+        border: solid 1px #ccc;
+        height: 50px;
+        width: 50px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin: 7.5px;
+        position: relative;
+        padding: 3px;
+
+        &:first-child {
+            margin-right: 0;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        button {
+            display: none;
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.35);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+            color: red;
+
+            i {
+                font-size: 25px;
+            }
+        }
+        &:hover {
+            button {
+                display: flex;
+            }
+        }
+    }
+}

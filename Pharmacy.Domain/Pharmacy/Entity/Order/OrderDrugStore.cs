@@ -1,5 +1,6 @@
 ﻿using Elk.Core;
 using Pharmacy.Domain.Resource;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,9 +13,9 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int OrderDrugStoreId { get; set; }
 
-        public OrderPharmacyStatus Status { get; set; }
+        public OrderDrugStoreStatus Status { get; set; }
 
-        public int OrderId { get; set; }
+        public Guid OrderId { get; set; }
 
         public int DrugStoreId { get; set; }
 

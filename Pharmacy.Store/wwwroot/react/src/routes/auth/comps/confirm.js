@@ -84,10 +84,10 @@ class Confirm extends React.Component {
                             />
                         </div>
                         <div className="btn-group mb-15">
-                            <Button disabled={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.confirm}</Button>
+                            <Button disabled={this.state.disableBtn} loading={this.state.disableBtn} className='text-center w-100' onClick={this._submit.bind(this)}>{strings.confirm}</Button>
                         </div>
                         <div className="btn-group justify-content-center">
-                            <Button disabled={this.state.resending} className='btn-confirm-retry' onClick={this._resendSMS.bind(this)}>{strings.sendAgain}</Button>
+                            <Button disabled={this.state.resending} loading={this.state.resending} className='btn-confirm-retry' onClick={this._resendSMS.bind(this)}>{strings.sendAgain}</Button>
                         </div>
                     </Col>
                 </Row>

@@ -10,5 +10,8 @@ namespace Pharmacy.Service
     {
         Response<List<AddressDTO>> Get(Guid userId);
         Task<IResponse<UserAddress>> FindAsync(int id);
+        Task<Response<int>> AddAsync(Guid userId, AddressDTO model);
+        Task<Response<int>> UpdateAsync(Guid userId, AddressDTO model);
+        Task<Response<bool>> DeleteAsync(Guid userId, int id);
     }
 }

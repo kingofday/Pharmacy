@@ -5,31 +5,31 @@
 <div class="row">
     @Html.HiddenFor(x => x.OrderId)
     <div class="col-12 col-sm-6">
-        <custom-input-for for="User.Email" readonly="true" />
+        <custom-input-for for="Address.User.Email" readonly="true" />
     </div>
     <div class="col-12 col-sm-6">
-        <custom-input-for for="User.MobileNumber" readonly="true" class="form-control ltr-elm" />
+        <custom-input-for for="Address.User.MobileNumber" readonly="true" class="form-control ltr-elm" />
     </div>
 </div>
 <div class="row">
     <div class="col-12 col-sm-6">
-        <custom-select-for for="OrderStatus" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+        <custom-select-for for="Status" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
             Value = x.Name,
             Text = x.Description
         }).ToList()" />
     </div>
     <div class="col-12 col-sm-6">
-        <custom-select-for for="StoreId" class="form-control"
-                           items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
+        @*<custom-select-for for="DrugStoreId" class="form-control"
+                           items="Model.DrugStore==null?new List<SelectListItem>():new List<SelectListItem>
                         {
                             new SelectListItem
                             {
-                                Value = Model.StoreId.ToString(),
-                                Text = Model.Store.FullName
+                                Value = Model.DrugStoreId.ToString(),
+                                Text = Model.DrugStore.FullName
                             }
                         }"
-                           select-data-url="@Url.Action("Search","StoreStore")"
-                           select-disabled="disabled" />
+                           select-data-url="@Url.Action("Search","DrugStore")"
+                           select-disabled="disabled" />*@
     </div>
 </div>
 
@@ -41,12 +41,12 @@
         <custom-input-for for="TotalPrice" class="form-control ltr-elm" readonly="true" />
     </div>
     <div class="col-12 col-sm-4">
-        <custom-input-for for="TotalPriceAfterDiscount" class="form-control ltr-elm" readonly="true" />
+        <custom-input-for for="TotalPriceWithoutDiscount" class="form-control ltr-elm" readonly="true" />
     </div>
 </div>
 <div class="row">
     <div class="col-12">
-        <custom-textarea-for for="OrderComment" readonly="true" />
+        <custom-textarea-for for="Comment" readonly="true" />
     </div>
 </div>
 @*<div class="row">

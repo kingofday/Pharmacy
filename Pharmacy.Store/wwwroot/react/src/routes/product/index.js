@@ -1,6 +1,8 @@
 import React from 'react';
-import { Button, Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
+import { Container, Row, Col, Tabs, Tab } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
+import Button from './../../shared/Button';
 import { ShowInitErrorAction, HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import strings from './../../shared/constant';
 import Skeleton from '@material-ui/lab/Skeleton';
@@ -65,7 +67,7 @@ class Product extends React.Component {
     render() {
         const p = this.state.product;
         return (
-            <div id='page-drug' className='product-page with-header'>
+            <div id='page-drug' className="page-comp">
                 <Container>
                     <Row>
                         <Col col={12} sm={12} md={6}>
@@ -75,36 +77,38 @@ class Product extends React.Component {
                         </Col>
                         <Col col={12} sm={12} md={6}>
                             <div className='card padding w-100 mb-15'>
-                                <h1 id='name' className='mb-15'>{p.nameFa}</h1>
-                                <Row>
-                                    <Col xs={6} className='flex-column d-flex justify-content-center'>
-                                        {this.state.loading ? [1, 2].map(x => <Skeleton key={x} className='w-100 mb-15' variant='rect' height={20} />) :
-                                            (<div className='price-wrapper'>
-                                                {
-                                                    p.discount ? (
-                                                        <div className='mb-15'>
-                                                            <span className='price'>{commaThousondSeperator(p.price.toString())} {strings.currency}</span>
-                                                            <DiscountBadg discount={p.discount} />
-                                                        </div>) : null
-                                                }
-                                                <div className='real-price-wrapper mb-15'>
-                                                    <span className='real-price'>{commaThousondSeperator(p.realPrice.toString())}</span>
-                                                    <span className='currency'>{strings.currency}</span>
-                                                </div>
-                                            </div>)}
-                                    </Col>
-                                    <Col xs={6} className='d-flex justify-content-center flex-column'>
-                                        <label className='mb-15'>{strings.identifier}: {this.state.loading ? <Skeleton className='d-inline-block va-middle' height={25} width={70} /> : p.uniqueId}</label>
-                                        <label className='mb-15'>{strings.category}: {this.state.loading ? <Skeleton className='d-inline-block va-middle' height={25} width={70} /> : p.categoryName}</label>
-                                    </Col>
-                                </Row>
+                                {this.state.loading ? <Skeleton animation='wave' className='mb-15' variant='rect' height={30} width={200} />:<h1 id='name' className='mb-15'>{p.nameFa}</h1>}
+                                {this.state.loading ? <Row>{[0, 1, 2, 3].map(x => <Col key={x} xs={6}><Skeleton key={x} className='w-100 mb-15' variant='rect' height={20} /></Col>)}</Row> :
+                                    (<Row>
+                                        {p.discount ? (
+                                            <Col xs={6} className='mb-15'>
+                                                <label>
+                                                    <span className='price-discount'>{commaThousondSeperator(p.price.toString())} {strings.currency}</span>
+                                                    <DiscountBadg discount={p.discount} />
+                                                </label>
+                                            </Col>) : null}
+                                        <Col xs={6}>
+                                            <label>
+                                                <span className='real-price'>{commaThousondSeperator(p.realPrice.toString())}</span>
+                                                <span className='currency'>{strings.currency}</span>
+                                            </label>
+
+                                        </Col>
+                                        <Col xs={6}>
+                                            <label className='mb-15'>{strings.identifier}: {this.state.loading ? <Skeleton className='d-inline-block va-middle' height={25} width={70} /> : p.uniqueId}</label>
+                                        </Col>
+                                        <Col xs={6}>
+                                            <label className='mb-15'>{strings.category}: {this.state.loading ? <Skeleton className='d-inline-block va-middle' height={25} width={70} /> : p.categoryName}</label>
+                                        </Col>
+                                        <Col xs={6} sm={6} >
+                                            <label>{strings.unit}: {p.unitName}</label>
+                                        </Col>
+                                    </Row>)}
                                 <Row className='mb-15'>
-                                    <Col xs={12} sm={12} >
-                                        <label>{strings.unit}: {p.unitName}</label>
-                                    </Col>
+
                                     <Col col={12} sm={12} className='direction-column' id='btn-add-wrapper'>
                                         <Counter id={p.id} count={this.state.count} onChange={this._changeCount.bind(this)} />
-                                        <Button disabled={this.state.loading} className={"btn-purchase btn-next " + (window.innerWidth > 576 ? "fab" : "")} onClick={this._addToBasket.bind(this)}>
+                                        <Button disabled={this.state.loading} className="btn-purchase" onClick={this._addToBasket.bind(this)}>
                                             {`${strings.add} ${strings.to} ${strings.basket}`}
                                             &nbsp;
                                             <img src={addToBasketImage} alt='add to basket' />
@@ -121,7 +125,7 @@ class Product extends React.Component {
                                     activeKey={this.state.activePanelKey}
                                     onSelect={(k) => this.setState(prev => ({ ...prev, activePanelKey: k }))}>
                                     <Tab eventKey="desc" title={strings.description}>
-                                        <p className='padding'>
+                                        <p className='padding ws-pre'>
                                             {this.state.loading ? [0, 1, 2, 3, 4].map(x => <Skeleton key={x} height={20} className='w-100' />) : p.description}
                                         </p>
                                     </Tab>

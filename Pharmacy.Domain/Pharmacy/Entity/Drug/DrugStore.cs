@@ -1,18 +1,20 @@
 ﻿using System;
 using Elk.Core;
 using Pharmacy.Domain.Resource;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace Pharmacy.Domain
 {
     [Table(nameof(DrugStore), Schema = "Drug")]
-    public class DrugStore : BasePharmacyModel, IEntity
+    public class DrugStore : IEntity, IInsertDateProperties, IModifyDateProperties
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DrugStoreId { get; set; }
+
+        public int Score { get; set; }
 
         [Column(TypeName = "varchar(40)")]
         [Display(Name = nameof(Strings.Name), ResourceType = typeof(Strings))]
@@ -22,9 +24,6 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public Guid UserId { get; set; }
-
-        [Display(Name = nameof(Strings.Address), ResourceType = typeof(Strings))]
-        public int AddressId { get; set; }
 
         [Display(Name = nameof(Strings.StoreStatus), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
@@ -57,6 +56,9 @@ namespace Pharmacy.Domain
         public User User { get; set; }
 
         public DrugStoreAddress Address { get; set; }
-        public List<DrugStoreAsset> DrugStoreAssets { get; set; }
+
+        public List<DrugStoreAttachment> Attachments { get; set; }
+
+        public List<OrderDrugStore> OrderDrugStores { get; set; }
     }
 }

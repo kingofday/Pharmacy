@@ -79,7 +79,7 @@ namespace Pharmacy.Service
         {
             Expression<Func<Tag, bool>> conditions = x => true;
             if (!string.IsNullOrWhiteSpace(filter.TitleF)) conditions = conditions.And(x => x.Name.Contains(filter.TitleF));
-            return _appUow.TagRepo.Get(conditions, filter, x => x.OrderByDescending(x => x.Name));
+            return _appUow.TagRepo.Get(new BasePagedListFilterModel<Tag> { Conditions = conditions, PagingParameter = filter, OrderBy = x => x.OrderByDescending(x => x.Name) });
         }
 
         public PagingListDetails<Tag> GetForDashbord(TagSearchFilter filter)
@@ -91,7 +91,7 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.Name.Contains(filter.TitleF));
             }
 
-            return _appUow.TagRepo.Get(conditions, filter, x => x.OrderByDescending(i => i.TagId));
+            return _appUow.TagRepo.Get(new BasePagedListFilterModel<Tag> { Conditions = conditions, PagingParameter = filter, OrderBy = x => x.OrderByDescending(i => i.TagId) });
         }
 
     }

@@ -60,7 +60,7 @@ namespace Pharmacy.Dashboard
                 }
                 return li;
             }
-            foreach (var item in Items.Where(x => x.ParentId == null).OrderByDescending(x => x.OrderPrority).ToList())
+            foreach (var item in Items.Where(x => x.ParentId == null).OrderBy(x => x.OrderPrority).ToList())
                 mainUl.InnerHtml.AppendHtml(Appender(item));
             wrapper.InnerHtml.AppendHtml(mainUl);
             output.Content.AppendHtml(wrapper);

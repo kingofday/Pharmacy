@@ -61,6 +61,15 @@ namespace Pharmacy.API.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to خطایی رخ داده است، دوباره تلاش نمایید.
+        /// </summary>
+        public static string Error {
+            get {
+                return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to توکن ارسالی معتبر نمی باشد.
         /// </summary>
         public static string InvalidToken {

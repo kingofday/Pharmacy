@@ -54,7 +54,6 @@
       "wwwroot/Scripts/Libs/jquery-3.1.1.min.js",
       "wwwroot/Scripts/Libs/jquery.validate.min.js",
       "wwwroot/Scripts/Libs/jquery.validate.unobtrusive.min.js",
-      //"wwwroot/Scripts/Libs/additional-methods.js",
       "wwwroot/Scripts/Libs/icheck-1.0.2.min.js",
       "wwwroot/Scripts/Libs/popper.min.js",
       "wwwroot/Scripts/Libs/bootstrap.min.js",
@@ -72,7 +71,12 @@
     "minify": {
       "enabled": true,
       "renameLocals": true
-    },
-    "sourceMap": false
+    }
+  },
+  {
+    "outputFileName": "wwwroot/Scripts/App/01-Admin/Prescription/manage.min.js",
+    "inputFiles": [
+      "wwwroot/Scripts/App/01-Admin/Prescription/manage.js"
+    ]
   }
 ]

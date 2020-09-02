@@ -33,20 +33,24 @@ namespace Pharmacy.DataAccess.Ef
 
         #region Order
         public IGenericRepo<Order> OrderRepo => _serviceProvider.GetService<IGenericRepo<Order>>();
-        public IGenericRepo<DeliveryProvider> DeliveryProviderRepo => _serviceProvider.GetService<IGenericRepo<DeliveryProvider>>();
+        public IGenericRepo<OrderDrugStore> OrderDrugStoreRepo => _serviceProvider.GetService<IGenericRepo<OrderDrugStore>>();
         public IGenericRepo<OrderItem> OrderDetailRepo => _serviceProvider.GetService<IGenericRepo<OrderItem>>();
+        public IGenericRepo<Prescription> PrescriptionRepo => _serviceProvider.GetService<IGenericRepo<Prescription>>();
+        public IGenericRepo<PrescriptionItem> PrescriptionItemRepo => _serviceProvider.GetService<IGenericRepo<PrescriptionItem>>();
         public IPaymentRepo PaymentRepo => _serviceProvider.GetService<IPaymentRepo>();
-        public ITempBasketItemRepo TempBasketItemRepo => _serviceProvider.GetService<ITempBasketItemRepo>();
         #endregion
 
         #region Drug
         public IDrugRepo DrugRepo => _serviceProvider.GetService<IDrugRepo>();
         public IGenericRepo<DrugTag> DrugTagRepo => _serviceProvider.GetService<IGenericRepo<DrugTag>>();
-        public IGenericRepo<DrugAsset> DrugAssetRepo => _serviceProvider.GetService<IGenericRepo<DrugAsset>>();
+        public IGenericRepo<DrugProperty> DrugPropertyRepo => _serviceProvider.GetService<IGenericRepo<DrugProperty>>();
+        public IGenericRepo<DrugAttachment> DrugAttachmentRepo => _serviceProvider.GetService<IGenericRepo<DrugAttachment>>();
+        public IGenericRepo<DrugStoreAttachment> DrugStoreAttachmentRepo => _serviceProvider.GetService<IGenericRepo<DrugStoreAttachment>>();
+        public IGenericRepo<Unit> UnitRepo => _serviceProvider.GetService<IGenericRepo<Unit>>();
         #endregion
 
 
-        
+
         public ChangeTracker ChangeTracker { get => _appDbContext.ChangeTracker; }
         public DatabaseFacade Database { get => _appDbContext.Database; }
 

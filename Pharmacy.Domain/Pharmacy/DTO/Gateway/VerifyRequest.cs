@@ -1,4 +1,6 @@
-﻿namespace Pharmacy.Domain
+﻿using System;
+
+namespace Pharmacy.Domain
 {
     public class VerifyRequest
     {

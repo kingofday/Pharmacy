@@ -1,10 +1,13 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Pharmacy.Domain
 {
     public enum DeliveryType : byte
     {
-       Peik = 1,
-       Post = 2,
+        [Description("پیک")]
+        Peyk = 0,
+        [Description("پست")]
+        Post = 1,
     }
 }

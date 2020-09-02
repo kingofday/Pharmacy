@@ -2,6 +2,7 @@
 
 const initState = {
     type: 0,
+    name:'',
     pageNumber: 1,
     pageSize: 9,
     maxAvailablePrice: 0,

@@ -6,7 +6,7 @@ import strings from './../../shared/constant';
 import DiscountBadg from './../../shared/discountBadg';
 import Counter from './../../shared/counter';
 import { commaThousondSeperator } from './../../shared/utils';
-import { UpdateBasketAction, RemoveFromBasketAction } from './../../redux/actions/basketAction';
+import { UpdateBasketAction, RemoveFromBasketAction, ClearPrescriptiontIdAction } from './../../redux/actions/basketAction';
 import ConfirmModal from './../../shared/confirm';
 import { HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import { SetNexPage } from "../../redux/actions/authAction";
@@ -18,6 +18,7 @@ class Basket extends React.Component {
     }
     async componentDidMount() {
         this.props.hideInitError();
+        this.props.clearPrescriptiontId();
     }
 
     _changeCount(id, count) {
@@ -32,7 +33,6 @@ class Basket extends React.Component {
         this.props.removeFromBasket(id);
     }
     _goToNext() {
-        console.log(this.props.authenticated);
         if (this.props.authenticated)
             this.setState(p => ({ ...p, redirect: '/selectAddress' }));
         else {
@@ -44,7 +44,7 @@ class Basket extends React.Component {
         if (this.state.redirect)
             return <Redirect to={this.state.redirect} />
         else if (this.props.items.length == 0)
-            return (<div className='basket-page with-header'>
+            return (<div  id='page-basket' className='page-comp'>
                 <div className='empty'>
                     {/* <i className='zmdi zmdi-mood-bad'></i> */}
                     <img className='m-b' src={emptyBasketImage} alt='basket' />
@@ -54,7 +54,7 @@ class Basket extends React.Component {
             </div>);
         else
             return (
-                <div className='basket-page page-comp'>
+                <div id='page-basket' className='page-comp'>
                     <Container className='basket-wrapper'>
                         {this.props.items.map((x, idx) => (
                             <Row key={idx}>
@@ -65,12 +65,12 @@ class Basket extends React.Component {
                                                 <div className='main-info'>
                                                     {x.thumbnailImageUrl ?
                                                         (<div className='img-wrapper'>
-                                                            <Link to={`product/${x.id}`}><img src={x.thumbnailImageUrl} alt='img item' /></Link>
+                                                            <Link to={`product/${x.drugId}`}><img src={x.thumbnailImageUrl} alt='img item' /></Link>
                                                         </div>) : null}
 
                                                     <div className='info'>
                                                         <h2 className='hx'>{x.nameFa}</h2>
-                                                        <Counter id={x.id} className='m-b' count={x.count} onChange={this._changeCount.bind(this)} />
+                                                        <Counter id={x.drugId} className='m-b' count={x.count} onChange={this._changeCount.bind(this)} />
                                                         <span className='price'>{commaThousondSeperator((x.realPrice * x.count).toString())}<small className='currency'> {strings.currency}</small></span>
                                                     </div>
                                                 </div>
@@ -86,7 +86,7 @@ class Basket extends React.Component {
                                             </Col>
                                             <Col xs={3} className='d-flex end-col' lg={3}>
                                                 <div><DiscountBadg discount={x.discount} /></div>
-                                                <div><button onClick={this._delete.bind(this, x.id, x.nameFa)} className='btn-delete'><i className='zmdi zmdi-delete'></i></button></div>
+                                                <div><button onClick={this._delete.bind(this, x.drugId, x.nameFa)} className='btn-delete'><i className='zmdi zmdi-delete'></i></button></div>
                                             </Col>
                                         </Row>
                                     </div>
@@ -125,7 +125,8 @@ const mapDispatchToProps = dispatch => ({
     hideInitError: () => dispatch(HideInitErrorAction()),
     updateBasket: (id, count) => dispatch(UpdateBasketAction(id, count)),
     removeFromBasket: (id) => dispatch(RemoveFromBasketAction(id)),
-    setAuthNextPage: () => dispatch(SetNexPage())
+    setAuthNextPage: (nextPage) => dispatch(SetNexPage(nextPage)),
+    clearPrescriptiontId:()=>dispatch(ClearPrescriptiontIdAction())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Basket);

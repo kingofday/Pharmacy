@@ -23,6 +23,7 @@ export default class srvAuth {
 
     static removeUserInfo() {
         localStorage.removeItem('user');
+        console.log('removed');
     }
     static async signIn(model) {
         let rep = await userApi.signIn(model);
@@ -41,5 +42,13 @@ export default class srvAuth {
     }
     static async resendSMS(mobileNumber) {
         return await userApi.resendSMS(mobileNumber);
+    }
+
+    static checkResponse(rep) {
+        if (!rep.success && rep.status === 401) {
+            window.location.href = '/auth';
+            return { ...rep, message: strings.loginAgain }
+        }
+        else return rep;
     }
 }

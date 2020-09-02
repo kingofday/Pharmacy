@@ -6,30 +6,13 @@ namespace Pharmacy.InfraStructure
     {
         public static double GetDistanceBetweenPoints(double lat1, double long1, double lat2, double long2)
         {
-            double distance = 0;
+            var d1 = lat1 * (Math.PI / 180.0);
+            var num1 = long1 * (Math.PI / 180.0);
+            var d2 = lat2 * (Math.PI / 180.0);
+            var num2 = long2 * (Math.PI / 180.0) - num1;
+            var d3 = Math.Pow(Math.Sin((d2 - d1) / 2.0), 2.0) + Math.Cos(d1) * Math.Cos(d2) * Math.Pow(Math.Sin(num2 / 2.0), 2.0);
 
-            double dLat = (lat2 - lat1) / 180 * Math.PI;
-            double dLong = (long2 - long1) / 180 * Math.PI;
-
-            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2)
-                        + Math.Cos(lat2) * Math.Sin(dLong / 2) * Math.Sin(dLong / 2);
-            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
-
-            //Calculate radius of earth
-            // For this you can assume any of the two points.
-            double radiusE = 6378135; // Equatorial radius, in metres
-            double radiusP = 6356750; // Polar Radius
-
-            //Numerator part of function
-            double nr = Math.Pow(radiusE * radiusP * Math.Cos(lat1 / 180 * Math.PI), 2);
-            //Denominator part of the function
-            double dr = Math.Pow(radiusE * Math.Cos(lat1 / 180 * Math.PI), 2)
-                            + Math.Pow(radiusP * Math.Sin(lat1 / 180 * Math.PI), 2);
-            double radius = Math.Sqrt(nr / dr);
-
-            //Calaculate distance in metres.
-            distance = radius * c;
-            return distance;
+            return 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(d3), Math.Sqrt(1.0 - d3)));
         }
     }
 }

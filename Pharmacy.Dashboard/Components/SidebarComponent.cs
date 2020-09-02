@@ -2,6 +2,7 @@ using Elk.Core;
 using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace Pharmacy.Dashboard
 {
@@ -17,9 +18,9 @@ namespace Pharmacy.Dashboard
             _configuration = configuration;
         }
 
-        public IViewComponentResult Invoke()
+        public async Task<IViewComponentResult> InvokeAsync()
         {
-            var rep = _userSrv.GetAvailableActions(HttpContext.User.GetUserId(), null, _configuration.GetValue<string>(UrlPrefixKey));
+            var rep = await (_userSrv.GetAvailableActions(HttpContext.User.GetUserId(), null, _configuration.GetValue<string>(UrlPrefixKey)));
             return View(rep);
         }
     }

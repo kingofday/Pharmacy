@@ -4,43 +4,78 @@ using Pharmacy.Domain;
 using System.Net.Http;
 using Pharmacy.Service.Resource;
 using System.Threading.Tasks;
+using Pharmacy.DataAccess.Ef;
+using System;
 
 namespace Pharmacy.Service
 {
     public class HillaPayService : IGatewayService
     {
-        public async Task<IResponse<CreateTransactionReponse>> CreateTrasaction(CreateTransactionRequest model, object[] args)
+        readonly IPaymentService _paymentSrv;
+        readonly IPaymentRepo _paymentRepo;
+        readonly AppUnitOfWork _appUow;
+        public HillaPayService(AppUnitOfWork appUow,IPaymentService paymentSrv)
         {
-            using (var http = new HttpClient())
+            _paymentSrv = paymentSrv;
+            _paymentRepo = appUow.PaymentRepo;
+            _appUow = appUow;
+        }
+        public async Task<IResponse<CreateTransactionReponse>> CreateTransaction(CreateTransactionRequest model, object[] args)
+        {
+            try
             {
-                http.DefaultRequestHeaders.Add("api-key", model.ApiKey);
-                var content = new StringContent(JsonConvert.SerializeObject(new
+                var payment = new Payment()
                 {
-                    amount = model.Amount,
-                    mobile = model.MobileNumber,
-                    description = model.Description,
-                    order_id = model.OrderId,
-                    callback = model.CallbackUrl
-                }));
-                var callRep = await http.PostAsync(model.Url, content);
-                if (callRep.IsSuccessStatusCode)
+                    PaymentGatewayId = model.GatewayId,
+                    Price = model.Amount,
+                    OrderId = model.OrderId,
+                    PaymentStatus = PaymentStatus.Canceled
+                };
+                var addPayment = await _paymentSrv.Add(payment);
+                if (!addPayment.IsSuccessful) return new Response<CreateTransactionReponse> { Message = addPayment.Message };
+                using (var http = new HttpClient())
                 {
-                    var strRep = await callRep.Content.ReadAsStringAsync();
-                    var rep = JsonConvert.DeserializeObject<HillaPayGetTransResponse>(strRep);
-                    if (rep.status.status == 200) return new Response<CreateTransactionReponse>
+                    http.DefaultRequestHeaders.Add("api-key", model.ApiKey);
+                    var content = new StringContent(JsonConvert.SerializeObject(new
                     {
-                        IsSuccessful = true,
-                        Result = new CreateTransactionReponse
+                        amount = model.Amount,
+                        mobile = model.MobileNumber,
+                        description = model.Description,
+                        order_id = addPayment.Result.PaymentId,
+                        callback = model.CallbackUrl
+                    }));
+                    var callRep = await http.PostAsync(model.Url, content);
+                    if (callRep.IsSuccessStatusCode)
+                    {
+                        var strRep = await callRep.Content.ReadAsStringAsync();
+                        var rep = JsonConvert.DeserializeObject<HillaPayGetTransResponse>(strRep);
+                        if (rep.status.status == 200)
                         {
-                            TransactionId = rep.result_transaction_send.transaction_id,
-                            GatewayUrl = rep.result_transaction_send.transaction_url,
+                            payment.TransactionId = rep.result_transaction_send.transaction_id;
+                            _paymentRepo.Update(payment);
+                            var update = await _appUow.ElkSaveChangesAsync();
+                            return new Response<CreateTransactionReponse>
+                            {
+                                IsSuccessful = update.IsSuccessful,
+                                Message = update.Message,
+                                Result = new CreateTransactionReponse
+                                {
+                                    TransactionId = rep.result_transaction_send.transaction_id,
+                                    GatewayUrl = rep.result_transaction_send.transaction_url,
+                                }
+                            };
                         }
-                    };
-
+                        else return new Response<CreateTransactionReponse> { Message = ServiceMessage.CreateTransactionFailed };
+                    }
                     else return new Response<CreateTransactionReponse> { Message = ServiceMessage.CreateTransactionFailed };
                 }
-                else return new Response<CreateTransactionReponse> { Message = ServiceMessage.CreateTransactionFailed };
             }
+            catch(Exception e)
+            {
+                FileLoger.Error(e);
+                return new Response<CreateTransactionReponse> { Message = ServiceMessage.CreateTransactionFailed };
+            }
+
         }
 
         public async Task<IResponse<string>> VerifyTransaction(VerifyRequest model, object[] args)

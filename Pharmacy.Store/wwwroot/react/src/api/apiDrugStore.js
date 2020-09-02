@@ -1,21 +1,19 @@
-import addr from './addresses';
+import addr, { imagePrefixUrl } from './addresses';
 import strings from './../shared/constant';
 
 export default class apiDrugStore {
     static async get() {
         let url = addr.getDrugStores;
-        console.log(url);
         var handleResponse = async (response) => {
             const rep = await response.json();
-            console.log(rep);
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message }
             else return {
                 success: true,
                 result: rep.Result.map((d) => ({
                     drugStoreId: d.DrugStoreId,
-                    name:d.Name,
-                    imageUrl: d.ImageUrl
+                    name: d.Name,
+                    imageUrl: imagePrefixUrl + d.ImageUrl
                 }))
             }
         }

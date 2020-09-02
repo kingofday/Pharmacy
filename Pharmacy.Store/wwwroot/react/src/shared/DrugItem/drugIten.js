@@ -33,7 +33,11 @@ class DrugItem extends React.Component {
                 <Link to={`/product/${item.drugId}`} className='d-flex justify-content-center'><img className='main-img' src={item.thumbnailImageUrl} alt={item.nameFa} /></Link>
                 <figcaption className='text-center'>
                     <h5 className='name'>{item.nameFa}</h5>
-                    <p className='price'>{commaThousondSeperator(item.price)} {strings.currency}</p>
+
+                    <p className='text-center price'>
+                        {item.discount > 0 ? <small className='price-discount'>{commaThousondSeperator(item.price)} {strings.currency}</small> : null}
+                        <strong>{commaThousondSeperator(item.realPrice)} {strings.currency}</strong>
+                    </p>
                     <button className='btn-add' onClick={this._addToBasket.bind(this, item)}>
                         {strings.addToCart}
                     </button>

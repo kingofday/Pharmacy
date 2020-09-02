@@ -174,6 +174,9 @@
   <data name="ContactUs" xml:space="preserve">
     <value>تماس با ما</value>
   </data>
+  <data name="Coordinate" xml:space="preserve">
+    <value>مختصات</value>
+  </data>
   <data name="CopyAddress" xml:space="preserve">
     <value>کپی آدرس</value>
   </data>
@@ -189,8 +192,17 @@
   <data name="Delete" xml:space="preserve">
     <value>حذف</value>
   </data>
+  <data name="Description" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
   <data name="Details" xml:space="preserve">
     <value>جزییات</value>
+  </data>
+  <data name="Discount" xml:space="preserve">
+    <value>تخفیف</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>دانلود</value>
   </data>
   <data name="DropYourFileHere" xml:space="preserve">
     <value>فایل خود را اینجا رها کنید</value>
@@ -200,6 +212,9 @@
   </data>
   <data name="DropzoneFileIsTooBig" xml:space="preserve">
     <value>"حجم فایل ({{filesize}}) بیش از حد مجاز است ({{maxFilesize}}MB)."</value>
+  </data>
+  <data name="Drug" xml:space="preserve">
+    <value>دارو</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>ویرایش</value>
@@ -294,6 +309,9 @@
   <data name="MobileNumber" xml:space="preserve">
     <value>شماره موبایل</value>
   </data>
+  <data name="MoneyCurrency" xml:space="preserve">
+    <value>ریال</value>
+  </data>
   <data name="Name" xml:space="preserve">
     <value>نام</value>
   </data>
@@ -308,6 +326,9 @@
   </data>
   <data name="Order" xml:space="preserve">
     <value>سفارش</value>
+  </data>
+  <data name="OrderLink" xml:space="preserve">
+    <value>لینک سفارش</value>
   </data>
   <data name="Pages" xml:space="preserve">
     <value>صفحات</value>
@@ -444,7 +465,7 @@
     <value>لطفا همان مقدار را دوباره وارد نمایید</value>
   </data>
   <data name="WelcomeMessage" xml:space="preserve">
-    <value>به داشبورد مدیریت شاپیا خوش آمدید</value>
+    <value>به داشبورد مدیریت فارما خوش آمدید</value>
   </data>
   <data name="WithoutAccountText" xml:space="preserve">
     <value>هیچ حسابی نداید؟</value>

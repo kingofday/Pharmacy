@@ -44,7 +44,6 @@ export default class DrugStores extends React.Component {
         }
       ]
     };
-    console.log(this.state.items);
     return (
       <Row id='comp-drugstores' className='comp-drugstores mb-15'>
         <Col xs={12} sm={12} className='direction-column'>

@@ -1,0 +1,36 @@
+﻿@model List<PrescriptionItem>
+<div class="row" id="items">
+    <div class="col-12">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>@Strings.Drug</td>
+                    <td>@Strings.Count</td>
+                    <td>@Strings.Discount (@Strings.MoneyCurrency)</td>
+                    <td>@Strings.Price (@Strings.MoneyCurrency)</td>
+                    <td>@Strings.Delete</td>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr data-price="@item.TotalPrice">
+                            <td>@item.Drug.NameFa (@item.Drug.UniqueId)</td>
+                            <td>@item.Count</td>
+                            <td>@item.DiscountPrice.ToString("N0")</td>
+                            <td>@item.Price.ToString("N0")</td>
+                            <td><i class="delete-item zmdi zmdi-delete default-i" data-url="@Url.Action("DeleteItem","Prescription", new { itemId=item.PrescriptionItemId })"></i></td>
+                        </tr>
+                    }
+                }
+                <tr class="tr-total">
+                    <td colspan="3">@Strings.TotalPrice</td>
+                    <td id="total-price">@(Model!=null?Model.Sum(x=>x.TotalPrice).ToString("N0"):"0")</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
