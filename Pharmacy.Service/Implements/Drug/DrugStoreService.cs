@@ -54,50 +54,6 @@ namespace Pharmacy.Service
                 Result = items.OrderBy(x => x.Distance).First()
             };
         }
-        //public async Task<IResponse<LocationDTO>> GetLocationAsync(int id)
-        //{
-        //    var addressId = await _drugStoreRepo.FirstOrDefaultAsync(x => x.AddressId, x => x.DrugStoreId == id && x.IsActive, includeProperties: null);//await _PharmacyRepo.FirstOrDefaultAsync(x => x.AddressId, x => x.PharmacyId == id && x.IsActive, includeProperties: null);
-        //    if (addressId == null) return new Response<LocationDTO> { Message = ServiceMessage.RecordNotExist };
-        //    var address = await _appUow.AddressRepo.FindAsync(addressId);
-        //    if (address == null) return new Response<LocationDTO> { Message = ServiceMessage.RecordNotExist };
-        //    return new Response<LocationDTO>
-        //    {
-        //        IsSuccessful = true,
-        //        Result = new LocationDTO
-        //        {
-        //            Lat = address.Latitude,
-        //            Lng = address.Longitude
-        //        }
-        //    };
-        //}
-        //public async Task<IResponse<DrugStoreDTO> FindAsDtoAsync(int id)
-        //{
-        //    try
-        //    {
-        //        var Pharmacy = await _PharmacyRepo.FindAsync(id);
-        //        if (Pharmacy == null) return new Response<PharmacyDTO>
-        //        {
-        //            IsSuccessful = false,
-        //            Message = ServiceMessage.RecordNotExist
-        //        };
-
-        //        return new Response<PharmacyDTO>
-        //        {
-        //            IsSuccessful = true,
-        //            Result = new PharmacyDTO
-        //            {
-        //                Name = Pharmacy.FullName,
-        //                LogoUrl = Pharmacy.ProfilePictureUrl
-        //            }
-        //        };
-        //    }
-        //    catch (Exception e)
-        //    {
-
-        //        return new Response<PharmacyDTO> { };
-        //    }
-
-        //}
 
         public async Task<IResponse<DrugStore>> FindAsync(int id)
         {
@@ -131,14 +87,14 @@ namespace Pharmacy.Service
             });
         }
 
-        public List<DrugStoreDTO> GetAsDTO()
+        public List<DrugStoreDTO> GetAsDTO(string baseUrl)
             => _drugStoreRepo.Get(new PagedListFilterModel<DrugStore, DrugStoreDTO>
             {
                 Selector = x => new DrugStoreDTO
                 {
                     Name = x.Name,
                     DrugStoreId = x.DrugStoreId,
-                    ImageUrl = x.Attachments.FirstOrDefault().Url
+                    ImageUrl = x.Attachments.Select(x => baseUrl + x.Url).FirstOrDefault()
                 },
                 PagingParameter = new PagingParameter { PageNumber = 1, PageSize = 15 },
                 OrderBy = o => o.OrderByDescending(x => x.Score),
@@ -163,68 +119,6 @@ namespace Pharmacy.Service
                 IsSuccessful = saveResult.IsSuccessful,
             };
         }
-
-        //public async Task<IResponse<DrugStore>> SignUp(DrugStoreSignUpModel model)
-        //{
-        //    using var tb = _appUow.Database.BeginTransaction();
-        //    var mobileNumber = long.Parse(model.MobileNumber);
-        //    var user = await _appUow.UserRepo.FirstOrDefaultAsync(new BaseFilterModel<User>
-        //    {
-        //        Conditions = x => x.MobileNumber == mobileNumber
-        //    });
-
-        //    var cdt = DateTime.Now;
-        //    var drugStore = new DrugStore
-        //    {
-        //        Status = DrugStoreStatus.Registered,
-        //        Name = model.Name,//crawl.FullName,
-        //        IsActive = true,
-        //        User = user ?? new User
-        //        {
-        //            FullName = model.FullName,
-        //            IsActive = true,
-        //            MobileNumber = mobileNumber,
-        //            LastLoginDateMi = cdt,
-        //            LastLoginDateSh = PersianDateTime.Now.ToString(PersianDateTimeFormat.Date),
-        //            InsertDateMi = cdt,
-        //            Password = HashGenerator.Hash(mobileNumber.ToString()),
-        //            NewPassword = HashGenerator.Hash(mobileNumber.ToString()),
-        //            MustChangePassword = false,
-        //            UserStatus = UserStatus.Added
-        //        }
-        //    };
-        //    await _drugStoreRepo.AddAsync(drugStore);
-        //    var savePharmacy = await _appUow.ElkSaveChangesAsync();
-        //    if (!savePharmacy.IsSuccessful)
-        //    {
-        //        tb.Rollback();
-        //        return new Response<DrugStore> { Message = savePharmacy.Message };
-        //    }
-        //    if (user == null)
-        //    {
-        //        await _authUow.UserInRoleRepo.AddAsync(new UserInRole
-        //        {
-        //            UserId = drugStore.UserId,
-        //            RoleId = model.RoleId ?? 0
-        //        });
-        //        var saveUserInRole = await _authUow.ElkSaveChangesAsync();
-        //        if (!saveUserInRole.IsSuccessful) tb.Rollback();
-        //        else tb.Commit();
-        //        return new Response<DrugStore>
-        //        {
-        //            IsSuccessful = saveUserInRole.IsSuccessful,
-        //            Result = drugStore,
-        //            Message = savePharmacy.Message
-        //        };
-        //    }
-        //    tb.Commit();
-        //    return new Response<DrugStore>
-        //    {
-        //        IsSuccessful = true,
-        //        Result = drugStore
-        //    };
-
-        //}
 
         public IEnumerable<DrugStore> GetAll(Guid userId)
         => _drugStoreRepo.Get(new BaseListFilterModel<DrugStore>

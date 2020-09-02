@@ -1,4 +1,4 @@
-import addr, { imagePrefixUrl } from './addresses';
+import addr from './addresses';
 import strings from './../shared/constant';
 
 export default class apiDrug {
@@ -25,7 +25,7 @@ export default class apiDrug {
                         price: d.Price,
                         realPrice: d.Price - d.DiscountPrice,
                         unitName: d.UnitName,
-                        thumbnailImageUrl: imagePrefixUrl + d.ThumbnailImageUrl
+                        thumbnailImageUrl: d.ThumbnailImageUrl
                     }))
                 }
             }
@@ -73,7 +73,7 @@ export default class apiDrug {
                     unitName: p.UnitName,
                     uniqueId: p.UniqueId,
                     description: p.Description,
-                    slides: p.Slides.map(s => imagePrefixUrl + s),
+                    slides: p.Slides,
                     properties: p.Properties ? p.Properties.map(prop => ({
                         name: prop.Name,
                         value: prop.Value

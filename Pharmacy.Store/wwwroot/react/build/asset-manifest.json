@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.b854f2c0.chunk.css",
-    "main.js": "/static/js/main.40310b89.chunk.js",
-    "main.js.map": "/static/js/main.40310b89.chunk.js.map",
+    "main.css": "/static/css/main.0306864d.chunk.css",
+    "main.js": "/static/js/main.1612dbdb.chunk.js",
+    "main.js.map": "/static/js/main.1612dbdb.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.dd648e8c.js",
     "runtime-main.js.map": "/static/js/runtime-main.dd648e8c.js.map",
     "static/css/2.f39ea103.chunk.css": "/static/css/2.f39ea103.chunk.css",
-    "static/js/2.367697ec.chunk.js": "/static/js/2.367697ec.chunk.js",
-    "static/js/2.367697ec.chunk.js.map": "/static/js/2.367697ec.chunk.js.map",
+    "static/js/2.b1e6de00.chunk.js": "/static/js/2.b1e6de00.chunk.js",
+    "static/js/2.b1e6de00.chunk.js.map": "/static/js/2.b1e6de00.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.e618d97a8d954d8c348897e4544a4c89.js": "/precache-manifest.e618d97a8d954d8c348897e4544a4c89.js",
+    "precache-manifest.ef341ed7fea3f2a1ca62fb730e6061c3.js": "/precache-manifest.ef341ed7fea3f2a1ca62fb730e6061c3.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.f39ea103.chunk.css.map": "/static/css/2.f39ea103.chunk.css.map",
-    "static/css/main.b854f2c0.chunk.css.map": "/static/css/main.b854f2c0.chunk.css.map",
-    "static/js/2.367697ec.chunk.js.LICENSE.txt": "/static/js/2.367697ec.chunk.js.LICENSE.txt",
+    "static/css/main.0306864d.chunk.css.map": "/static/css/main.0306864d.chunk.css.map",
+    "static/js/2.b1e6de00.chunk.js.LICENSE.txt": "/static/js/2.b1e6de00.chunk.js.LICENSE.txt",
     "static/media/5euro.png": "/static/media/5euro.c3021d6b.png",
     "static/media/material-design-iconic-font.min.css": "/static/media/Material-Design-Iconic-Font.d2a55d33.woff",
     "static/media/aboutus.png": "/static/media/aboutus.b4f44869.png",
@@ -21,7 +21,9 @@
     "static/media/delivery-cost.svg": "/static/media/delivery-cost.77493953.svg",
     "static/media/discount.svg": "/static/media/discount.8e63e174.svg",
     "static/media/doctor.jpg": "/static/media/doctor.1023fb9a.jpg",
+    "static/media/green-basket.svg": "/static/media/green-basket.9f26a18e.svg",
     "static/media/index.css": "/static/media/iransans.568bfbb2.ttf",
+    "static/media/red-basket.svg": "/static/media/red-basket.d43121b0.svg",
     "static/media/remote-doctor.png": "/static/media/remote-doctor.60b69d90.png",
     "static/media/slide-1.jpg": "/static/media/slide-1.b48bbd45.jpg",
     "static/media/slide-2.jpg": "/static/media/slide-2.8b9d6240.jpg",
@@ -30,8 +32,8 @@
   "entrypoints": [
     "static/js/runtime-main.dd648e8c.js",
     "static/css/2.f39ea103.chunk.css",
-    "static/js/2.367697ec.chunk.js",
-    "static/css/main.b854f2c0.chunk.css",
-    "static/js/main.40310b89.chunk.js"
+    "static/js/2.b1e6de00.chunk.js",
+    "static/css/main.0306864d.chunk.css",
+    "static/js/main.1612dbdb.chunk.js"
   ]
 }

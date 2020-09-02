@@ -443,7 +443,7 @@ namespace Pharmacy.Service
                         $"{_config["CustomSettings:ReactDeliveryPaymentUrl"]}/{order.OrderId}"),
                         FullName = order.Address.User.FullName,
                         MobileNumber = order.Address.User.MobileNumber,
-                        Type = EventType.Order
+                        Type = EventType.Subscription
                     });
                 case OrderStatus.InProcessing:
                     return await _notifSrv.NotifyAsync(new NotificationDto
@@ -452,7 +452,7 @@ namespace Pharmacy.Service
                         Content = string.Format(NotifierMessage.OrderPayment, order.UniqueId),
                         FullName = order.Address.User.FullName,
                         MobileNumber = order.Address.User.MobileNumber,
-                        Type = EventType.Order
+                        Type = EventType.Subscription
                     });
                 case OrderStatus.Canceled:
                     return await _notifSrv.NotifyAsync(new NotificationDto
@@ -461,7 +461,7 @@ namespace Pharmacy.Service
                         Content = string.Format(NotifierMessage.OrderCanceled, order.UniqueId),
                         FullName = order.Address.User.FullName,
                         MobileNumber = order.Address.User.MobileNumber,
-                        Type = EventType.Order
+                        Type = EventType.Subscription
                     });
                 default:
                     return new Response<bool> { IsSuccessful = true };

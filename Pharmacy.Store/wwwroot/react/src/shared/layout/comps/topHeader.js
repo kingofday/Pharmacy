@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
-import { LogOutAction } from './../../../redux/actions/authAction';
+import { LogOutAction, SetNexPage } from './../../../redux/actions/authAction';
 import logoImage from './../../../assets/images/layout/logo.png';
 
 class TopHeader extends React.Component {
@@ -21,9 +21,9 @@ class TopHeader extends React.Component {
     }
     _handleLogOut() {
         this.props.logOut();
+        this.props.setAuthNexPage("/");
     }
     render() {
-        console.log(this.props.authenticated);
         return (
             <section id='comp-top-header'>
                 <Container>
@@ -55,7 +55,8 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = dispatch => ({
-    logOut: () => dispatch(LogOutAction())
+    logOut: () => dispatch(LogOutAction()),
+    setAuthNexPage: (nextPage) => dispatch(SetNexPage(nextPage))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TopHeader);

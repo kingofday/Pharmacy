@@ -65,6 +65,7 @@ namespace Pharmacy.Dashboard.Controllers
                 AutoSubmit = false
             });
         }
+
         [HttpPost]
         public virtual async Task<JsonResult> Update([FromServices] IWebHostEnvironment env, Prescription model)
         {

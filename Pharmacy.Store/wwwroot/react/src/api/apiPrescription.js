@@ -1,4 +1,4 @@
-import addr, { imagePrefixUrl } from './addresses';
+import addr from './addresses';
 import strings from './../shared/constant';
 
 export default class apiPrescription {
@@ -51,7 +51,7 @@ export default class apiPrescription {
                     price: d.Price,
                     realPrice: d.Price - d.DiscountPrice,
                     unitName: d.UnitName,
-                    thumbnailImageUrl: imagePrefixUrl + d.ThumbnailImageUrl
+                    thumbnailImageUrl: d.ThumbnailImageUrl
                 }))
             }
         }

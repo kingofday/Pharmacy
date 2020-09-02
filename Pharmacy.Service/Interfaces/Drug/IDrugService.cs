@@ -8,9 +8,9 @@ namespace Pharmacy.Service
 {
     public interface IDrugService
     {
-        Response<GetDrugsModel> GetAsDto(DrugSearchFilter filter);
+        Response<GetDrugsModel> GetAsDto(DrugSearchFilter filter,string baseUrl);
         Task<IResponse<Drug>> FindAsync(int id);
-        Response<SingleDrugDTO> GetSingle(int id);
+        Response<SingleDrugDTO> GetSingle(int id,string baseUrl);
 
         (bool Changed, IEnumerable<OrderItemDTO> Items) CheckChanges(IEnumerable<OrderItemDTO> items);
 
@@ -24,7 +24,7 @@ namespace Pharmacy.Service
 
         PagingListDetails<Drug> Get(DrugSearchFilter filter);
 
-        Response<List<DrugDTO>> Get(string q);
+        Response<List<DrugDTO>> Get(string q, string baseUrl);
 
         IList<DrugSearchResult> Search(string searchParameter, int take = 10);
 

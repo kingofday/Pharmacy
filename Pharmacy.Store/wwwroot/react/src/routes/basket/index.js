@@ -6,7 +6,7 @@ import strings from './../../shared/constant';
 import DiscountBadg from './../../shared/discountBadg';
 import Counter from './../../shared/counter';
 import { commaThousondSeperator } from './../../shared/utils';
-import { UpdateBasketAction, RemoveFromBasketAction, ClearPrescriptiontIdAction } from './../../redux/actions/basketAction';
+import { UpdateBasketAction, RemoveFromBasketAction, ClearBasketAction, ClearPrescriptiontIdAction } from './../../redux/actions/basketAction';
 import ConfirmModal from './../../shared/confirm';
 import { HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import { SetNexPage } from "../../redux/actions/authAction";
@@ -18,7 +18,10 @@ class Basket extends React.Component {
     }
     async componentDidMount() {
         this.props.hideInitError();
-        this.props.clearPrescriptiontId();
+        if (this.props.prescriptionId) {
+            this.props.clearPrescriptiontId();
+            this.props.clearBasket();
+        }
     }
 
     _changeCount(id, count) {
@@ -36,6 +39,7 @@ class Basket extends React.Component {
         if (this.props.authenticated)
             this.setState(p => ({ ...p, redirect: '/selectAddress' }));
         else {
+            console.log('set');
             this.props.setAuthNextPage('/selectAddress');
             this.setState(p => ({ ...p, redirect: '/auth' }));
         }
@@ -44,7 +48,7 @@ class Basket extends React.Component {
         if (this.state.redirect)
             return <Redirect to={this.state.redirect} />
         else if (this.props.items.length == 0)
-            return (<div  id='page-basket' className='page-comp'>
+            return (<div id='page-basket' className='page-comp'>
                 <div className='empty'>
                     {/* <i className='zmdi zmdi-mood-bad'></i> */}
                     <img className='m-b' src={emptyBasketImage} alt='basket' />
@@ -118,15 +122,16 @@ class Basket extends React.Component {
     }
 }
 const mapStateToProps = state => {
-    return { ...state.basketReducer, authenticated: state.authReducer.authenticated };
+    return { ...state.basketReducer, authenticated: state.authReducer.authenticated, prescriptionId: state.reviewReducer.prescriptionId };
 }
 
 const mapDispatchToProps = dispatch => ({
     hideInitError: () => dispatch(HideInitErrorAction()),
+    clearBasket: () => dispatch(ClearBasketAction()),
     updateBasket: (id, count) => dispatch(UpdateBasketAction(id, count)),
     removeFromBasket: (id) => dispatch(RemoveFromBasketAction(id)),
     setAuthNextPage: (nextPage) => dispatch(SetNexPage(nextPage)),
-    clearPrescriptiontId:()=>dispatch(ClearPrescriptiontIdAction())
+    clearPrescriptiontId: () => dispatch(ClearPrescriptiontIdAction())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Basket);

@@ -27,9 +27,9 @@ namespace Pharmacy.Service
             _configuration = configuration;
         }
 
-        public Response<GetDrugsModel> GetAsDto(DrugSearchFilter filter) => _drugRepo.GetAsDTO(filter);
+        public Response<GetDrugsModel> GetAsDto(DrugSearchFilter filter, string baseUrl) => _drugRepo.GetAsDTO(filter, baseUrl);
 
-        public Response<SingleDrugDTO> GetSingle(int id) => _drugRepo.GetSingle(id);
+        public Response<SingleDrugDTO> GetSingle(int id, string baseUrl) => _drugRepo.GetSingle(id, baseUrl);
 
         public async Task<IResponse<Drug>> FindAsync(int id)
         {
@@ -70,7 +70,7 @@ namespace Pharmacy.Service
                     item.Count = 0;
                     continue;
                 }
-                else if(drug.Price != item.Price || drug.DiscountPrice != item.Discount)
+                else if (drug.Price != item.Price || drug.DiscountPrice != item.Discount)
                 {
                     changed = true;
                     item.Price = drug.Price;
@@ -194,7 +194,7 @@ namespace Pharmacy.Service
             });
         }
 
-        public Response<List<DrugDTO>> Get(string q)
+        public Response<List<DrugDTO>> Get(string q, string baseUrl)
                => new Response<List<DrugDTO>>
                {
                    Result = _drugRepo.GetAsDTO(new DrugSearchFilter
@@ -202,7 +202,7 @@ namespace Pharmacy.Service
                        Name = q,
                        PageNumber = 1,
                        PageSize = 3
-                   }).Result.Items,
+                   }, baseUrl).Result.Items,
                    IsSuccessful = true
                };
 

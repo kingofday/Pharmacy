@@ -25,11 +25,13 @@ class TempBasket extends React.Component {
     }
 
     async _fetchData() {
+        this.setState(p => ({ ...p, loading: true }));
         let getItems = await srvPrescription.getItems(this.prescriptionId);
         if (!this._isMounted) return;
+        this.setState(p => ({ ...p, loading: false }));
         if (getItems.success) {
             this.props.setWholeBasket(getItems.result);
-            this.setState(p => ({ ...p, items: getItems.result, loading: false }));
+            this.setState(p => ({ ...p, items: getItems.result }));
         }
         else this.props.showInitError(this._fetchData.bind(this));
     }
@@ -69,7 +71,7 @@ class TempBasket extends React.Component {
             return (
                 <div className='page-comp' id='page-temp-basket'>
                     <Container className='basket-wrapper'>
-                        {this.props.items.map((x, idx) => (
+                        {this.state.loading ? [0, 1, 2].map((x) => <div key={x} className="w-100 mb-15"><Skeleton animation="wave" variant='rect' height={120} /></div>) : this.state.items.map((x, idx) => (
                             <Row key={idx}>
                                 <Col>
                                     <div className='item'>

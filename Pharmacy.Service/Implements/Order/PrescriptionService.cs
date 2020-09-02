@@ -95,7 +95,7 @@ namespace Pharmacy.Service
             var pres = await _presRepo.FirstOrDefaultAsync(new BaseFilterModel<Prescription>
             {
                 Conditions = x => x.PrescriptionId == id,
-                IncludeProperties = new System.Collections.Generic.List<Expression<Func<Prescription, object>>> {
+                IncludeProperties = new List<Expression<Func<Prescription, object>>> {
                     x=>x.User,
                     x => x.Attachments }
             });
@@ -163,8 +163,7 @@ namespace Pharmacy.Service
             {
                 Content = string.Format(NotifierMessage.TempBasketUrl, $"{url}/{id}"),
                 MobileNumber = pres.User.MobileNumber,
-                Type = EventType.Order,
-                UserId = pres.UserId
+                Type = EventType.Subscription
             });
             return new Response<string>
             {

@@ -17,7 +17,7 @@ namespace Pharmacy.Service
         Task<IResponse<bool>> DeleteAsync(int id, string appDir);
         //Task<IResponse<DrugStore>> SignUp(DrugStoreSignUpModel model);
         IEnumerable<DrugStore> GetAll(Guid userId);
-        List<DrugStoreDTO> GetAsDTO();
+        List<DrugStoreDTO> GetAsDTO(string baseUrl);
         IDictionary<object, object> Search(string searchParameter, Guid? userId, int take = 10);
         Task<IResponse<DrugStore>> AddAsync(DrugStoreAdminModel model);
         Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model);

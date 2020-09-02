@@ -1,12 +1,11 @@
 using Elk.Core;
-using System.Collections.Generic;
 
 namespace Pharmacy.Domain
 {
     public interface IDrugRepo : IGenericRepo<Drug>, IScopedInjection
     {
-        Response<SingleDrugDTO> GetSingle(int id);
-        Response<GetDrugsModel> GetAsDTO(DrugSearchFilter filter);
+        Response<SingleDrugDTO> GetSingle(int id, string baseUrl);
+        Response<GetDrugsModel> GetAsDTO(DrugSearchFilter filter, string baseUrl);
         //Response<List<GetDrugPriceList>> GetPrices(List<int> ids);
         //Response<List<DrugPriceDTO>> GetSingleDrugPrice(int id);
     }

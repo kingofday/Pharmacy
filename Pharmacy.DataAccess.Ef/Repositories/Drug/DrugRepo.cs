@@ -18,7 +18,7 @@ namespace Pharmacy.DataAccess.Ef
             _appContext = appContext;
             _Drug = _appContext.Set<Drug>();
         }
-        public Response<SingleDrugDTO> GetSingle(int id)
+        public Response<SingleDrugDTO> GetSingle(int id, string baseUrl)
         {
             var drug = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
@@ -48,7 +48,7 @@ namespace Pharmacy.DataAccess.Ef
                     CategoryName = drug.DrugCategory.Name,
                     DiscountPrice = drug.DiscountPrice,
                     Description = drug.Description,
-                    Slides = drug.DrugAttachments?.Select(x => x.Url).ToList(),
+                    Slides = drug.DrugAttachments?.Select(x => baseUrl + x.Url).ToList(),
                     Comments = drug.Comments.Select(x => new DrugCommentDTO { Fullname = x.User.FullName, Comment = x.Comment }).ToList(),
                     Properties = drug.Properties,
                     Tags = drug.DrugTags?.Select(t => new DrugTagDTO
@@ -60,7 +60,7 @@ namespace Pharmacy.DataAccess.Ef
             };
         }
 
-        public Response<GetDrugsModel> GetAsDTO(DrugSearchFilter filter)
+        public Response<GetDrugsModel> GetAsDTO(DrugSearchFilter filter, string baseUrl)
         {
             var q = _Drug.Where(x => !x.IsDeleted
             && x.IsActive
@@ -91,7 +91,7 @@ namespace Pharmacy.DataAccess.Ef
                 NameFa = p.NameFa,
                 NameEn = p.NameEn,
                 UniqueId = p.UniqueId,
-                ThumbnailImageUrl = p.DrugAttachments.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
+                ThumbnailImageUrl = baseUrl + p.DrugAttachments.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url,
                 Price = p.Price,
                 DiscountPrice = p.DiscountPrice
             });
