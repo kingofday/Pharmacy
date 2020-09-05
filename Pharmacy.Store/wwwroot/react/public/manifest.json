@@ -1,24 +1,24 @@
 {
-  "short_name": "Pharmacy",
+  "short_name": "pharma",
   "name": "Pharmacy, Online Shop",
   "icons": [
     {
-      "src": "logo.png",
-      "sizes": "64x64",
+      "src": "logo-92.ico",
+      "sizes": "92x92",
       "type": "image/x-icon"
+    },
+    {
+      "src": "logo-144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    },
+    {
+      "src": "logo-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
-    // {
-    //   "src": "logo.png",
-    //   "type": "image/png",
-    //   "sizes": "144x144"
-    // },
-    // {
-    //   "src": "logo.png",
-    //   "type": "image/png",
-    //   "sizes": "512x512"
-    // }
   ],
-  "start_url": ".",
+  "start_url": "",
   "display": "standalone",
   "theme_color": "#1d1d76",
   "background_color": "#dd4135"

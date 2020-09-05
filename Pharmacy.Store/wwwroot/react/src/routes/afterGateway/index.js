@@ -16,6 +16,7 @@ class AfterGateway extends React.Component {
         this.state = {
             loading: false,
             success: params.status === '1',
+            orderId: params.orderId,
             transId: params.transId
         }
     }
@@ -37,11 +38,11 @@ class AfterGateway extends React.Component {
 
                                 {this.state.loading ? <Skeleton className='main-message' width={120} height={25} variant='text' /> :
                                     <span className={'main-message ' + (this.state.success ? 'success' : 'error')}>
-                                        {this.state.success ? strings.thankYouForPurchase : strings.purchaseFailed}
+                                        {this.state.success ? strings.thankYouForPurchase : strings.purchaseFailed.replace('{0}', this.state.orderId)}
                                     </span>}
                                 {this.state.loading ? <Skeleton className='hint' width={120} variant='text' /> :
                                     <span className='hint'>
-                                        {this.state.success ? strings.successfulOrder : strings.retryPlease}
+                                        {this.state.success ? strings.successfulOrder.replace('{0}', this.state.orderId) : strings.retryPlease}
                                     </span>}
 
                                 {this.state.loading ? <Skeleton className='trace-id-text' width={120} variant='text' /> :

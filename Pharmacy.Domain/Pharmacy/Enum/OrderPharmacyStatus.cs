@@ -8,7 +8,9 @@ namespace Pharmacy.Domain
         InProccessing = 0,
         [Description("قبول سفارش")]
         Accepted = 1,
+        [Description("پرداخت شده")]
+        Payed = 2,
         [Description("رد سفارش")]
-        Denied = 2
+        Denied = 3
     }
 }

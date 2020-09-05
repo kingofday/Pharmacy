@@ -79,11 +79,5 @@ namespace Pharmacy.API.Controllers
             };
         }
 
-        [Route("ShowResult"), HttpGet, AllowAnonymous]
-        public IActionResult ShowResult([FromQuery] Response<string> model)
-        {
-            return Redirect($"{_setting.ShowPaymentResult.ReactUrl}{Convert.ToByte(model.IsSuccessful)}/{model.Result}");
-        }
-
     }
 }

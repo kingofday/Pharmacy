@@ -14,7 +14,8 @@ import AuthRouter from './comps/authRoute';
 import Products from '../../routes/products/products';
 import Product from '../../routes/product';
 import Basket from './../../routes/basket';
-import tempBasket from '../../routes/tempBasket';
+import TempBasket from '../../routes/tempBasket';
+import DeliveryPayment from '../../routes/deliveryPayment';
 import Auth from './../../routes/auth/auth';
 import NotFound from '../../routes/notFound';
 import InitError from '../initError';
@@ -45,8 +46,10 @@ class Layout extends React.Component {
                     <AuthRouter path="/selectDelivery" component={SelectDelivery}/>
                     <AuthRouter path="/review" component={Review}/>
                     <Route exact path="/prescription" component={Prescription} />
-                    <Route exact path="/afterGateway/:status/:transId" component={AfterGateway} />
-                    <Route exact path="/tempBasket/:id?" component={tempBasket} />
+                    <Route exact path="/afterGateway/:status/:orderId/:transId" component={AfterGateway} />
+                    <Route exact path="/tempBasket/:id?" component={TempBasket} />
+                    <Route exact path="/deliveryPayment/:id?" component={DeliveryPayment} />
+                    {/* <Route exact path="/contactus" component={ContactUs} /> */}
                     {/* <Route exact path="/contactus" component={ContactUs} />
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />

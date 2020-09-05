@@ -89,7 +89,7 @@ namespace Pharmacy.API
                     FileLoger.Error(errorhandler.Error);
                     context.Response.StatusCode = 500;
                     context.Response.ContentType = "application/Json";
-                    var bytes = System.Text.Encoding.ASCII.GetBytes(new { IsSuccessful = false, Message=Strings.Error }.ToString());
+                    var bytes = System.Text.Encoding.ASCII.GetBytes(new { IsSuccessful = false, Message= errorhandler.Error?.Message }.ToString());
                     await context.Response.Body.WriteAsync(bytes, 0, bytes.Length);
                 });
             });

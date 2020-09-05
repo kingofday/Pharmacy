@@ -80,27 +80,30 @@ class Review extends React.Component {
         return (
             <div id='page-review'>
                 <Container className='basket-wrapper'>
-                    {this.props.items.map((x) => (
-                        <Row key={x.drugId}>
-                            <Col>
-                                <div className='item'>
+                    {this.props.items.map((x, idx) => (
+                        <div className='item w-100' key={idx}>
+                            <Row className='w-100'>
+                                <Col xs={12} sm={12} md={6} className='mb-15 d-flex'>
                                     {x.thumbnailImageUrl ?
                                         (<div className='img-wrapper'>
                                             <Link to={`product/${x.drugId}`}><img src={x.thumbnailImageUrl} alt='img item' /></Link>
                                         </div>) : null}
 
                                     <div className='info'>
-                                        <div className='name m-b'>
-                                            <h2 className='hx'>{x.name}</h2>
-                                            <DiscountBadg discount={x.discount} />
-                                        </div>
-                                        <span className='count m-b'>{strings.count}: {x.count}</span>
-                                        <span className='price'><strong className='val'>{commaThousondSeperator((x.count * x.realPrice).toString())}</strong>{strings.currency}</span>
-                                    </div>
-                                </div>
+                                        <h4 className='hx-fa mb-15'>{x.nameFa}</h4>
+                                        <h5 className='hx-en'>{x.nameEn}</h5>
+                                        {x.discount > 0 ? <div><DiscountBadg discount={x.discount} /></div> : null}
 
-                            </Col>
-                        </Row>
+                                    </div>
+
+                                </Col>
+                                <Col xs={12} sm={12} md={6} className='info'>
+                                    <h4 className='count m-b'>{strings.count}: {x.count}</h4>
+                                    <h4 className='price'><strong className='val'>{commaThousondSeperator((x.count * x.realPrice).toString())}</strong>{strings.currency}</h4>
+                                </Col>
+                            </Row>
+                        </div>
+
                     ))}
                     <Row>
                         <Col className='total-wrapper'>

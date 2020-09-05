@@ -109,7 +109,7 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to کاربر گرامی، نسخه شما بررسی گردید، جهت پرداخت هزینه آن از طریق لینک زیر اقدام نمایید:
+        ///   Looks up a localized string similar to کاربر گرامی فارما، نسخه شما بررسی گردید، جهت پرداخت هزینه آن از طریق لینک زیر اقدام نمایید:
         ///{0}.
         /// </summary>
         public static string TempBasketUrl {

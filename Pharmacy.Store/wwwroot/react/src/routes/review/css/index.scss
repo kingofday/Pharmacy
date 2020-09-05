@@ -44,6 +44,16 @@
                     }
                 }
             }
+            @media (max-width:576px)
+            {
+                .info.col-12{
+                    flex-direction: row;
+
+                    .count{
+                        width: 100px;
+                    }
+                }
+            }
         }
         .total-wrapper {
             margin-top: 30px;

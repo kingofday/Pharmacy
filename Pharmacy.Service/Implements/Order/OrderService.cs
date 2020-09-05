@@ -184,11 +184,11 @@ namespace Pharmacy.Service
             return new Response<Order> { Result = order, IsSuccessful = true };
         }
 
-        public async Task<IResponse<string>> Verify(Payment payment, object[] args)
+        public async Task<IResponse<(string TrackingId, long OrderUniqueId)>> Verify(Payment payment, object[] args)
         {
             var findGateway = await _gatewayFactory.GetInsance(payment.PaymentGatewayId);
             if (!findGateway.IsSuccessful)
-                return new Response<string> { Message = ServiceMessage.RecordNotExist };
+                return new Response<(string trackingId, long orderUniqueId)> { Message = ServiceMessage.RecordNotExist };
             var verify = await findGateway.Result.Service.VerifyTransaction(new VerifyRequest
             {
                 OrderId = payment.PaymentId,
@@ -196,13 +196,13 @@ namespace Pharmacy.Service
                 ApiKey = findGateway.Result.Gateway.MerchantId,
                 Url = findGateway.Result.Gateway.VerifyUrl
             }, args);
-            if (!verify.IsSuccessful) return new Response<string> { IsSuccessful = false, Result = payment.TransactionId };
+            if (!verify.IsSuccessful) return new Response<(string trackingId, long orderUniqueId)> { IsSuccessful = false, Result = (payment.TransactionId, 0) };
             var order = await _orderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
             {
                 Conditions = x => x.OrderId == payment.OrderId,
                 IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.Address, x => x.Address.User }
             });
-            if (order == null) return new Response<string> { Message = ServiceMessage.RecordNotExist };
+            if (order == null) return new Response<(string trackingId, long orderUniqueId)> { Message = ServiceMessage.RecordNotExist };
             order.Status = OrderStatus.InProcessing;
             payment.PaymentStatus = PaymentStatus.Success;
             _appUow.OrderRepo.Update(order);
@@ -210,10 +210,10 @@ namespace Pharmacy.Service
             var update = await _appUow.ElkSaveChangesAsync();
             if (update.IsSuccessful)
                 await HandleStatusChange(order);
-            return new Response<string>
+            return new Response<(string trackingId, long orderUniqueId)>
             {
                 IsSuccessful = update.IsSuccessful,
-                Result = payment.TransactionId,
+                Result = (payment.TransactionId, order.UniqueId),
                 Message = update.Message
 
             };
@@ -467,6 +467,27 @@ namespace Pharmacy.Service
                     return new Response<bool> { IsSuccessful = true };
             }
 
+        }
+
+        public Response<GetDeliveryPriceDTO> GetDeliveryPrice(Guid id)
+        {
+            var orderDrugStore = _appUow.OrderDrugStoreRepo.Get(new BaseListFilterModel<OrderDrugStore>
+            {
+                Conditions = x => x.OrderId == id && x.Status == OrderDrugStoreStatus.Accepted,
+                OrderBy = o => o.OrderByDescending(x => x.OrderDrugStoreId),
+                IncludeProperties = new List<Expression<Func<OrderDrugStore, object>>> { x => x.Order }
+            }).FirstOrDefault();
+            if (orderDrugStore == null)
+                return new Response<GetDeliveryPriceDTO> { Message = ServiceMessage.RecordNotExist };
+            return new Response<GetDeliveryPriceDTO>
+            {
+                IsSuccessful = true,
+                Result = new GetDeliveryPriceDTO
+                {
+                    Price = orderDrugStore.DeliveryPrice,
+                    UniqueId = orderDrugStore.Order.UniqueId
+                }
+            };
         }
     }
 }

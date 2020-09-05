@@ -1,16 +1,16 @@
-﻿using Pharmacy.Service;
-using Microsoft.AspNetCore.Mvc;
-using Pharmacy.Domain;
+﻿using System;
 using Elk.Core;
-using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
-using System;
 using Elk.AspNetCore;
+using Pharmacy.Domain;
+using Pharmacy.Service;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Options;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Pharmacy.API.Controllers
 {

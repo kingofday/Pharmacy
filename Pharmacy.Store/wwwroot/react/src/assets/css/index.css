@@ -1830,6 +1830,18 @@ html[dir="ltr"] .main-nav ul .close-menu {
   font-weight: 900;
 }
 
+@media (max-width: 576px) {
+  #page-review .basket-wrapper .item .info.col-12 {
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+  }
+  #page-review .basket-wrapper .item .info.col-12 .count {
+    width: 100px;
+  }
+}
+
 #page-review .basket-wrapper .total-wrapper {
   margin-top: 30px;
 }

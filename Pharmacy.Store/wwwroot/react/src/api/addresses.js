@@ -1,7 +1,6 @@
 
-//const baseUrl = 'https://pharma.hillavas.com/Api/';
-const baseUrl = 'https://localhost:44328/';
-//const baseUrl = 'https://test1.kingofday.ir/';
+const baseUrl = window.location.origin.indexOf('localhost:3000') >= 0 ? 'https://localhost:44328/' : 'https://pharma.hillavas.com/api/';
+
 const addr = {
     getCategories: (parentId) => `${baseUrl}Category?parentId=${parentId}`,
     searchDrug: (filter) => `${baseUrl}drug?name=${filter.name ? filter.name : ''}&type=${filter.type || 0}&categoryId=${filter.categoryId || ''}&minPrice=${filter.minPrice || ''}&maxPrice=${filter.maxPrice || ''}&pageSize=${filter.pageSize || 9}&pageNumber=${filter.pageNumber || 1}`,
@@ -15,6 +14,7 @@ const addr = {
     addAddress: `${baseUrl}Address`,
     updateAddress: `${baseUrl}Address`,
     getDeliveries: `${baseUrl}DeliveryProvider`,
+    getDeliveryPrice: (id) => `${baseUrl}DeliveryProvider/${id}`,
     addOrder: `${baseUrl}Order`,
     addPrescription: `${baseUrl}Prescription`,
     getPrescription: (id) => `${baseUrl}Prescription?id=${id}`,

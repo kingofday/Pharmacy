@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import SearchDrug from './../../shared/searchDrug/searchDrug';
-import { ShowInitErrorAction } from '../../redux/actions/InitErrorAction';
+import { ShowInitErrorAction, HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import strings, { enums } from '../../shared/constant';
 
 import DrugSlideShow from './comps/drugSlideShow';
@@ -12,6 +12,9 @@ import DrugStores from './comps/drugStores';
 import Categories from './../../shared/categories/categories';
 
 class Home extends React.Component {
+    componentDidMount(){
+        this.props.hideInitError();
+    }
 
     render() {
         return (
@@ -58,7 +61,8 @@ class Home extends React.Component {
 
 
 const mapDispatchToProps = dispatch => ({
-    showInitError: (fetchData, message) => dispatch(ShowInitErrorAction(fetchData, message))
+    showInitError: (fetchData, message) => dispatch(ShowInitErrorAction(fetchData, message)),
+    hideInitError: () => dispatch(HideInitErrorAction())
 });
 
 export default connect(null, mapDispatchToProps)(Home);
