@@ -9,6 +9,7 @@ import { commaThousondSeperator } from './../../shared/utils';
 import { ShowInitErrorAction, HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import deliveryCostImage from './../../assets/images/delivery-cost.svg';
 import { toast } from 'react-toastify';
+import Button from './../../shared/Button';
 
 class DeliveryPayment extends React.Component {
     state = {
@@ -19,17 +20,19 @@ class DeliveryPayment extends React.Component {
         btnInProgresss: false,
         gatewayUrl: '',
     };
+    _orderId = null;
     _isMounted = true;
 
     async componentDidMount() {
+        const { params } = this.props.match;
+        this._orderId = params.id;
         this.props.hideInitError();
         await this._fetchData();
     }
 
     async _fetchData() {
         this.setState(p => ({ ...p, loading: true }));
-        const { params } = this.props.match;
-        let apiRep = await srvDelivery.getPrice(params.id);
+        let apiRep = await srvDelivery.getPrice(this._orderId);
         this.setState(p => ({ ...p, loading: false }));
         if (!this._isMounted) return;
         if (!apiRep.success) {
@@ -44,25 +47,13 @@ class DeliveryPayment extends React.Component {
     }
 
     async _pay() {
-        // this.setState(p => ({ ...p, btnInProgresss: true }));
-        // let submit = await srvOrder.add({
-        //     items: this.props.items,
-        //     address: this.props.address,
-        //     deliveryType: this.props.delivery.id,
-        //     comment: this.props.comment
-        // });
-        // this.setState(p => ({ ...p, btnInProgresss: false }));
-        // if (submit.success)
-        //     window.open(submit.result.url, '_self');
+        this.setState(p => ({ ...p, btnInProgresss: true }));
+        let submit = await srvDelivery.payPrice(this._orderId);
+        this.setState(p => ({ ...p, btnInProgresss: false }));
+        if (submit.success)
+            window.open(submit.result, '_self');
 
-        // else {
-        //     if (submit.result && submit.result.basketChanged) {
-        //         this.setState(p => ({ ...p, gatewayUrl: submit.result.url }));
-        //         this.changedProductModal._toggle();
-        //         this.props.changeBasket(submit.result.drugs);
-        //     }
-        //     else toast(submit.message, { type: toast.TYPE.ERROR });
-        // }
+        else toast(submit.message, { type: toast.TYPE.ERROR });
 
     }
 
@@ -80,32 +71,37 @@ class DeliveryPayment extends React.Component {
             <div id='page-delivery-payment' className="page-comp">
                 <Container>
                     <Row>
-                        <Col xs={12}>
-                            <div className='card padding w-100 mb-15'>
-                                <div className='m-b'>
-                                    <i className='zmdi zmdi-shopping-cart icon'></i>&nbsp;
-                                    <span className='val'>{strings.orderId} : {this.state.loading ? <Skeleton animation='wave' width={50} /> : <span>{this.state.uniqueId}</span>} </span>
-                                </div>
-                                <div className='m-b'>
-                                    <img src={deliveryCostImage} alt='delivery' />&nbsp;
-                                    <span className='val'>{strings.deliveryType} : {this.state.loading ? <Skeleton animation='wave' width={50} /> : <span>{this.state.type === 0 ? strings.peyk : strings.post}</span>} </span>
-                                </div>
-                                <div className='m-b'>
-                                    <i className='zmdi zmdi-money icon'></i>&nbsp;
-                                    <span className='val'>{strings.deliverCost} : {this.state.loading ? <Skeleton animation='wave' width={50} /> : <span>{commaThousondSeperator(this.state.price)} {strings.currency}</span>}</span>
-                                </div>
-                            </div>
-                        </Col>
-
-                    </Row>
-                    <Row>
                         <Col>
-                            <button className='btn-next' onClick={this._pay.bind(this)}>
-                                {strings.payment}
-                                {this.state.btnInProgresss ? <Spinner animation="border" size="sm" /> : null}
-                            </button>
+                            <div className='card padding w-100 mb-15'>
+                                <Row>
+                                    <Col xs={12} className='d-flex flex-column'>
+                                        <div className='m-b'>
+                                            <i className='zmdi zmdi-shopping-cart icon'></i>&nbsp;
+                                             <span className='val'>{strings.orderId} : {this.state.loading ? <Skeleton className='skeleton' animation='wave' width={50} /> : <span>{this.state.uniqueId}</span>} </span>
+                                        </div>
+                                        <div className='m-b'>
+                                            <img src={deliveryCostImage} alt='delivery' />&nbsp;
+                                        <span className='val'>{strings.deliveryType} : {this.state.loading ? <Skeleton className='skeleton' animation='wave' width={50} /> : <span>{this.state.type === 0 ? strings.peyk : strings.post}</span>} </span>
+                                        </div>
+                                        <div className='m-b'>
+                                            <i className='zmdi zmdi-money icon'></i>&nbsp;
+                                            <span className='val'>{strings.deliverCost} : {this.state.loading ? <Skeleton className='skeleton' animation='wave' width={50} /> : <span>{commaThousondSeperator(this.state.price)} {strings.currency}</span>}</span>
+                                        </div>
+                                    </Col>
+
+                                </Row>
+                                <Row>
+                                    <Col className='d-flex justify-content-end'>
+                                        <Button loading={this.state.btnInProgresss} disabled={this.state.btnInProgresss} onClick={this._pay.bind(this)} className='btn-next'>
+                                            {strings.payment}
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </div>
+
                         </Col>
                     </Row>
+
                 </Container>
             </div>
         );

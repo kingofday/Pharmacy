@@ -13,6 +13,6 @@ namespace Pharmacy.Service
         Task<IResponse<Prescription>> UpdateAsync(Prescription model);
         Task<IResponse<List<PrescriptionItem>>> DeleteItem(int itemId);
         Task<IResponse<string>> SendLink(int id, string url);
-        Response<List<DrugDTO>> GetItems(int id);
+        Response<List<DrugDTO>> GetItems(int id, string baseUrl);
     }
 }

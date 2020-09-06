@@ -2057,7 +2057,7 @@ html[dir="ltr"] .main-nav ul .close-menu {
 }
 
 #page-temp-basket .basket-wrapper .item .main-info .img-wrapper {
-  margin-left: 15px;
+  padding: 0 15px;
   width: 100px;
 }
 
@@ -2164,6 +2164,11 @@ html[dir="ltr"] .main-nav ul .close-menu {
 .confirm-modal .modal-footer button {
   padding: 8px 30px;
   width: 105px;
+}
+
+#page-delivery-payment .skeleton {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 .error-comp {

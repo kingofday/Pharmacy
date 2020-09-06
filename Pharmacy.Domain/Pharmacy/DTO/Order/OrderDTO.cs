@@ -6,6 +6,7 @@ namespace Pharmacy.Domain
     public class OrderDTO
     {
         public Guid? OrderId { get; set; }
+        public int? PrescriptionId { get; set; }
         public int GatewayId { get; set; }
         public AddressDTO Address { get; set; }
         public DeliveryType DeliveryType { get; set; }       

@@ -35,7 +35,7 @@
                                 <i class="zmdi zmdi-more rotate-90"></i>
                             </span>
                             <div class="dropdown-menu">
-                                @if (statusEq >0 && statusEq < (byte)OrderStatus.WaitForDelivery)
+                                @if (statusEq > 0 && statusEq < (byte)OrderStatus.Done)
                                 {
                                     <a class="dropdown-item update" data-url="@Url.Action("Update","Store_Order",new { id = item.OrderId })">
                                         <i class="zmdi zmdi-edit default-i"></i>

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
 using System;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace Pharmacy.API.Controllers
 {
@@ -17,12 +18,16 @@ namespace Pharmacy.API.Controllers
         readonly IDeliveryProviderService _deliveryProviderSrv;
         readonly IOrderService _orderSrv;
         readonly IGatewayFactory _gatewayFectory;
-        readonly APICustomSetting _setting;
-        public DeliveryProviderController(IDeliveryProviderService deliveryProviderSrv, IOrderService orderSrv, IGatewayFactory gatewayFactory)
+        readonly APICustomSetting _settings;
+        public DeliveryProviderController(IDeliveryProviderService deliveryProviderSrv,
+            IOrderService orderSrv,
+            IGatewayFactory gatewayFactory,
+            IOptions<APICustomSetting> settings)
         {
             _deliveryProviderSrv = deliveryProviderSrv;
             _orderSrv = orderSrv;
             _gatewayFectory = gatewayFactory;
+            _settings = settings.Value;
         }
 
         [HttpGet]
@@ -36,13 +41,14 @@ namespace Pharmacy.API.Controllers
         {
             var chk = await _orderSrv.CheckBeforeDeliveryPrice(id);
             if (!chk.IsSuccessful) return new Response<string> { Message = chk.Message };
-            var fatcory = await _gatewayFectory.GetInsance(_setting.DefaultGatewayId);
+            var fatcory = await _gatewayFectory.GetInsance(_settings.DefaultGatewayId);
             var transModel = new CreateTransactionRequest
             {
-                OrderId = chk.Result.OrderId,
-                GatewayId = _setting.DefaultGatewayId,
-                Amount = chk.Result.TotalPrice,
-                MobileNumber = chk.Result.Address.User.MobileNumber.ToString(),
+                OrderId = chk.Result.Order.OrderId,
+                PaymentType = PaymentType.DeliveryPrice,
+                GatewayId = _settings.DefaultGatewayId,
+                Amount = chk.Result.price,
+                MobileNumber = chk.Result.Order.Address.User.MobileNumber.ToString(),
                 ApiKey = fatcory.Result.Gateway.MerchantId,
                 CallbackUrl = fatcory.Result.Gateway.PostBackUrl,
                 Url = fatcory.Result.Gateway.Url

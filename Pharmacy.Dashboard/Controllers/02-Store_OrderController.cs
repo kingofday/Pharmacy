@@ -32,6 +32,7 @@ namespace Pharmacy.Dashboard.Controllers
             Text = x.Name,
             Value = x.DrugStoreId.ToString()
         }).ToList();
+
         [NonAction]
         private IEnumerable<SelectListItem> GetStatus()
         =>  new List<SelectListItem> {
@@ -49,6 +50,11 @@ namespace Pharmacy.Dashboard.Controllers
                 {
                     Text = OrderStatus.WaitForDelivery.GetDescription(),
                     Value= OrderStatus.WaitForDelivery.ToString()
+                },
+                new SelectListItem
+                {
+                    Text = OrderStatus.Done.GetDescription(),
+                    Value= OrderStatus.Done.ToString()
                 }
             };
         

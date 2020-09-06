@@ -26,8 +26,10 @@ namespace Pharmacy.Service
             try
             {
                 using var http = new HttpClient();
-                http.DefaultRequestHeaders.Add("Token", _config["CustomSettings:NotifierToken"]);
-                var notify = await http.PostAsync(_config["CustomSettings:NotifierUrl"], new StringContent(notifyDto.SerializeToJson(), Encoding.UTF8, "application/json"));
+                var token = _config["CustomSettings:NotifierToken"];
+                var url = _config["CustomSettings:NotifierUrl"];
+                http.DefaultRequestHeaders.Add("Token", token);
+                var notify = await http.PostAsync(url, new StringContent(notifyDto.SerializeToJson(), Encoding.UTF8, "application/json"));
                 if (!notify.IsSuccessStatusCode) return new Response<bool> {Message = ServiceMessage.Error };
                 return (await notify.Content.ReadAsStringAsync()).DeSerializeJson<Response<bool>>();
             }

@@ -89,7 +89,7 @@ class Basket extends React.Component {
 
                                             </Col>
                                             <Col xs={3} className='d-flex end-col' lg={3}>
-                                                <div><DiscountBadg discount={x.discount} /></div>
+                                                <div><DiscountBadg discount={x.discount * x.count} /></div>
                                                 <div><button onClick={this._delete.bind(this, x.drugId, x.nameFa)} className='btn-delete'><i className='zmdi zmdi-delete'></i></button></div>
                                             </Col>
                                         </Row>

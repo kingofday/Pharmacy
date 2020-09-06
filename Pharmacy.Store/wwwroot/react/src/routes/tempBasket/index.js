@@ -5,13 +5,12 @@ import { connect } from 'react-redux';
 import { Link, Redirect } from 'react-router-dom';
 import strings from './../../shared/constant';
 import DiscountBadg from './../../shared/discountBadg';
-import Counter from './../../shared/counter';
-import ConfirmModal from './../../shared/confirm';
 import { commaThousondSeperator } from './../../shared/utils';
 import { SetWholeBasketAction, SetPrescriptiontIdAction } from './../../redux/actions/basketAction';
 import { HideInitErrorAction, ShowInitErrorAction } from "../../redux/actions/InitErrorAction";
 import emptyBasketImage from './../../assets/images/empty-basket.png';
 import srvPrescription from './../../service/srvPrescription';
+import { SetNexPage } from "../../redux/actions/authAction";
 
 class TempBasket extends React.Component {
     constructor(props) {
@@ -33,7 +32,7 @@ class TempBasket extends React.Component {
             this.props.setWholeBasket(getItems.result);
             this.setState(p => ({ ...p, items: getItems.result }));
         }
-        else this.props.showInitError(this._fetchData.bind(this));
+        else this.props.showInitError(this._fetchData.bind(this),);
     }
 
     async componentDidMount() {
@@ -58,7 +57,7 @@ class TempBasket extends React.Component {
     render() {
         if (this.state.redirect)
             return <Redirect to={this.state.redirect} />
-        else if (this.props.items.length == 0)
+        else if (!this.state.loading && this.props.items.length === 0)
             return (<div className='page-comp' id='page-temp-basket'>
                 <div className='empty'>
                     {/* <i className='zmdi zmdi-mood-bad'></i> */}
@@ -138,7 +137,8 @@ const mapDispatchToProps = dispatch => ({
     hideInitError: () => dispatch(HideInitErrorAction()),
     showInitError: (fetchData) => dispatch(ShowInitErrorAction(fetchData)),
     setWholeBasket: (items) => dispatch(SetWholeBasketAction(items)),
-    setPrescriptiontId: (id) => dispatch(SetPrescriptiontIdAction(id))
+    setPrescriptiontId: (id) => dispatch(SetPrescriptiontIdAction(id)),
+    setAuthNextPage: (nextPage) => dispatch(SetNexPage(nextPage))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(TempBasket);

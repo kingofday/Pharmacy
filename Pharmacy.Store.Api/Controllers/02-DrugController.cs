@@ -2,7 +2,6 @@
 using Pharmacy.Domain;
 using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Options;
 

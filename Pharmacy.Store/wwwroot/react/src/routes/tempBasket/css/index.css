@@ -47,7 +47,7 @@
 }
 
 #page-temp-basket .basket-wrapper .item .main-info .img-wrapper {
-  margin-left: 15px;
+  padding: 0 15px;
   width: 100px;
 }
 

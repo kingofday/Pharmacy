@@ -40,7 +40,23 @@ namespace Pharmacy.Service
             _config = config;
         }
 
-        public async Task<IResponse<(Order Order, bool IsChanged)>> AddByEndUserAsync(Guid userId, OrderDTO model)
+        public async Task<IResponse<(Order Order, bool IsChanged)>> AddByEndUser(Guid userId, OrderDTO model)
+        {
+            if (model.PrescriptionId == null) return await AddWithoutPrescriptionAsync(userId, model);
+            else
+            {
+                var add = await AddWithPrescriptionAsync(userId, model);
+                return new Response<(Order Order, bool IsChanged)>
+                {
+                    IsSuccessful = add.IsSuccessful,
+                    Message = add.Message,
+                    Result = (add.Result, false)
+                };
+            }
+
+        }
+
+        private async Task<IResponse<(Order Order, bool IsChanged)>> AddWithoutPrescriptionAsync(Guid userId, OrderDTO model)
         {
             var chkItems = _drugSrv.CheckChanges(model.Items);
             var orderItems = chkItems.Items.Select(i => new OrderItem
@@ -117,54 +133,71 @@ namespace Pharmacy.Service
             };
         }
 
-        //public async Task<IResponse<Order>> AddTempBasket(TempOrderDTO model)
-        //{
-        //    var getItems = _TempBasketItemSrv.Get(model.BasketId);
-        //    if (!getItems.IsSuccessful) return new Response<Order> { Message = getItems.Message };
-        //    var DrugId = getItems.Result.Where(x => x.Count != 0).First().DrugId;
-        //    var drugStore = _drugStoreSrv.GetNearest(model.Address);
-        //    if (!drugStore.IsSuccessful) return new Response<Order> { Message = drugStore.Message };
-        //    var getDeliveryCost = await _deliverySrv.GetDeliveryCost(model.DeliveryId, drugStore.Result.DrugStoreId, new LocationDTO { Lat = model.Address.Lat, Lng = model.Address.Lng });
-        //    if (!getDeliveryCost.IsSuccessful) return new Response<Order> { Message = getDeliveryCost.Message };
-        //    var orderItems = getItems.Result.Where(x => x.Count != 0).Select(i => new OrderItem
-        //    {
-        //        DrugId = i.DrugId,
-        //        Count = i.Count,
-        //        Price = i.Price,
-        //        TotalPrice = i.GetTotalPrice(),
-        //        DiscountPrice = i.DiscountPrice
-        //    }).ToList();
-        //    var order = new Order
-        //    {
-        //        TotalItemsPrice = orderItems.Sum(x => x.TotalPrice),
-        //        TotalDiscountPrice = orderItems.Sum(x=>x.DiscountPrice),
-        //        TotalPriceWithoutDiscount = orderItems.Sum(x => x.Price * x.Count) + getDeliveryCost.Result,
-        //        TotalPrice = orderItems.Sum(x => x.TotalPrice) + getDeliveryCost.Result,
-        //        UserId = model.UserToken,
-        //        OrderStatus = OrderStatus.WaitForPayment,
-        //        DeliveryProviderId = model.DeliveryId,
-        //        Description = model.Description,
-        //        ExtraInfoJson = "",//new ExtraInfo { Reciever = model.Reciever, RecieverMobileNumber = model.RecieverMobileNumber }.SerializeToJson(),
-        //        AddressId = model.Address.Id ?? 0,
-        //        Address = model.Address.Id == null ? new UserAddress
-        //        {
-        //            UserId = model.UserToken,
-        //            Latitude = model.Address.Lat,
-        //            Longitude = model.Address.Lng,
-        //            Details = model.Address.Details
-        //        } : null,
-        //        OrderDetails = orderItems
-        //    };
-        //    await _orderRepo.AddAsync(order);
-        //    var addOrder = await _appUow.ElkSaveChangesAsync();
-        //    if (!addOrder.IsSuccessful)
-        //        return new Response<Order> { Message = addOrder.Message };
-        //    return new Response<Order>
-        //    {
-        //        IsSuccessful = true,
-        //        Result = order
-        //    };
-        //}
+        private async Task<IResponse<Order>> AddWithPrescriptionAsync(Guid userId, OrderDTO model)
+        {
+            var items = _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+            {
+                Conditions = x => x.PrescriptionId == model.PrescriptionId,
+                OrderBy = o => o.OrderBy(x => x.PrescriptionItemId)
+            });
+            var orderItems = items.Select(i => new OrderItem
+            {
+                DrugId = i.DrugId,
+                Count = i.Count,
+                Price = i.Price,
+                TotalPrice = i.TotalPrice,
+                DiscountPrice = i.DiscountPrice
+            }).ToList();
+            var order = new Order
+            {
+                PrescriptionId = model.PrescriptionId,
+                TotalItemsPrice = orderItems.Sum(x => x.TotalPrice),
+                TotalPriceWithoutDiscount = orderItems.Sum(x => x.Price * x.Count),
+                TotalPrice = orderItems.Sum(x => x.TotalPrice),
+                TotalDiscountPrice = orderItems.Sum(x => x.DiscountPrice),
+                UserId = userId,
+                Status = OrderStatus.WaitForPayment,
+                DeliveryType = model.DeliveryType,
+                Comment = model.Comment,
+                ExtraInfoJson = "",
+                AddressId = model.Address.Id ?? 0,
+                Address = model.Address.Id == null ? new UserAddress
+                {
+                    UserId = userId,
+                    Latitude = model.Address.Latitude,
+                    Longitude = model.Address.Longitude,
+                    Details = model.Address.Details
+                } : null,
+                OrderItems = orderItems
+            };
+
+            var nearest = _drugStoreSrv.GetNearest(model.Address);
+            if (!nearest.IsSuccessful) return new Response<Order> { Message = nearest.Message };
+            order.DrugStoreId = nearest.Result.DrugStoreId;
+            order.Store_UserId = nearest.Result.UserId;
+            var delAgent = _delAgent.Get(model.DeliveryType);
+            var getPrice = await delAgent.PriceInquiry(nearest.Result, model.Address, false, false);
+            if (!getPrice.IsSuccessful) return new Response<Order> { Message = getPrice.Message };
+            order.OrderDrugStores = new List<OrderDrugStore> {
+                    new OrderDrugStore{
+                        DrugStoreId = nearest.Result.DrugStoreId,
+                        Status = OrderDrugStoreStatus.InProccessing,
+                        DeliveryPrice = getPrice.Result.Price
+                    }
+                };
+            order.DeliveryAgentName = delAgent.Name;
+            order.DrugStoreId = nearest.Result.DrugStoreId;
+            await _orderRepo.AddAsync(order);
+            var addOrder = await _appUow.ElkSaveChangesAsync();
+            if (!addOrder.IsSuccessful)
+                return new Response<Order> { Message = addOrder.Message };
+            return new Response<Order>
+            {
+                IsSuccessful = true,
+                Result = order
+            };
+        }
+
 
         // public async Task<bool> CheckOwner(Guid userId, int orderId) => await _orderRepo.AnyAsync(x => x.OrderId == orderId && x.OrderDrugStores.Any(o=>o.User == UserId == userId);
 
@@ -200,13 +233,16 @@ namespace Pharmacy.Service
             var order = await _orderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
             {
                 Conditions = x => x.OrderId == payment.OrderId,
-                IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.Address, x => x.Address.User }
+                IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.Address, x => x.Address.User, x => x.OrderDrugStores }
             });
             if (order == null) return new Response<(string trackingId, long orderUniqueId)> { Message = ServiceMessage.RecordNotExist };
             if (payment.Type == PaymentType.Order)
                 order.Status = OrderStatus.InProcessing;
             else if (payment.Type == PaymentType.DeliveryPrice)
+            {
                 order.Status = OrderStatus.WaitForDelivery;
+                order.CurrentOrderDrugStore.Status = OrderDrugStoreStatus.Payed;
+            }
             payment.PaymentStatus = PaymentStatus.Success;
             _appUow.OrderRepo.Update(order);
             _appUow.PaymentRepo.Update(payment);
@@ -410,7 +446,7 @@ namespace Pharmacy.Service
                     Address = result.Address,
                     DrugStore = result.DrugStore,
                     UniqueId = result.UniqueId,
-                    OrderItems = _appUow.OrderDetailRepo.Get(new BaseListFilterModel<OrderItem>
+                    OrderItems = _appUow.OrderItemRepo.Get(new BaseListFilterModel<OrderItem>
                     {
                         Conditions = x => x.OrderId == OrderId,
                         OrderBy = o => o.OrderByDescending(x => x.OrderItemId),
@@ -494,19 +530,19 @@ namespace Pharmacy.Service
             };
         }
 
-        public async Task<Response<Order>> CheckBeforeDeliveryPrice(Guid id)
+        public async Task<Response<(Order Order, int price)>> CheckBeforeDeliveryPrice(Guid id)
         {
             var order = await _orderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
             {
                 Conditions = x => x.OrderId == id,
                 IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.OrderDrugStores, x => x.Address, x => x.Address.User }
             });
-            if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
-            if (order.OrderDrugStores == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
-            if (order.CurrentOrderDrugStore.Status != OrderDrugStoreStatus.Accepted) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
-            return new Response<Order>
+            if (order == null) return new Response<(Order Order, int price)> { Message = ServiceMessage.RecordNotExist };
+            if (order.OrderDrugStores == null) return new Response<(Order Order, int price)> { Message = ServiceMessage.RecordNotExist };
+            if (order.CurrentOrderDrugStore.Status != OrderDrugStoreStatus.Accepted) return new Response<(Order Order, int price)> { Message = ServiceMessage.RecordNotExist };
+            return new Response<(Order Order, int price)>
             {
-                Result = order,
+                Result = (order, order.CurrentOrderDrugStore.DeliveryPrice),
                 IsSuccessful = true
             };
 

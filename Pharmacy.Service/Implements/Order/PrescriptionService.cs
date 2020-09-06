@@ -172,7 +172,7 @@ namespace Pharmacy.Service
             };
         }
 
-        public Response<List<DrugDTO>> GetItems(int id)
+        public Response<List<DrugDTO>> GetItems(int id, string baseUrl)
         {
             var items = _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
             {
@@ -194,7 +194,7 @@ namespace Pharmacy.Service
                     NameEn = x.Drug.NameEn,
                     ShortDescription = x.Drug.ShortDescription,
                     UnitName = x.Drug.Unit.Name,
-                    ThumbnailImageUrl = x.Drug.DrugAttachments.First(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Url
+                    ThumbnailImageUrl = x.Drug.DrugAttachments.Where(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Select(x => baseUrl + x.Url).FirstOrDefault()
                 }).ToList() : null,
                 Message = items.Any() ? null : ServiceMessage.RecordNotExist
             };

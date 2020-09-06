@@ -26,9 +26,10 @@ export default class apiOrder {
                     }
                 };
             else return {
+                status: rep.Status,
                 success: false,
-                message: rep.Message,
-                result: {
+                message: rep.Message || strings.connectionFailed,
+                result: rep.Result ? {
                     basketChanged: rep.Result.BasketChanged,
                     drugs: rep.Result.Drugs ? rep.Result.Drugs.map((p) => ({
                         drugId: p.DrugId,
@@ -36,8 +37,7 @@ export default class apiOrder {
                         discount: p.DiscountPrice,
                         count: p.Count
                     })) : []
-                },
-                status: 500,
+                } : null
             };
         }
         catch (error) {

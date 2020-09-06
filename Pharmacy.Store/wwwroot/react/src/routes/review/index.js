@@ -35,33 +35,26 @@ class Review extends React.Component {
 
     async _pay() {
         this.setState(p => ({ ...p, btnInProgresss: true }));
-        if (this.props.prescriptionId) {
-            // let submit = await srvOrder.submitTempBasket(this.props.basketId, this.props.address, this.props.reciever, this.props.recieverMobileNumber, this.props.deliveryId);
-            // if (submit.success) {
-            //     this.props.setBasketId(null);
-            //     window.open(submit.result.url, '_self');
-            // }
-            // else toast(submit.message, { type: toast.TYPE.ERROR });
-        }
-        else {
-            let submit = await srvOrder.add({
-                items: this.props.items,
-                address: this.props.address,
-                deliveryType: this.props.delivery.id,
-                comment: this.props.comment
-            });
-            this.setState(p => ({ ...p, btnInProgresss: false }));
-            if (submit.success)
-                window.open(submit.result.url, '_self');
+        let submit = await srvOrder.add({
+            prescriptionId: this.props.prescriptionId ? parseInt(this.props.prescriptionId) : null,
+            items: this.props.items,
+            address: this.props.address,
+            deliveryType: this.props.delivery.id,
+            comment: this.props.comment
+        });
+        console.log(submit);
+        this.setState(p => ({ ...p, btnInProgresss: false }));
+        if (submit.success)
+            window.open(submit.result.url, '_self');
 
-            else {
-                if (submit.result && submit.result.basketChanged) {
-                    this.setState(p => ({ ...p, gatewayUrl: submit.result.url }));
-                    this.changedProductModal._toggle();
-                    this.props.changeBasket(submit.result.drugs);
-                }
-                else toast(submit.message, { type: toast.TYPE.ERROR });
+        else {
+
+            if (submit.result && submit.result.basketChanged) {
+                this.setState(p => ({ ...p, gatewayUrl: submit.result.url }));
+                this.changedProductModal._toggle();
+                this.props.changeBasket(submit.result.drugs);
             }
+            else toast(submit.message, { type: toast.TYPE.ERROR });
         }
 
     }
@@ -92,7 +85,7 @@ class Review extends React.Component {
                                     <div className='info'>
                                         <h4 className='hx-fa mb-15'>{x.nameFa}</h4>
                                         <h5 className='hx-en'>{x.nameEn}</h5>
-                                        {x.discount > 0 ? <div><DiscountBadg discount={x.discount} /></div> : null}
+                                        {x.discount > 0 ? <div><DiscountBadg discount={x.discount * x.count} /></div> : null}
 
                                     </div>
 

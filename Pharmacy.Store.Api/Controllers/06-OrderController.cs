@@ -1,15 +1,12 @@
 ﻿using Elk.Core;
 using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Cors;
 using Pharmacy.Domain;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
-using System;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Pharmacy.API.Controllers
 {
@@ -32,7 +29,7 @@ namespace Pharmacy.API.Controllers
 
         public async Task<ActionResult<IResponse<AddOrderReponse>>> Add(OrderDTO model)
         {
-            var addOrder = await _orderService.AddByEndUserAsync(User.GetUserId(), model);
+            var addOrder = await _orderService.AddByEndUser(User.GetUserId(), model);
             if (!addOrder.IsSuccessful) return new Response<AddOrderReponse>
             {
                 Message = addOrder.Message,
@@ -73,6 +70,5 @@ namespace Pharmacy.API.Controllers
                 }
             };
         }
-
     }
 }

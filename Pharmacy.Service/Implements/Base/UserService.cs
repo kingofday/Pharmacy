@@ -406,6 +406,13 @@ namespace Pharmacy.Service
             }
             else
             {
+                if(user.MobileConfirmCode == null)
+                {
+                    user.MobileConfirmCode = Randomizer.GetRandomInteger(4);
+                    _userRepo.Update(user);
+                    var update = await _appUow.ElkSaveChangesAsync();
+                    if (!update.IsSuccessful) return new Response<AuthResponse> { Message = ServiceMessage.Error };
+                }
                 var nofity = await _notifSrv.NotifyAsync(new NotificationDto
                 {
                     Content = string.Format(NotifierMessage.MobileConfirmMessage, user.MobileConfirmCode),
@@ -413,6 +420,7 @@ namespace Pharmacy.Service
                     MobileNumber = user.MobileNumber,
                     Type = EventType.Subscription
                 });
+                if (!nofity.IsSuccessful) return new Response<AuthResponse> { Message = ServiceMessage.Error };
             }
             return new Response<AuthResponse>
             {
@@ -427,6 +435,7 @@ namespace Pharmacy.Service
                 }
             };
         }
+
         public async Task<Response<bool>> Resend(long mobileNumber)
         {
             var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobileNumber });

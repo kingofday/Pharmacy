@@ -13,50 +13,77 @@ class AfterGateway extends React.Component {
         super(props);
         const { params } = this.props.match;
         this.state = {
-            loading: false,
             success: params.status === '1',
+            type: params.type,
             orderId: params.orderId,
             transId: params.transId
         }
     }
     componentDidMount() {
+        console.log('!!!!');
         if (this.state.success) {
             this.props.clearBasket();
         }
     }
 
     render() {
+        console.log(this.state);
+        if (this.state.type === "0") {
+            return (<div id="page-after-gateway" className="page-comp">
+                <Container className='basket-wrapper'>
+                    <Row>
+                        <Col xs={12}>
+                            <div className='content card padding'>
+                                <img className='img-basket' src={this.state.success ? greenBasketImage : redBasketImage} alt='basket' />
+
+                                <span className={'main-message ' + (this.state.success ? 'success' : 'error')}>
+                                    {this.state.success ? strings.thankYouForPurchase : strings.purchaseFailed.replace('{0}', this.state.orderId)}
+                                </span>
+                                {this.state.orderId !== "0" ? <span className='hint'>
+                                    {this.state.success ? strings.successfulOrder.replace('{0}', this.state.orderId) : strings.retryPlease}
+                                </span> : null}
+
+
+                                <span className='trace-id-text'>
+                                    {strings.orderTraceIdIs}
+                                </span>
+                                <span className='m-b trace-id'>
+                                    {this.state.transId}
+                                </span>
+                                {this.state.success ?
+                                    <span>
+                                        {strings.callYouLater}
+                                    </span> : null}
+                            </div>
+
+                        </Col>
+                    </Row>
+                </Container>
+
+            </div>);
+        }
         return (
             <div id="page-after-gateway" className="page-comp">
                 <Container className='basket-wrapper'>
                     <Row>
                         <Col xs={12}>
                             <div className='content card padding'>
-                                {this.state.loading ? <Skeleton variant='circle' height={107} width={107} /> :
-                                    <img className='img-basket' src={this.state.success ? greenBasketImage : redBasketImage} alt='basket' />}
+                                <img className='img-basket' src={this.state.success ? greenBasketImage : redBasketImage} alt='basket' />
 
-                                {this.state.loading ? <Skeleton className='main-message' width={120} height={25} variant='text' /> :
-                                    <span className={'main-message ' + (this.state.success ? 'success' : 'error')}>
-                                        {this.state.success ? strings.thankYouForPurchase : strings.purchaseFailed.replace('{0}', this.state.orderId)}
-                                    </span>}
-                                {this.state.loading ? <Skeleton className='hint' width={120} variant='text' /> :
-                                    <span className='hint'>
-                                        {this.state.success ? strings.successfulOrder.replace('{0}', this.state.orderId) : strings.retryPlease}
-                                    </span>}
+                                <span className={'main-message ' + (this.state.success ? 'success' : 'error')}>
+                                    {this.state.success ? strings.successPayment : strings.failedPayment}
+                                </span>
+                                {this.state.orderId !== "0" ? <span className='hint'>
+                                    {this.state.success ? strings.successPaymentHint : strings.failedPaymentHint.replace('{0}', this.state.orderId)}
+                                </span> : null}
 
-                                {this.state.loading ? <Skeleton className='trace-id-text' width={120} variant='text' /> :
-                                    <span className='trace-id-text'>
-                                        {strings.orderTraceIdIs}
-                                    </span>}
 
-                                {this.state.loading ? <Skeleton className='m-b trace-id' width={50} variant='text' /> :
-                                    <span className='m-b trace-id'>
-                                        {this.state.transId}
-                                    </span>}
-                                {(!this.state.loading && this.state.success) ?
-                                    <span>
-                                        {strings.callYouLater}
-                                    </span> : null}
+                                <span className='trace-id-text'>
+                                    {strings.orderTraceIdIs}
+                                </span>
+                                <span className='m-b trace-id'>
+                                    {this.state.transId}
+                                </span>
                             </div>
 
                         </Col>

@@ -19,13 +19,15 @@ namespace Pharmacy.API.Controllers
     public class PrescriptionController : ControllerBase
     {
         readonly IPrescriptionService _prescriptionSrv;
-        public PrescriptionController(IPrescriptionService prescriptionSrv)
+        readonly APICustomSetting _settings;
+        public PrescriptionController(IPrescriptionService prescriptionSrv, IOptions<APICustomSetting> settings)
         {
             _prescriptionSrv = prescriptionSrv;
+            _settings = settings.Value;
         }
 
         [HttpPost]
-        public async Task<ActionResult> Add([FromServices] IOptions<APICustomSetting> settings, [FromForm] AddPrescriptionModel model)
+        public async Task<ActionResult> Add([FromForm] AddPrescriptionModel model)
         {
             if (User.Identity.IsAuthenticated)
                 model.UserId = User.GetUserId();
@@ -42,7 +44,7 @@ namespace Pharmacy.API.Controllers
                 content.Add(byteArrayContent, "Files");
             }
             using var http = new HttpClient();
-            var call = await http.PostAsync(settings.Value.DashboardAddPrescriptionUrl, content);
+            var call = await http.PostAsync(_settings.DashboardAddPrescriptionUrl, content);
             if (call.StatusCode == System.Net.HttpStatusCode.OK)
             {
                 var rep = await call.Content.ReadAsStringAsync();
@@ -52,6 +54,6 @@ namespace Pharmacy.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IResponse<List<DrugDTO>>> GetItems(int id) => _prescriptionSrv.GetItems(id);
+        public ActionResult<IResponse<List<DrugDTO>>> GetItems(int id) => _prescriptionSrv.GetItems(id, _settings.DashboardBaseUrl);
     }
 }
