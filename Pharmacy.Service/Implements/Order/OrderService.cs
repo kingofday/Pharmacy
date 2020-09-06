@@ -203,7 +203,10 @@ namespace Pharmacy.Service
                 IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.Address, x => x.Address.User }
             });
             if (order == null) return new Response<(string trackingId, long orderUniqueId)> { Message = ServiceMessage.RecordNotExist };
-            order.Status = OrderStatus.InProcessing;
+            if (payment.Type == PaymentType.Order)
+                order.Status = OrderStatus.InProcessing;
+            else if (payment.Type == PaymentType.DeliveryPrice)
+                order.Status = OrderStatus.WaitForDelivery;
             payment.PaymentStatus = PaymentStatus.Success;
             _appUow.OrderRepo.Update(order);
             _appUow.PaymentRepo.Update(payment);
@@ -485,9 +488,28 @@ namespace Pharmacy.Service
                 Result = new GetDeliveryPriceDTO
                 {
                     Price = orderDrugStore.DeliveryPrice,
-                    UniqueId = orderDrugStore.Order.UniqueId
+                    UniqueId = orderDrugStore.Order.UniqueId,
+                    Type = orderDrugStore.Order.DeliveryType
                 }
             };
+        }
+
+        public async Task<Response<Order>> CheckBeforeDeliveryPrice(Guid id)
+        {
+            var order = await _orderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
+            {
+                Conditions = x => x.OrderId == id,
+                IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.OrderDrugStores, x => x.Address, x => x.Address.User }
+            });
+            if (order == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
+            if (order.OrderDrugStores == null) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
+            if (order.CurrentOrderDrugStore.Status != OrderDrugStoreStatus.Accepted) return new Response<Order> { Message = ServiceMessage.RecordNotExist };
+            return new Response<Order>
+            {
+                Result = order,
+                IsSuccessful = true
+            };
+
         }
     }
 }

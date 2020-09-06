@@ -7,7 +7,6 @@ import redBasketImage from './../../assets/images/red-basket.svg';
 import Skeleton from '@material-ui/lab/Skeleton';
 import { ShowInitErrorAction, HideInitErrorAction } from "../../redux/actions/InitErrorAction";
 import { ClearBasketAction } from "../../redux/actions/basketAction";
-import Steps from './../../shared/steps';
 
 class AfterGateway extends React.Component {
     constructor(props) {

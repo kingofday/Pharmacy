@@ -13,9 +13,12 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PaymentId { get; set; }
 
+        public PaymentType Type { get; set; }
+
         [ForeignKey(nameof(PaymentGatewayId))]
         [Display(Name = nameof(Strings.PaymentGateway), ResourceType = typeof(Strings))]
         public PaymentGateway PaymentGateway { get; set; }
+
         [Display(Name = nameof(Strings.PaymentGateway), ResourceType = typeof(Strings))]
         [Required(ErrorMessageResourceName = nameof(ErrorMessage.Required), ErrorMessageResourceType = typeof(ErrorMessage))]
         public int PaymentGatewayId { get; set; }

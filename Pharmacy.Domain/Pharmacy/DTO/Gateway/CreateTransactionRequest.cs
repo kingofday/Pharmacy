@@ -4,6 +4,7 @@ namespace Pharmacy.Domain
 {
     public class CreateTransactionRequest
     {
+        public PaymentType PaymentType { get; set; }
         public int GatewayId { get; set; }
         public string ApiKey { get; set; }
         public Guid OrderId { get; set; }

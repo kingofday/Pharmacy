@@ -37,6 +37,7 @@ export default class apiDelivery {
         let url = addr.getDeliveryPrice(id);
         var handleResponse = async (response) => {
             const rep = await response.json();
+            console.log(rep);
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message, status: rep.Status };
             else return {
@@ -44,13 +45,42 @@ export default class apiDelivery {
                 success: true,
                 result: {
                     uniqueId: rep.Result.UniqueId,
-                    price: rep.Result.Price
+                    price: rep.Result.Price,
+                    type: rep.Result.Type
                 }
             }
         }
         try {
             const response = await fetch(url, {
                 'method': 'GET',
+                'mode': 'cors',
+                'headers': {
+                    'Content-Type': 'application/json; charset=utf-8;',
+                }
+            });
+            return await handleResponse(response);
+        } catch (error) {
+            console.log(error);
+            return ({ success: false, message: strings.connectionFailed });
+        }
+    }
+
+    static async payPrice(id) {
+        let url = addr.payDeliveryPrice(id);
+        var handleResponse = async (response) => {
+            const rep = await response.json();
+            console.log(rep);
+            if (!rep.IsSuccessful)
+                return { success: false, message: rep.Message, status: rep.Status };
+            else return {
+                status: 200,
+                success: true,
+                result: rep.Result
+            }
+        }
+        try {
+            const response = await fetch(url, {
+                'method': 'POST',
                 'mode': 'cors',
                 'headers': {
                     'Content-Type': 'application/json; charset=utf-8;',

@@ -16,20 +16,14 @@ namespace Pharmacy.API.Controllers
     [ApiController, CustomAuth, EnableCors("AllowedOrigins"), Route("[controller]")]
     public class OrderController : ControllerBase
     {
-        readonly IUserService _userService;
         readonly IOrderService _orderService;
-        readonly IPaymentService _paymentService;
         readonly IGatewayFactory _gatewayFectory;
         readonly APICustomSetting _setting;
-        public OrderController(IUserService userService,
-            IOrderService orderService,
-            IPaymentService paymentService,
+        public OrderController(IOrderService orderService,
             IGatewayFactory gatewayFactory,
             IOptions<APICustomSetting> settings)
         {
-            _userService = userService;
             _orderService = orderService;
-            _paymentService = paymentService;
             _gatewayFectory = gatewayFactory;
             _setting = settings.Value;
         }
@@ -58,6 +52,7 @@ namespace Pharmacy.API.Controllers
             var transModel = new CreateTransactionRequest
             {
                 OrderId = addOrder.Result.Order.OrderId,
+                PaymentType = PaymentType.Order,
                 GatewayId = _setting.DefaultGatewayId,
                 Amount = addOrder.Result.Order.TotalPrice,
                 MobileNumber = User.Claims.First(x => x.Type == ClaimTypes.MobilePhone).Value,

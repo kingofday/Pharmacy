@@ -14,7 +14,7 @@ namespace Pharmacy.Service
         readonly IPaymentService _paymentSrv;
         readonly IPaymentRepo _paymentRepo;
         readonly AppUnitOfWork _appUow;
-        public HillaPayService(AppUnitOfWork appUow,IPaymentService paymentSrv)
+        public HillaPayService(AppUnitOfWork appUow, IPaymentService paymentSrv)
         {
             _paymentSrv = paymentSrv;
             _paymentRepo = appUow.PaymentRepo;
@@ -27,6 +27,7 @@ namespace Pharmacy.Service
                 var payment = new Payment()
                 {
                     PaymentGatewayId = model.GatewayId,
+                    Type = model.PaymentType,
                     Price = model.Amount,
                     OrderId = model.OrderId,
                     PaymentStatus = PaymentStatus.Canceled
@@ -70,7 +71,7 @@ namespace Pharmacy.Service
                     else return new Response<CreateTransactionReponse> { Message = ServiceMessage.CreateTransactionFailed };
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 FileLoger.Error(e);
                 return new Response<CreateTransactionReponse> { Message = ServiceMessage.CreateTransactionFailed };

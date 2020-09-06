@@ -18,5 +18,6 @@ namespace Pharmacy.Service
         PagingListDetails<Order> Get(OrderSearchFilter filter);
         Task<IResponse<Order>> UpdateStatusAsync(Guid id, OrderStatus status, bool check = true);
         Response<GetDeliveryPriceDTO> GetDeliveryPrice(Guid id);
+        Task<Response<Order>> CheckBeforeDeliveryPrice(Guid id);
     }
 }

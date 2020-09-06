@@ -1,6 +1,7 @@
 import React from 'react';
 import { Spinner, Container, Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import strings from './../../shared/constant';
 import srvDelivery from './../../service/srvDelivery';
@@ -12,17 +13,20 @@ import { toast } from 'react-toastify';
 class DeliveryPayment extends React.Component {
     state = {
         loading: true,
+        uniqueId: 0,
         type: '',
         price: 0,
         btnInProgresss: false,
         gatewayUrl: '',
     };
     _isMounted = true;
+
     async componentDidMount() {
         this.props.hideInitError();
+        await this._fetchData();
     }
 
-    async _fetchData(){
+    async _fetchData() {
         this.setState(p => ({ ...p, loading: true }));
         const { params } = this.props.match;
         let apiRep = await srvDelivery.getPrice(params.id);
@@ -32,12 +36,11 @@ class DeliveryPayment extends React.Component {
             this.props.showInitError(this._fetchData.bind(this), apiRep.message);
             return;
         }
-        this.setState(p => ({ ...p,  ...apiRep.result }));
+        this.setState(p => ({ ...p, ...apiRep.result }));
     }
 
     async componentWillUnmount() {
         this._isMounted = false;
-        await this._fetchData();
     }
 
     async _pay() {
@@ -77,16 +80,23 @@ class DeliveryPayment extends React.Component {
             <div id='page-delivery-payment' className="page-comp">
                 <Container>
                     <Row>
-                        <div className='card padding w-100 mb-15'>
-                            <div className='m-b'>
-                                <img src={deliveryCostImage} alt='delivery' />&nbsp;
-                                    <span className='val'>{strings.deliveryType} : {this.state.type}</span>
+                        <Col xs={12}>
+                            <div className='card padding w-100 mb-15'>
+                                <div className='m-b'>
+                                    <i className='zmdi zmdi-shopping-cart icon'></i>&nbsp;
+                                    <span className='val'>{strings.orderId} : {this.state.loading ? <Skeleton animation='wave' width={50} /> : <span>{this.state.uniqueId}</span>} </span>
+                                </div>
+                                <div className='m-b'>
+                                    <img src={deliveryCostImage} alt='delivery' />&nbsp;
+                                    <span className='val'>{strings.deliveryType} : {this.state.loading ? <Skeleton animation='wave' width={50} /> : <span>{this.state.type === 0 ? strings.peyk : strings.post}</span>} </span>
+                                </div>
+                                <div className='m-b'>
+                                    <i className='zmdi zmdi-money icon'></i>&nbsp;
+                                    <span className='val'>{strings.deliverCost} : {this.state.loading ? <Skeleton animation='wave' width={50} /> : <span>{commaThousondSeperator(this.state.price)} {strings.currency}</span>}</span>
+                                </div>
                             </div>
-                            <div className='m-b'>
-                                <i className='zmdi zmdi-money icon'></i>&nbsp;
-                                    <span className='val'>{strings.deliveryType} : {this.state.price}</span>
-                            </div>
-                        </div>
+                        </Col>
+
                     </Row>
                     <Row>
                         <Col>

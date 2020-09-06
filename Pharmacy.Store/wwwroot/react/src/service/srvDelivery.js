@@ -8,4 +8,8 @@ export default class srvDelivery {
     static async getPrice(id) {
         return await apiDel.getPrice(id);
     }
+
+    static async payPrice(id) {
+        return await apiDel.payPrice(id);
+    }
 }
