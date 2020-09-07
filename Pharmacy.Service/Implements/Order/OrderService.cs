@@ -419,7 +419,7 @@ namespace Pharmacy.Service
             return result;
         }
 
-        public async Task<IResponse<Order>> GetDetails(Guid OrderId)
+        public async Task<IResponse<Order>> GetDetails(Guid id)
         {
             var result = await _appUow.OrderRepo.FirstOrDefaultAsync(new FilterModel<Order, dynamic>
             {
@@ -433,10 +433,9 @@ namespace Pharmacy.Service
                     x.Status,
                     x.InsertDateSh,
                     x.Comment,
-                    x.UniqueId,
-                    DrugStore = x.OrderDrugStores.OrderByDescending(d => d.OrderDrugStoreId).Select(d => d.DrugStore).FirstOrDefault()
+                    x.UniqueId
                 },
-                Conditions = x => x.OrderId == OrderId,
+                Conditions = x => x.OrderId == id,
                 IncludeProperties = new List<Expression<Func<Order, object>>>
                 {
                     x=>x.Address,
@@ -455,11 +454,16 @@ namespace Pharmacy.Service
                     TotalPrice = result.TotalPrice,
                     TotalDiscountPrice = result.TotalDiscountPrice,
                     Address = result.Address,
-                    DrugStore = result.DrugStore,
+                    OrderDrugStores = _appUow.OrderDrugStoreRepo.Get(new BaseListFilterModel<OrderDrugStore>
+                    {
+                        Conditions = x => x.OrderId == id,
+                        OrderBy = o => o.OrderByDescending(x => x.OrderDrugStoreId),
+                        IncludeProperties = new List<Expression<Func<OrderDrugStore, object>>> { x => x.DrugStore, x => x.DrugStore.User }
+                    }),
                     UniqueId = result.UniqueId,
                     OrderItems = _appUow.OrderItemRepo.Get(new BaseListFilterModel<OrderItem>
                     {
-                        Conditions = x => x.OrderId == OrderId,
+                        Conditions = x => x.OrderId == id,
                         OrderBy = o => o.OrderByDescending(x => x.OrderItemId),
                         IncludeProperties = new List<Expression<Func<OrderItem, object>>>
                         {
@@ -468,7 +472,7 @@ namespace Pharmacy.Service
                     }),
                     Payments = _appUow.PaymentRepo.Get(new BaseListFilterModel<Payment>
                     {
-                        Conditions = x => x.OrderId == OrderId,
+                        Conditions = x => x.OrderId == id,
                         OrderBy = o => o.OrderByDescending(x => x.PaymentId),
                         IncludeProperties = new List<Expression<Func<Payment, object>>>
                             {

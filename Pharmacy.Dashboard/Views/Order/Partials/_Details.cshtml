@@ -32,16 +32,16 @@
                                     Text = x.Description
                                 }).ToList()" />
             </div>
+            <div class="col-12 col-sm-6">
+                <custom-input-for for="InsertDateSh" readonly="true" />
+            </div>
         </div>
 
         <div class="row">
-            <div class="col-12 col-sm-4">
-                <custom-input-for for="InsertDateSh" readonly="true" />
-            </div>
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-sm-6">
                 <custom-input-for for="TotalPrice" class="form-control ltr-elm" readonly="true" />
             </div>
-            <div class="col-12 col-sm-4">
+            <div class="col-12 col-sm-6">
                 <custom-input-for for="TotalPriceWithoutDiscount" class="form-control ltr-elm" readonly="true" />
             </div>
         </div>
@@ -130,7 +130,7 @@
                                     <td>@(Model.OrderDrugStores.IndexOf(oStore) + 1)</td>
                                     <td>@oStore.DrugStore.Name</td>
                                     <td>@oStore.DrugStore.User.MobileNumber</td>
-                                    <td>@oStore.DrugStore.Status.GetDescription()</td>
+                                    <td>@oStore.Status.GetDescription()</td>
                                     <td>@oStore.DeliveryPrice.ToString("N0")</td>
                                     <td dir="ltr">@oStore.ModifyDateSh @oStore.ModifyDateMi.ToString("HH:mm")</td>
                                 </tr>
@@ -158,6 +158,7 @@
                             <tr>
                                 <td>#</td>
                                 <td>@Html.DisplayNameFor(x => x.Payments[0].PaymentStatus)</td>
+                                <td>@Html.DisplayNameFor(x => x.Payments[0].Type)</td>
                                 <td data-hide="phone">@Html.DisplayNameFor(x => x.Payments[0].Price)</td>
                                 <td data-hide="phone">@Html.DisplayNameFor(x => x.Payments[0].InsertDateSh)</td>
                                 <td data-hide="all">@Html.DisplayNameFor(x => x.Payments[0].PaymentGateway)</td>
@@ -169,6 +170,7 @@
                                 <tr>
                                     <td>@(Model.Payments.IndexOf(payment) + 1)</td>
                                     <td>@payment.PaymentStatus.GetDescription()</td>
+                                    <td>@payment.Type.GetDescription()</td>
                                     <td>@payment.Price.ToString("N0")</td>
                                     <td dir="ltr">@payment.InsertDateSh @payment.InsertDateMi.ToString("HH:mm")</td>
                                     <td>@payment.PaymentGateway.Name</td>

@@ -118,8 +118,8 @@ namespace Pharmacy.Domain
         [NotMapped]
         public OrderDrugStore CurrentOrderDrugStore => OrderDrugStores.OrderByDescending(x => x.OrderDrugStoreId).FirstOrDefault();
 
-        [NotMapped]
-        [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
-        public DrugStore DrugStore { get; set; }
+        //[NotMapped]
+        //[Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
+        //public DrugStore DrugStore { get; set; }
     }
 }

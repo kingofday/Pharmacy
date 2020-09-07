@@ -421,7 +421,7 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to توضیحات مشترس.
+        ///   Looks up a localized string similar to توضیحات مشتری.
         /// </summary>
         public static string EndUserDescription {
             get {

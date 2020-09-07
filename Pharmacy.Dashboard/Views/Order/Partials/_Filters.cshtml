@@ -9,7 +9,7 @@
                            select-data-url="@Url.Action("Search","User")" />
     </div>
     <div class="col-12 col-sm-6">
-        <custom-select-for for="Status" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
+        <custom-select-for for="Status" optional-label="@Strings.SelectPlease" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
             Value = x.Name,
             Text = x.Description,
             Selected = x.Name == Model.Status.ToString()

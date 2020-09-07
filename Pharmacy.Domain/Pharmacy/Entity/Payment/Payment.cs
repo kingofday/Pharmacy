@@ -13,6 +13,8 @@ namespace Pharmacy.Domain
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int PaymentId { get; set; }
 
+
+        [Display(Name = nameof(Strings.Type), ResourceType = typeof(Strings))]
         public PaymentType Type { get; set; }
 
         [ForeignKey(nameof(PaymentGatewayId))]

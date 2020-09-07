@@ -386,7 +386,7 @@ namespace Pharmacy.Service
                 {
                     UserId = user.UserId,
                     Email = user.Email,
-                    Fullname = user.Email,
+                    FullName = user.FullName,
                     MobileNumber = user.MobileNumber.ToString(),
                     IsConfirmed = false
                 }
@@ -429,7 +429,7 @@ namespace Pharmacy.Service
                 {
                     UserId = user.UserId,
                     Email = user.Email,
-                    Fullname = user.Email,
+                    FullName = user.FullName,
                     MobileNumber = user.MobileNumber.ToString(),
                     IsConfirmed = user.IsConfirmed
                 }

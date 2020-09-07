@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, DropdownButton, Dropdown } from 'react-bootstrap';
 import { LogOutAction, SetNexPage } from './../../../redux/actions/authAction';
 import logoImage from './../../../assets/images/layout/logo.png';
 
@@ -38,9 +38,16 @@ class TopHeader extends React.Component {
                             <Link to='/basket' className={this.state.animate ? 'ripple-loader' : ''}>
                                 <i className='default-i zmdi zmdi-shopping-cart'></i>
                             </Link>
-                            {this.props.authenticated ? <button className='log-out' onClick={this._handleLogOut.bind(this)}>
-                                <i className='default-i zmdi zmdi-power'></i>
-                            </button> : null}
+                            {this.props.authenticated ? <DropdownButton id="dropdown-basic-button" title={this.props.fullName}>
+                                <Dropdown.Item href="#/action-1">
+                                    <button className='log-out' onClick={this._handleLogOut.bind(this)}>
+                                        <i className='default-i zmdi zmdi-power'></i>
+                                    </button>
+                                </Dropdown.Item>
+                                <Dropdown.Item>Something else</Dropdown.Item>
+                            </DropdownButton>
+
+                                : null}
                         </Col>
                     </Row>
                 </Container>

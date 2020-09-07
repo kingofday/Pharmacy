@@ -68,7 +68,7 @@ namespace Pharmacy.API.Controllers
                 UserId = auth.Result.UserId,
                 MobileNumber = long.Parse(model.Username),
                 Email = auth.Result.Email,
-                FullName = auth.Result.Fullname
+                FullName = auth.Result.FullName
             }, _settings.Jwt.TimoutInMinutes);
             return new Response<AuthResponse>
             {
@@ -91,7 +91,7 @@ namespace Pharmacy.API.Controllers
                     UserId = conf.Result.UserId,
                     MobileNumber = long.Parse(model.MobileNumber),
                     Email = conf.Result.Email,
-                    FullName = conf.Result.Fullname
+                    FullName = conf.Result.FullName
                 }, _settings.Jwt.TimoutInMinutes);
             }
             return conf;

@@ -11,7 +11,7 @@
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].Address.User)</th>
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].InsertDateSh)</th>
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].DrugStoreId)</th>
-                <th data-hide="all">@Html.DisplayNameFor(x => x.Items[0].Status)</th>
+                <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].Status)</th>
                 <th data-hide="all">@Html.DisplayNameFor(x => x.Items[0].Address)</th>
                 <th class="text-center"> <i class="zmdi zmdi-wrench rotate-90"></i></th>
             </tr>
@@ -22,6 +22,7 @@
                 <tr>
                     <td>@(((Model.PageNumber - 1) * Model.PageSize) + Model.Items.IndexOf(item) + 1)</td>
                     <td>@item.Address.User.FullName (@item.Address.User.MobileNumber)</td>
+                    <td>@item.CurrentOrderDrugStore.DrugStore.Name (@item.CurrentOrderDrugStore.DrugStore.User.MobileNumber)</td>
                     <td>@item.InsertDateSh</td>
                     <td>@item.Status.GetDescription()</td>
                     <td>@item.Address.Details</td>

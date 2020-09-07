@@ -47,7 +47,7 @@ export default class apiDrug {
                 result: {
                     email: user.Email,
                     mobileNumber: user.MobileNumber,
-                    fullname: user.Fullname,
+                    fullname: user.FullName,
                     token: user.Token,
                     isConfirmed: user.IsConfirmed
                 }
