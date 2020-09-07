@@ -3,13 +3,11 @@
     Layout = null;
 }
 <div class="row">
-    <div class="col-12 col-sm-12">
+    <div class="col-12 col-sm-6">
         <custom-select-for for="UserId"
                            class="form-control with-ajax select2"
                            select-data-url="@Url.Action("Search","User")" />
     </div>
-</div>
-<div class="row">
     <div class="col-12 col-sm-6">
         <custom-select-for for="Status" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
             Value = x.Name,
@@ -17,6 +15,9 @@
             Selected = x.Name == Model.Status.ToString()
         }).ToList()" />
     </div>
+</div>
+<div class="row">
+
     @*<div class="col-12 col-sm-6">
         <custom-select-for for="StoreId" class="form-control with-ajax select2"
                            select-data-url="@Url.Action("Search","Store")" />

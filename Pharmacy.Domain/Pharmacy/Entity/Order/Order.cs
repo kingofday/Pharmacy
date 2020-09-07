@@ -35,6 +35,7 @@ namespace Pharmacy.Domain
 
         public int? PrescriptionId { get; set; }
 
+        [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
         public int DrugStoreId{ get; set; }
 
         [Display(Name = nameof(Strings.CustomerAddress), ResourceType = typeof(Strings))]
@@ -101,7 +102,7 @@ namespace Pharmacy.Domain
         [Display(Name = nameof(Strings.Payments), ResourceType = typeof(Strings))]
         public List<Payment> Payments { get; set; }
 
-        [Display(Name = nameof(Strings.Payments), ResourceType = typeof(Strings))]
+        [Display(Name = nameof(Strings.DrugStores), ResourceType = typeof(Strings))]
         public List<OrderDrugStore> OrderDrugStores { get; set; }
 
 

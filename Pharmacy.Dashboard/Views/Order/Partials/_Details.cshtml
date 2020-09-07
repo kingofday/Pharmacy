@@ -7,6 +7,7 @@
         <a class="nav-item nav-link active" id="nav-order-tab" data-toggle="tab" href="#nav-order" role="tab" aria-controls="nav-order" aria-selected="true">@Strings.Order</a>
         <a class="nav-item nav-link" id="nav-items-tab" data-toggle="tab" href="#nav-items" role="tab" aria-controls="nav-items" aria-selected="false">@Html.DisplayNameFor(x => x.OrderItems)</a>
         <a class="nav-item nav-link" id="nav-address-tab" data-toggle="tab" href="#nav-address" role="tab" aria-controls="nav-address" aria-selected="false" onclick="setTimeout(function () { map_to.invalidateSize() }, 800);">@Html.DisplayNameFor(x => x.Address)</a>
+        <a class="nav-item nav-link" id="nav-stores-tab" data-toggle="tab" href="#nav-stores" role="tab" aria-controls="nav-stores" aria-selected="false">@Html.DisplayNameFor(x => x.OrderDrugStores)</a>
         <a class="nav-item nav-link" id="nav-payment-tab" data-toggle="tab" href="#nav-payment" role="tab" aria-controls="nav-payment" aria-selected="false">@Html.DisplayNameFor(x => x.Payments)</a>
     </div>
 </nav>
@@ -31,19 +32,6 @@
                                     Text = x.Description
                                 }).ToList()" />
             </div>
-            @*<div class="col-12 col-sm-6">
-                <custom-select-for for="StoreId" class="form-control"
-                                   items="Model.Store==null?new List<SelectListItem>():new List<SelectListItem>
-                        {
-                            new SelectListItem
-                            {
-                                Value = Model.StoreId.ToString(),
-                                Text = Model.Store.FullName
-                            }
-                        }"
-                                   select-data-url="@Url.Action("Search","StoreStore")"
-                                   select-disabled="disabled" />
-            </div>*@
         </div>
 
         <div class="row">
@@ -118,6 +106,47 @@
                 <div id="map_to" style="height:120px;"></div>
             </div>
         </div>
+    </div>
+    <div class="tab-pane fade m-t" id="nav-stores" role="tabpanel" aria-labelledby="nav-stores-tab">
+        @if (Model.OrderDrugStores != null)
+        {
+            <div class="row">
+                <div class="col-12">
+                    <table class="footable table table-hover toggle-arrow-tiny">
+                        <thead>
+                            <tr>
+                                <td>#</td>
+                                <td>@Html.DisplayNameFor(x => x.OrderDrugStores[0].DrugStore.Name)</td>
+                                <td data-hide="phone">@Html.DisplayNameFor(x => x.OrderDrugStores[0].DrugStore.User.MobileNumber)</td>
+                                <td data-hide="phone">@Html.DisplayNameFor(x => x.OrderDrugStores[0].Status)</td>
+                                <td data-hide="all">@Html.DisplayNameFor(x => x.OrderDrugStores[0].DeliveryPrice)</td>
+                                <td data-hide="all">@Html.DisplayNameFor(x => x.OrderDrugStores[0].InsertDateSh)</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var oStore in Model.OrderDrugStores)
+                            {
+                                <tr>
+                                    <td>@(Model.OrderDrugStores.IndexOf(oStore) + 1)</td>
+                                    <td>@oStore.DrugStore.Name</td>
+                                    <td>@oStore.DrugStore.User.MobileNumber</td>
+                                    <td>@oStore.DrugStore.Status.GetDescription()</td>
+                                    <td>@oStore.DeliveryPrice.ToString("N0")</td>
+                                    <td dir="ltr">@oStore.ModifyDateSh @oStore.ModifyDateMi.ToString("HH:mm")</td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot class="d-none">
+                            <tr>
+                                <td colspan="5">
+                                    <ul class="pagination float-right"></ul>
+                                </td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        }
     </div>
     <div class="tab-pane fade m-t" id="nav-payment" role="tabpanel" aria-labelledby="nav-payment-tab">
         @if (Model.Payments != null)

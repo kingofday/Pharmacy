@@ -392,8 +392,7 @@ namespace Pharmacy.Service
                 if (filter.OrderDrugStoreStatus != null)
                     conditions = conditions.And(x => x.OrderDrugStores.OrderByDescending(x => x.OrderDrugStoreId).First().Status == filter.OrderDrugStoreStatus);
             }
-
-            return _orderRepo.Get(new BasePagedListFilterModel<Order>
+            var result = _orderRepo.Get(new BasePagedListFilterModel<Order>
             {
                 Conditions = conditions,
                 PagingParameter = filter,
@@ -402,10 +401,22 @@ namespace Pharmacy.Service
                 {
                     x=>x.OrderDrugStores,
                     x=>x.Address,
-                    x=>x.Address.User,
-                    x=>x.OrderDrugStores
+                    x=>x.Address.User
                 }
             });
+            if (result.Items.Any())
+            {
+                var orderIds = result.Items.Select(x => x.OrderId).ToList();
+                var orderDrugStores = _appUow.OrderDrugStoreRepo.Get(new BaseListFilterModel<OrderDrugStore>
+                {
+                    Conditions = x => orderIds.Contains(x.OrderId),
+                    IncludeProperties = new List<Expression<Func<OrderDrugStore, object>>> { x => x.DrugStore, x => x.DrugStore.User },
+                    OrderBy = o => o.OrderByDescending(x => x.OrderDrugStoreId)
+                });
+                foreach (var item in result.Items)
+                    item.OrderDrugStores = orderDrugStores.Where(x => x.OrderId == item.OrderId).ToList();
+            }
+            return result;
         }
 
         public async Task<IResponse<Order>> GetDetails(Guid OrderId)

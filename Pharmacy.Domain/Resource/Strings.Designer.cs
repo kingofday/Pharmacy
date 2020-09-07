@@ -394,6 +394,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to داروخانه ها.
+        /// </summary>
+        public static string DrugStores {
+            get {
+                return ResourceManager.GetString("DrugStores", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ایمیل.
         /// </summary>
         public static string Email {
