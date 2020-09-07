@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, DropdownButton, Dropdown } from 'react-bootstrap';
 import { LogOutAction, SetNexPage } from './../../../redux/actions/authAction';
 import logoImage from './../../../assets/images/layout/logo.png';
+import strings from './../../constant';
 
 class TopHeader extends React.Component {
     constructor(props) {
@@ -33,18 +34,20 @@ class TopHeader extends React.Component {
                         </Col>
                         <Col xs={6} sm={6} className='auth-wrapper'>
                             <Link to={this.props.authenticated ? '/profile' : '/auth'}>
-                                <i className='default-i zmdi zmdi-account'></i>
+                                <i className='icon zmdi zmdi-account'></i>
                             </Link>
                             <Link to='/basket' className={this.state.animate ? 'ripple-loader' : ''}>
-                                <i className='default-i zmdi zmdi-shopping-cart'></i>
+                                <i className='icon zmdi zmdi-shopping-cart'></i>
                             </Link>
-                            {this.props.authenticated ? <DropdownButton id="dropdown-basic-button" title={this.props.fullName}>
-                                <Dropdown.Item href="#/action-1">
+                            {this.props.authenticated ? <DropdownButton id="ddl-options" title={this.props.fullname}>
+                                <Dropdown.Item href='/orderHistory'>
+                                    <i className=' zmdi zmdi-format-list-bulleted'></i>&nbsp;{strings.orders}
+                                </Dropdown.Item>
+                                <Dropdown.Item>
                                     <button className='log-out' onClick={this._handleLogOut.bind(this)}>
-                                        <i className='default-i zmdi zmdi-power'></i>
+                                        <i className=' zmdi zmdi-power'></i>&nbsp;{strings.logOut}
                                     </button>
                                 </Dropdown.Item>
-                                <Dropdown.Item>Something else</Dropdown.Item>
                             </DropdownButton>
 
                                 : null}

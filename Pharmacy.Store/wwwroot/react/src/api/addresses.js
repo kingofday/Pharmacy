@@ -17,6 +17,7 @@ const addr = {
     getDeliveryPrice: (id) => `${baseUrl}DeliveryProvider/${id}`,
     payDeliveryPrice: (id) => `${baseUrl}DeliveryProvider/${id}`,
     addOrder: `${baseUrl}Order`,
+    getOrders:`${baseUrl}Order`,
     addPrescription: `${baseUrl}Prescription`,
     getPrescription: (id) => `${baseUrl}Prescription?id=${id}`,
 }

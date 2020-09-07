@@ -17,8 +17,6 @@ export default function productsReducer(state = initState, action) {
             return { ...state, ...action.payload }
         case actionTypes.SET_PRODUCTS_FILTER_PRICE:
             return { ...state, ...action.payload }
-        case actionTypes.SET_PRODUCTS_FILTER_PRICE:
-            return { ...state, ...action.payload }
         case actionTypes.SET_PRODUCTS_FILTER_SORT:
             return { ...state, ...action.payload }
         case actionTypes.SET_PRODUCTS_PAGE_NUMBER:

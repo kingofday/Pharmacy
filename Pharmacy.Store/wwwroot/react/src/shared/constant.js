@@ -44,20 +44,25 @@
     deliveryPriceGuid: 'توجه: هزینه ارسال پس از تعیین شدن داروخانه مشخص خواهد شد',
     discount: 'تخفیف',
     prescription: 'نسخه',
-    prescriptionImage:'تصویر نسخه',
+    prescriptionImage: 'تصویر نسخه',
     send: 'ارسال',
-    submitPrescriptionSuccessfully:'درخواست شما با موفقیت ثبت شد، پس از بررسی با شما ارتباط برقرار خواهیم کرد',
-    prescriptionGuid:'لطفا تصویر نسخه پزشک خود را مشخص نمایید و سپس دکمه ارسال را بزنید ',
+    submitPrescriptionSuccessfully: 'درخواست شما با موفقیت ثبت شد، پس از بررسی با شما ارتباط برقرار خواهیم کرد',
+    prescriptionGuid: 'لطفا تصویر نسخه پزشک خود را مشخص نمایید و سپس دکمه ارسال را بزنید ',
     deliverCost: 'هزینه ارسال',
-    peyk:'پیک',
-    post:'پست',
+    peyk: 'پیک',
+    post: 'پست',
     successfulOrder: 'سفارش شما به شماره {0} با موفقیت ثبت شد',
     purchaseFailed: 'خرید شما  به شماره سفارش {0} موفقیت آمیر نبود',
-    orderId:'شماره سفارش',
-    successPayment:'پرداخت با موفقیت انجام شد',
-    failedPayment:'پرداخت ناموفق بود',
-    successPaymentHint:'سفارش شما پس از بسته بندی ارسال خواهد شد',
-    failedPaymentHint:'شماره سفارش: {0} می باشد',
+    orderId: 'شماره سفارش',
+    successPayment: 'پرداخت با موفقیت انجام شد',
+    failedPayment: 'پرداخت ناموفق بود',
+    successPaymentHint: 'سفارش شما پس از بسته بندی ارسال خواهد شد',
+    failedPaymentHint: 'شماره سفارش: {0} می باشد',
+    orders: 'سفارشات',
+    insertDate: 'تاریخ ثبت',
+    status: 'وضعیت',
+    price: 'قیمت',
+    
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',
@@ -137,8 +142,8 @@ export const validationStrings = {
     passwordInvalidLength: 'گذروازه باید حداقل 5 کاراکتر داشته باشد',
     incorrectRepeatPassword: 'تکرار گذروازه اشتباه است',
     maxFileSizeExceeded: (size) => `حداکثر حجم فایل ${size} مگابایت می باشد`,
-    maxFileCountExceeded:(count)=>`حداکثر تعداد فایل ها ${count} می باشد`,
-    atleastOneFileRequired:'حداقل یک فایل مورد نیاز است'
+    maxFileCountExceeded: (count) => `حداکثر تعداد فایل ها ${count} می باشد`,
+    atleastOneFileRequired: 'حداقل یک فایل مورد نیاز است'
 }
 export const enums = {
     drugFilterType: {

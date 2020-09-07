@@ -1,14 +1,13 @@
-﻿using Elk.Core;
+﻿using System;
+using Elk.Core;
 using System.Linq;
 using Pharmacy.Domain;
 using Pharmacy.DataAccess.Ef;
 using System.Threading.Tasks;
 using Pharmacy.Service.Resource;
 using System.Linq.Expressions;
-using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using Pharmacy.Domain.Resource;
 
 namespace Pharmacy.Service
 {
@@ -559,6 +558,44 @@ namespace Pharmacy.Service
             {
                 Result = (order, order.CurrentOrderDrugStore.DeliveryPrice),
                 IsSuccessful = true
+            };
+
+        }
+
+        public IResponse<List<GetOrderInfoModel>> GetHistory(Guid userId, PagingParameter paging)
+        {
+            var result = _orderRepo.Get(new PagedListFilterModel<Order, dynamic>
+            {
+                Conditions = x => x.UserId == userId && !x.IsDeleted,
+                Selector = x => new
+                {
+                    x.UniqueId,
+                    x.Status,
+                    x.InsertDateSh,
+                    x.TotalPrice,
+                    Items = x.OrderItems.Select(oi => new GetOrderItemInfoModel
+                    {
+                        NameFa = oi.Drug.NameFa,
+                        DiscountPrice = oi.DiscountPrice,
+                        Price = oi.Price,
+                        Count = oi.Count,
+                        TotalPrice = oi.TotalPrice,
+                        UniqueId = oi.Drug.UniqueId
+                    })
+                },
+                PagingParameter = paging,
+                IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.OrderItems, x => x.OrderItems.Select(i => i.Drug) }
+            });
+            return new Response<List<GetOrderInfoModel>>
+            {
+                Result = result.Items.Select(x => new GetOrderInfoModel
+                {
+                    UniqueId = x.UniqueId,
+                    Status = x.Status,
+                    TotalPrice = x.TotalPrice,
+                    InsertDateSh = x.InsertDateSh,
+                    Items = x.Items
+                }).ToList()
             };
 
         }

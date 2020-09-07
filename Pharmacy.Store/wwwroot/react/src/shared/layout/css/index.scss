@@ -16,7 +16,35 @@
     > * {
       margin-right: 15px;
     }
-    i {
+    .dropdown {
+      #ddl-options {
+        background-color: transparent;
+        border: solid 1px #fff;
+        max-width: 115px;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .log-out {
+        color: #666;
+        background-color: transparent;
+        padding: 0;
+      }
+      a.dropdown-item {
+        font-size: 0.9rem;
+        padding: .5rem 1.5rem;
+
+        &:active {
+          background-color: #fff !important;
+        }
+
+        i {
+          vertical-align: middle;
+          font-size: 1.4rem;
+        }
+      }
+    }
+    .zmdi-account,
+    .zmdi-shopping-cart {
       color: #fff;
       font-size: 20px;
       vertical-align: middle;
@@ -25,15 +53,6 @@
         color: red;
       }
     }
-    .log-out {
-      padding: 0;
-      &:hover {
-        background: transparent;
-      }
-    }
-  }
-  .log-out {
-    background-color: none;
   }
   .ripple-loader {
     position: relative;

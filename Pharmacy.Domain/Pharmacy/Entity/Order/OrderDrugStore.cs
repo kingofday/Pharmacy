@@ -15,21 +15,18 @@ namespace Pharmacy.Domain
 
         [Display(Name = nameof(Strings.Status), ResourceType = typeof(Strings))]
         public OrderDrugStoreStatus Status { get; set; }
-        //[NotMapped]
+
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]
         public DateTime InsertDateMi { get; set; }
 
-        //[NotMapped]
         [Display(Name = nameof(Strings.ModifyDate), ResourceType = typeof(Strings))]
         public DateTime ModifyDateMi { get; set; }
 
-        //[NotMapped]
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(Strings.InsertDate), ResourceType = typeof(Strings))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]
         public string InsertDateSh { get; set; }
 
-        //[NotMapped]
         [Column(TypeName = "char(10)")]
         [Display(Name = nameof(Strings.ModifyDate), ResourceType = typeof(Strings))]
         [MaxLength(10, ErrorMessageResourceName = nameof(ErrorMessage.MaxLength), ErrorMessageResourceType = typeof(ErrorMessage))]

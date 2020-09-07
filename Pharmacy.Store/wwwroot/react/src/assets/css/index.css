@@ -421,26 +421,41 @@ body[dir="rtl"] .modal-header .close {
   margin-right: 15px;
 }
 
-#comp-top-header .auth-wrapper i {
+#comp-top-header .auth-wrapper .dropdown #ddl-options {
+  background-color: transparent;
+  border: solid 1px #fff;
+}
+
+#comp-top-header .auth-wrapper .dropdown .log-out {
+  color: #666;
+  background-color: transparent;
+  padding: 0;
+}
+
+#comp-top-header .auth-wrapper .dropdown a.dropdown-item {
+  font-size: 0.9rem;
+  padding: .5rem 1.5rem;
+}
+
+#comp-top-header .auth-wrapper .dropdown a.dropdown-item:active {
+  background-color: #fff !important;
+}
+
+#comp-top-header .auth-wrapper .dropdown a.dropdown-item i {
+  vertical-align: middle;
+  font-size: 1.4rem;
+}
+
+#comp-top-header .auth-wrapper .zmdi-account,
+#comp-top-header .auth-wrapper .zmdi-shopping-cart {
   color: #fff;
   font-size: 20px;
   vertical-align: middle;
 }
 
-#comp-top-header .auth-wrapper i:hover {
+#comp-top-header .auth-wrapper .zmdi-account:hover,
+#comp-top-header .auth-wrapper .zmdi-shopping-cart:hover {
   color: red;
-}
-
-#comp-top-header .auth-wrapper .log-out {
-  padding: 0;
-}
-
-#comp-top-header .auth-wrapper .log-out:hover {
-  background: transparent;
-}
-
-#comp-top-header .log-out {
-  background-color: none;
 }
 
 #comp-top-header .ripple-loader {

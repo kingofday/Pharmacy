@@ -42,6 +42,7 @@ const authReducer = (state = getInitilState(), action) => {
     
     switch (action.type) {
         case actionTypes.LOG_IN:
+            console.log(action.payload);
             return {
                 ...state,
                 authenticated: true,

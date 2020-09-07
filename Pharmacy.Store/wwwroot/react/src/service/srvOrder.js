@@ -8,4 +8,10 @@ export default class srvOrder {
         if (!user.success) return user;
         return srvAuth.checkResponse(await apiOrder.submit(user.result.token, order));
     }
+
+    static async getHistory() {
+        let user = srvAuth.getUserInfo();
+        if (!user.success) return user;
+        return srvAuth.checkResponse(await apiOrder.getHistory(user.result.token));
+    }
 }
