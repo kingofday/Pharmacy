@@ -38,7 +38,7 @@ namespace Pharmacy.Service
                     Latitude = x.Address.Latitude,
                     Longitude = x.Address.Longitude
                 },
-                Conditions = x => excludedStores == null ? true : !excludedStores.Contains(x.DrugStoreId),
+                Conditions = x => x.IsActive && excludedStores == null ? true : !excludedStores.Contains(x.DrugStoreId),
                 OrderBy = o => o.OrderBy(x => x.DrugStoreId),
                 IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
             });

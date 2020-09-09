@@ -14,13 +14,12 @@ using System.IdentityModel.Tokens.Jwt;
 
 namespace Pharmacy.API.Controllers
 {
-    [EnableCors("AllowedOrigins")]
-    [ApiController]
-    public class AuthController : ControllerBase
+    [ApiController, EnableCors("AllowedOrigins")]
+    public class UserController : ControllerBase
     {
         readonly IUserService _userSrv;
         readonly APICustomSetting _settings;
-        public AuthController(IUserService userSrv, IOptions<APICustomSetting> settings)
+        public UserController(IUserService userSrv, IOptions<APICustomSetting> settings)
         {
             _userSrv = userSrv;
             _settings = settings.Value;
@@ -97,8 +96,12 @@ namespace Pharmacy.API.Controllers
             return conf;
         }
 
-        [HttpPost, Route("auth/{mobileNumber:long}")]
+        [HttpPost, Route("Resend/{mobileNumber:long}")]
         public async Task<ActionResult<IResponse<bool>>> Resend(long mobileNumber)
             => await _userSrv.Resend(mobileNumber);
+
+        [HttpPost, CustomAuth, Route("UpdateProfile")]
+        public async Task<ActionResult<IResponse<User>>> Update([FromBody] UpdateProfileModel model)
+                 => await _userSrv.UpdateProfile(User.GetUserId(), model);
     }
 }

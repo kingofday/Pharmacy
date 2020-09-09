@@ -11,7 +11,6 @@ using Pharmacy.InfraStructure;
 using Pharmacy.Service.Resource;
 using System.Collections.Generic;
 using DomainStrings = Pharmacy.Domain.Resource.Strings;
-using Pharmacy.Domain.Resource;
 
 namespace Pharmacy.Service
 {
@@ -70,12 +69,12 @@ namespace Pharmacy.Service
             if (!string.IsNullOrWhiteSpace(user.NewPassword)) user.Password = HashGenerator.Hash(model.NewPassword);
             user.NewPassword = null;
             _userRepo.Update(user);
-            var saveResult = _appUow.ElkSaveChangesAsync();
+            var saveResult = await _appUow.ElkSaveChangesAsync();
             return new Response<User>
             {
                 Result = user,
-                IsSuccessful = saveResult.Result.IsSuccessful,
-                Message = saveResult.Result.Message
+                IsSuccessful = saveResult.IsSuccessful,
+                Message = saveResult.Message
             };
         }
 
@@ -406,7 +405,7 @@ namespace Pharmacy.Service
             }
             else
             {
-                if(user.MobileConfirmCode == null)
+                if (user.MobileConfirmCode == null)
                 {
                     user.MobileConfirmCode = Randomizer.GetRandomInteger(4);
                     _userRepo.Update(user);
@@ -458,6 +457,23 @@ namespace Pharmacy.Service
             return new Response<bool> { IsSuccessful = notify.IsSuccessful, Message = notify.IsSuccessful ? string.Empty : ServiceMessage.Error };
 
 
+        }
+
+        public async Task<Response<User>> UpdateProfile(Guid id, UpdateProfileModel model)
+        {
+            var user = await _userRepo.FindAsync(id);
+            if (user == null)
+                return new Response<User> { Message = ServiceMessage.AlreadySignedUp };
+            var code = Randomizer.GetRandomInteger(4);
+            user.FullName = model.Fullname;
+            user.Email = model.Email;
+            if (!string.IsNullOrWhiteSpace(user.NewPassword))
+                user.Password = HashGenerator.Hash(model.NewPassword);
+            _userRepo.Update(user);
+            var update = await _appUow.ElkSaveChangesAsync();
+            if (!update.IsSuccessful)
+                return new Response<User> { Message = update.Message };
+            return new Response<User> { Result = user, IsSuccessful = update.IsSuccessful, Message = update.Message };
         }
     }
 }

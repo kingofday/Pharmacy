@@ -4,25 +4,31 @@
 }
 
 <div class="row">
-    <div class="col-12 col-sm-6">
-        <custom-select-for for="PaymentStatus" 
+    <div class="col-12 col-sm-4">
+        <custom-select-for for="PaymentStatus"
                            optional-label="@Strings.SelectPlease"
                            items="EnumExtension.GetEnumElements<PaymentStatus>().Select(x=>new SelectListItem {
                                 Value = x.Name,
                                 Text = x.Description
-                            }).ToList()"/>
+                            }).ToList()" />
     </div>
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-4">
         <custom-select-for for="StoreId" class="form-control select2 with-ajax"
-                          optional-label="@Strings.SelectPlease"
-                          select-data-url="@Url.Action("Search","Store")" />
+                           optional-label="@Strings.SelectPlease"
+                           select-data-url="@Url.Action("Search","DrugStore")" />
+    </div>
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="TransactionId" class="form-control ltr-elm"></custom-input-for>
     </div>
 </div>
 <div class="row">
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-4">
+        <custom-input-for for="UniqueId" class="form-control ltr-elm"></custom-input-for>
+    </div>
+    <div class="col-12 col-sm-4">
         <custom-input-for for="FromDateSh" class="form-control pdate ltr-elm"></custom-input-for>
     </div>
-    <div class="col-12 col-sm-6">
+    <div class="col-12 col-sm-4">
         <custom-input-for for="ToDateSh" class="form-control pdate ltr-elm"></custom-input-for>
     </div>
 </div>

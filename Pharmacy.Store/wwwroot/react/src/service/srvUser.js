@@ -2,7 +2,8 @@ import CryptoJS from 'crypto-js';
 import strings from '../shared/constant';
 import userApi from '../api/apiUser';
 
-export default class srvAuth {
+export default class srvUser {
+    
     static getUserInfo() {
         let ciphertext = localStorage.getItem('user');
         if (ciphertext == null)
@@ -25,21 +26,25 @@ export default class srvAuth {
         localStorage.removeItem('user');
         console.log('removed');
     }
+
     static async signIn(model) {
         let rep = await userApi.signIn(model);
         if (rep.success && rep.result.isConfirmed)
             this.storeUserInfo(rep.result);
         return rep
     }
+
     static async signUp(model) {
         return await userApi.signUp(model);
     }
+
     static async confirm(mobileNumber, code) {
         let conf = await userApi.confirm(mobileNumber, code);
         if (conf.success)
             this.storeUserInfo(conf.result);
         return conf;
     }
+
     static async resendSMS(mobileNumber) {
         return await userApi.resendSMS(mobileNumber);
     }
@@ -50,5 +55,11 @@ export default class srvAuth {
             return { ...rep, message: strings.loginAgain }
         }
         else return rep;
+    }
+
+    static async updateProfile(model) {
+        let user = this.getUserInfo();
+        if (!user.success) return user;
+        return this.checkResponse(await userApi.updateProfile(user.result.token, model));
     }
 }

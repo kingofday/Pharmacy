@@ -9,7 +9,7 @@ import strings from './../../constant';
 class TopHeader extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { animate: false }
+        this.state = { animate: false };
     }
     componentDidUpdate(prevProps) {
         if (this.props.items.length !== prevProps.items.length) {
@@ -33,13 +33,17 @@ class TopHeader extends React.Component {
                             <img src={logoImage} alt='pharmacy logo' />
                         </Col>
                         <Col xs={6} sm={6} className='auth-wrapper'>
-                            <Link to={this.props.authenticated ? '/profile' : '/auth'}>
-                                <i className='icon zmdi zmdi-account'></i>
-                            </Link>
+                            {this.props.authenticated ? null : <Link to='/auth'>
+                                <i className='auth-icon icon zmdi zmdi-account'></i>
+                            </Link>}
+
                             <Link to='/basket' className={this.state.animate ? 'ripple-loader' : ''}>
                                 <i className='icon zmdi zmdi-shopping-cart'></i>
                             </Link>
                             {this.props.authenticated ? <DropdownButton id="ddl-options" title={this.props.fullname}>
+                                <Dropdown.Item href='/profile'>
+                                    <i className='zmdi zmdi-account'></i>&nbsp;{strings.profile}
+                                </Dropdown.Item>
                                 <Dropdown.Item href='/orderHistory'>
                                     <i className=' zmdi zmdi-format-list-bulleted'></i>&nbsp;{strings.orders}
                                 </Dropdown.Item>

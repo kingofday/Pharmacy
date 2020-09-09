@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.Extensions.Options;
+using System.Collections.Generic;
+using System;
 
 namespace Pharmacy.API.Controllers
 {
@@ -70,6 +72,10 @@ namespace Pharmacy.API.Controllers
                 }
             };
         }
+
+        [HttpGet]
+
+        public ActionResult<IResponse<List<GetOrderInfoModel>>> GetHistory([FromQuery] PagingParameter paging) => _orderService.GetHistory(User.GetUserId(), paging, _setting.DashboardBaseUrl);
 
 
     }

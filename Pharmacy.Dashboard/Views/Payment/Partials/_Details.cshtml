@@ -7,7 +7,7 @@
         <custom-input-for for="TransactionId" readonly="true" />
     </div>
     <div class="col-12 col-sm-6">
-        <custom-input label="@Html.DisplayNameFor(x=>x.PaymentStatus)" Id="PaymentStatus" name="PaymentStatus" value="@Model.PaymentStatus.GetDescription()" readonly="true" ></custom-input>
+        <custom-input label="@Html.DisplayNameFor(x=>x.PaymentStatus)" Id="PaymentStatus" name="PaymentStatus" input-value="@Model.PaymentStatus.GetDescription()" readonly="true" ></custom-input>
     </div>
 </div>
 <div class="row">
@@ -24,6 +24,6 @@
         <custom-input-for for="Order.Address.User.MobileNumber" readonly="true" class="form-control ltr-elm" />
     </div>
     <div class="col-12 col-sm-6">
-        <custom-input label="@Html.DisplayNameFor(x=>x.PaymentGateway)" Id="PaymentGateway" name="PaymentGateway" input-Value="@Model.PaymentGateway.Name" readonly="true" />
+        <custom-input label="@Html.DisplayNameFor(x=>x.PaymentGateway)" Id="PaymentGateway" name="PaymentGateway" input-value="@Model.PaymentGateway.Name" readonly="true" />
     </div>
 </div>

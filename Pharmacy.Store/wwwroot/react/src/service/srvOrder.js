@@ -1,17 +1,17 @@
 //import strings from './../shared/constant';
 import apiOrder from './../api/apiOrder';
-import srvAuth from './srvAuth';
+import srvUser from './srvUser';
 
 export default class srvOrder {
     static async add(order) {
-        let user = srvAuth.getUserInfo();
+        let user = srvUser.getUserInfo();
         if (!user.success) return user;
-        return srvAuth.checkResponse(await apiOrder.submit(user.result.token, order));
+        return srvUser.checkResponse(await apiOrder.submit(user.result.token, order));
     }
 
-    static async getHistory() {
-        let user = srvAuth.getUserInfo();
+    static async getHistory(pagenumber) {
+        let user = srvUser.getUserInfo();
         if (!user.success) return user;
-        return srvAuth.checkResponse(await apiOrder.getHistory(user.result.token));
+        return srvUser.checkResponse(await apiOrder.getHistory(user.result.token,pagenumber));
     }
 }

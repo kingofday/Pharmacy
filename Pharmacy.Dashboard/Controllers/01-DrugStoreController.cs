@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using DomainString = Pharmacy.Domain.Resource.Strings;
 using Elk.Core;
-using System.Linq;
 
 namespace Pharmacy.Dashboard.Controllers
 {
-    //[AuthorizationFilter]
+    [AuthorizationFilter]
     public class DrugStoreController : Controller
     {
         readonly IDrugStoreService _DrugSrv;
@@ -24,7 +23,7 @@ namespace Pharmacy.Dashboard.Controllers
             _configuration = configuration;
         }
 
-        [HttpGet, AuthEqualTo("Drug", "Manage")]
+        [HttpGet, AuthEqualTo("DrugStore", "Manage")]
         public virtual JsonResult Search(string q) => Json(_DrugSrv.Search(q, null).ToSelectListItems());
 
         [HttpGet]

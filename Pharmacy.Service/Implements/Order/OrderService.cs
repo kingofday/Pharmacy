@@ -562,40 +562,52 @@ namespace Pharmacy.Service
 
         }
 
-        public IResponse<List<GetOrderInfoModel>> GetHistory(Guid userId, PagingParameter paging)
+        public Response<List<GetOrderInfoModel>> GetHistory(Guid userId, PagingParameter paging, string baseUrl)
         {
-            var result = _orderRepo.Get(new PagedListFilterModel<Order, dynamic>
+            var result = _orderRepo.Get(new PagedListFilterModel<Order, GetOrderInfoModel>
             {
-                Conditions = x => x.UserId == userId && !x.IsDeleted,
-                Selector = x => new
+                Conditions = x => x.UserId == userId && !x.IsDeleted && x.Status >= OrderStatus.InProcessing,
+                Selector = x => new GetOrderInfoModel
                 {
-                    x.UniqueId,
-                    x.Status,
-                    x.InsertDateSh,
-                    x.TotalPrice,
-                    Items = x.OrderItems.Select(oi => new GetOrderItemInfoModel
+                    OrderId = x.OrderId,
+                    UniqueId = x.UniqueId,
+                    NeedDeliveryPayment = x.Status == OrderStatus.Accepted,
+                    Status = x.Status.GetDescription(),
+                    InsertDateSh = x.InsertDateSh,
+                    TotalPrice = x.TotalPrice
+                },
+                PagingParameter = paging,
+                OrderBy = o => o.OrderByDescending(x => x.InsertDateMi)
+            });
+            if (result.Items.Any())
+            {
+                var orderIds = result.Items.Select(x => x.OrderId).ToList();
+                var oItems = _appUow.OrderItemRepo.Get(new ListFilterModel<OrderItem, GetOrderItemInfoModel>
+                {
+                    Selector = oi => new GetOrderItemInfoModel
                     {
+                        OrderId = oi.OrderId,
                         NameFa = oi.Drug.NameFa,
                         DiscountPrice = oi.DiscountPrice,
                         Price = oi.Price,
                         Count = oi.Count,
                         TotalPrice = oi.TotalPrice,
-                        UniqueId = oi.Drug.UniqueId
-                    })
-                },
-                PagingParameter = paging,
-                IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.OrderItems, x => x.OrderItems.Select(i => i.Drug) }
-            });
+                        UniqueId = oi.Drug.UniqueId,
+                        ThumbnailImageUrl = oi.Drug.DrugAttachments.Where(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Select(x => baseUrl + x.Url).FirstOrDefault()
+                    },
+                    Conditions = x => orderIds.Contains(x.OrderId),
+                    IncludeProperties = new List<Expression<Func<OrderItem, object>>> { x => x.Drug, x => x.Drug.DrugAttachments },
+                    OrderBy = o => o.OrderByDescending(x => x.OrderItemId)
+                });
+
+                foreach (var o in result.Items)
+                    o.Items = oItems.Where(x => x.OrderId == o.OrderId).ToList();
+            }
+
             return new Response<List<GetOrderInfoModel>>
             {
-                Result = result.Items.Select(x => new GetOrderInfoModel
-                {
-                    UniqueId = x.UniqueId,
-                    Status = x.Status,
-                    TotalPrice = x.TotalPrice,
-                    InsertDateSh = x.InsertDateSh,
-                    Items = x.Items
-                }).ToList()
+                IsSuccessful = true,
+                Result = result.Items
             };
 
         }

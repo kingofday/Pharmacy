@@ -1,21 +1,21 @@
 //import strings from './../shared/constant';
 import apiAddress from './../api/apiAddress';
-import srvAuth from './srvAuth';
+import srvUser from './srvUser';
 
 export default class srvAddress {
     static async get() {
-        let user = srvAuth.getUserInfo();
+        let user = srvUser.getUserInfo();
         if (!user.success) return user;
-        return srvAuth.checkResponse(await apiAddress.get(user.result.token));
+        return srvUser.checkResponse(await apiAddress.get(user.result.token));
     }
     static async add(addr) {
-        let user = srvAuth.getUserInfo();
+        let user = srvUser.getUserInfo();
         if (!user.success) return user;
-        return srvAuth.checkResponse(await apiAddress.add(user.result.token, addr));
+        return srvUser.checkResponse(await apiAddress.add(user.result.token, addr));
     }
     static async update(addr) {
-        let user = srvAuth.getUserInfo();
+        let user = srvUser.getUserInfo();
         if (!user.success) return user;
-        return srvAuth.checkResponse(await apiAddress.update(user.result.token, addr));
+        return srvUser.checkResponse(await apiAddress.update(user.result.token, addr));
     }
 }

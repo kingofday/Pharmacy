@@ -57,14 +57,14 @@
   font-size: 1.4rem;
 }
 
-#comp-top-header .auth-wrapper .zmdi-account,
+#comp-top-header .auth-wrapper .auth-icon,
 #comp-top-header .auth-wrapper .zmdi-shopping-cart {
   color: #fff;
   font-size: 20px;
   vertical-align: middle;
 }
 
-#comp-top-header .auth-wrapper .zmdi-account:hover,
+#comp-top-header .auth-wrapper .auth-icon:hover,
 #comp-top-header .auth-wrapper .zmdi-shopping-cart:hover {
   color: red;
 }

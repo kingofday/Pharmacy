@@ -61,7 +61,7 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to کاربر گرامی، سفارش شما در {0} مورد پذیرش قرار گرفته است، لطفا جهت ادامه فرایند سفارش، از طریق لینک زیر هزینه ارسال را پرداهت نمایید:
+        ///   Looks up a localized string similar to کاربر گرامی، سفارش شما در {0} مورد پذیرش قرار گرفته است، لطفا جهت ادامه فرایند سفارش، از طریق لینک زیر هزینه ارسال را پرداخت نمایید:
         ///{1}.
         /// </summary>
         public static string DrugStoreAcceptOrder {

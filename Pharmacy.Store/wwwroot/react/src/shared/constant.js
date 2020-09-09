@@ -62,7 +62,11 @@
     insertDate: 'تاریخ ثبت',
     status: 'وضعیت',
     price: 'قیمت',
-    
+    profile:'پروفایل',
+    notFound:'یافت نشد',
+    payDeliveryPrice:'پرداخت هزینه ارسال',
+    changePassword:'گذرواژه را تغییر می دهم',
+    successfullOperation:'عملیات با موفقیت انجام شد',
     //sorts: -----------------------------------------
     byNewests: 'مرتب سازی بر اساس جدید ترین',
     byBestSeller: 'بر اساس بیشترین فروش',
@@ -109,6 +113,7 @@
     all: 'همه',
     newests: 'تازه ترین ها',
     bestSellers: 'پرفروش ترین ها',
+    mostVisited: 'پر بازدید ترین ها',
     website: 'وب سایت',
     phoneNumbers: 'شماره تلفن ها',
     add: 'افزودن',

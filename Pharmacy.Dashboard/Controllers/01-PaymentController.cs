@@ -13,7 +13,7 @@ using DomainString = Pharmacy.Domain.Resource.Strings;
 
 namespace Pharmacy.Dashboard.Controllers
 {
-    //[AuthorizationFilter]
+    [AuthorizationFilter]
     public partial class PaymentController : Controller
     {
         private readonly IPaymentService _paymentSrv;

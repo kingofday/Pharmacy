@@ -46,8 +46,8 @@ export default class apiOrder {
         }
     }
 
-    static async getHistory(token) {
-        let url = addr.getOrders;
+    static async getHistory(token, pagenumber) {
+        let url = addr.getOrders(pagenumber);
         var handleResponse = async (response) => {
             const rep = await response.json();
             if (!rep.IsSuccessful)
@@ -56,17 +56,20 @@ export default class apiOrder {
                 status: 200,
                 success: true,
                 result: rep.Result.map((x) => ({
+                    orderId: x.OrderId,
                     uniqueId: x.UniqueId,
                     status: x.Status,
                     totalPrice: x.TotalPrice,
                     insertDate: x.InsertDateSh,
-                    items : x.map(oi => ({
-                        nameFa: oi.Drug.NameFa,
+                    needDeliveryPayment: x.NeedDeliveryPayment,
+                    items: x.Items.map(oi => ({
+                        nameFa: oi.NameFa,
                         discountPrice: oi.DiscountPrice,
                         price: oi.Price,
                         count: oi.Count,
                         totalPrice: oi.TotalPrice,
-                        uniqueId: oi.Drug.UniqueId
+                        uniqueId: oi.UniqueId,
+                        thumbnailImageUrl: oi.ThumbnailImageUrl
                     }))
                 }))
             }

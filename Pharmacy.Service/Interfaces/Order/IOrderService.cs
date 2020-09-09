@@ -21,6 +21,6 @@ namespace Pharmacy.Service
         Response<GetDeliveryPriceDTO> GetDeliveryPrice(Guid id);
         Task<Response<(Order Order,int price)>> CheckBeforeDeliveryPrice(Guid id);
 
-        IResponse<List<GetOrderInfoModel>> GetHistory(Guid userId, PagingParameter paging);
+        Response<List<GetOrderInfoModel>> GetHistory(Guid userId, PagingParameter paging, string baseUrl);
     }
 }

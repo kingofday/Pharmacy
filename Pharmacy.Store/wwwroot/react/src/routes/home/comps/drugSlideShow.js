@@ -30,7 +30,7 @@ class DrugSlideShow extends React.Component {
   }
   render() {
     var settings = {
-      autoplay: true,
+      autoplay: false,
       dots: false,
       infinite: true,
       speed: this.props.speed || 2000,
@@ -38,6 +38,7 @@ class DrugSlideShow extends React.Component {
       slidesToShow: 4,
       slidesToScroll: -1,
       dir: 'rtl',
+      arrows:true,
       responsive: [
         {
           breakpoint: 980, // tablet breakpoint

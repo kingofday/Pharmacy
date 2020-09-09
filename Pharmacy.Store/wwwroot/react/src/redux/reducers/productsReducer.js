@@ -2,7 +2,7 @@
 
 const initState = {
     type: 0,
-    name:'',
+    name: '',
     pageNumber: 1,
     pageSize: 9,
     maxAvailablePrice: 0,
@@ -21,6 +21,9 @@ export default function productsReducer(state = initState, action) {
             return { ...state, ...action.payload }
         case actionTypes.SET_PRODUCTS_PAGE_NUMBER:
             return { ...state, ...action.payload }
+            case actionTypes.SET_PRODUCTS_FILTER_CATEGORY:
+                console.log(action.payload);
+                return { ...state, ...action.payload }
         case actionTypes.SET_PRODUCTS_MAXAVAILABLEPRICE:
             return { ...state, ...action.payload, maxPrice: state.maxPrice === 0 ? action.payload.maxAvailablePrice : state.maxPrice }
         default:

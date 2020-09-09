@@ -9,6 +9,8 @@
 
 .comp-drug-item .main-img {
   margin-top: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
   max-width: 100%;
 }
 
@@ -51,6 +53,8 @@
 
 .comp-loading-drug .main-img {
   margin-top: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
   height: 120px;
   width: 100%;
 }

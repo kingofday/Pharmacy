@@ -44,6 +44,42 @@
   overflow: hidden;
 }
 
+#home-page .comp-slide-show .slick-prev,
+#home-page .comp-slide-show .slick-next {
+  position: absolute;
+  top: -20px;
+  text-align: center;
+  width: 28px;
+  height: 28px;
+  background-color: #00346e;
+}
+
+#home-page .comp-slide-show .slick-prev:before,
+#home-page .comp-slide-show .slick-next:before {
+  font: normal normal normal 14px/1 "Material-Design-Iconic-Font";
+  font-size: 27px;
+  color: #fff;
+  opacity: 1;
+}
+
+#home-page .comp-slide-show .slick-prev {
+  left: 60px;
+  right: auto;
+}
+
+#home-page .comp-slide-show .slick-prev:before {
+  content: "\f2fb" !important;
+}
+
+#home-page .comp-slide-show .slick-next {
+  left: 20px;
+  right: auto;
+}
+
+#home-page .comp-slide-show .slick-next:before {
+  content: "\f2fa" !important;
+}
+
 #home-page #comp-third-row #comp-banner-slide-show .slick-next {
   left: 15px !important;
   z-index: 999;

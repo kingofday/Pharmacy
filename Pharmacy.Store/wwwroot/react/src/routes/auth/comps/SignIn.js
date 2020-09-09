@@ -6,7 +6,7 @@ import { LogInAction, GoToNextPage } from '../../../redux/actions/authAction';
 import strings, { validationStrings } from '../../../shared/constant';
 import { validate } from '../../../shared/utils';
 import { TextField } from '@material-ui/core';
-import srvAuth from '../../../service/srvAuth';
+import srvUser from '../../../service/srvUser';
 import Confirm from './confirm';
 import Modal from '../../../shared/modal';
 import { toast } from 'react-toastify';
@@ -82,7 +82,7 @@ class SignIn extends React.Component {
         for (let i = 0; i < inputs.length; i++)
             model[inputs[i]] = this.state[inputs[i]].value;
         console.log(model);
-        let signin = await srvAuth.signIn(model);
+        let signin = await srvUser.signIn(model);
         this.setState(p => ({ ...p, disableBtn: false }));
         if (!signin.success) {
             toast(signin.message, { type: toast.TYPE.ERROR });

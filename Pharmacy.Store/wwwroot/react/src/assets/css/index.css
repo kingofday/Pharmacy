@@ -424,6 +424,9 @@ body[dir="rtl"] .modal-header .close {
 #comp-top-header .auth-wrapper .dropdown #ddl-options {
   background-color: transparent;
   border: solid 1px #fff;
+  max-width: 115px;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #comp-top-header .auth-wrapper .dropdown .log-out {
@@ -446,14 +449,14 @@ body[dir="rtl"] .modal-header .close {
   font-size: 1.4rem;
 }
 
-#comp-top-header .auth-wrapper .zmdi-account,
+#comp-top-header .auth-wrapper .auth-icon,
 #comp-top-header .auth-wrapper .zmdi-shopping-cart {
   color: #fff;
   font-size: 20px;
   vertical-align: middle;
 }
 
-#comp-top-header .auth-wrapper .zmdi-account:hover,
+#comp-top-header .auth-wrapper .auth-icon:hover,
 #comp-top-header .auth-wrapper .zmdi-shopping-cart:hover {
   color: red;
 }
@@ -1078,6 +1081,42 @@ html[dir="ltr"] .main-nav ul .close-menu {
   overflow: hidden;
 }
 
+#home-page .comp-slide-show .slick-prev,
+#home-page .comp-slide-show .slick-next {
+  position: absolute;
+  top: -20px;
+  text-align: center;
+  width: 28px;
+  height: 28px;
+  background-color: #00346e;
+}
+
+#home-page .comp-slide-show .slick-prev:before,
+#home-page .comp-slide-show .slick-next:before {
+  font: normal normal normal 14px/1 "Material-Design-Iconic-Font";
+  font-size: 27px;
+  color: #fff;
+  opacity: 1;
+}
+
+#home-page .comp-slide-show .slick-prev {
+  left: 60px;
+  right: auto;
+}
+
+#home-page .comp-slide-show .slick-prev:before {
+  content: "\f2fb" !important;
+}
+
+#home-page .comp-slide-show .slick-next {
+  left: 20px;
+  right: auto;
+}
+
+#home-page .comp-slide-show .slick-next:before {
+  content: "\f2fa" !important;
+}
+
 #home-page #comp-third-row #comp-banner-slide-show .slick-next {
   left: 15px !important;
   z-index: 999;
@@ -1160,6 +1199,8 @@ html[dir="ltr"] .main-nav ul .close-menu {
 
 .comp-drug-item .main-img {
   margin-top: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
   max-width: 100%;
 }
 
@@ -1202,6 +1243,8 @@ html[dir="ltr"] .main-nav ul .close-menu {
 
 .comp-loading-drug .main-img {
   margin-top: 12px;
+  margin-right: 5px;
+  margin-left: 5px;
   height: 120px;
   width: 100%;
 }
@@ -2184,6 +2227,107 @@ html[dir="ltr"] .main-nav ul .close-menu {
 #page-delivery-payment .skeleton {
   display: inline-block;
   vertical-align: middle;
+}
+
+#page-order-history #th {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #0099d7;
+  color: #fff;
+}
+
+#page-order-history .item {
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#page-order-history .item.collapsed {
+  border: solid 1px #ccc;
+  border-radius: 5px;
+}
+
+#page-order-history .item [class^="col"] {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#page-order-history .item .details .img-item {
+  width: 40px;
+}
+
+#page-order-history .item .last-col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#page-order-history .item .last-col button {
+  background-color: transparent;
+  color: #666;
+}
+
+.contact-us-page .rounded {
+  border-radius: 30px !important;
+}
+
+.contact-us-page .socials {
+  margin-top: 50px;
+  margin-bottom: 30px;
+}
+
+.contact-us-page .socials .a-telegram,
+.contact-us-page .socials .a-whatsapp {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 15px;
+  border-radius: 30px;
+  background-color: #fff;
+  width: 130px;
+}
+
+.contact-us-page .socials .a-telegram img,
+.contact-us-page .socials .a-whatsapp img {
+  height: 30px;
+}
+
+.contact-us-page .socials .a-whatsapp {
+  background-color: #00a82d;
+  color: #fff;
+}
+
+.contact-us-page .socials .a-telegram {
+  background-color: #20a0e1;
+  color: #fff;
+}
+
+.contact-us-page .website, .contact-us-page .phone-numbers {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+#page-profile #email {
+  direction: ltr;
+  text-align: left;
 }
 
 .error-comp {

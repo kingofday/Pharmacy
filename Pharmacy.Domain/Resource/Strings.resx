@@ -573,4 +573,7 @@
   <data name="DrugStores" xml:space="preserve">
     <value>داروخانه ها</value>
   </data>
+  <data name="OrderId" xml:space="preserve">
+    <value>شماره سفارش</value>
+  </data>
 </root>

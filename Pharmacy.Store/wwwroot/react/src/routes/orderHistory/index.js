@@ -1,37 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { TextField } from '@material-ui/core';
-import { Container, Row, Col, Alert } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import Skeleton from '@material-ui/lab/Skeleton';
-import { Radio, FormControlLabel, RadioGroup } from '@material-ui/core';
-
 import Heading from './../../shared/heading/heading';
-import Steps from './../../shared/steps';
-import Button from './../../shared/Button';
 import strings from './../../shared/constant';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { ShowInitErrorAction, HideInitErrorAction } from './../../redux/actions/InitErrorAction';
-import srvDelivery from './../../service/srvDelivery';
+import srvOrder from './../../service/srvOrder';
+import { commaThousondSeperator } from './../../shared/utils';
 
-export default class orderHistory extends React.Component {
+class OrderHistory extends React.Component {
 
     state = {
         loading: true,
-        items: []
+        pageNumber: 1,
+        items: [],
+        collapse: {}
     };
 
     async _fetchData() {
         this.setState(p => ({ ...p, loading: true }));
-        let delivery = await srvDelivery.get();
-        console.log(delivery);
+        let getOrders = await srvOrder.getHistory(this.state.pageNumber);
         this.setState(p => ({ ...p, loading: false }));
-        if (!delivery.success) {
-            this.props.showInitError(this._fetchData.bind(this), delivery.message);
+        if (!getOrders.success) {
+            this.props.showInitError(this._fetchData.bind(this), getOrders.message);
             return;
         }
-        this.setState(p => ({ ...p, deliveryId: delivery.result[0].id.toString(), deliveryTypes: delivery.result }));
+        this.setState(p => ({ ...p, items: getOrders.result, pageNumber: (getOrders.result.length > 0 ? p.pageNumber + 1 : p.pageNumber) }));
     }
 
+    _toggle(id) {
+        let collapse = this.state.collapse;
+        collapse[id] = !collapse[id];
+        this.setState(p => ({ ...p, collapse: { ...collapse } }));
+    }
 
     async componentDidMount() {
         this.props.hideInitError();
@@ -46,71 +48,41 @@ export default class orderHistory extends React.Component {
                     <Row>
                         <Col xs={12}>
                             <div className='card padding w-100'>
-                                <Heading title={strings.deliveryType} />
+                                <Heading title={strings.orders} />
                                 <div id='#items'>
-                                    {this.state.loading ? <Row key={x}>
+                                    {this.state.loading ? null : <div id='th'> <Row className='w-100'>
                                         <Col xs={12} sm={1}>#</Col>
                                         <Col xs={12} sm={3}>{strings.orderId}</Col>
                                         <Col xs={12} sm={3}>{strings.status}</Col>
-                                        <Col xs={12} sm={3}>{strings.insertDate}</Col>
-                                        <Col xs={12} sm={3}>{strings.price}</Col>
-                                    </Row> : null}
-                                    {this.state.loading ? [0, 1, 2].map((x) => <Row key={x}><Col><Skeleton variant="rect" height={100} /></Col></Row>) :
-                                        this.state.items.map((x, idx) => <Row key={x} >
-                                            <Col xs={12}>
+                                        <Col xs={12} sm={2}>{strings.insertDate}</Col>
+                                        <Col xs={12} sm={3}>{strings.price}({strings.currency})</Col>
+                                    </Row></div>}
+                                    {this.state.loading ? [0, 1, 2, 3].map((x) => <div key={x} className='item mb-15'><Skeleton className='w-100' variant="rect" height={30} /></div>) :
+                                        this.state.items.map((x, idx) => <div key={idx} onClick={() => this._toggle(idx)} className={'item mb-15 ' + (this.state.collapse[idx] ? 'collapsed' : '')}>
+                                            <Row className='w-100 mb-15'>
                                                 <Col xs={12} sm={1}>{idx + 1}</Col>
                                                 <Col xs={12} sm={3}>{x.uniqueId}</Col>
-                                                <Col xs={12} sm={3}>{x.status}</Col>
-                                                <Col xs={12} sm={3}>{x.insertDate}</Col>
-                                                <Col xs={12} sm={3}>{x.totalPrice}</Col>
-                                            </Col>
-                                        </Row>)}
-                                </div>
-                                <Row>
-                                    <Col>
-                                        <Steps activeStep={1} />
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col>
-                                        <Alert className='w-100 text-center' variant='warning'>
-                                            {strings.deliveryPriceGuid}
-                                        </Alert>
-                                    </Col>
-                                </Row>
-                                <Row>
-                                    <Col xs={12} sm={12}>
-                                        <Heading title={strings.deliveryType} />
-                                    </Col>
-                                    <Col xs={12} sm={12} className='d-flex flex-column'>
-                                        {this.state.loading ? [0, 1].map((x) => <Skeleton className='mb-15' width={150} key={x} variant='rect' height={25} />) :
-                                            <RadioGroup aria-label="address" name="old-address" value={this.state.deliveryId} onChange={this._selectDeliveryType.bind(this)}>
-                                                {this.state.deliveryTypes.map((d) => <FormControlLabel key={d.id} value={d.id.toString()} control={<Radio color="primary" />} label={d.name} />)}
-                                            </RadioGroup>}
-                                    </Col>
-                                    <Col xs={12}>
-                                        <div className="form-group mb-0">
-                                            <TextField
-                                                id="comment"
-                                                error={this.state.comment.error}
-                                                label={strings.comment}
-                                                multiline
-                                                rows={3}
-                                                value={this.state.comment.value}
-                                                onChange={this._inputChanged.bind(this)}
-                                                helperText={this.state.comment.message}
-                                                variant="outlined" />
-                                        </div>
-                                    </Col>
-                                </Row>
+                                                <Col xs={12} sm={3}>{x.status}{x.needDeliveryPayment ? <Link to={`/deliveryPayment/${x.orderId}`}><small>&nbsp;({strings.payDeliveryPrice})</small></Link> : null}</Col>
+                                                <Col xs={12} sm={2}>{x.insertDate}</Col>
+                                                <Col xs={12} sm={3} className='last-col'>
+                                                    <span>{commaThousondSeperator(x.totalPrice)}</span>
+                                                    <i className={"icon zmdi zmdi-" + (this.state.collapse[idx] ? 'chevron-up' : 'chevron-down')}></i>
+                                                </Col>
+                                            </Row>
+                                            <div className={'details ' + (this.state.collapse[idx] ? '' : 'd-none')}>
+                                                <Row >
+                                                    {x.items.map((oi, oiIdx) =>
+                                                        <Col key={oiIdx} xs={12} sm={4} llg={3} xl={2}>
+                                                            {oi.thumbnailImageUrl ? <img className='img-item' src={oi.thumbnailImageUrl} /> : null}
+                                                            <span>{oi.nameFa}({oi.uniqueId})</span>
+                                                        </Col>
+                                                    )}
+                                                </Row>
 
-                                <Row>
-                                    <Col xs={12} sm={12} className='d-flex justify-content-end'>
-                                        <Button onClick={this._submit.bind(this)} disabled={this.state.loading} loading={this.state.btnDisabled}>
-                                            {strings.continuePurchase}
-                                        </Button>
-                                    </Col>
-                                </Row>
+
+                                            </div>
+                                        </div>)}
+                                </div>
                             </div>
                         </Col>
                     </Row>
@@ -121,3 +93,13 @@ export default class orderHistory extends React.Component {
     }
 
 }
+// const mapStateToProps = state => {
+//     return { ...state.productsReducer };
+// }
+
+const mapDispatchToProps = dispatch => ({
+    hideInitError: () => dispatch(HideInitErrorAction()),
+    showInitError: (fetchData, message) => dispatch(ShowInitErrorAction(fetchData, message))
+});
+
+export default connect(null, mapDispatchToProps)(OrderHistory);

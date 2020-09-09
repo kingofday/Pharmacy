@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DrugStoreAcceptOrder" xml:space="preserve">
-    <value>کاربر گرامی، سفارش شما در {0} مورد پذیرش قرار گرفته است، لطفا جهت ادامه فرایند سفارش، از طریق لینک زیر هزینه ارسال را پرداهت نمایید:
+    <value>کاربر گرامی، سفارش شما در {0} مورد پذیرش قرار گرفته است، لطفا جهت ادامه فرایند سفارش، از طریق لینک زیر هزینه ارسال را پرداخت نمایید:
 {1}</value>
   </data>
   <data name="MobileConfirmMessage" xml:space="preserve">

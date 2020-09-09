@@ -5,7 +5,7 @@ import strings, { validationStrings } from './../../../shared/constant';
 import { Row, Col, Alert } from 'react-bootstrap';
 import { LogInAction, GoToNextPage } from './../../../redux/actions/authAction';
 import Button from './../../../shared/Button';
-import srvAuth from './../../../service/srvAuth';
+import srvUser from './../../../service/srvUser';
 
 class Confirm extends React.Component {
     constructor(props) {
@@ -36,7 +36,7 @@ class Confirm extends React.Component {
             this.setState(p => ({ ...p, code: { ...p.code, error: true, errorMessage: validationStrings.required } }));
             return;
         }
-        let confirm = await srvAuth.confirm(this.props.mobileNumber, this.state.code.value);
+        let confirm = await srvUser.confirm(this.props.mobileNumber, this.state.code.value);
         if (!confirm.success) {
             this.setState(p => ({ ...p, message: { variant: 'danger', text: confirm.message } }));
             return;
@@ -46,7 +46,7 @@ class Confirm extends React.Component {
     }
     async _resendSMS() {
         this.setState(p => ({ ...p, resending: true }));
-        let resend = await srvAuth.resendSMS(this.props.mobileNumber);
+        let resend = await srvUser.resendSMS(this.props.mobileNumber);
         this.setState(p => ({ ...p, resending: false }));
         if (!resend.success) {
             this.setState(p => ({ ...p, message: { variant: 'danger', text: resend.message } }));

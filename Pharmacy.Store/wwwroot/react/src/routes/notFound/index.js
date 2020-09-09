@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import Strings from './../../shared/constant';
+import notFoundImage from './../../assets/images/img-404.png';
 
 class NotFound extends Component {
-    componentDidMount(){
-       // window.location.href = "https://about.Pharmacy.me/contact/";
-    }
     render() {
-        console.log('not found');
         return (
-            <div className="not-found" style={{ textAlign: 'center' }}>
-                <p className="text-center" style={{ padding: '50px' }}>{Strings.pleasWait}...</p>
+            <div className="not-found d-flex flex-column justify-content-center align-items-center page-comp">
+                <img src={notFoundImage} alt="not found" style={{ width: '300px',maxWidth:'100%',margin:'15px' }} />
+                <h5 className="text-center">{Strings.notFound} !!!</h5>
             </div>
 
         );

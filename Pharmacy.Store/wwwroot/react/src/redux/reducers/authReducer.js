@@ -1,6 +1,6 @@
 ﻿import actionTypes from './../actions/actionTypes';
 import strings from './../../shared/constant';
-import srvAuth from './../../service/srvAuth';
+import srvUser from './../../service/srvUser';
 
 const getInitilState = () => {
     if (!localStorage) {
@@ -15,7 +15,7 @@ const getInitilState = () => {
             fullname: '', 
         };
     }
-    let rep = srvAuth.getUserInfo();
+    let rep = srvUser.getUserInfo();
     if (rep.success)
         return {
             goToNextPage:false,
@@ -52,7 +52,7 @@ const authReducer = (state = getInitilState(), action) => {
                 email: action.payload.email,
             };
         case actionTypes.LOG_OUT:
-            srvAuth.removeUserInfo();
+            srvUser.removeUserInfo();
 
             return {
                 ...state,
