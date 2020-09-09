@@ -135,8 +135,14 @@
     <value>کاربر گرامی {0}، ثبت نام شما با موفقیت انجام شد،
 فارما</value>
   </data>
+  <data name="SubmitPrescription" xml:space="preserve">
+    <value>{0} نسخه شما ثبت شد، پس از بررسی برای ادامه فرایند از طریق پیامک به شما اطلاع خواهیم داد</value>
+  </data>
   <data name="TempBasketUrl" xml:space="preserve">
     <value>کاربر گرامی فارما، نسخه شما بررسی گردید، جهت پرداخت هزینه آن از طریق لینک زیر اقدام نمایید:
 {0}</value>
+  </data>
+  <data name="UserSubscriptionViaPrescription" xml:space="preserve">
+    <value>{0} یک حساب کاربری با شماره موبایل وارد شده بعنوان نام کاربری و رمز عبور در فارما برای شما ایجاد شد، با تشکر</value>
   </data>
 </root>

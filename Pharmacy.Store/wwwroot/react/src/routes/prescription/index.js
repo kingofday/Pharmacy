@@ -59,6 +59,7 @@ class Prescription extends React.Component {
         }
         this.setState(p => ({ ...p, loading: true }));
         let add = await srvPrescription.add(this.state.mobileNumber.value, this.state.files);
+        console.log(add);
         this.setState(p => ({ ...p, loading: false }));
         if (!add.success) {
             toast(add.message, { type: toast.TYPE.ERROR });

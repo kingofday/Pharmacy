@@ -26,13 +26,10 @@ namespace Pharmacy.Service
 
         public virtual async Task<Response<int>> Add(AddPrescriptionModel model)
         {
+            var notifications = new List<NotificationDto>();
             var save = await _attchSrv.Save(AttachmentType.PrescriptionImage, model.Files, model.AppDir);
             if (!save.IsSuccessful)
                 return new Response<int> { Message = save.Message };
-            var mobNum = long.Parse(model.MobileNumber);
-            var user = await _appUow.UserRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobNum });
-            if (user != null)
-                model.UserId = user.UserId;
             var prescription = new Prescription
             {
                 Status = PrescriptionStatus.Added,
@@ -48,16 +45,50 @@ namespace Pharmacy.Service
                     Size = x.Size
                 }).ToList()
             };
-            if (user == null)
-                prescription.User = new User
+            NotificationDto subNotif = null;
+            if (model.UserId == null)
+            {
+                var mobNum = long.Parse(model.MobileNumber);
+                var user = await _appUow.UserRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobNum });
+                if (user != null)
                 {
-                    FullName = $"کاربر-{model.MobileNumber}",
-                    MobileNumber = mobNum,
-                    Password = HashGenerator.Hash(model.MobileNumber)
-                };
-            else prescription.UserId = user.UserId;
+                    model.Fullname = user.FullName;
+                    prescription.UserId = user.UserId;
+                }
+                else
+                {
+                    model.Fullname = $"کاربر-{model.MobileNumber}";
+                    subNotif = new NotificationDto
+                    {
+                        Content = string.Format(NotifierMessage.UserSubscriptionViaPrescription, model.Fullname),
+                        FullName = model.Fullname,
+                        MobileNumber = long.Parse(model.MobileNumber),
+                        Type = EventType.Subscription
+                    };
+                    prescription.User = new User
+                    {
+                        FullName = model.Fullname,
+                        MobileNumber = long.Parse(model.MobileNumber),
+                        Password = HashGenerator.Hash(model.MobileNumber)
+                    };
+                }
+
+            }
+
+            else prescription.UserId = model.UserId ?? Guid.Empty;
             await _presRepo.AddAsync(prescription);
             var add = await _appUow.ElkSaveChangesAsync();
+            if (add.IsSuccessful)
+            {
+                if (subNotif != null) await _notifSrv.NotifyAsync(subNotif);
+                await _notifSrv.NotifyAsync(new NotificationDto
+                {
+                    Content = string.Format(NotifierMessage.SubmitPrescription, model.Fullname),
+                    FullName = model.Fullname,
+                    MobileNumber = long.Parse(model.MobileNumber),
+                    Type = EventType.Subscription
+                });
+            }
             return new Response<int>
             {
                 IsSuccessful = add.IsSuccessful,

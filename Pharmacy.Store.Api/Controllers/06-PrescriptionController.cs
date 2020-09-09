@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Cors;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
+using System.Linq;
+using System.Security.Claims;
 
 namespace Pharmacy.API.Controllers
 {
@@ -33,8 +35,15 @@ namespace Pharmacy.API.Controllers
                 model.UserId = User.GetUserId();
             else if (string.IsNullOrEmpty(model.MobileNumber) || !ModelState.IsValid)
                 return Ok(new { Status = 401, Message = Domain.Resource.ErrorMessage.InvalidMobileNumber });
+
             var content = new MultipartFormDataContent();
-            content.Add(new StringContent(model.MobileNumber, Encoding.UTF8, "text/plain"), nameof(model.MobileNumber));
+            if (User.Identity.IsAuthenticated)
+            {
+                content.Add(new StringContent(model.UserId.ToString(), Encoding.UTF8, "text/plain"), nameof(model.UserId));
+                content.Add(new StringContent(User.Claims.First(x=>x.Type == ClaimTypes.MobilePhone).Value, Encoding.UTF8, "text/plain"), nameof(model.MobileNumber));
+            }
+            else
+                content.Add(new StringContent(model.MobileNumber, Encoding.UTF8, "text/plain"), nameof(model.MobileNumber));
             foreach (var file in model.Files)
             {
                 using var ms = new MemoryStream();

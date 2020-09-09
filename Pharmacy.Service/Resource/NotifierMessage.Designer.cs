@@ -109,12 +109,30 @@ namespace Pharmacy.Service.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} نسخه شما ثبت شد، پس از بررسی برای ادامه فرایند از طریق پیامک به شما اطلاع خواهیم داد.
+        /// </summary>
+        public static string SubmitPrescription {
+            get {
+                return ResourceManager.GetString("SubmitPrescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to کاربر گرامی فارما، نسخه شما بررسی گردید، جهت پرداخت هزینه آن از طریق لینک زیر اقدام نمایید:
         ///{0}.
         /// </summary>
         public static string TempBasketUrl {
             get {
                 return ResourceManager.GetString("TempBasketUrl", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} یک حساب کاربری با شماره موبایل وارد شده بعنوان نام کاربری و رمز عبور در فارما برای شما ایجاد شد، با تشکر.
+        /// </summary>
+        public static string UserSubscriptionViaPrescription {
+            get {
+                return ResourceManager.GetString("UserSubscriptionViaPrescription", resourceCulture);
             }
         }
     }

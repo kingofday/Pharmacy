@@ -42,7 +42,7 @@ export default class apiOrder {
         }
         catch (error) {
             console.log(error);
-            return { success: false, message: strings.connecttionFailed };
+            return { success: false, message: strings.connectionFailed };
         }
     }
 
