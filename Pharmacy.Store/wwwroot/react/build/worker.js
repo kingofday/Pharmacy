@@ -1,4 +1,4 @@
-var CACHE_NAME = 'pharma-pwa';
+var CACHE_NAME = 'pharma-pwa-0';
 var urlsToCache = [
   './',
   './logo.png',
@@ -47,18 +47,16 @@ self.addEventListener('fetch', e => {
     );
   } else if (e.request.url.indexOf(baseUrl) === 0 || urlsToCache.indexOf(e.request.url) >= 0) {
     //for shell
-    e.respondWith(
-      caches.open(CACHE_NAME).then(function (cache) {
-        return caches.match(e.request.url).then(function (cRep) {
-          if (cRep) return cRep;
-          return fetch(e.request).then(fRep => {
-            cache.put(e.request.url, fRep.clone());
-            return fRep;
+    e.respondWith(caches.match(e.request.url).then(function (cRep) {
+      var fRep = fetch(e.request)
+        .then(function (response) {
+          return caches.open(CACHE_NAME).then(function (cache) {
+            cache.put(e.request.url, response.clone());
+            return response;
           });
-          // return response || fetch(e.request);
         });
-
-      })
+      return fRep || cRep;
+    })
     );
   }
 });

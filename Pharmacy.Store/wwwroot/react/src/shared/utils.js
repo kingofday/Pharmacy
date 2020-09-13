@@ -53,8 +53,32 @@ export const validate = {
         else if (!new RegExp(/^9\d{9}$/g).test(mobNumber)) return false;
         else return true;
     },
-    email : function(email) {
+    email: function (email) {
         const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(email).toLowerCase());
     }
 };
+
+export function cacheData(key, data) {
+    if ('caches' in window) {
+        caches.open(window.globalConfig.cahcheName).then(function (cache) {
+            cache.put(key, data);
+            return true;
+        });
+    }
+    return false;
+}
+
+export function toDataURL(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function () {
+        var reader = new FileReader();
+        reader.onloadend = function () {
+            callback(reader.result);
+        }
+        reader.readAsDataURL(xhr.response);
+    };
+    xhr.open('GET', url);
+    xhr.responseType = 'blob';
+    xhr.send();
+}

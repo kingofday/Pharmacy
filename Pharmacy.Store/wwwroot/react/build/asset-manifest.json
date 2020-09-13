@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/static/css/main.0306864d.chunk.css",
-    "main.js": "/static/js/main.a8243433.chunk.js",
-    "main.js.map": "/static/js/main.a8243433.chunk.js.map",
+    "main.css": "/static/css/main.fbfd21ad.chunk.css",
+    "main.js": "/static/js/main.a4c05bd8.chunk.js",
+    "main.js.map": "/static/js/main.a4c05bd8.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.b51545d4.js",
     "runtime-main.js.map": "/static/js/runtime-main.b51545d4.js.map",
     "static/css/2.f39ea103.chunk.css": "/static/css/2.f39ea103.chunk.css",
-    "static/js/2.f60e60a0.chunk.js": "/static/js/2.f60e60a0.chunk.js",
-    "static/js/2.f60e60a0.chunk.js.map": "/static/js/2.f60e60a0.chunk.js.map",
+    "static/js/2.75d6e1fa.chunk.js": "/static/js/2.75d6e1fa.chunk.js",
+    "static/js/2.75d6e1fa.chunk.js.map": "/static/js/2.75d6e1fa.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.6be3ea92f0288dca1ecd3496b6c010a2.js": "/precache-manifest.6be3ea92f0288dca1ecd3496b6c010a2.js",
+    "precache-manifest.201efd62f868330e300912f3c4427111.js": "/precache-manifest.201efd62f868330e300912f3c4427111.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.f39ea103.chunk.css.map": "/static/css/2.f39ea103.chunk.css.map",
-    "static/css/main.0306864d.chunk.css.map": "/static/css/main.0306864d.chunk.css.map",
-    "static/js/2.f60e60a0.chunk.js.LICENSE.txt": "/static/js/2.f60e60a0.chunk.js.LICENSE.txt",
+    "static/css/main.fbfd21ad.chunk.css.map": "/static/css/main.fbfd21ad.chunk.css.map",
+    "static/js/2.75d6e1fa.chunk.js.LICENSE.txt": "/static/js/2.75d6e1fa.chunk.js.LICENSE.txt",
     "static/media/5euro.png": "/static/media/5euro.c3021d6b.png",
     "static/media/material-design-iconic-font.min.css": "/static/media/Material-Design-Iconic-Font.d2a55d33.woff",
     "static/media/aboutus.png": "/static/media/aboutus.b4f44869.png",
@@ -22,6 +22,7 @@
     "static/media/discount.svg": "/static/media/discount.8e63e174.svg",
     "static/media/doctor.jpg": "/static/media/doctor.1023fb9a.jpg",
     "static/media/green-basket.svg": "/static/media/green-basket.9f26a18e.svg",
+    "static/media/img-404.png": "/static/media/img-404.644d3f75.png",
     "static/media/index.css": "/static/media/iransans.568bfbb2.ttf",
     "static/media/red-basket.svg": "/static/media/red-basket.d43121b0.svg",
     "static/media/remote-doctor.png": "/static/media/remote-doctor.60b69d90.png",
@@ -32,8 +33,8 @@
   "entrypoints": [
     "static/js/runtime-main.b51545d4.js",
     "static/css/2.f39ea103.chunk.css",
-    "static/js/2.f60e60a0.chunk.js",
-    "static/css/main.0306864d.chunk.css",
-    "static/js/main.a8243433.chunk.js"
+    "static/js/2.75d6e1fa.chunk.js",
+    "static/css/main.fbfd21ad.chunk.css",
+    "static/js/main.a4c05bd8.chunk.js"
   ]
 }

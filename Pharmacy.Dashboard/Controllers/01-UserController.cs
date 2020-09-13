@@ -69,13 +69,18 @@ namespace Pharmacy.Dashboard.Controllers
         public virtual async Task<JsonResult> Delete(Guid id) => Json(await _userSrv.DeleteAsync(id));
 
         [HttpGet]
-        public virtual async Task<ActionResult> ProfileInfo() => View((await _userSrv.FindAsync(User.GetUserId())).Result);
+        public virtual async Task<ActionResult> ProfileInfo()
+        {
+            var user = await _userSrv.FindAsync(User.GetUserId());
+            return View(new UpdateProfileModel().CopyFrom(user.Result));
+        }
 
         [HttpPost]
-        public virtual async Task<JsonResult> ProfileInfo(User model)
+        public virtual async Task<JsonResult> ProfileInfo(UpdateProfileModel model)
         {
-            if (User.GetUserId() != model.UserId) return Json(new Response<string> { IsSuccessful = false, Message = Strings.Error });
-            return Json(await _userSrv.UpdateProfile(model));
+            var id = User.GetUserId();
+            if (id != model.UserId) return Json(new Response<string> { IsSuccessful = false, Message = Strings.Error });
+            return Json(await _userSrv.UpdateProfile(id, model));
         }
 
         [HttpGet]

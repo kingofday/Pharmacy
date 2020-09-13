@@ -417,6 +417,32 @@ body[dir="rtl"] .modal-header .close {
           align-items: center;
 }
 
+#comp-top-header .auth-wrapper #basket-link {
+  position: relative;
+}
+
+#comp-top-header .auth-wrapper #basket-link #basket-items-count {
+  background-color: red;
+  color: #fff;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-align: center;
+  border-radius: 50%;
+  display: flex;
+  position: absolute;
+  top: 11px;
+  right: -11px;
+  width: 18px;
+  height: 18px;
+}
+
 #comp-top-header .auth-wrapper > * {
   margin-right: 15px;
 }
@@ -437,7 +463,7 @@ body[dir="rtl"] .modal-header .close {
 
 #comp-top-header .auth-wrapper .dropdown a.dropdown-item {
   font-size: 0.9rem;
-  padding: .5rem 1.5rem;
+  padding: 0.5rem 1.5rem;
 }
 
 #comp-top-header .auth-wrapper .dropdown a.dropdown-item:active {

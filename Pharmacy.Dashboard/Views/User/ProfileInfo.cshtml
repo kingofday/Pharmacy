@@ -1,18 +1,6 @@
-﻿@model User
+﻿@model UpdateProfileModel
 @{
     ViewBag.Title = Strings.Profile;
-    var t1 = HashGenerator.Hash(Model.MobileNumber.ToString());
-    var t2 = Model.Password;
-}
-@if (DateTime.Now.Subtract(Model.InsertDateMi ).TotalMinutes < 5)
-{
-    <div class="row">
-        <div class="col-12">
-            <div class="alert alert-success">
-                <p class="text-center">به داشبورد مدیریت شاپیا خوش آمدید، برای شما با شماره موبایل بعنوان نام کاربری و رمز عبور حسابی ایجاد شده است، از این پس میتوانید از امکانات شاپیا در منوی خود بهره ببرید</p>
-            </div>
-        </div>
-    </div>
 }
 
 <div class="row">
@@ -33,35 +21,19 @@
                 <form role="form" asp-controller="User" asp-action="ProfileInfo" method="post">
                     @Html.HiddenFor(x => x.UserId)
                     <div class="row">
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-3">
                             <custom-input-for for="Email"></custom-input-for>
                         </div>
-                        <div class="col-12 col-sm-6">
+                        <div class="col-12 col-sm-3">
                             <custom-input-for for="FullName"></custom-input-for>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12 col-sm-6">
-                            <custom-input-for for="MobileNumber" readonly="true"></custom-input-for>
+                        <div class="col-4 col-sm-3">
+                            <custom-checkbox-for for="ChangePassword" wrapper-class="chb-group"></custom-checkbox-for>
                         </div>
-                        <div class="col-12 col-sm-6">
-                            <custom-input-for type="password" for="NewPassword"></custom-input-for>
+                        <div class="col-8 col-sm-3">
+                            <custom-input-for type="password" input-disabled="true" for="NewPassword"></custom-input-for>
                         </div>
                     </div>
-                    @*<div class="row">
-                            <div class="col-12 col-sm-6 col-md-4">
-                                @Html.CustomTextBoxFor(x => x.Email, new CustomTextBoxForModel { InputClass = "form-control ltr-elm", @InputOtherAttribute = "readonly='true'" })
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4">
-                                @Html.CustomTextBoxFor(x => x.FullName, new CustomTextBoxForModel { })
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4">
-                                @Html.CustomTextBoxFor(x => x.MobileNumber, new CustomTextBoxForModel { InputClass = "form-control ltr-elm" })
-                            </div>
-                            <div class="col-12 col-sm-6 col-md-4">
-                                @Html.CustomPasswordFor(x => x.NewPassword, new CustomTextBoxForModel { InputClass = "form-control ltr-elm", @InputOtherAttribute = "autocomplete='off' autocorrect='off'" })
-                            </div>
-                        </div>*@
                     <div class="row btn-group">
                         <div class="col-12">
                             <button type="button" class="btn btn-primary block m-b m-t btn-action btn-sign-in" data-ajax-submit="true">
@@ -77,3 +49,14 @@
         </div>
     </div>
 </div>
+@section scripts{
+    <script>
+        (function () {
+            $('#ChangePassword').on('ifChanged', function () {
+                if ($(this).prop('checked'))
+                    $('#NewPassword').prop('disabled', false);
+                else $('#NewPassword').val('').prop('disabled', true);
+            });
+        } ());
+    </script>
+}

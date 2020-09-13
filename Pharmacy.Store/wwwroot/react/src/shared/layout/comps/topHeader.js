@@ -7,10 +7,7 @@ import logoImage from './../../../assets/images/layout/logo.png';
 import strings from './../../constant';
 
 class TopHeader extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { animate: false };
-    }
+    state = { animate: false };
     componentDidUpdate(prevProps) {
         if (this.props.items.length !== prevProps.items.length) {
             this.setState(p => ({ ...p, animate: true }));
@@ -25,6 +22,7 @@ class TopHeader extends React.Component {
         this.props.setAuthNexPage("/");
     }
     render() {
+        console.log(this.props.items);
         return (
             <section id='comp-top-header'>
                 <Container>
@@ -37,8 +35,8 @@ class TopHeader extends React.Component {
                                 <i className='auth-icon icon zmdi zmdi-account'></i>
                             </Link>}
 
-                            <Link to='/basket' className={this.state.animate ? 'ripple-loader' : ''}>
-                                <i className='icon zmdi zmdi-shopping-cart'></i>
+                            <Link id='basket-link' to='/basket' className={this.state.animate ? 'ripple-loader' : ''}>
+                                <i className='icon zmdi zmdi-shopping-cart'></i>{this.props.items.length > 0 ? <span id='basket-items-count'>{this.props.items.length}</span> : null}
                             </Link>
                             {this.props.authenticated ? <DropdownButton id="ddl-options" title={this.props.fullname}>
                                 <Dropdown.Item href='/profile'>
@@ -58,7 +56,7 @@ class TopHeader extends React.Component {
                         </Col>
                     </Row>
                 </Container>
-            </section>
+            </section >
 
         );
     }

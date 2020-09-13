@@ -655,6 +655,15 @@ namespace Pharmacy.Domain.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to میخواهم گذرواژه را تغییر دهم.
+        /// </summary>
+        public static string IWantToChangePassword {
+            get {
+                return ResourceManager.GetString("IWantToChangePassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to آخرین به روز رسانی.
         /// </summary>
         public static string LastCrawlTime {

@@ -465,9 +465,9 @@ namespace Pharmacy.Service
             if (user == null)
                 return new Response<User> { Message = ServiceMessage.AlreadySignedUp };
             var code = Randomizer.GetRandomInteger(4);
-            user.FullName = model.Fullname;
+            user.FullName = model.FullName;
             user.Email = model.Email;
-            if (!string.IsNullOrWhiteSpace(user.NewPassword))
+            if (!string.IsNullOrWhiteSpace(model.NewPassword))
                 user.Password = HashGenerator.Hash(model.NewPassword);
             _userRepo.Update(user);
             var update = await _appUow.ElkSaveChangesAsync();
