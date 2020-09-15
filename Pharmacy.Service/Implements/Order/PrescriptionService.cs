@@ -49,7 +49,7 @@ namespace Pharmacy.Service
             if (model.UserId == null)
             {
                 var mobNum = long.Parse(model.MobileNumber);
-                var user = await _appUow.UserRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobNum });
+                var user = await _appUow.UserRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == mobNum });
                 if (user != null)
                 {
                     model.Fullname = user.FullName;
@@ -112,7 +112,7 @@ namespace Pharmacy.Service
                 }
             }
 
-            return _presRepo.Get(new BasePagedListFilterModel<Prescription>
+            return _presRepo.GetPaging(new PagingQueryFilter<Prescription>
             {
                 Conditions = conditions,
                 PagingParameter = filter,
@@ -123,7 +123,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Prescription>> FindDetailsAsync(int id)
         {
-            var pres = await _presRepo.FirstOrDefaultAsync(new BaseFilterModel<Prescription>
+            var pres = await _presRepo.FirstOrDefaultAsync(new QueryFilter<Prescription>
             {
                 Conditions = x => x.PrescriptionId == id,
                 IncludeProperties = new List<Expression<Func<Prescription, object>>> {
@@ -131,7 +131,7 @@ namespace Pharmacy.Service
                     x => x.Attachments }
             });
             if (pres == null) return new Response<Prescription> { Message = ServiceMessage.RecordNotExist };
-            pres.Items = _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+            pres.Items = _appUow.PrescriptionItemRepo.Get(new QueryFilter<PrescriptionItem>
             {
                 Conditions = x => x.PrescriptionId == id,
                 IncludeProperties = new System.Collections.Generic.List<Expression<Func<PrescriptionItem, object>>> { x => x.Drug },
@@ -163,7 +163,7 @@ namespace Pharmacy.Service
         public async Task<IResponse<List<PrescriptionItem>>> DeleteItem(int itemId)
         {
             var item = await _appUow.PrescriptionItemRepo.FindAsync(itemId);
-            if (await _appUow.OrderRepo.AnyAsync(new BaseFilterModel<Order> { Conditions = x => x.PrescriptionId == item.PrescriptionId }))
+            if (await _appUow.OrderRepo.AnyAsync(new QueryFilter<Order> { Conditions = x => x.PrescriptionId == item.PrescriptionId }))
                 return new Response<List<PrescriptionItem>> { Message = ServiceMessage.NotAllowedOperation };
             _appUow.PrescriptionItemRepo.Delete(item);
             var delete = await _appUow.ElkSaveChangesAsync();
@@ -171,7 +171,7 @@ namespace Pharmacy.Service
             {
                 IsSuccessful = delete.IsSuccessful,
                 Message = delete.Message,
-                Result = delete.IsSuccessful ? _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+                Result = delete.IsSuccessful ? _appUow.PrescriptionItemRepo.Get(new QueryFilter<PrescriptionItem>
                 {
                     Conditions = x => x.PrescriptionId == item.PrescriptionId,
                     OrderBy = o => o.OrderByDescending(x => x.PrescriptionItemId),
@@ -184,7 +184,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<string>> SendLink(int id, string url)
         {
-            var pres = await _presRepo.FirstOrDefaultAsync(new BaseFilterModel<Prescription>
+            var pres = await _presRepo.FirstOrDefaultAsync(new QueryFilter<Prescription>
             {
                 Conditions = x => x.PrescriptionId == id,
                 IncludeProperties = new List<Expression<Func<Prescription, object>>> { x => x.User }
@@ -205,7 +205,7 @@ namespace Pharmacy.Service
 
         public Response<List<DrugDTO>> GetItems(int id, string baseUrl)
         {
-            var items = _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+            var items = _appUow.PrescriptionItemRepo.Get(new QueryFilter<PrescriptionItem>
             {
                 Conditions = x => x.PrescriptionId == id,
                 OrderBy = o => o.OrderBy(x => x.PrescriptionItemId),

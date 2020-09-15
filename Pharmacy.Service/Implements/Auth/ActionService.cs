@@ -61,7 +61,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Action>> FindAsync(int actionId)
         {
-            var findedAction = await _authUow.ActionRepo.FirstOrDefaultAsync(new BaseFilterModel<Domain.Action>
+            var findedAction = await _authUow.ActionRepo.FirstOrDefaultAsync(new QueryFilter<Domain.Action>
             {
                 Conditions = x => x.ActionId == actionId,
                 IncludeProperties = new List<Expression<Func<Domain.Action, object>>> { i => i.Parent }
@@ -71,7 +71,7 @@ namespace Pharmacy.Service
         }
 
         public IDictionary<object, object> Get(bool justParents = false)
-            => _authUow.ActionRepo.Get(new BaseListFilterModel<Domain.Action>
+            => _authUow.ActionRepo.Get(new QueryFilter<Domain.Action>
             {
                 Conditions = x => !justParents || (x.ControllerName == null && x.ActionName == null),
                 OrderBy = x => x.OrderByDescending(a => a.ActionId)
@@ -91,7 +91,7 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.ControllerName.Contains(filter.ControllerNameF.ToLower()));
             }
 
-            return _authUow.ActionRepo.Get(new BasePagedListFilterModel<Domain.Action>
+            return _authUow.ActionRepo.GetPaging(new PagingQueryFilter<Domain.Action>
             {
                 Conditions = conditions,
                 PagingParameter = filter,
@@ -101,7 +101,7 @@ namespace Pharmacy.Service
         }
 
         public IDictionary<object, object> Search(string searchParameter, int take = 10)
-            => _authUow.ActionRepo.Get(new BaseListFilterModel<Domain.Action>
+            => _authUow.ActionRepo.Get(new QueryFilter<Domain.Action>
             {
                 Conditions = x => x.Name.Contains(searchParameter) || x.ControllerName.Contains(searchParameter) || x.ActionName.Contains(searchParameter),
                 OrderBy = o => o.OrderByDescending(x => x.ActionId)

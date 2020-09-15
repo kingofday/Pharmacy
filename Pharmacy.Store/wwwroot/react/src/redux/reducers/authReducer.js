@@ -42,7 +42,6 @@ const authReducer = (state = getInitilState(), action) => {
     
     switch (action.type) {
         case actionTypes.LOG_IN:
-            console.log(action.payload);
             return {
                 ...state,
                 authenticated: true,
@@ -63,6 +62,11 @@ const authReducer = (state = getInitilState(), action) => {
                 mobileNumber: '',
                 email: ''
             };
+            case actionTypes.UPDATE_PROFILE:
+                return {
+                    ...state,
+                    ...action.payload
+                };
         case actionTypes.SET_AUTH_NEXT_PAGE:
             return {
                 ...state,

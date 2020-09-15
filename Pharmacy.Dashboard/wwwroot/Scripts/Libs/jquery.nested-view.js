@@ -10,7 +10,7 @@
 		let $btns = '<div class="box">';
 		let addable = typeof options.addFormHtml !== 'undefined' ? true : false;
 		if (addable)
-			$btns += '<button type="button" class="btn btn-add btn-primary">' + $elm.data('add-text') + '</button>';
+			$btns += '<button type="button" class="btn btn-add btn-dark">' + $elm.data('add-text') + '</button>';
 		let editable = typeof $elm.data('edit-url') !== 'undefined' ? true : false;
 		if (editable)
 			$btns += '<button type="button" class="btn btn-edit btn-info">' + $elm.data('edit-text') + '</button>';

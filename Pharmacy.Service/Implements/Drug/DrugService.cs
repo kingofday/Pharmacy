@@ -33,13 +33,13 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Drug>> FindAsync(int id)
         {
-            var drug = await _drugRepo.FirstOrDefaultAsync(new BaseFilterModel<Drug>
+            var drug = await _drugRepo.FirstOrDefaultAsync(new QueryFilter<Drug>
             {
                 Conditions = x => x.DrugId == id,
                 IncludeProperties = new List<Expression<Func<Drug, object>>> { x => x.Properties, x => x.DrugAttachments }
             });
             if (drug == null) return new Response<Drug> { Message = ServiceMessage.RecordNotExist };
-            drug.DrugTags = _appUow.DrugTagRepo.Get(new BaseListFilterModel<DrugTag>
+            drug.DrugTags = _appUow.DrugTagRepo.Get(new QueryFilter<DrugTag>
             {
                 Conditions = x => x.DrugId == id,
                 OrderBy = o => o.OrderByDescending(x => x.DrugTagId),
@@ -55,7 +55,7 @@ namespace Pharmacy.Service
 
         public (bool Changed, IEnumerable<OrderItemDTO> Items) CheckChanges(IEnumerable<OrderItemDTO> items)
         {
-            var drugs = _drugRepo.Get(new BaseListFilterModel<Drug>
+            var drugs = _drugRepo.Get(new QueryFilter<Drug>
             {
                 Conditions = x => items.Select(x => x.DrugId).Contains(x.DrugId),
                 OrderBy = o => o.OrderByDescending(x => x.DrugId)
@@ -129,7 +129,7 @@ namespace Pharmacy.Service
                 drug.Properties = model.Properties;
             #region Tags
             if (model.TagIds == null) model.TagIds = new List<int>();
-            var tags = _appUow.DrugTagRepo.Get(new BaseListFilterModel<DrugTag> { Conditions = x => x.DrugId == model.DrugId, OrderBy = o => o.OrderByDescending(x => x.DrugTagId) });
+            var tags = _appUow.DrugTagRepo.Get(new QueryFilter<DrugTag> { Conditions = x => x.DrugId == model.DrugId, OrderBy = o => o.OrderByDescending(x => x.DrugTagId) });
             _appUow.DrugTagRepo.DeleteRange(tags.Where(x => !model.TagIds.Contains(x.TagId)).ToList());
             if (model.TagIds != null && model.TagIds.Any())
                 drug.DrugTags = new List<DrugTag>(model.TagIds.Where(x => !tags.Select(t => t.TagId).Contains(x)).Select(x => new DrugTag { TagId = x }));
@@ -156,7 +156,7 @@ namespace Pharmacy.Service
         public async Task<IResponse<bool>> DeleteAsync(string appDir, int id)
         {
             var Drug = await _drugRepo.FindAsync(id);
-            var urls = _appUow.DrugAttachmentRepo.Get(new ListFilterModel<DrugAttachment, string>
+            var urls = _appUow.DrugAttachmentRepo.Get(new QueryFilterWithSelector<DrugAttachment, string>
             {
                 Selector = x => x.Url,
                 Conditions = x => x.DrugAttachmentId == id,
@@ -186,7 +186,7 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.UniqueId.Contains(filter.UniqueId));
             }
 
-            return _drugRepo.Get(new BasePagedListFilterModel<Drug>
+            return _drugRepo.GetPaging(new PagingQueryFilter<Drug>
             {
                 Conditions = conditions,
                 PagingParameter = filter,
@@ -207,7 +207,7 @@ namespace Pharmacy.Service
                };
 
         public IList<DrugSearchResult> Search(string searchParameter, int take = 10)
-                => _drugRepo.Get(new PagedListFilterModel<Drug, DrugSearchResult>
+                => _drugRepo.GetPaging(new PagingQueryFilterWithSelector<Drug, DrugSearchResult>
                 {
                     Selector = x => new DrugSearchResult
                     {

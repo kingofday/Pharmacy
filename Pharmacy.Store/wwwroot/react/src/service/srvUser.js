@@ -3,7 +3,7 @@ import strings from '../shared/constant';
 import userApi from '../api/apiUser';
 
 export default class srvUser {
-    
+
     static getUserInfo() {
         let ciphertext = localStorage.getItem('user');
         if (ciphertext == null)
@@ -60,6 +60,10 @@ export default class srvUser {
     static async updateProfile(model) {
         let user = this.getUserInfo();
         if (!user.success) return user;
-        return this.checkResponse(await userApi.updateProfile(user.result.token, model));
+        let rep = this.checkResponse(await userApi.updateProfile(user.result.token, model));
+        let getUser = this.getUserInfo();
+        if (rep.success && getUser.success)
+            this.storeUserInfo({ ...getUser.result, fullname: model.fullname, email: model.email });
+        return rep
     }
 }

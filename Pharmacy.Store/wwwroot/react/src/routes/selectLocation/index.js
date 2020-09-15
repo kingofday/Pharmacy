@@ -15,10 +15,11 @@ class SelectLocation extends React.Component {
         };
         const values = queryString.parse(this.props.location.search)
 
-        if (values['lng']) this.lng = parseFloat(values['lng'])
+        if (values['lng'] && values['lng'] !== 'null') this.lng = parseFloat(values['lng'])
         else this.lng = null;
-        if (values['lat']) this.lat = parseFloat(values['lat'])
+        if (values['lat'] && values['lat'] !== 'null') this.lat = parseFloat(values['lat'])
         else this.lat = null;
+        console.log(this.lng ? true : false);
     }
 
     _mapChanged(lng, lat) {

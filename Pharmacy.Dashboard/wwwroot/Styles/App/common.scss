@@ -496,6 +496,7 @@ input:-webkit-autofill:active {
 
 .form-group {
     position: relative;
+    margin-bottom: 0;
 }
 
 .form-text {
@@ -576,6 +577,7 @@ ul.nav.metismenu {
 
 .navbar-form-custom .form-group {
     margin-bottom: 1rem;
+    margin-top: 0;
 }
 
 .nav.navbar-top-links a {
@@ -685,7 +687,6 @@ ul.nav.metismenu {
     cursor: not-allowed;
     color: #00b597;
 }
-
 .single-uploader {
     display: flex;
     justify-content: center;

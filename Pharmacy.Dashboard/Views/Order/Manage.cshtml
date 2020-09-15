@@ -10,7 +10,7 @@
 }
 
 @section filter{
-    <partial name="Partials/_Filters" model="new OrderSearchFilter { Status = OrderStatus.Canceled }" />
+    <partial name="Partials/_Filters" model="new OrderSearchFilter()" />
 }
 <partial name="Partials/_List" model="@Model" />
 @section scripts{

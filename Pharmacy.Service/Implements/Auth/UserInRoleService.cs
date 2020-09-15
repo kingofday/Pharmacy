@@ -24,7 +24,7 @@ namespace Pharmacy.Service
         public async Task<IResponse<UserInRole>> Add(UserInRole model)
         {
 
-            if (await _userInRoleRepo.AnyAsync(new BaseFilterModel<UserInRole> { Conditions = x => x.UserId == model.UserId && x.RoleId == model.RoleId }))
+            if (await _userInRoleRepo.AnyAsync(new QueryFilter<UserInRole> { Conditions = x => x.UserId == model.UserId && x.RoleId == model.RoleId }))
                 return new Response<UserInRole> { Message = ServiceMessage.DuplicateRecord, IsSuccessful = false };
 
             await _userInRoleRepo.AddAsync(model);
@@ -50,7 +50,7 @@ namespace Pharmacy.Service
         }
 
         public IEnumerable<UserInRole> Get(Guid userId)
-            => _userInRoleRepo.Get(new BaseListFilterModel<UserInRole>
+            => _userInRoleRepo.Get(new QueryFilter<UserInRole>
             {
                 Conditions = x => x.UserId == userId,
                 OrderBy = x => x.OrderByDescending(uir => uir.UserId),

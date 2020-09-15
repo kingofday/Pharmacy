@@ -72,7 +72,7 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.RoleNameEn.Contains(filter.RoleNameEnF));
             }
 
-            return _authUow.RoleRepo.Get(new BasePagedListFilterModel<Role>
+            return _authUow.RoleRepo.GetPaging(new PagingQueryFilter<Role>
             {
                 Conditions = conditions,
                 PagingParameter = filter,

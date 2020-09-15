@@ -23,7 +23,7 @@ namespace Pharmacy.Service
         public Response<List<AddressDTO>> Get(Guid userId)
         {
             var currentDT = DateTime.Now;
-            var addresses = _addressRepo.Get(new PagedListFilterModel<UserAddress, AddressDTO>
+            var addresses = _addressRepo.GetPaging(new PagingQueryFilterWithSelector<UserAddress, AddressDTO>
             {
                 Selector = x => new AddressDTO
                 {
@@ -97,7 +97,7 @@ namespace Pharmacy.Service
 
         public async Task<Response<bool>> DeleteAsync(Guid userId, int id)
         {
-            var addr = await _addressRepo.FirstOrDefaultAsync(new BaseFilterModel<UserAddress>
+            var addr = await _addressRepo.FirstOrDefaultAsync(new QueryFilter<UserAddress>
             {
                 Conditions = x => x.UserId == userId && x.UserAddressId == id
             });

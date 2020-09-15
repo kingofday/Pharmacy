@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import { toast } from 'react-toastify';
@@ -8,10 +9,10 @@ import { validate } from './../../shared/utils';
 import Button from './../../shared/Button';
 import srvUser from './../../service/srvUser';
 import Heading from './../../shared/heading/heading';
-
+import { UpdateProfileAction } from './../../redux/actions/authAction';
 const inputs = ['fullname', 'email', 'newPassword', 'repeatPassword'];
 
-export default class Profile extends Component {
+class Profile extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -112,11 +113,7 @@ export default class Profile extends Component {
             return;
         }
         toast(strings.successfullOperation, { type: toast.TYPE.SUCCESS });
-        srvUser.storeUserInfo({
-            ...this.state.user,
-            email: model.email,
-            fullname: model.fullname
-        });
+        this.props.updateProfile(model);
     }
 
     render() {
@@ -229,3 +226,13 @@ export default class Profile extends Component {
     };
 
 }
+
+// const mapStateToProps = state => {
+//     return { ...state.basketReducer };
+// }
+
+const mapDispatchToProps = dispatch => ({
+    updateProfile: (user) => dispatch(UpdateProfileAction(user)),
+});
+
+export default connect(null, mapDispatchToProps)(Profile);

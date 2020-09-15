@@ -29,7 +29,7 @@ namespace Pharmacy.Service
                     conditions = x => x.Name.Contains(filter.Name);
             }
 
-            return _drugCategoryRepo.Get(new BasePagedListFilterModel<DrugCategory> { Conditions = conditions, PagingParameter = filter, OrderBy = x => x.OrderByDescending(u => u.DrugCategoryId) });
+            return _drugCategoryRepo.GetPaging(new PagingQueryFilter<DrugCategory> { Conditions = conditions, PagingParameter = filter, OrderBy = x => x.OrderByDescending(u => u.DrugCategoryId) });
         }
 
         public IList<DrugCategory> GetAll(DrugCategorySearchFilter filter)
@@ -40,7 +40,7 @@ namespace Pharmacy.Service
                 if (!string.IsNullOrWhiteSpace(filter.Name))
                     conditions = x => x.Name.Contains(filter.Name);
             }
-            return _drugCategoryRepo.Get(new BaseListFilterModel<DrugCategory>
+            return _drugCategoryRepo.Get(new QueryFilter<DrugCategory>
             {
                 Conditions = conditions,
                 OrderBy = x => x.OrderBy(u => u.OrderPriority)
@@ -48,7 +48,7 @@ namespace Pharmacy.Service
         }
 
         public IDictionary<object, object> Search(string searchParameter, int take = 10)
-                => _drugCategoryRepo.Get(new BaseListFilterModel<DrugCategory>
+                => _drugCategoryRepo.Get(new QueryFilter<DrugCategory>
                 {
                     Conditions = x => x.Name.Contains(searchParameter)
                 })
@@ -101,7 +101,7 @@ namespace Pharmacy.Service
             => new Response<List<DrugCategoryDTO>>
             {
                 IsSuccessful = true,
-                Result = _drugCategoryRepo.Get(new ListFilterModel<DrugCategory, DrugCategoryDTO>
+                Result = _drugCategoryRepo.Get(new QueryFilterWithSelector<DrugCategory, DrugCategoryDTO>
                 {
                     Selector = x => new DrugCategoryDTO
                     {
