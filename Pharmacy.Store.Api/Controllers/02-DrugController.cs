@@ -2,12 +2,10 @@
 using Pharmacy.Domain;
 using Pharmacy.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Cors;
 using Microsoft.Extensions.Options;
 
 namespace Pharmacy.API.Controllers
 {
-    [EnableCors("AllowedOrigins")]
     [ApiController]
     public class DrugController : ControllerBase
     {

@@ -1,18 +1,16 @@
 ﻿using Elk.Core;
+using System.Linq;
 using Pharmacy.Service;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Cors;
 using Pharmacy.Domain;
 using System.Threading.Tasks;
-using System.Linq;
 using System.Security.Claims;
-using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using System;
+using Microsoft.Extensions.Options;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController, CustomAuth, EnableCors("AllowedOrigins"), Route("[controller]")]
+    [ApiController, CustomAuth, Route("[controller]")]
     public class OrderController : ControllerBase
     {
         readonly IOrderService _orderService;

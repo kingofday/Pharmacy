@@ -1,23 +1,21 @@
 ﻿using Elk.Core;
-using System.Text;
 using System.IO;
+using System.Text;
+using System.Linq;
 using System.Net.Http;
 using Pharmacy.Domain;
 using Pharmacy.Service;
 using System.Threading.Tasks;
 using Pharmacy.API.Resources;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Cors;
 using System.Collections.Generic;
 using Microsoft.Extensions.Options;
-using System.Linq;
-using System.Security.Claims;
 
 namespace Pharmacy.API.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [EnableCors("AllowedOrigins")]
     public class PrescriptionController : ControllerBase
     {
         readonly IPrescriptionService _prescriptionSrv;

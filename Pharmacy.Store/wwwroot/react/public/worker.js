@@ -1,9 +1,11 @@
-var CACHE_NAME = 'pharma-pwa-0';
+var CACHE_NAME = 'pharma-pwa-1';
 var urlsToCache = [
   './',
   './logo.png',
   './home-left-bg.jpg',
   './home-right-bg.jpg',
+  './offline-drug.png',
+  './pharmacy.png',
   "./manifest.json",
   "https://unpkg.com/leaflet@1.6.0/dist/leaflet.css",
   "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
@@ -12,8 +14,8 @@ var urlsToCache = [
  const baseUrl =  'https://pharma.hillavas.com';
  const apiUrl = 'https://pharma.hillavas.com/api/';
 
-//  const baseUrl = 'http://localhost:3000';
-//  const apiUrl = 'https://localhost:44328/';
+// const baseUrl = 'localhost:3000';
+// const apiUrl = 'https://localhost:44328/';
 
 // Install a service worker
 self.addEventListener('install', e => {
@@ -28,17 +30,22 @@ self.addEventListener('install', e => {
 });
 
 self.addEventListener('fetch', e => {
-  if (e.request.url.indexOf(baseUrl) === 0 || urlsToCache.indexOf(e.request.url) >= 0){
-    //     //for shell
-    e.respondWith(caches.match(e.request.url).then(function (cRep) {
-      var fRep = fetch(e.request)
-        .then(function (response) {
-          return caches.open(CACHE_NAME).then(function (cache) {
-            cache.put(e.request.url, response.clone());
-            return response;
+  if (e.request.url.indexOf(baseUrl) > -1 || urlsToCache.indexOf(e.request.url) >= 0) {
+    //for shell
+    e.respondWith(caches.match(e.request).then(function (cRep) {
+      var fRep = null;
+      try {
+        fRep = fetch(e.request)
+          .then(function (response) {
+            return caches.open(CACHE_NAME).then(function (cache) {
+              cache.put(e.request, response.clone());
+              return response;
+            });
           });
-        });
-      return fRep || cRep;
+      }
+      catch (e) { }
+
+      return cRep || fRep;
     })
     );
   }
