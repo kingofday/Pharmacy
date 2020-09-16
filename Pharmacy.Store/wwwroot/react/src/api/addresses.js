@@ -1,5 +1,5 @@
 
-const baseUrl = window.location.origin.indexOf('localhost:3000') >= 0 ? 'https://localhost:44328/' : 'https://pharma.hillavas.com/api/';
+const baseUrl = window.globalConfig.baseUrl;
 
 const addr = {
     getCategories: (parentId) => `${baseUrl}Category?parentId=${parentId}`,
@@ -9,7 +9,8 @@ const addr = {
     signUp: `${baseUrl}SignUp`,
     signIn: `${baseUrl}SignIn`,
     confirm: `${baseUrl}Confirm`,
-    resendSMS: (mobileNumber) => `${baseUrl}Auth/${mobileNumber}`,
+    resendSMS: (mobileNumber) => `${baseUrl}Resend/${mobileNumber}`,
+    updateProfile: `${baseUrl}UpdateProfile`,
     getAddresses: `${baseUrl}Address`,
     addAddress: `${baseUrl}Address`,
     updateAddress: `${baseUrl}Address`,
@@ -17,7 +18,8 @@ const addr = {
     getDeliveryPrice: (id) => `${baseUrl}DeliveryProvider/${id}`,
     payDeliveryPrice: (id) => `${baseUrl}DeliveryProvider/${id}`,
     addOrder: `${baseUrl}Order`,
+    getOrders: (pagenumber) => `${baseUrl}Order?pageSize=10&pagenumber=${pagenumber}`,
     addPrescription: `${baseUrl}Prescription`,
-    getPrescription: (id) => `${baseUrl}Prescription?id=${id}`,
+    getPrescription: (id) => `${baseUrl}Prescription?id=${id}`
 }
 export default addr;

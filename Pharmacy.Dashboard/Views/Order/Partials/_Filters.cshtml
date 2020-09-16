@@ -12,7 +12,7 @@
         <custom-select-for for="Status" optional-label="@Strings.SelectPlease" items="EnumExtension.GetEnumElements<OrderStatus>().Select(x=>new SelectListItem {
             Value = x.Name,
             Text = x.Description,
-            Selected = x.Name == Model.Status.ToString()
+            Selected = false
         }).ToList()" />
     </div>
 </div>

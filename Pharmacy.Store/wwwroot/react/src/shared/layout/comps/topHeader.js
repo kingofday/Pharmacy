@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom';
 import { Container, Row, Col, DropdownButton, Dropdown } from 'react-bootstrap';
 import { LogOutAction, SetNexPage } from './../../../redux/actions/authAction';
 import logoImage from './../../../assets/images/layout/logo.png';
+import strings from './../../constant';
 
 class TopHeader extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { animate: false }
-    }
+    state = { animate: false };
     componentDidUpdate(prevProps) {
         if (this.props.items.length !== prevProps.items.length) {
             this.setState(p => ({ ...p, animate: true }));
@@ -24,6 +22,7 @@ class TopHeader extends React.Component {
         this.props.setAuthNexPage("/");
     }
     render() {
+        console.log(this.props.items);
         return (
             <section id='comp-top-header'>
                 <Container>
@@ -32,26 +31,32 @@ class TopHeader extends React.Component {
                             <img src={logoImage} alt='pharmacy logo' />
                         </Col>
                         <Col xs={6} sm={6} className='auth-wrapper'>
-                            <Link to={this.props.authenticated ? '/profile' : '/auth'}>
-                                <i className='default-i zmdi zmdi-account'></i>
+                            {this.props.authenticated ? null : <Link to='/auth'>
+                                <i className='auth-icon icon zmdi zmdi-account'></i>
+                            </Link>}
+
+                            <Link id='basket-link' to='/basket' className={this.state.animate ? 'ripple-loader' : ''}>
+                                <i className='icon zmdi zmdi-shopping-cart'></i>{this.props.items.length > 0 ? <span id='basket-items-count'>{this.props.items.length}</span> : null}
                             </Link>
-                            <Link to='/basket' className={this.state.animate ? 'ripple-loader' : ''}>
-                                <i className='default-i zmdi zmdi-shopping-cart'></i>
-                            </Link>
-                            {this.props.authenticated ? <DropdownButton id="dropdown-basic-button" title={this.props.fullName}>
-                                <Dropdown.Item href="#/action-1">
+                            {this.props.authenticated ? <DropdownButton id="ddl-options" title={this.props.fullname}>
+                                <Dropdown.Item href='/profile'>
+                                    <i className='zmdi zmdi-account'></i>&nbsp;{strings.profile}
+                                </Dropdown.Item>
+                                <Dropdown.Item href='/orderHistory'>
+                                    <i className=' zmdi zmdi-format-list-bulleted'></i>&nbsp;{strings.orders}
+                                </Dropdown.Item>
+                                <Dropdown.Item>
                                     <button className='log-out' onClick={this._handleLogOut.bind(this)}>
-                                        <i className='default-i zmdi zmdi-power'></i>
+                                        <i className=' zmdi zmdi-power'></i>&nbsp;{strings.logOut}
                                     </button>
                                 </Dropdown.Item>
-                                <Dropdown.Item>Something else</Dropdown.Item>
                             </DropdownButton>
 
                                 : null}
                         </Col>
                     </Row>
                 </Container>
-            </section>
+            </section >
 
         );
     }

@@ -7,6 +7,13 @@ export function LogInAction(user) {
     };
 };
 
+export function UpdateProfileAction(user) {
+    return {
+        type: actionTypes.UPDATE_PROFILE,
+        payload: { ...user }
+    };
+};
+
 export function LogOutAction() {
     return {
         type: actionTypes.LOG_OUT

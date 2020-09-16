@@ -1,15 +1,18 @@
 import addr from './addresses';
 import strings from './../shared/constant';
+import { cacheData } from './../shared/utils';
 
 export default class apiDrug {
     static async get(filter) {
         let url = addr.searchDrug(filter);
-        console.log(url);
-        var handleResponse = async (response) => {
+        var handleResponse = async (response, isOffline) => {
+            let c = response.clone();
             const rep = await response.json();
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message };
-            else return {
+            cacheData(url, c);
+            console.log('fired')
+            return {
                 success: true,
                 result: {
                     maxPrice: rep.Result.MaxPrice,
@@ -25,7 +28,7 @@ export default class apiDrug {
                         price: d.Price,
                         realPrice: d.Price - d.DiscountPrice,
                         unitName: d.UnitName,
-                        thumbnailImageUrl: d.ThumbnailImageUrl
+                        thumbnailImageUrl: isOffline ? process.env.PUBLIC_URL + '/offline-drug.png' : d.ThumbnailImageUrl
                     }))
                 }
             }
@@ -44,7 +47,7 @@ export default class apiDrug {
             if ('caches' in window) {
                 let data = await caches.match(url);
                 if (data)
-                    return await handleResponse(data);
+                    return await handleResponse(data, true);
                 else return ({ success: false, message: strings.connectionFailed });
             }
             else return ({ success: false, message: strings.connectionFailed });

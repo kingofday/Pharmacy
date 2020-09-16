@@ -16,7 +16,6 @@ export default class apiDrug {
             const rep = await response.json();
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message };
-            console.log(rep.Result);
             let user = rep.Result;
             return {
                 success: true,
@@ -35,7 +34,7 @@ export default class apiDrug {
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8;'
                 },
-                body:JSON.stringify(model)
+                body: JSON.stringify(model)
             });
             const rep = await response.json();
             if (!rep.IsSuccessful)
@@ -65,8 +64,8 @@ export default class apiDrug {
                 headers: {
                     'Content-Type': 'application/json; charset=utf-8;'
                 },
-                body:JSON.stringify({
-                    mobileNumber, 
+                body: JSON.stringify({
+                    mobileNumber,
                     code
                 })
             });
@@ -99,9 +98,34 @@ export default class apiDrug {
                 }
             });
             const rep = await response.json();
-            return {success: rep.IsSuccessful}
+            return { success: rep.IsSuccessful, message: rep.Message };
 
         } catch (error) {
+            return ({ success: false, message: strings.connectionFailed });
+        }
+    }
+
+    static async updateProfile(token, model) {
+        try {
+            console.log(model);
+            const response = await fetch(addr.updateProfile, {
+                method: 'POST',
+                mode: 'cors',
+                headers: {
+                    'Content-Type': 'application/json; charset=utf-8;',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(model)
+            });
+            const rep = await response.json();
+            if (!rep.IsSuccessful) return { success: false, message: rep.Message, status: rep.Status };
+            return {
+                status: 200,
+                success: true,
+                result: rep.Result
+            }
+        } catch (error) {
+            console.log('error');
             return ({ success: false, message: strings.connectionFailed });
         }
     }

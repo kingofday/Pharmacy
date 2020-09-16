@@ -28,7 +28,7 @@ export default class apiPrescription {
         }
         catch (error) {
             console.log(error);
-            return { success: false, message: strings.connecttionFailed, status: 500 };
+            return { success: false, message: strings.connectionFailed, status: 500 };
         }
     }
     static async getItems(id) {

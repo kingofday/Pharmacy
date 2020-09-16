@@ -7,6 +7,7 @@ namespace Pharmacy.Domain
 {
     public class PaymentSearchFilter : PagingParameter
     {
+
         [Display(Name = nameof(Strings.User), ResourceType = typeof(Strings))]
         public Guid? UserId { get; set; }
         [Display(Name = nameof(Strings.Pharmacy), ResourceType = typeof(Strings))]
@@ -15,6 +16,8 @@ namespace Pharmacy.Domain
         public PaymentStatus? PaymentStatus { get; set; }
         [Display(Name = nameof(Strings.TransactionId), ResourceType = typeof(Strings))]
         public string TransactionId { get; set; }
+        [Display(Name = nameof(Strings.OrderId), ResourceType = typeof(Strings))]
+        public long? UniqueId { get; set; }
         [Display(Name = nameof(Strings.FromDate), ResourceType = typeof(Strings))]
         public string FromDateSh { get; set; }
         [Display(Name = nameof(Strings.ToDate), ResourceType = typeof(Strings))]

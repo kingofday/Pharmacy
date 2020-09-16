@@ -28,7 +28,7 @@ namespace Pharmacy.Service
 
         public IResponse<DrugStoreModel> GetNearest(LocationDTO model, List<int> excludedStores = null)
         {
-            var items = _drugStoreRepo.Get(new ListFilterModel<DrugStore, DrugStoreModel>
+            var items = _drugStoreRepo.Get(new QueryFilterWithSelector<DrugStore, DrugStoreModel>
             {
                 Selector = x => new DrugStoreModel
                 {
@@ -38,7 +38,7 @@ namespace Pharmacy.Service
                     Latitude = x.Address.Latitude,
                     Longitude = x.Address.Longitude
                 },
-                Conditions = x => excludedStores == null ? true : !excludedStores.Contains(x.DrugStoreId),
+                Conditions = x => x.IsActive  && (excludedStores == null || !excludedStores.Contains(x.DrugStoreId)),
                 OrderBy = o => o.OrderBy(x => x.DrugStoreId),
                 IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
             });
@@ -57,7 +57,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<DrugStore>> FindAsync(int id)
         {
-            var Pharmacy = await _drugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            var Pharmacy = await _drugStoreRepo.FirstOrDefaultAsync(new QueryFilter<DrugStore>
             {
                 Conditions = x => x.DrugStoreId == id,
                 IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address, x => x.Attachments, x => x.User }
@@ -78,7 +78,7 @@ namespace Pharmacy.Service
                     conditions = conditions.And(x => x.Name.Contains(filter.Name));
             }
 
-            return _drugStoreRepo.Get(new BasePagedListFilterModel<DrugStore>
+            return _drugStoreRepo.GetPaging(new PagingQueryFilter<DrugStore>
             {
                 Conditions = conditions,
                 PagingParameter = filter,
@@ -88,7 +88,7 @@ namespace Pharmacy.Service
         }
 
         public List<DrugStoreDTO> GetAsDTO(string baseUrl)
-            => _drugStoreRepo.Get(new PagedListFilterModel<DrugStore, DrugStoreDTO>
+            => _drugStoreRepo.GetPaging(new PagingQueryFilterWithSelector<DrugStore, DrugStoreDTO>
             {
                 Selector = x => new DrugStoreDTO
                 {
@@ -103,7 +103,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<bool>> DeleteAsync(int id, string appDir)
         {
-            var item = await _drugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            var item = await _drugStoreRepo.FirstOrDefaultAsync(new QueryFilter<DrugStore>
             {
                 Conditions = x => x.DrugStoreId == id,
                 IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address, x => x.Attachments }
@@ -121,14 +121,14 @@ namespace Pharmacy.Service
         }
 
         public IEnumerable<DrugStore> GetAll(Guid userId)
-        => _drugStoreRepo.Get(new BaseListFilterModel<DrugStore>
+        => _drugStoreRepo.Get(new QueryFilter<DrugStore>
         {
             Conditions = x => !x.IsDeleted && x.UserId == userId,
             OrderBy = o => o.OrderByDescending(x => x.DrugStoreId)
         });
 
         public IDictionary<object, object> Search(string searchParameter, Guid? userId, int take = 10)
-            => _drugStoreRepo.Get(new BasePagedListFilterModel<DrugStore>
+            => _drugStoreRepo.GetPaging(new PagingQueryFilter<DrugStore>
             {
                 Conditions = x => !x.IsDeleted && x.Name.Contains(searchParameter) && userId == null ? true : x.UserId == userId,
                 PagingParameter = new PagingParameter
@@ -166,7 +166,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreUpdateModel model)
         {
-            var Pharmacy = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            var Pharmacy = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new QueryFilter<DrugStore>
             {
                 Conditions = x => x.DrugStoreId == model.DrugStoreId,
                 IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
@@ -205,7 +205,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<DrugStore>> UpdateAsync(DrugStoreAdminModel model)
         {
-            var drugStore = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStore>
+            var drugStore = await _appUow.DrugStoreRepo.FirstOrDefaultAsync(new QueryFilter<DrugStore>
             {
                 Conditions = x => x.DrugStoreId == model.DrugStoreId,
                 IncludeProperties = new List<Expression<Func<DrugStore, object>>> { x => x.Address }
@@ -263,7 +263,7 @@ namespace Pharmacy.Service
             };
         }
 
-        public async Task<bool> CheckOwner(int PharmacyId, Guid userId) => await _drugStoreRepo.AnyAsync(new BaseFilterModel<DrugStore>
+        public async Task<bool> CheckOwner(int PharmacyId, Guid userId) => await _drugStoreRepo.AnyAsync(new QueryFilter<DrugStore>
         {
             Conditions = x => x.DrugStoreId == PharmacyId && x.UserId == userId
         });

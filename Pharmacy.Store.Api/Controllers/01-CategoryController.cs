@@ -1,13 +1,11 @@
 ﻿using Elk.Core;
 using Pharmacy.Service;
-using Microsoft.AspNetCore.Mvc;
 using Pharmacy.Domain;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
-    [EnableCors("AllowedOrigins")]
     [ApiController, Route("[controller]")]
     public class CategoryController : ControllerBase
     {

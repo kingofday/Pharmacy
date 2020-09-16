@@ -24,7 +24,7 @@ class Menu extends React.Component {
                             <ul className="menu-items animated">
                                 <li className="close-menu"><label htmlFor="toggle"><i className="zmdi zmdi-close"></i></label></li>
                                 <li className="navlink"><Link to='/'>{strings.home}</Link></li>
-                                <li className="navlink"><Link to='/products'>{strings.products}</Link></li>
+                                <li className="navlink"><a href='/products'>{strings.products}</a></li>
                                 <li className="navlink"><Link to='/contactus'>{strings.contactus}</Link></li>
                                 <li className="navlink"><Link to='/prescription'>{strings.sendPrescription}</Link></li>
                             </ul>

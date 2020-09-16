@@ -1,6 +1,7 @@
 ﻿using Elk.Core;
 using Pharmacy.Domain;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Pharmacy.Service
@@ -19,5 +20,7 @@ namespace Pharmacy.Service
         Task<IResponse<Order>> UpdateStatusAsync(Guid id, OrderStatus status, bool check = true);
         Response<GetDeliveryPriceDTO> GetDeliveryPrice(Guid id);
         Task<Response<(Order Order,int price)>> CheckBeforeDeliveryPrice(Guid id);
+
+        Response<List<GetOrderInfoModel>> GetHistory(Guid userId, PagingParameter paging, string baseUrl);
     }
 }

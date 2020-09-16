@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, Pagination } from 'react-bootstrap';
+import { Container, Row, Col, Pagination, PageItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Skeleton from '@material-ui/lab/Skeleton';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -14,30 +14,39 @@ import SearchName from './comps/searchName';
 import PriceRange from './comps/priceRange';
 import Categories from './../../shared/categories/categories';
 import DrugsList from './comps/drugsList';
-import { SetPageNumberAction, SetMaxAvailablePriceAction } from './../../redux/actions/productsAction';
+import { SetPageNumberAction, SetMaxAvailablePriceAction, SetCategoryIdAction } from './../../redux/actions/productsAction';
 
 const calcBasePageNumber = (pageNumber) => pageNumber < 3 ? 1 : pageNumber - 2;
 
 class Products extends React.Component {
-    state = {
-        loading: true,
-        maxPrice: 1,
-        type: 0,
-        items: [],
-        basePageNumber: calcBasePageNumber(this.props.pageNumber),
-        lastPageNumber: 1
+    constructor(props) {
+        super(props);
+        let query = new URLSearchParams(this.props.location.search);
+        let pageNumber = query.get('pageNumber');
+        let categoryId = query.get('categoryId');
+        this.state = {
+            loading: true,
+            maxPrice: 1,
+            type: 0,
+            items: [],
+            basePageNumber: calcBasePageNumber(this.props.pageNumber),
+            lastPageNumber: 1,
+            categoryId: categoryId ? parseInt(categoryId) : null,
+            pageNumber: pageNumber ? parseInt(pageNumber) : 1
+        }
     }
 
 
+
     async _fetchDrugs() {
-        let query = new URLSearchParams(this.props.location.search);
+
         let get = await srvDrug.get({
-            pageNumber: this.props.pageNumber,
+            pageNumber: this.state.pageNumber,
             type: this.state.type,
             name: this.props.name,
             minPrice: this.props.minPrice,
             maxPrice: this.props.maxPrice,
-            categoryId: query.get('categoryId')
+            categoryId: this.state.categoryId//this.props.categoryId//query.get('categoryId')
         });
         if (!get.success) {
             this.props.showInitError(this._fetchData.bind(this), get.message);
@@ -47,7 +56,6 @@ class Products extends React.Component {
             top: 0,
             behavior: "smooth"
         });
-        console.log(get.result);
         this.props.setMaxAvailablePrice(get.result.maxPrice);
         this.setState(p => ({
             ...p,
@@ -59,15 +67,11 @@ class Products extends React.Component {
     }
 
     async componentDidMount() {
-        let query = new URLSearchParams(this.props.location.search);
-        this.props.setPageNumber(query.get('pageNumber') ? parseInt(query.get('pageNumber')) : this.props.pageNumber);
         await this._fetchDrugs();
     }
 
     async componentDidUpdate(props) {
-        if (props.pageNumber !== this.props.pageNumber ||
-            props.name !== this.props.name ||
-            props.categoryId !== this.props.categoryId ||
+        if (props.name !== this.props.name ||
             props.minPrice !== this.props.minPrice ||
             props.maxPrice !== this.props.maxPrice)
             await this._fetchDrugs();
@@ -80,12 +84,12 @@ class Products extends React.Component {
 
     }
 
-    _handlePaging(number) {
-        this.props.setPageNumber(number);
+    // _handlePaging(number) {
+    //     this.props.setPageNumber(number);
 
-    }
+    // }
     render() {
-        const pn = this.props.pageNumber;
+        const pn = this.state.pageNumber;
         const sorts = enums.drugFilterType;
         let pageNumbers = [];
         for (let i = 0; i < 5; i++)
@@ -119,13 +123,13 @@ class Products extends React.Component {
                                 </Col>
                                 <Col xs={12} sm={12} className='justify-content-center '>
                                     <Pagination className="justify-content-center  mb-15">
-                                        <Pagination.First onClick={this._handlePaging.bind(this, 1)} />
-                                        <Pagination.Prev disabled={pn === 1} onClick={this._handlePaging.bind(this, pn - 1)} />
-                                        {pageNumbers.map((i) => <Pagination.Item active={pn === i} key={i}
+                                        <Pagination.First href={`/products?pageNumber=1` + (this.state.categorId ? `&categroId=${this.state.categorId}` : '')} />
+                                        <Pagination.Prev disabled={pn === 1} href={`/products?pageNumber=${pn - 1}` + (this.state.categorId ? `&categroId=${this.state.categorId}` : '')} />
+                                        {pageNumbers.map((i) => <PageItem active={pn === i} key={i}
                                             disabled={i > this.state.lastPageNumber}
-                                            onClick={this._handlePaging.bind(this, i)}>{i}</Pagination.Item>)}
-                                        <Pagination.Next disabled={pn >= this.state.lastPageNumber} onClick={this._handlePaging.bind(this, pn + 1)} />
-                                        <Pagination.Last onClick={this._handlePaging.bind(this, this.state.lastPageNumber)} />
+                                            href={`/products?pageNumber=${i}` + (this.state.categorId ? `&categroId=${this.state.categorId}` : '')}>{i}</PageItem>)}
+                                        <Pagination.Next disabled={pn >= this.state.lastPageNumber} href={`/products?pageNumber=${pn + 1}` + (this.state.categorId ? `&categroId=${this.state.categorId}` : '')} />
+                                        <Pagination.Last href={`/products?pageNumber=${this.state.lastPageNumber}` + (this.state.categorId ? `&categroId=${this.state.categorId}` : '')} />
                                     </Pagination>
                                 </Col>
                             </Row>
@@ -161,6 +165,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => ({
     showInitError: (fetchData, message) => dispatch(ShowInitErrorAction(fetchData, message)),
     setPageNumber: (pageNumber) => dispatch(SetPageNumberAction(pageNumber)),
+    setCategoryId: (id) => dispatch(SetCategoryIdAction(id)),
     setMaxAvailablePrice: (max) => dispatch(SetMaxAvailablePriceAction(max))
 });
 

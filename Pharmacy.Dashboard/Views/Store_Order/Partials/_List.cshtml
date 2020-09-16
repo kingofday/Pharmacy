@@ -11,6 +11,7 @@
                 <th>@Html.DisplayNameFor(x => x.Items[0].UniqueId)</th>
                 <th>@Html.DisplayNameFor(x => x.Items[0].Status)</th>
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].Address.User)</th>
+                <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].DrugStoreId)</th>
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].Address)</th>
                 <th data-hide="phone">@Html.DisplayNameFor(x => x.Items[0].TotalPrice) (@Strings.MoneyCurrency)</th>
                 <th data-hide="all">@Html.DisplayNameFor(x => x.Items[0].InsertDateSh)</th>
@@ -26,6 +27,7 @@
                     <td>@item.UniqueId</td>
                     <td>@item.Status.GetDescription()</td>
                     <td>@item.Address.User.FullName (@item.Address.User.MobileNumber)</td>
+                    <td>@item.CurrentOrderDrugStore.DrugStore.Name</td>
                     <td>@item.Address.Details</td>
                     <td>@item.TotalPrice.ToString("N0") </td>
                     <td>@item.InsertDateSh</td>

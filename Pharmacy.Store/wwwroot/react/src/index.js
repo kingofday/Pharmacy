@@ -6,6 +6,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
+//import * as serviceWorker from './serviceWorker';
+
 import Layout from './shared/layout/layout';
 
 import { Provider } from 'react-redux';
@@ -41,3 +43,4 @@ ReactDOM.render(
         </RTL>
     </Provider>, document.getElementById('root'));
 
+//serviceWorker.register();

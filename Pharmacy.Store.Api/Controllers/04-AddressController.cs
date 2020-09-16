@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Cors;
 
 namespace Pharmacy.API.Controllers
 {
-    [ApiController, EnableCors("AllowedOrigins"), Route("[controller]"), CustomAuth]
+    [ApiController, Route("[controller]"), CustomAuth]
     public class AddressController : ControllerBase
     {
         readonly IAddressService _addressService;

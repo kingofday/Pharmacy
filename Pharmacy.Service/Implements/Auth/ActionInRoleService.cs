@@ -22,12 +22,12 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<ActionInRole>> AddAsync(ActionInRole model)
         {
-            if (await _authUow.ActionInRoleRepo.AnyAsync(new BaseFilterModel<ActionInRole> { Conditions = x => x.RoleId == model.RoleId && x.ActionId == model.ActionId }))
+            if (await _authUow.ActionInRoleRepo.AnyAsync(new QueryFilter<ActionInRole> { Conditions = x => x.RoleId == model.RoleId && x.ActionId == model.ActionId }))
                 return new Response<ActionInRole> { Message = ServiceMessage.DuplicateRecord, IsSuccessful = false };
 
             if (model.IsDefault)
             {
-                var existActionInRole = await _authUow.ActionInRoleRepo.FirstOrDefaultAsync(new BaseFilterModel<ActionInRole> { Conditions = x => x.RoleId == model.RoleId && x.IsDefault });
+                var existActionInRole = await _authUow.ActionInRoleRepo.FirstOrDefaultAsync(new QueryFilter<ActionInRole> { Conditions = x => x.RoleId == model.RoleId && x.IsDefault });
                 if (existActionInRole != null)
                     existActionInRole.IsDefault = false;
             }
@@ -55,7 +55,7 @@ namespace Pharmacy.Service
         }
 
         public IEnumerable<ActionInRole> GetRoles(int actionId) =>
-                _authUow.ActionInRoleRepo.Get(new BaseListFilterModel<ActionInRole>
+                _authUow.ActionInRoleRepo.Get(new QueryFilter<ActionInRole>
                 {
                     Conditions = x => x.ActionId == actionId,
                     OrderBy = x => x.OrderByDescending(air => air.ActionId),
@@ -63,7 +63,7 @@ namespace Pharmacy.Service
                 }).ToList();
 
         public IEnumerable<ActionInRole> GetActions(int roleId) =>
-                    _authUow.ActionInRoleRepo.Get(new BaseListFilterModel<ActionInRole>
+                    _authUow.ActionInRoleRepo.Get(new QueryFilter<ActionInRole>
                     {
                         Conditions = x=> x.RoleId == roleId,
                         OrderBy = x => x.OrderByDescending(air => air.ActionId),

@@ -1,20 +1,16 @@
-using Elk.Http;
+using Elk.Core;
 using System.Linq;
-using Pharmacy.DependencyResolver;
+using Pharmacy.Domain;
 using Microsoft.AspNetCore.Http;
+using Pharmacy.DependencyResolver;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Hosting;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Pharmacy.Domain;
-using Pharmacy.API.JWT;
-using Microsoft.AspNetCore.Cors;
-using Elk.Core;
-using Pharmacy.API.Resources;
 
 namespace Pharmacy.API
 {
@@ -30,7 +26,10 @@ namespace Pharmacy.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
+            services.AddMvc(opts => {
+                opts.EnableEndpointRouting = false;
+                opts.ReturnHttpNotAcceptable = true;
+            })
                 .AddJsonOptions(opts =>
                 {
                     opts.JsonSerializerOptions.PropertyNamingPolicy = null;
@@ -38,27 +37,23 @@ namespace Pharmacy.API
                 });
             services.AddCors(options =>
             {
-                options.AddPolicy(name: AllowedOrigins,
-                                  builder =>
-                                  {
-                                      builder
-                                            .AllowAnyOrigin()
-                                            //.WithOrigins("https://localhost:44328")
-                                            .AllowAnyMethod()
-                                            .AllowAnyHeader()
-                                            .SetIsOriginAllowed(hostName => true);
-                                            //.AllowCredentials();
-
-                                  });
+                options.AddPolicy(AllowedOrigins, builder =>
+                {
+                    builder
+                        .WithOrigins(_configuration["CustomSettings:ReactBaseUrl"])
+                        .SetIsOriginAllowedToAllowWildcardSubdomains()
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .AllowCredentials();
+                });
             });
             services.UseCustomizedJWT(_configuration);
             services.AddMemoryCache();
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(opt =>
             {
-                opt.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax;
+                opt.Cookie.SameSite = SameSiteMode.Lax;
             });
             services.AddHttpContextAccessor();
-            //services.AddOptions();
             
             services.Configure<APICustomSetting>(_configuration.GetSection("CustomSettings"));
             services.AddTransient(_configuration);
@@ -98,12 +93,14 @@ namespace Pharmacy.API
 
             app.UseAuthentication();
             app.UseAuthorization();
-            //app.UseCustomizedSwagger();
+
+            //app.UseCors(AllowedOrigins);
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
             app.UseCors(AllowedOrigins);
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseMvcWithDefaultRoute();
         }
     }
 }

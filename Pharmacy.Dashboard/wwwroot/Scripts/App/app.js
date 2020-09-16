@@ -42,7 +42,7 @@ var modalTemplate = {
             </div>`,
     footer: `<div class="custom-modal-footer">
                 <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">${strings.close}</button>
-                <button type="button" class="btn btn-primary btn-action float-left" data-auto-submit="true" data-reset="{0}">
+                <button type="button" class="btn btn-dark btn-action float-left" data-auto-submit="true" data-reset="{0}">
                     <span class="text">{1}</span>
                     <div class="icon">
                         <i class="zmdi {2}"></i>
@@ -518,8 +518,8 @@ var fireGlobalPlugins = function () {
     });
 
     $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green'
+        checkboxClass: 'icheckbox_square',
+        radioClass: 'iradio_square'
     });
 
     $('.pdate').Zebra_DatePicker();
@@ -568,8 +568,12 @@ var fireGlobalPlugins = function () {
                         return query;
                     },
                     processResults: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            data[i].text = data[i].Text;
+                            data[i].id = data[i].Value;
+                        }
                         return {
-                            results: data.map(x => ({ text: x.Text, id: x.Value,...x }))
+                            results: data
                         };
                     }
                 }

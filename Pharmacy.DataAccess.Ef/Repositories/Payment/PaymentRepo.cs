@@ -37,9 +37,12 @@ namespace Pharmacy.DataAccess.Ef
                 }
                 if (!string.IsNullOrWhiteSpace(filter.TransactionId))
                     q = q.Where(x => x.TransactionId == filter.TransactionId);
+                if (filter.UniqueId != null)
+                    q = q.Where(x => x.Order.UniqueId == filter.UniqueId);
                 if (filter.PaymentStatus != null)
                     q = q.Where(x => x.PaymentStatus == filter.PaymentStatus);
             }
+            q = q.OrderByDescending(x => x.PaymentId);
             return new PaymentModel
             {
                 PagedList = q.ToPagingListDetails(filter),

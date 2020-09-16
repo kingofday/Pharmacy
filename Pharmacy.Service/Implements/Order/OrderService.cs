@@ -1,14 +1,13 @@
-﻿using Elk.Core;
+﻿using System;
+using Elk.Core;
 using System.Linq;
 using Pharmacy.Domain;
 using Pharmacy.DataAccess.Ef;
 using System.Threading.Tasks;
 using Pharmacy.Service.Resource;
 using System.Linq.Expressions;
-using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
-using Pharmacy.Domain.Resource;
 
 namespace Pharmacy.Service
 {
@@ -135,7 +134,7 @@ namespace Pharmacy.Service
 
         private async Task<IResponse<Order>> AddWithPrescriptionAsync(Guid userId, OrderDTO model)
         {
-            var items = _appUow.PrescriptionItemRepo.Get(new BaseListFilterModel<PrescriptionItem>
+            var items = _appUow.PrescriptionItemRepo.Get(new QueryFilter<PrescriptionItem>
             {
                 Conditions = x => x.PrescriptionId == model.PrescriptionId,
                 OrderBy = o => o.OrderBy(x => x.PrescriptionItemId)
@@ -203,7 +202,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Order>> FindAsync(Guid OrderId)
         {
-            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
+            var order = await _appUow.OrderRepo.FirstOrDefaultAsync(new QueryFilter<Order>
             {
                 Conditions = x => x.OrderId == OrderId,
                 IncludeProperties = new List<Expression<Func<Order, object>>>
@@ -230,7 +229,7 @@ namespace Pharmacy.Service
                 Url = findGateway.Result.Gateway.VerifyUrl
             }, args);
             if (!verify.IsSuccessful) return new Response<(string trackingId, long orderUniqueId)> { IsSuccessful = false, Result = (payment.TransactionId, 0) };
-            var order = await _orderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
+            var order = await _orderRepo.FirstOrDefaultAsync(new QueryFilter<Order>
             {
                 Conditions = x => x.OrderId == payment.OrderId,
                 IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.Address, x => x.Address.User, x => x.OrderDrugStores }
@@ -268,7 +267,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Order>> Store_UpdateAsync(Store_OrderUpdateModel model)
         {
-            var order = await _orderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
+            var order = await _orderRepo.FirstOrDefaultAsync(new QueryFilter<Order>
             {
                 Conditions = x => x.OrderId == model.OrderId && !x.IsDeleted,
                 IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.Address, x => x.Address.User, x => x.OrderDrugStores }
@@ -311,7 +310,7 @@ namespace Pharmacy.Service
             {
                 order.Status = OrderStatus.WaitForDelivery;
                 var delAgent = _delAgent.Get(order.DeliveryType);
-                var storeAddress = await _appUow.DrugStoreAddressRepo.FirstOrDefaultAsync(new BaseFilterModel<DrugStoreAddress>
+                var storeAddress = await _appUow.DrugStoreAddressRepo.FirstOrDefaultAsync(new QueryFilter<DrugStoreAddress>
                 {
                     Conditions = x => x.DrugStoreId == orderDrugStore.DrugStoreId
                 });
@@ -392,7 +391,7 @@ namespace Pharmacy.Service
                 if (filter.OrderDrugStoreStatus != null)
                     conditions = conditions.And(x => x.OrderDrugStores.OrderByDescending(x => x.OrderDrugStoreId).First().Status == filter.OrderDrugStoreStatus);
             }
-            var result = _orderRepo.Get(new BasePagedListFilterModel<Order>
+            var result = _orderRepo.GetPaging(new PagingQueryFilter<Order>
             {
                 Conditions = conditions,
                 PagingParameter = filter,
@@ -407,7 +406,7 @@ namespace Pharmacy.Service
             if (result.Items.Any())
             {
                 var orderIds = result.Items.Select(x => x.OrderId).ToList();
-                var orderDrugStores = _appUow.OrderDrugStoreRepo.Get(new BaseListFilterModel<OrderDrugStore>
+                var orderDrugStores = _appUow.OrderDrugStoreRepo.Get(new QueryFilter<OrderDrugStore>
                 {
                     Conditions = x => orderIds.Contains(x.OrderId),
                     IncludeProperties = new List<Expression<Func<OrderDrugStore, object>>> { x => x.DrugStore, x => x.DrugStore.User },
@@ -421,7 +420,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Order>> GetDetails(Guid id)
         {
-            var result = await _appUow.OrderRepo.FirstOrDefaultAsync(new FilterModel<Order, dynamic>
+            var result = await _appUow.OrderRepo.FirstOrDefaultAsync(new QueryFilterWithSelector<Order, dynamic>
             {
                 Selector = x => new
                 {
@@ -454,14 +453,14 @@ namespace Pharmacy.Service
                     TotalPrice = result.TotalPrice,
                     TotalDiscountPrice = result.TotalDiscountPrice,
                     Address = result.Address,
-                    OrderDrugStores = _appUow.OrderDrugStoreRepo.Get(new BaseListFilterModel<OrderDrugStore>
+                    OrderDrugStores = _appUow.OrderDrugStoreRepo.Get(new QueryFilter<OrderDrugStore>
                     {
                         Conditions = x => x.OrderId == id,
                         OrderBy = o => o.OrderByDescending(x => x.OrderDrugStoreId),
                         IncludeProperties = new List<Expression<Func<OrderDrugStore, object>>> { x => x.DrugStore, x => x.DrugStore.User }
                     }),
                     UniqueId = result.UniqueId,
-                    OrderItems = _appUow.OrderItemRepo.Get(new BaseListFilterModel<OrderItem>
+                    OrderItems = _appUow.OrderItemRepo.Get(new QueryFilter<OrderItem>
                     {
                         Conditions = x => x.OrderId == id,
                         OrderBy = o => o.OrderByDescending(x => x.OrderItemId),
@@ -470,7 +469,7 @@ namespace Pharmacy.Service
                             x => x.Drug
                         }
                     }),
-                    Payments = _appUow.PaymentRepo.Get(new BaseListFilterModel<Payment>
+                    Payments = _appUow.PaymentRepo.Get(new QueryFilter<Payment>
                     {
                         Conditions = x => x.OrderId == id,
                         OrderBy = o => o.OrderByDescending(x => x.PaymentId),
@@ -525,7 +524,7 @@ namespace Pharmacy.Service
 
         public Response<GetDeliveryPriceDTO> GetDeliveryPrice(Guid id)
         {
-            var orderDrugStore = _appUow.OrderDrugStoreRepo.Get(new BaseListFilterModel<OrderDrugStore>
+            var orderDrugStore = _appUow.OrderDrugStoreRepo.Get(new QueryFilter<OrderDrugStore>
             {
                 Conditions = x => x.OrderId == id && x.Status == OrderDrugStoreStatus.Accepted,
                 OrderBy = o => o.OrderByDescending(x => x.OrderDrugStoreId),
@@ -547,7 +546,7 @@ namespace Pharmacy.Service
 
         public async Task<Response<(Order Order, int price)>> CheckBeforeDeliveryPrice(Guid id)
         {
-            var order = await _orderRepo.FirstOrDefaultAsync(new BaseFilterModel<Order>
+            var order = await _orderRepo.FirstOrDefaultAsync(new QueryFilter<Order>
             {
                 Conditions = x => x.OrderId == id,
                 IncludeProperties = new List<Expression<Func<Order, object>>> { x => x.OrderDrugStores, x => x.Address, x => x.Address.User }
@@ -559,6 +558,56 @@ namespace Pharmacy.Service
             {
                 Result = (order, order.CurrentOrderDrugStore.DeliveryPrice),
                 IsSuccessful = true
+            };
+
+        }
+
+        public Response<List<GetOrderInfoModel>> GetHistory(Guid userId, PagingParameter paging, string baseUrl)
+        {
+            var result = _orderRepo.GetPaging(new PagingQueryFilterWithSelector<Order, GetOrderInfoModel>
+            {
+                Conditions = x => x.UserId == userId && !x.IsDeleted && x.Status >= OrderStatus.InProcessing,
+                Selector = x => new GetOrderInfoModel
+                {
+                    OrderId = x.OrderId,
+                    UniqueId = x.UniqueId,
+                    NeedDeliveryPayment = x.Status == OrderStatus.Accepted,
+                    Status = x.Status.GetDescription(),
+                    InsertDateSh = x.InsertDateSh,
+                    TotalPrice = x.TotalPrice
+                },
+                PagingParameter = paging,
+                OrderBy = o => o.OrderByDescending(x => x.InsertDateMi)
+            });
+            if (result.Items.Any())
+            {
+                var orderIds = result.Items.Select(x => x.OrderId).ToList();
+                var oItems = _appUow.OrderItemRepo.Get(new QueryFilterWithSelector<OrderItem, GetOrderItemInfoModel>
+                {
+                    Selector = oi => new GetOrderItemInfoModel
+                    {
+                        OrderId = oi.OrderId,
+                        NameFa = oi.Drug.NameFa,
+                        DiscountPrice = oi.DiscountPrice,
+                        Price = oi.Price,
+                        Count = oi.Count,
+                        TotalPrice = oi.TotalPrice,
+                        UniqueId = oi.Drug.UniqueId,
+                        ThumbnailImageUrl = oi.Drug.DrugAttachments.Where(x => x.AttachmentType == AttachmentType.DrugThumbnailImage).Select(x => baseUrl + x.Url).FirstOrDefault()
+                    },
+                    Conditions = x => orderIds.Contains(x.OrderId),
+                    IncludeProperties = new List<Expression<Func<OrderItem, object>>> { x => x.Drug, x => x.Drug.DrugAttachments },
+                    OrderBy = o => o.OrderByDescending(x => x.OrderItemId)
+                });
+
+                foreach (var o in result.Items)
+                    o.Items = oItems.Where(x => x.OrderId == o.OrderId).ToList();
+            }
+
+            return new Response<List<GetOrderInfoModel>>
+            {
+                IsSuccessful = true,
+                Result = result.Items
             };
 
         }

@@ -58,7 +58,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Payment>> FindAsync(string transactionId)
         {
-            var payment = await _paymentRepo.FirstOrDefaultAsync(new BaseFilterModel<Payment>
+            var payment = await _paymentRepo.FirstOrDefaultAsync(new QueryFilter<Payment>
             {
                 Conditions = x => x.TransactionId == transactionId
             });
@@ -72,7 +72,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Payment>> GetDetails(int paymentId)
         {
-            var payment = await _paymentRepo.FirstOrDefaultAsync(new BaseFilterModel<Payment>
+            var payment = await _paymentRepo.FirstOrDefaultAsync(new QueryFilter<Payment>
             {
                 Conditions = x => x.PaymentId == paymentId,
                 IncludeProperties = new System.Collections.Generic.List<System.Linq.Expressions.Expression<System.Func<Payment, object>>> {
@@ -91,7 +91,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<Payment>> Update(string transactionId, PaymentStatus status)
         {
-            var payment = await _paymentRepo.FirstOrDefaultAsync(new BaseFilterModel<Payment>
+            var payment = await _paymentRepo.FirstOrDefaultAsync(new QueryFilter<Payment>
             {
                 Conditions = x => x.TransactionId == transactionId
             });

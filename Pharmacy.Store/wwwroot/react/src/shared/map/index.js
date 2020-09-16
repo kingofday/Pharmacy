@@ -22,6 +22,7 @@ export default class CustomMap extends React.Component {
       },
       zoom: 13
     };
+
   }
 
   _onClick(x) {
@@ -40,16 +41,16 @@ export default class CustomMap extends React.Component {
 
   async componentDidMount() {
     this.setState(p => ({ ...p, loading: false }));
-    if(this.state.setCurrentLocation){
-      let loc = await getCurrentLocation();
-      if (loc)
-        this.setState(p => ({ ...p, coords: { lng: loc.lng, lat: loc.lat } }));
-    }
+    // if(this.state.setCurrentLocation){
+    //   let loc = await getCurrentLocation();
+    //   if (loc)
+    //     this.setState(p => ({ ...p, coords: { lng: loc.lng, lat: loc.lat } }));
+    // }
 
   }
 
   render() {
-
+    console.log(this.state.coords);
     return (<Map
       center={[this.state.coords.lat, this.state.coords.lng]}
       zoom={this.state.zoom}

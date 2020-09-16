@@ -27,5 +27,6 @@ namespace Pharmacy.Service
         Task<IResponse<AuthResponse>> SignIn(long username, string password);
         Task<Response<AuthResponse>> Confirm(long mobileNumber, int code);
         Task<Response<bool>> Resend(long mobileNumber);
+        Task<Response<User>> UpdateProfile(Guid id, UpdateProfileModel model);
     }
 }

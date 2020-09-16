@@ -15,7 +15,8 @@ $(document).ready(function () {
         let model = customSerialize($('#frm-drug-store'));
         let frmObj = objectToFormData(model);
         console.log(attachments);
-        frmObj.append('Logo', attachments.find(x => x.id = 'logo').file);
+        let attch = attachments.find(x => x.id = 'logo');
+        if (attch) frmObj.append('Logo', attch.file);
         ajaxBtn.inProgress($btn);
         $.ajax({
             type: 'POST',

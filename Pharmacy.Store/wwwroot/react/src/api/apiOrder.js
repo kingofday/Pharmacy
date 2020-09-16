@@ -42,8 +42,53 @@ export default class apiOrder {
         }
         catch (error) {
             console.log(error);
-            return { success: false, message: strings.connecttionFailed };
+            return { success: false, message: strings.connectionFailed };
         }
     }
 
+    static async getHistory(token, pagenumber) {
+        let url = addr.getOrders(pagenumber);
+        var handleResponse = async (response) => {
+            const rep = await response.json();
+            if (!rep.IsSuccessful)
+                return { success: false, message: rep.Message, status: rep.Status };
+            else return {
+                status: 200,
+                success: true,
+                result: rep.Result.map((x) => ({
+                    orderId: x.OrderId,
+                    uniqueId: x.UniqueId,
+                    status: x.Status,
+                    totalPrice: x.TotalPrice,
+                    insertDate: x.InsertDateSh,
+                    needDeliveryPayment: x.NeedDeliveryPayment,
+                    items: x.Items.map(oi => ({
+                        nameFa: oi.NameFa,
+                        discountPrice: oi.DiscountPrice,
+                        price: oi.Price,
+                        count: oi.Count,
+                        totalPrice: oi.TotalPrice,
+                        uniqueId: oi.UniqueId,
+                        thumbnailImageUrl: oi.ThumbnailImageUrl
+                    }))
+                }))
+            }
+        }
+        try {
+            const response = await fetch(url, {
+                'method': 'GET',
+                'mode': 'cors',
+                //'credentials': 'include',
+                'headers': {
+                    'Content-Type': 'application/json; charset=utf-8;',
+                    //'Content-Type':'application/x-www-form-urlencoded',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            return await handleResponse(response);
+        } catch (error) {
+            console.log(error);
+            return ({ success: false, message: strings.connectionFailed });
+        }
+    }
 }

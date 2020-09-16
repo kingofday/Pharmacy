@@ -8,7 +8,7 @@ import strings, { validationStrings } from '../../../shared/constant';
 import { validate } from './../../../shared/utils';
 import Button from './../../../shared/Button';
 import Confirm from './confirm';
-import srvAuth from './../../../service/srvAuth';
+import srvUser from './../../../service/srvUser';
 import Modal from './../../../shared/modal';
 
 const inputs = ['fullname', 'mobileNumber', 'email', 'newPassword', 'repeatPassword'];
@@ -84,7 +84,7 @@ class SignUp extends React.Component {
         let model = {};
         for (let i = 0; i < inputs.length; i++)
             model[inputs[i]] = this.state[inputs[i]].value;
-        let signup = await srvAuth.signUp(model);
+        let signup = await srvUser.signUp(model);
         this.setState(p => ({ ...p, disableBtn: false }));
         if (!signup.success) {
             toast(signup.message, { type: toast.TYPE.ERROR });

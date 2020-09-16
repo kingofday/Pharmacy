@@ -40,6 +40,40 @@
 
   .comp-slide-show {
     overflow: hidden;
+
+    .slick-prev,
+    .slick-next {
+      position: absolute;
+      top: -20px;
+      text-align: center;
+      width: 28px;
+      height: 28px;
+      background-color: $primaryColor;
+
+      &:before {
+        font: normal normal normal 14px/1 "Material-Design-Iconic-Font";
+        font-size: 27px;
+        color: #fff;
+        opacity:1;
+      }
+    }
+
+    .slick-prev {
+      left: 60px;
+      right: auto;
+
+      &:before {
+        content: "\f2fb" !important;
+      }
+    }
+    .slick-next {
+      left: 20px;
+      right: auto;
+
+      &:before {
+        content: "\f2fa" !important;
+      }
+    }
   }
 
   #comp-third-row {

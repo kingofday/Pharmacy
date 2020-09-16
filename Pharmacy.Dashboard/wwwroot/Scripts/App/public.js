@@ -15,8 +15,8 @@ var fireGlobalPlugins = function () {
     });
 
     $('.i-checks').iCheck({
-        checkboxClass: 'icheckbox_square-green',
-        radioClass: 'iradio_square-green'
+        checkboxClass: 'icheckbox_square',
+        radioClass: 'iradio_square'
     });
 
     $('.pdate').Zebra_DatePicker();
@@ -65,8 +65,12 @@ var fireGlobalPlugins = function () {
                         return query;
                     },
                     processResults: function (data) {
+                        for (var i = 0; i < data.length; i++) {
+                            data[i].text = data[i].Text;
+                            data[i].id = data[i].Value;
+                        }
                         return {
-                            results: data.map(x => ({ text: x.Text, id: x.Value,...x }))
+                            results: data
                         };
                     }
                 }

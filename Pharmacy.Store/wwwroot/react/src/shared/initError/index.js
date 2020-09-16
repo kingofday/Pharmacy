@@ -19,7 +19,7 @@ class InitError extends React.Component {
         return (
             <div className='retry-comp' style={{ display: this.props.show ? 'flex' : 'none' }}>
                 {/* <button onClick={} className='close'><i className='zmdi zmdi-close'></i></button> */}
-                <label>{this.props.message ? this.props.message : strings.connecttionFailed}</label>
+                <label>{this.props.message ? this.props.message : strings.connectionFailed}</label>
                 <button onClick={this._fetchData.bind(this)} className='btn-retry'>
                     <i className='zmdi zmdi-refresh'></i>
                 </button>

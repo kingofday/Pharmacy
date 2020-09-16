@@ -1,8 +1,8 @@
 import apiDel from './../api/apiDelivery';
-import srvAuth from './srvAuth';
+import srvUser from './srvUser';
 export default class srvDelivery {
     static async get() {
-        return srvAuth.checkResponse(await apiDel.get());
+        return srvUser.checkResponse(await apiDel.get());
     }
 
     static async getPrice(id) {

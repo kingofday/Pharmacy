@@ -11,7 +11,6 @@ using Pharmacy.InfraStructure;
 using Pharmacy.Service.Resource;
 using System.Collections.Generic;
 using DomainStrings = Pharmacy.Domain.Resource.Strings;
-using Pharmacy.Domain.Resource;
 
 namespace Pharmacy.Service
 {
@@ -40,7 +39,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<User>> AddAsync(User model)
         {
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == model.MobileNumber });
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == model.MobileNumber });
             if (user != null) return new Response<User>
             {
                 IsSuccessful = true,
@@ -58,7 +57,7 @@ namespace Pharmacy.Service
         {
             var user = await _userRepo.FindAsync(model.UserId);
             if (user == null) return new Response<User> { Message = ServiceMessage.RecordNotExist.Fill(DomainStrings.User) };
-            if (await _userRepo.AnyAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == model.MobileNumber && x.UserId != model.UserId }))
+            if (await _userRepo.AnyAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == model.MobileNumber && x.UserId != model.UserId }))
                 return new Response<User>
                 {
                     Message = ServiceMessage.DuplicateRecord
@@ -70,12 +69,12 @@ namespace Pharmacy.Service
             if (!string.IsNullOrWhiteSpace(user.NewPassword)) user.Password = HashGenerator.Hash(model.NewPassword);
             user.NewPassword = null;
             _userRepo.Update(user);
-            var saveResult = _appUow.ElkSaveChangesAsync();
+            var saveResult = await _appUow.ElkSaveChangesAsync();
             return new Response<User>
             {
                 Result = user,
-                IsSuccessful = saveResult.Result.IsSuccessful,
-                Message = saveResult.Result.Message
+                IsSuccessful = saveResult.IsSuccessful,
+                Message = saveResult.Message
             };
         }
 
@@ -97,7 +96,7 @@ namespace Pharmacy.Service
         public async Task<IResponse<bool>> DeleteAsync(Guid userId)
         {
             _userRepo.Delete(new User { UserId = userId });
-            var Pharmacys = _appUow.DrugStoreRepo.Get(new BaseListFilterModel<DrugStore> { Conditions = x => x.UserId == userId });
+            var Pharmacys = _appUow.DrugStoreRepo.Get(new QueryFilter<DrugStore> { Conditions = x => x.UserId == userId });
             if (Pharmacys != null)
                 foreach (var Pharmacy in Pharmacys) _appUow.DrugStoreRepo.Delete(Pharmacy);
             var saveResult = await _appUow.ElkSaveChangesAsync();
@@ -128,7 +127,7 @@ namespace Pharmacy.Service
             => (GetAvailableActions(Guid.Parse(userId), null, urlPrefix)).Result.ActionList;
         public async Task<IResponse<User>> FindByMobileNumber(long mobileNumber)
         {
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobileNumber });
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == mobileNumber });
             return new Response<User>
             {
                 IsSuccessful = user != null,
@@ -139,7 +138,7 @@ namespace Pharmacy.Service
 
         public async Task<IResponse<User>> Authenticate(long mobileNumber, string password)
         {
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobileNumber });
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == mobileNumber });
             if (user == null) return new Response<User> { Message = ServiceMessage.InvalidUsernameOrPassword };
 
             if (!user.IsActive) return new Response<User> { Message = ServiceMessage.AccountIsBlocked };
@@ -274,7 +273,7 @@ namespace Pharmacy.Service
                     conditions = x => x.MobileNumber.ToString().Contains(filter.MobileNumberF);
             }
 
-            var items = _userRepo.Get(new BasePagedListFilterModel<User>
+            var items = _userRepo.GetPaging(new PagingQueryFilter<User>
             {
                 Conditions = conditions,
                 PagingParameter = filter,
@@ -284,7 +283,7 @@ namespace Pharmacy.Service
         }
 
         public IDictionary<object, object> Search(string searchParameter, int take = 10)
-           => _userRepo.Get(new PagedListFilterModel<User, dynamic>
+           => _userRepo.GetPaging(new PagingQueryFilterWithSelector<User, dynamic>
            {
                Conditions = x => x.FullName.Contains(searchParameter) || x.Email.Contains(searchParameter),
                PagingParameter = new PagingParameter
@@ -300,11 +299,11 @@ namespace Pharmacy.Service
                },
                OrderBy = o => o.OrderByDescending(x => x.InsertDateMi)
            })
-               .Items.ToDictionary(k => (object)k.UserId, v => (object)$"{v.FullName}({v.MobileNumber})");
+              .Items.ToDictionary(k => (object)k.UserId, v => (object)$"{v.FullName}({v.MobileNumber})");
 
         public async Task<IResponse<string>> RecoverPassword(long mobileNumber, string from, EmailMessage model)
         {
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User>
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User>
             {
                 Conditions = x => x.MobileNumber == mobileNumber
             });
@@ -329,7 +328,7 @@ namespace Pharmacy.Service
         {
             using var db = _appUow.Database.BeginTransaction();
             var mobNum = long.Parse(model.MobileNumber);
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobNum });
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == mobNum });
             if (user != null)
                 return new Response<User> { Message = ServiceMessage.AlreadySignedUp };
             var code = Randomizer.GetRandomInteger(4);
@@ -371,7 +370,7 @@ namespace Pharmacy.Service
         }
         public async Task<Response<AuthResponse>> Confirm(long mobileNumber, int code)
         {
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobileNumber && x.MobileConfirmCode == code });
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == mobileNumber && x.MobileConfirmCode == code });
             if (user == null) return new Response<AuthResponse> { Message = ServiceMessage.WrongConfirmCode };
             user.IsConfirmed = true;
             user.MobileConfirmCode = null;
@@ -395,7 +394,7 @@ namespace Pharmacy.Service
         public async Task<IResponse<AuthResponse>> SignIn(long username, string password)
         {
             var pw = HashGenerator.Hash(password);
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == username && x.Password == pw });
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == username && x.Password == pw });
             if (user == null) return new Response<AuthResponse> { Message = ServiceMessage.WrongUsernameOrPassword };
             if (user.IsConfirmed)
             {
@@ -406,7 +405,7 @@ namespace Pharmacy.Service
             }
             else
             {
-                if(user.MobileConfirmCode == null)
+                if (user.MobileConfirmCode == null)
                 {
                     user.MobileConfirmCode = Randomizer.GetRandomInteger(4);
                     _userRepo.Update(user);
@@ -438,7 +437,7 @@ namespace Pharmacy.Service
 
         public async Task<Response<bool>> Resend(long mobileNumber)
         {
-            var user = await _userRepo.FirstOrDefaultAsync(new BaseFilterModel<User> { Conditions = x => x.MobileNumber == mobileNumber });
+            var user = await _userRepo.FirstOrDefaultAsync(new QueryFilter<User> { Conditions = x => x.MobileNumber == mobileNumber });
             if (user == null)
                 return new Response<bool> { Message = ServiceMessage.RecordNotExist };
             if (user.IsConfirmed)
@@ -458,6 +457,23 @@ namespace Pharmacy.Service
             return new Response<bool> { IsSuccessful = notify.IsSuccessful, Message = notify.IsSuccessful ? string.Empty : ServiceMessage.Error };
 
 
+        }
+
+        public async Task<Response<User>> UpdateProfile(Guid id, UpdateProfileModel model)
+        {
+            var user = await _userRepo.FindAsync(id);
+            if (user == null)
+                return new Response<User> { Message = ServiceMessage.AlreadySignedUp };
+            var code = Randomizer.GetRandomInteger(4);
+            user.FullName = model.FullName;
+            user.Email = model.Email;
+            if (!string.IsNullOrWhiteSpace(model.NewPassword))
+                user.Password = HashGenerator.Hash(model.NewPassword);
+            _userRepo.Update(user);
+            var update = await _appUow.ElkSaveChangesAsync();
+            if (!update.IsSuccessful)
+                return new Response<User> { Message = update.Message };
+            return new Response<User> { Result = user, IsSuccessful = update.IsSuccessful, Message = update.Message };
         }
     }
 }

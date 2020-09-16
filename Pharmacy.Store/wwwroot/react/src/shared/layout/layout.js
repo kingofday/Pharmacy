@@ -24,8 +24,11 @@ import SelectAddress from '../../routes/selectAddress';
 import SelectLocation from '../../routes/selectLocation';
 import SelectDelivery from '../../routes/selectDelivery';
 import Review from './../../routes/review';
+import OrderHistory from './../../routes/orderHistory';
 import Prescription from './../../routes/prescription';
 import AfterGateway from '../../routes/afterGateway';
+import ContactUs from '../../routes/contactUs';
+import Profile from '../../routes/profile';
 
 
 class Layout extends React.Component {
@@ -45,12 +48,15 @@ class Layout extends React.Component {
                     <AuthRouter path="/selectLocation" component={SelectLocation}/>
                     <AuthRouter path="/selectDelivery" component={SelectDelivery}/>
                     <AuthRouter path="/review" component={Review}/>
+                    <AuthRouter path="/orderHistory" component={OrderHistory}/>
                     <Route exact path="/prescription" component={Prescription} />
                     <Route exact path="/afterGateway/:status/:type/:orderId/:transId" component={AfterGateway} />
                     <Route exact path="/tempBasket/:id?" component={TempBasket} />
                     <Route exact path="/deliveryPayment/:id?" component={DeliveryPayment} />
+                    <Route exact path="/contactus" component={ContactUs} />
+                    <AuthRouter path="/profile" component={Profile} />
                     {/* <Route exact path="/contactus" component={ContactUs} /> */}
-                    {/* <Route exact path="/contactus" component={ContactUs} />
+                    {/* 
                    
                     <Route exact path="/tempbasket/:basketId?" component={TempBasket} />
                     <Route path="/completeInformation" component={CompleteInfo} />

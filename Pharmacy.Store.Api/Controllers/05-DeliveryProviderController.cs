@@ -10,7 +10,6 @@ using Microsoft.Extensions.Options;
 
 namespace Pharmacy.API.Controllers
 {
-    [EnableCors("AllowedOrigins")]
     [ApiController]
     [Route("[controller]")]
     public class DeliveryProviderController : ControllerBase

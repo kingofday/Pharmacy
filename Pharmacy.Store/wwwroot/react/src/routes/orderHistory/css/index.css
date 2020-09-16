@@ -1,0 +1,45 @@
+#page-order-history #th {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #0099d7;
+  color: #fff;
+}
+
+#page-order-history .item {
+  margin: 5px 0;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#page-order-history .item.collapsed {
+  border: solid 1px #ccc;
+  border-radius: 5px;
+}
+
+#page-order-history .item [class^="col"] {
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#page-order-history .item .details .img-item {
+  width: 40px;
+}
+
+#page-order-history .item .last-col {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#page-order-history .item .last-col button {
+  background-color: transparent;
+  color: #666;
+}
+/*# sourceMappingURL=index.css.map */

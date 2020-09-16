@@ -13,10 +13,58 @@
     justify-content: flex-end;
     align-items: center;
 
+    #basket-link {
+      position: relative;
+
+      #basket-items-count {
+        background-color: red;
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        border-radius: 50%;
+        display: flex;
+        position: absolute;
+        top: 11px;
+        right: -11px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+
     > * {
       margin-right: 15px;
     }
-    i {
+    .dropdown {
+      #ddl-options {
+        background-color: transparent;
+        border: solid 1px #fff;
+        max-width: 115px;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+      .log-out {
+        color: #666;
+        background-color: transparent;
+        padding: 0;
+      }
+      a.dropdown-item {
+        font-size: 0.9rem;
+        padding: 0.5rem 1.5rem;
+
+        &:active {
+          background-color: #fff !important;
+        }
+
+        i {
+          vertical-align: middle;
+          font-size: 1.4rem;
+        }
+      }
+    }
+    .auth-icon,
+    .zmdi-shopping-cart {
       color: #fff;
       font-size: 20px;
       vertical-align: middle;
@@ -25,15 +73,6 @@
         color: red;
       }
     }
-    .log-out {
-      padding: 0;
-      &:hover {
-        background: transparent;
-      }
-    }
-  }
-  .log-out {
-    background-color: none;
   }
   .ripple-loader {
     position: relative;

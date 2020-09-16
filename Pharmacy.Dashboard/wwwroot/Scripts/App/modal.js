@@ -42,7 +42,7 @@ var modalTemplate = {
             </div>`,
     footer: `<div class="custom-modal-footer">
                 <button type="button" class="btn btn-secondary float-right" data-dismiss="modal">${strings.close}</button>
-                <button type="button" class="btn btn-primary btn-action float-left" data-auto-submit="true" data-reset="{0}">
+                <button type="button" class="btn btn-dark btn-action float-left" data-auto-submit="true" data-reset="{0}">
                     <span class="text">{1}</span>
                     <div class="icon">
                         <i class="zmdi {2}"></i>
