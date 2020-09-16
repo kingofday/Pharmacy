@@ -61,7 +61,7 @@ export const validate = {
 
 export function cacheData(key, data) {
     if ('caches' in window) {
-        caches.open(window.globalConfig.cahcheName).then(function (cache) {
+        caches.open('pharma-pwa-1').then(function (cache) {
             cache.put(key, data);
             return true;
         });

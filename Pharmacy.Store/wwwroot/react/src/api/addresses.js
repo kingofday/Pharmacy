@@ -1,5 +1,5 @@
 
-const baseUrl = window.globalConfig.baseUrl;
+const baseUrl =  window.location.origin.indexOf('localhost:3000') >= 0 ? 'https://localhost:44328/' : 'https://pharma.hillavas.com/api/';
 
 const addr = {
     getCategories: (parentId) => `${baseUrl}Category?parentId=${parentId}`,

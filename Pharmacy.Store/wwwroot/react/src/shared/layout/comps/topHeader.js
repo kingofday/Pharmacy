@@ -22,7 +22,6 @@ class TopHeader extends React.Component {
         this.props.setAuthNexPage("/");
     }
     render() {
-        console.log(this.props.items);
         return (
             <section id='comp-top-header'>
                 <Container>

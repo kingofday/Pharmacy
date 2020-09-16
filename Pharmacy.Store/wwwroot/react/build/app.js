@@ -1,8 +1,3 @@
-window.globalConfig = {
-  cahcheName: 'pharma-pwa-1',
-  baseUrl: window.location.origin.indexOf('localhost:3000') >= 0 ? 'https://localhost:44328/' : 'https://pharma.hillavas.com/api/'
-};
-
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function () {
     var currentUrl = window.location;

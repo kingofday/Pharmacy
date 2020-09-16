@@ -11,7 +11,6 @@ export default class apiDrug {
             if (!rep.IsSuccessful)
                 return { success: false, message: rep.Message };
             cacheData(url, c);
-            console.log('fired')
             return {
                 success: true,
                 result: {

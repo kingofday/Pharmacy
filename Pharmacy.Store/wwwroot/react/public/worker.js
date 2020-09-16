@@ -11,8 +11,8 @@ var urlsToCache = [
   "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick.min.css",
   "https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.6.0/slick-theme.min.css",
 ];
- const baseUrl =  'https://pharma.hillavas.com';
- const apiUrl = 'https://pharma.hillavas.com/api/';
+const baseUrl = 'https://pharma.hillavas.com';
+const apiUrl = 'https://pharma.hillavas.com/api/';
 
 // const baseUrl = 'localhost:3000';
 // const apiUrl = 'https://localhost:44328/';
